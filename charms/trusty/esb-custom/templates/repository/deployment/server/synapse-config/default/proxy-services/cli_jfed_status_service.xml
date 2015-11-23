@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy xmlns="http://ws.apache.org/ns/synapse"
+       name="cli_jfed_status_service"
+       transports="https http"
+       startOnLoad="true"
+       trace="disable">
+   <description/>
+   <target>
+      <inSequence>
+         <log level="full"/>
+         <property name="uri.var.slice" value="os39"/>
+         <send>
+            <endpoint key="jfed_get_status"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+   </target>
+</proxy>

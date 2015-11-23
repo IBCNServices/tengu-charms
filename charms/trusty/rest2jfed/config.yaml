@@ -1,0 +1,9 @@
+options:
+  emulab-cert:
+    type: string
+    default: "VGhpcyBpcyB0aGUgZGVmYXVsdCBjZXJ0aWZpY2F0ZSB2YWx1ZS4gUGxlYXNlIGNoYW5nZSBtZSBiZWZvcmUgdXNlCg=="
+    description: "Emulab certificate (BASE64 encoded)"
+  emulab-cert-pass:
+    type: string
+    default: "This is the default password value. Please change me before use."
+    description: "Password of the emulab certificate"

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse"
+          name="tengu_open-stack_create_in"
+          statistics="enable">
+   <property xmlns:ns="http://org.apache.synapse/xsd"
+             name="ref"
+             expression="get-property('MessageID')"
+             scope="default"
+             type="STRING"/>
+   <log level="custom">
+      <property xmlns:ns="http://org.apache.synapse/xsd"
+                name="nodes"
+                expression="get-property('query.param.nodes')"/>
+      <property xmlns:ns="http://org.apache.synapse/xsd"
+                name="testbed"
+                expression="get-property('query.param.testbed')"/>
+      <property xmlns:ns="http://org.apache.synapse/xsd"
+                name="ref"
+                expression="get-property('ref')"/>
+   </log>
+   <payloadFactory media-type="xml">
+      <format key="tengu_open-stack_rspec"/>
+      <args>
+         <arg xmlns:ns="http://org.apache.synapse/xsd"
+              evaluator="xml"
+              expression="get-property('query.param.testbed')"/>
+         <arg xmlns:ns="http://org.apache.synapse/xsd"
+              evaluator="xml"
+              expression="get-property('query.param.nodes')"/>
+      </args>
+   </payloadFactory>
+   <xslt key="tengu_open-stack_xslt"/>
+   <dbreport>
+      <connection>
+         <pool>
+            <dsName>jdbc/tengu_DB</dsName>
+         </pool>
+      </connection>
+      <statement>
+         <sql>
+                                    INSERT INTO projects (ref, tool, nodes, hnodes, snodes, testbed) VALUES (?, 'os', ?, 0, 0, ?);</sql>
+         <parameter xmlns:ns="http://org.apache.synapse/xsd"
+                    expression="get-property('MessageID')"
+                    type="VARCHAR"/>
+         <parameter xmlns:ns="http://org.apache.synapse/xsd"
+                    expression="get-property('query.param.nodes')"
+                    type="INTEGER"/>
+         <parameter xmlns:ns="http://org.apache.synapse/xsd"
+                    expression="get-property('query.param.testbed')"
+                    type="VARCHAR"/>
+      </statement>
+   </dbreport>
+   <dblookup>
+      <connection>
+         <pool>
+            <dsName>jdbc/tengu_DB</dsName>
+         </pool>
+      </connection>
+      <statement>
+         <sql>
+                                             SELECT CONCAT(tool,ID) AS id FROM projects WHERE ref=?;</sql>
+         <parameter xmlns:ns="http://org.apache.synapse/xsd"
+                    expression="get-property('ref')"
+                    type="VARCHAR"/>
+         <result name="slice" column="id"/>
+      </statement>
+   </dblookup>
+   <sequence key="tengu_send_jfed"/>
+</sequence>

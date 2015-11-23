@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint xmlns="http://ws.apache.org/ns/synapse" name="jfed_create_cert">
+   <http format="pox"
+         method="post"
+         uri-template="http://localhost:8080/cli/tool/jfed-cert?slice={uri.var.slice}"/>
+</endpoint>

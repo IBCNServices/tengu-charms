@@ -1,0 +1,8 @@
+deploy-bundle:
+  description: deploys a bundle in the environment
+  params:
+    bundle:
+      type: string
+      description: Base64 encoded bundle
+  required: [bundle]
+  additionalProperties: false

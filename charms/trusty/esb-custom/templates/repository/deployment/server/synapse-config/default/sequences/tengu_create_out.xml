@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="tengu_create_out">
+   <property xmlns:ns="http://org.apache.synapse/xsd"
+             name="id"
+             expression="get-property('ref')"/>
+   <sequence key="encodeId"/>
+   <log level="custom">
+      <property name="id_enc" expression="get-property('id_enc')"/>
+   </log>
+   <payloadFactory media-type="xml">
+      <format>
+         <ten:tengu xmlns:ten="http://tengu.ibcn.ugent.be/0/1/core"
+                    xmlns:lnk="http://www.w3.org/1999/xhtml">
+            <ten:platform>
+               <ten:id>$1</ten:id>
+               <lnk:link rel="get.status" href="/tengu/$3"/>
+               <lnk:link rel="jfed.slice" href="$2"/>
+            </ten:platform>
+         </ten:tengu>
+      </format>
+      <args>
+         <arg xmlns:ns="http://org.apache.synapse/xsd"
+              evaluator="xml"
+              expression="get-property('ref')"/>
+         <arg xmlns:ns="http://org.apache.synapse/xsd"
+              evaluator="xml"
+              expression="get-property('slice')"/>
+         <arg xmlns:ns="http://org.apache.synapse/xsd"
+              evaluator="xml"
+              expression="get-property('id_enc')"/>
+      </args>
+   </payloadFactory>
+   <header name="Access-Control-Allow-Origin" scope="transport" value="*"/>
+   <property name="HTTP_SC" value="200" scope="axis2"/>
+   <property name="messageType" value="application/xml" scope="axis2"/>
+   <send/>
+</sequence>

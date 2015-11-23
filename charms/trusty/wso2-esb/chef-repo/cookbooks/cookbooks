@@ -1,0 +1,1 @@
+knife cookbook site install java -o .

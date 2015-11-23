@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="tengu_create_in_hadoop">
+   <property name="tool" value="hadoop"/>
+   <filter xmlns:ns="http://org.apache.synapse/xsd"
+           xpath="boolean(get-property('query.param.nodes'))">
+      <then>
+         <property name="hnodes" expression="get-property('query.param.nodes')"/>
+      </then>
+      <else>
+         <property name="hnodes" expression="get-property('query.param.hnodes')"/>
+      </else>
+   </filter>
+   <sequence key="tengu_create_in"/>
+</sequence>

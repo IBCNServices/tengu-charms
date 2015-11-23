@@ -1,0 +1,39 @@
+options:
+    resources_mirror:
+      type: string
+      default: ''
+      description: |
+        URL from which to fetch resources (e.g., Hadoop binaries) instead
+        of Launchpad.
+    channel_capacity:
+      type: string
+      default: '1000'
+      description: |
+        The maximum number of events stored in the channel.
+    channel_transaction_capacity:
+      type: string
+      default: '100'
+      description: |
+        The maximum number of events the channel will take from a source or
+        give to a sink per transaction.
+    event_dir:
+      type: string
+      default: 'flume-kafka'
+      description: |
+        The HDFS subdirectory under /user/flume where events will be stored.
+    kafka_max_batch_size:
+      type: string
+      default: '1000'
+      description: |
+        Maximum number of messages written to channel in a single batch
+    kafka_topic:
+      type: string
+      default: ''
+      description: |
+        The Kafka topic to watch for messages
+    zookeeper_connect:
+      type: string
+      default: ''
+      description: |
+        Zookeeper ip:port,ip:port,etc string. Obtain with 'juju action do
+        kafka/0 list-zks'. Future revisions will detect this automatically.

@@ -1,0 +1,19 @@
+name: cdh5-hdfs-master
+summary: HDFS master (NameNode) for cdh5
+maintainer: bigdata-dev <bigdata-dev@canonical.com>
+description: >
+  Hadoop is a software platform that lets one easily write and
+  run applications that process vast amounts of data.
+
+  This charm manages the HDFS master node (NameNode).
+tags: ["applications", "bigdata", "hadoop", "cdh5"]
+provides:
+  namenode:
+    interface: dfs
+  ganglia:
+    interface: monitor
+requires:
+  datanode:
+    interface: dfs-slave
+  secondary:
+    interface: dfs-secondary

@@ -1,0 +1,1 @@
+includes: ['layer:basic', 'interface:mapred', 'interface:dfs', 'interface:hive', 'interface:oozie']

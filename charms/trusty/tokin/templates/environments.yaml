@@ -1,0 +1,5 @@
+default: local
+environments:
+  local:
+    type: local
+    default-series: trusty

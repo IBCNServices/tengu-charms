@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api xmlns="http://ws.apache.org/ns/synapse" name="tengu" context="/tengu">
+   <resource methods="POST GET"
+             url-mapping="/core"
+             inSequence="tengu_create_in_core"
+             outSequence="tengu_create_out"/>
+   <resource methods="POST GET"
+             url-mapping="/hadoop"
+             inSequence="tengu_create_in_hadoop"
+             outSequence="tengu_create_out"/>
+   <resource methods="POST GET"
+             url-mapping="/storm"
+             inSequence="tengu_create_in_storm"
+             outSequence="tengu_create_out"/>
+   <resource methods="POST GET"
+             url-mapping="/machine"
+             inSequence="tengu_create_in_machine"
+             outSequence="tengu_create_out"/>
+   <resource methods="POST"
+             url-mapping="/rawrspec"
+             inSequence="tengu_create_in_rawrspec"
+             outSequence="tengu_create_out"/>
+   <resource methods="GET"
+             uri-template="/{id}"
+             inSequence="tengu_core_get_in"
+             outSequence="tengu_core_get_out"
+             faultSequence="tengu_core_get_fault"/>
+   <resource methods="POST"
+             url-mapping="/open-stack"
+             inSequence="tengu_create_in_open-stack"
+             outSequence="tengu_create_out"/>
+   <resource methods="GET" url-mapping="/user-info" inSequence="tengu_user_info">
+      <outSequence>
+         <header name="Access-Control-Allow-Origin" scope="transport" value="*"/>
+         <property name="HTTP_SC" value="200" scope="axis2"/>
+         <send/>
+      </outSequence>
+   </resource>
+</api>

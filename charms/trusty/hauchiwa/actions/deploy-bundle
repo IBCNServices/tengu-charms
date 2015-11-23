@@ -1,0 +1,11 @@
+#!/bin/bash
+# Decodes and writes bundle to temp file
+# Deploys bundle
+# Removes tempfile
+if [ "$(id -u)" == "0" ]; then
+   exec su ubuntu "$0"
+fi
+file=$(mktemp)
+echo $(action-get bundle) | base64 --decode > "$file"
+juju deployer -c "$file"
+rm $file

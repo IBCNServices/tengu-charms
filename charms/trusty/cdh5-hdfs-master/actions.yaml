@@ -1,0 +1,8 @@
+start-hdfs:
+    description: All of the HDFS processes can be started with this Juju action.
+stop-hdfs:
+    description: All of the HDFS processes can be stopped with this Juju action.
+restart-hdfs:
+    description: All of the HDFS processes can be restarted with this Juju action.
+smoke-test:
+    description: Verify that HDFS is working by creating and removing a small file.

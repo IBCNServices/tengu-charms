@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<rspec xmlns="http://www.geni.net/resources/rspec/3" type="request" generated_by="jFed RSpec Editor" generated="2015-10-21T15:36:18.555+02:00" xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" xmlns:jFedBonfire="http://jfed.iminds.be/rspec/ext/jfed-bonfire/1" xmlns:delay="http://www.protogeni.net/resources/rspec/ext/delay/1" xmlns:jFed_command="http://jfed.iminds.be/rspec/ext/jfed-command/1" xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1" xmlns:jfed-ssh-keys="http://jfed.iminds.be/rspec/ext/jfed-ssh-keys/1" xmlns:jFed="http://jfed.iminds.be/rspec/ext/jfed/1" xmlns:sharedvlan="http://www.protogeni.net/resources/rspec/ext/shared-vlan/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd">
+  {% for node in nodes %}
+  <node client_id="{{ node.name }}" exclusive="true" component_manager_id="{{ node.component_manager_id }}">
+    <sliver_type name="{{ node.sliver_type }}">
+      <disk_image name="{{ node.disk_image }}"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo apt-get update; sudo locale-gen nl_BE.UTF-8; sudo useradd safety --uid 30000"/>
+      <execute shell="sh" command="echo 'IyEvYmluL2Jhc2gKIyBUaGlzIHNjcmlwdCBjb25maWd1cmVzIHRoZSBOQVQgcm91dGVzIGZvciBhIG5vZGUgb24gdGhlIHZpcnR1YWwgd2FsbCAxIGFuZCAyLgojIFZNJ3MgYXJlIG5vdCB5ZXQgY29uZmlndXJlZCBleGFjdGx5IGFzIHRoZXkgc2hvdWxkLgppcGFkZHI9JChpZmNvbmZpZyB8Z3JlcCAtQjEgImluZXQgYWRkciIgfGF3ayAneyBpZiAoICQxID09ICJpbmV0IiApIHsgcHJpbnQgJDIgfSBlbHNlIGlmICggJDIgPT0gIkxpbmsiICkgeyBwcmludGYgIiVzOiIgLCQxIH0gfScgfGF3ayAtRjogJ3sgcHJpbnQgJDEgIjogIiAkMyB9JykKaWYgW1sgJGlwYWRkciA9PSAqIjE5My4xOTAuIiogXV0KdGhlbgogIGVjaG8gIk5vZGUgaGFzIHB1YmxpYyBJUC4gU2tpcHBpbmcgTkFUIGNvbmZpZyIKICBleGl0IDAKZmkKCmhvc3RuYW1lPSQoaG9zdG5hbWUgLS1mcWRuKQppZiBbWyAkaG9zdG5hbWUgPT0gKiIud2FsbDEuaWxhYnQuaW1pbmRzLmJlIiBdXQp0aGVuCiAgaWYgW1sgJGhvc3RuYW1lID09ICoiLXZtIiogXV0KICB0aGVuCiAgICBlY2hvICJob3N0bmFtZTogJGhvc3RuYW1lOyBDb25maWd1cmluZyBOQVQgYW5kIHJvdXRlcyBmb3IgVk0gb24gd2FsbDEiOwogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxMC4yLjAuMCBuZXRtYXNrIDI1NS4yNTUuMjQwLjAgZ3cgMTcyLjE2LjAuMQogICAgc3VkbyByb3V0ZSBkZWwgZGVmYXVsdCBndyAxNzIuMTYuMC4xICYmIHN1ZG8gcm91dGUgYWRkIGRlZmF1bHQgZ3cgMTcyLjE2LjAuMgogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxNTcuMTkzLjEzNS4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxNzIuMTYuMC4xCiAgICBzdWRvIHJvdXRlIGFkZCAtbmV0IDE1Ny4xOTMuMjE0LjAgbmV0bWFzayAyNTUuMjU1LjI1NS4wIGd3IDE3Mi4xNi4wLjEKICAgIHN1ZG8gcm91dGUgYWRkIC1uZXQgMTU3LjE5My4yMTUuMCBuZXRtYXNrIDI1NS4yNTUuMjU1LjAgZ3cgMTcyLjE2LjAuMQogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxOTIuMTY4LjEyNi4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxNzIuMTYuMC4xCiAgICBzdWRvIHJvdXRlIGFkZCAtbmV0IDEwLjIuMzIuMCBuZXRtYXNrIDI1NS4yNTUuMjQwLjAgZ3cgMTcyLjE2LjAuMQogIGVsc2UKICAgIGVjaG8gImhvc3RuYW1lOiAkaG9zdG5hbWU7IENvbmZpZ3VyaW5nIE5BVCBhbmQgcm91dGVzIGZvciBwaHlzaWNhbCBub2RlIG9uIHdhbGwxIjsKICAgIHN1ZG8gcm91dGUgZGVsIGRlZmF1bHQgZ3cgMTAuMi4xNS4yNTQgJiYgc3VkbyByb3V0ZSBhZGQgZGVmYXVsdCBndyAxMC4yLjE1LjI1MwogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxMC4xMS4wLjAgbmV0bWFzayAyNTUuMjU1LjAuMCBndyAxMC4yLjE1LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxNTcuMTkzLjEzNS4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxMC4yLjE1LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxNTcuMTkzLjIxNC4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxMC4yLjE1LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxNTcuMTkzLjIxNS4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxMC4yLjE1LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxOTIuMTY4LjEyNi4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxMC4yLjE1LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxMC4yLjMyLjAgbmV0bWFzayAyNTUuMjU1LjI0MC4wIGd3IDEwLjIuMTUuMjU0CiAgZmkKZWxpZiBbWyAkaG9zdG5hbWUgPT0gKiIud2FsbDIuaWxhYnQuaW1pbmRzLmJlIiBdXQp0aGVuCiAgaWYgW1sgJGhvc3RuYW1lID09ICoiLXZtIiogXV0KICB0aGVuCiAgICBlY2hvICJob3N0bmFtZTogJGhvc3RuYW1lOyBDb25maWd1cmluZyBOQVQgYW5kIHJvdXRlcyBmb3IgVk0gb24gd2FsbDIiOwogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxMC4yLjMyLjAgbmV0bWFzayAyNTUuMjU1LjI0MC4wIGd3IDE3Mi4xNi4wLjEKICAgIHN1ZG8gcm91dGUgZGVsIGRlZmF1bHQgZ3cgMTcyLjE2LjAuMSAmJiBzdWRvIHJvdXRlIGFkZCBkZWZhdWx0IGd3IDE3Mi4xNi4wLjIKICAgIHN1ZG8gcm91dGUgYWRkIC1uZXQgMTU3LjE5My4xMzUuMCBuZXRtYXNrIDI1NS4yNTUuMjU1LjAgZ3cgMTcyLjE2LjAuMQogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxNTcuMTkzLjIxNC4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxNzIuMTYuMC4xCiAgICBzdWRvIHJvdXRlIGFkZCAtbmV0IDE1Ny4xOTMuMjE1LjAgbmV0bWFzayAyNTUuMjU1LjI1NS4wIGd3IDE3Mi4xNi4wLjEKICAgIHN1ZG8gcm91dGUgYWRkIC1uZXQgMTkyLjE2OC4xMjYuMCBuZXRtYXNrIDI1NS4yNTUuMjU1LjAgZ3cgMTcyLjE2LjAuMQogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxMC4yLjAuMCBuZXRtYXNrIDI1NS4yNTUuMjQwLjAgZ3cgMTcyLjE2LjAuMQogIGVsc2UKICAgIGVjaG8gImhvc3RuYW1lOiAkaG9zdG5hbWU7IENvbmZpZ3VyaW5nIE5BVCBhbmQgcm91dGVzIGZvciBwaHlzaWNhbCBub2RlIG9uIHdhbGwyIjsKICAgIHN1ZG8gcm91dGUgZGVsIGRlZmF1bHQgZ3cgMTAuMi40Ny4yNTQgJiYgc3VkbyByb3V0ZSBhZGQgZGVmYXVsdCBndyAxMC4yLjQ3LjI1MwogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxMC4xMS4wLjAgbmV0bWFzayAyNTUuMjU1LjAuMCBndyAxMC4yLjQ3LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxNTcuMTkzLjEzNS4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxMC4yLjQ3LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxNTcuMTkzLjIxNC4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxMC4yLjQ3LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxNTcuMTkzLjIxNS4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxMC4yLjQ3LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxOTIuMTY4LjEyNi4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCBndyAxMC4yLjQ3LjI1NAogICAgc3VkbyByb3V0ZSBhZGQgLW5ldCAxMC4yLjAuMCBuZXRtYXNrIDI1NS4yNTUuMjQwLjAgZ3cgMTAuMi40Ny4yNTQKICBmaQplbHNlCiAgZWNobyAiRVJST1I6IGhvc3RuYW1lOiAkaG9zdG5hbWUgaXMgbm90IHBhcnQgb2Ygd2FsbDEgb3Igd2FsbDIiOwogIGV4aXQgMQpmaQo=' | base64 --decode | sudo bash"/>
+    </services>
+    <interface client_id="{{ node.name }}:if0">
+      <ip address="{{ node.private_ip }}" netmask="{{ node.private_netmask }}" type="ipv4"/>
+    </interface>
+    <jFed:nodeDescription>simple-node</jFed:nodeDescription>
+  </node>
+  {% endfor %}
+  <link client_id="link0">
+    <component_manager name="{{ network_componentmanager }}"/>
+    {% for node in nodes %}
+    <interface_ref client_id="{{ node.name }}:if0"/>
+    {% endfor %}
+    <link_type name="lan"/>
+  </link>
+  {% if pub_ipv4 > 0 %}
+  <emulab:routable_pool client_id="foo" count="{{ pub_ipv4 }}" type="any"/>
+  {% endif %}
+  {% for userkey in userkeys %}
+  <jfed-ssh-keys:user-ssh-keys user="urn:publicid:IDN+example.com+user+{{ userkey.user }}">
+    <jfed-ssh-keys:sshkey>{{ userkey.pubkey }}</jfed-ssh-keys:sshkey>
+  </jfed-ssh-keys:user-ssh-keys>
+  {% endfor %}
+</rspec>

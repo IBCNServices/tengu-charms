@@ -1,0 +1,16 @@
+options:
+    resources_mirror:
+        type: string
+        default: ''
+        description: |
+            URL from which to fetch resources (e.g., Hadoop binaries) instead of Launchpad.
+    ganglia_metrics:
+        type: boolean
+        default: false
+        description: |
+          Enable metrics using Ganglia.  Note that enabling this option will
+          have no effect if the service is not related to a ganglia service
+          via the ganglia:master relation.  Enabling this option also will
+          *not* restart the DataNode nor NodeManager components, so it will
+          also be necessary to enable metrics on one or more of the hdfs-master
+          or yarn-master services.  See the README for more information.

@@ -1,0 +1,5 @@
+# Options that will be written to ~/.juju/environments.yaml before bootstrapping
+# You can include all the options that ~/.juju/environments.yaml supports here.
+juju_env_conf:
+    type: 'manual'
+    default-series: trusty

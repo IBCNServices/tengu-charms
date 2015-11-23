@@ -1,0 +1,16 @@
+options:
+  output_dir: /home/ubuntu/resources
+resources:
+  java-installer:
+    # This points to a script which manages installing Java.
+    # If replaced with an alternate implementation, it must output *only* two
+    # lines containing the JAVA_HOME path, and the Java version, respectively,
+    # on stdout.  Upon error, it must exit with a non-zero exit code.
+    url: https://raw.githubusercontent.com/galgalesh/tengu-charms/master/java_installer.sh
+    hash: 33a1acfd924202df4b96919a2836784fa37c8c32f6063483ec00c231d8513b62
+    hash_type: sha256
+optional_resources:
+  hue-x86_64:
+    url: https://dl.dropboxusercontent.com/u/730827/hue/releases/3.9.0/hue-3.9.0.tgz
+    hash: c89b6dab6df0deaf3d2df43964da76e852b4c2dc4839613eafefa42b9547a021
+    hash_type: sha256

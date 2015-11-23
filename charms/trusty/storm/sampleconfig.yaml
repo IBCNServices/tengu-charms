@@ -1,0 +1,11 @@
+stormworker:
+  nimbusmemory: 512
+  uimemory: 384
+  supervisormemory: 128
+  workermemory: 128
+  zookeeperport: 2181
+  nimbusport: 6627
+  uiport: 8080
+  drpcport: 3772
+  numberofworkers: 5
+  startingworkerport: 6700

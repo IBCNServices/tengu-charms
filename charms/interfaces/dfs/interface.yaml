@@ -1,0 +1,4 @@
+name: dfs
+summary: Interface to hdfs master
+version: 1
+repo: https://github.com/galgalesh/tengu-charms

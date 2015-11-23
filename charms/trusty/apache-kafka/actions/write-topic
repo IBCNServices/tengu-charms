@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+#pylint: disable=C0103
+
+try:
+    from charmhelpers.core import hookenv
+    from charmhelpers.core import unitdata
+    import jujubigdata
+    from jujubigdata import utils
+    charm_ready = unitdata.kv().get('charm.active', False)
+except ImportError:
+    charm_ready = False
+
+if not charm_ready:
+    # might not have hookenv.action_fail available yet
+    from subprocess import call
+    call(['action-fail', 'Kafka service not yet ready'])
+
+
+kafka_reqs = ['vendor', 'packages', 'groups', 'users', 'dirs', 'ports']
+dist_config = jujubigdata.utils.DistConfig(filename='dist.yaml',
+                                           required_keys=kafka_reqs)
+
+# Grab the business
+topic_name = hookenv.action_get('topic')
+data = hookenv.action_get('data')
+
+output = utils.run_as(
+    'kafka', 'kafka-console-producer.sh',
+    '--broker-list', '{}:{}'.format(
+        hookenv.unit_private_ip(),
+        dist_config.port('kafka'),
+    ),
+    '--topic', topic_name,
+    capture_output=True,
+    input=data)
+hookenv.action_set({'output': output})

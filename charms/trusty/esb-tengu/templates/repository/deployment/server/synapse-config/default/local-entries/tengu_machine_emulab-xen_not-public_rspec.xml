@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry xmlns="http://ws.apache.org/ns/synapse"
+            key="tengu_machine_emulab-xen_not-public_rspec">
+   <rspec:rspec xmlns:rspec="http://www.geni.net/resources/rspec/3"
+                xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1"
+                xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1"
+                xmlns:jFed="http://jfed.iminds.be/rspec/ext/jfed/1"
+                xmlns:jFedBonfire="http://jfed.iminds.be/rspec/ext/jfed-bonfire/1"
+                xmlns:jFed_command="http://jfed.iminds.be/rspec/ext/jfed-command/1"
+                xmlns:tengu="http://tengu.ibcn.ugent.be/1"
+                xmlns:delay="http://www.protogeni.net/resources/rspec/ext/delay/1"
+                xmlns:sharedvlan="http://www.protogeni.net/resources/rspec/ext/shared-vlan/1"
+                xmlns:jfed-ssh-keys="http://jfed.iminds.be/rspec/ext/jfed-ssh-keys/1"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                type="request"
+                generated_by="jFed RSpec Editor"
+                generated="2015-03-17T16:42:38.823+01:00"
+                xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd">
+      <rspec:node client_id="machine" exclusive="true" component_manager_id="$1">
+         <rspec:sliver_type name="emulab-xen">
+            <emulab:xen ram="1024"/>
+         </rspec:sliver_type>
+      </rspec:node>
+   </rspec:rspec>
+   <description/>
+</localEntry>

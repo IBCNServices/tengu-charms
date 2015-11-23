@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="tengu_create_in_machine">
+   <property name="tool" value="machine"/>
+   <filter xmlns:ns="http://org.apache.synapse/xsd"
+           xpath="get-property('query.param.publicipv4') = 'true'">
+      <then>
+         <filter xpath="get-property('query.param.virtual') != 'true'">
+            <then>
+               <log level="custom">
+                  <property name="error"
+                            value="publicipv4 is true, so it has to be a virtual machine."/>
+               </log>
+               <makefault version="pox">
+                  <reason value="We can only create publicly accessible Virtual Machines."/>
+               </makefault>
+               <send/>
+            </then>
+            <else>
+               <log level="custom">
+                  <property name="ok" value="publicipv4 is true and virtual is true."/>
+               </log>
+            </else>
+         </filter>
+         <filter xpath="get-property('query.param.testbed') = 'urn:publicid:IDN+wall1.ilabt.iminds.be+authority+cm'">
+            <then>
+               <log level="custom">
+                  <property name="error" value="publicipv4 is true, so testbed cannot be wall1."/>
+               </log>
+               <makefault version="pox">
+                  <reason value="We can only create publicly accessible Virtual Machines on iMinds Wall2."/>
+               </makefault>
+               <send/>
+            </then>
+            <else>
+               <log level="custom">
+                  <property name="ok" value="publicipv4 is true and testbed is not wall1."/>
+               </log>
+            </else>
+         </filter>
+      </then>
+      <else>
+         <log level="custom">
+            <property name="ok" value="publicipv4 is false, so anything is possible."/>
+         </log>
+      </else>
+   </filter>
+   <sequence key="tengu_create_in"/>
+</sequence>

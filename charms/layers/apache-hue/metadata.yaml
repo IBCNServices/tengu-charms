@@ -1,0 +1,25 @@
+name: apache-hue
+summary: Hue is a Web interface for analyzing data with Apache Hadoop
+maintainer: sanjar <amir.sanjar@canonical.com>
+description: |
+  Hue aggregates the most common Apache Hadoop components into a single interface
+  and targets the user  experience. Its main goal is to have the users "just use"
+  Hadoop without worrying about the underlying complexity or using a command line.
+tags:
+  # Replace "misc" with one or more whitelisted tags from this list:
+  # https://juju.ubuntu.com/docs/authors-charm-metadata.html#charm-metadata
+  - big_data
+requires:
+  resourcemanager:
+    interface: mapred
+  namenode:
+    interface: dfs
+  hive:
+    interface: hive
+  oozie:
+    interface: oozie
+provides:
+  hadoop:
+    interface: hadoop-rest
+    scope: container
+subordinate: false

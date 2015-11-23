@@ -1,0 +1,32 @@
+#!/bin/bash
+# Here do anything needed to install the service
+# i.e. apt-get install -y foo  or  bzr branch http://myserver/mycode /srv/webroot
+# Make sure this hook exits cleanly and is idempotent, common problems here are
+# failing to account for a debconf question on a dependency, or trying to pull
+# from github without installing git first.
+
+apt-get install -y git openjdk-7-jre tree
+
+# Build gobblin
+cd /opt/
+git clone https://github.com/linkedin/gobblin.git
+cd gobblin
+./gradlew clean build
+mkdir job-config
+mkdir work-dir
+mkdir logs
+
+# Install gobblin
+#exit 1
+#tar -zxvf gobblin-dist.tar.gz
+#cd gobblin-dist
+
+# Start gobblin
+export JAVA_HOME='/usr/lib/jvm/java-7-openjdk-amd64'
+export GOBBLIN_WORK_DIR='/opt/gobblin-dist/work-dir'
+export GOBBLIN_JOB_CONFIG_DIR='/opt/gobblin-dist/job-config'
+export GOBBLIN_LOG_DIR='/opt/gobblin-dist/logs'
+#/opt/gobblin-dist/bin/gobblin-standalone.sh start
+# java -jar avro-tools-1.7.7.jar tojson --pretty  > output.json
+# Stop gobblin
+#bin/gobblin-standalone.sh stop

@@ -1,0 +1,4 @@
+name: mapred
+summary: Interface to yarn master
+version: 1
+repo: https://github.com/galgalesh/tengu-charms

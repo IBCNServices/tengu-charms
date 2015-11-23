@@ -1,0 +1,17 @@
+jujubigdata/__init__.py,sha256=rzrpD7DMvvjtQJhp6NeTsjz4B6hlumxcumiaQX_dLag,530
+jujubigdata/handlers.py,sha256=S8oInqwJvUhY9Losj5nkkU3_Go0dY8YqxcRPR-SbJ4s,23818
+jujubigdata/relations.py,sha256=qCVFsjHiFwwm53xmIk1rXzZdR6kDrpwdJqQ32ojTBmw,21912
+jujubigdata/utils.py,sha256=_WH8bOAAhvPWoZYCRhWEeGjuFaNlHsewVZX1UAUvU6w,17048
+jujubigdata/version.py,sha256=7Qpla4FXK0NC7obV6ThCVJHLPUDeQcj0b0fwWm350m4,73
+jujubigdata-4.5.0.dist-info/DESCRIPTION.rst,sha256=WP_GmFsO6DRVeKyW_oN99xUBceVwQ5cyTmNuL1_uzZ4,1479
+jujubigdata-4.5.0.dist-info/METADATA,sha256=_kOaGD-tItF_IuS_iaKQualzoRO1gkd3Y8XhKSTBwU4,1884
+jujubigdata-4.5.0.dist-info/RECORD,,
+jujubigdata-4.5.0.dist-info/WHEEL,sha256=JTb7YztR8fkPg6aSjc571Q4eiVHCwmUDlX8PhuuqIIE,92
+jujubigdata-4.5.0.dist-info/metadata.json,sha256=O1A7f80quMsntZByDyS3h9wxu3KLXdmspwyQOPwJ04A,591
+jujubigdata-4.5.0.dist-info/pbr.json,sha256=vMcTsPspWBZ65MLv9VrbhM0EHXsfVWSTaUevvM68R9E,47
+jujubigdata-4.5.0.dist-info/top_level.txt,sha256=3FPWC1UkjIuTQhLLc4JVW9T58aeWJy60qBdrIm7i5BE,12
+jujubigdata/relations.pyc,,
+jujubigdata/utils.pyc,,
+jujubigdata/handlers.pyc,,
+jujubigdata/version.pyc,,
+jujubigdata/__init__.pyc,,

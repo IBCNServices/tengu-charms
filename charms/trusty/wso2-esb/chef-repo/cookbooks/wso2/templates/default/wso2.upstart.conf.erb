@@ -1,0 +1,16 @@
+#!upstart
+description "wso2 ESB"
+
+start on startup
+stop on shutdown
+
+setuid esbuser
+
+respawn
+
+#
+# bash -l because we want a login shell
+# because we want to load the JAVA_HOME env var in /etc/profile.d
+# log files are in /etc/upstart/SERVICENAME.log
+#
+exec bash -l -c "<%= node['wso2esb']['install_dir'] %>/current/bin/wso2server.sh"

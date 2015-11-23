@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy xmlns="http://ws.apache.org/ns/synapse"
+       name="cli_jfed_manifest_service"
+       transports="https http"
+       startOnLoad="true"
+       trace="disable">
+   <description/>
+   <target>
+      <inSequence>
+         <property name="uri.var.slice" value="core215"/>
+         <log level="full"/>
+         <send>
+            <endpoint key="jfed_get_manifest"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+   </target>
+</proxy>

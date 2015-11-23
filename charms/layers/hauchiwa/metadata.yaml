@@ -1,0 +1,10 @@
+name: hauchiwa
+summary: This Charm sets up a Tengu hauchiwa.
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+description: |
+tags:
+  - big_data
+subordinate: false
+requires:
+  rest2jfed:
+    interface: http

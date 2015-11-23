@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse"
+          name="tengu_core_get_out"
+          statistics="enable">
+   <log level="full"/>
+   <filter xmlns:cli="http://commons.ibcn.ugent.be/cli/0/1"
+           xmlns:ns="http://org.apache.synapse/xsd"
+           xpath="boolean($body/cli:exception)">
+      <then>
+         <log level="custom">
+            <property name="exception" expression="$body/cli:exception"/>
+         </log>
+         <property name="status" value="UNKNOWN"/>
+      </then>
+      <else>
+         <property name="status"
+                   expression="substring-after($body/cli:value,' has status ')"/>
+         <log level="custom">
+            <property name="status from jFed" expression="get-property('status')"/>
+         </log>
+      </else>
+   </filter>
+   <property xmlns:ns="http://org.apache.synapse/xsd"
+             name="id"
+             expression="get-property('uri.var.id')"/>
+   <sequence key="encodeId"/>
+   <filter xmlns:ns="http://org.apache.synapse/xsd" xpath="$ctx:status != 'UNKNOWN'">
+      <then>
+         <log level="custom">
+            <property name="TEST" value="status != UNKNOWN"/>
+            <property name="bdy" expression="$body"/>
+         </log>
+         <property name="HTTP_METHOD" value="GET" scope="axis2" type="STRING"/>
+         <header name="Accept" scope="transport" value="application/xml"/>
+         <property name="messageType" value="application/xml" scope="axis2"/>
+         <call>
+            <endpoint key="jfed_get_manifest"/>
+         </call>
+         <switch source="get-property('tool')">
+            <case regex="core">
+               <sequence key="tengu_get_out_core"/>
+            </case>
+            <case regex="hadoop">
+               <sequence key="tengu_get_out_hadoop"/>
+            </case>
+            <case regex="storm">
+               <sequence key="tengu_get_out_storm"/>
+            </case>
+            <case regex="os">
+               <sequence key="tengu_get_out_os"/>
+            </case>
+         </switch>
+      </then>
+      <else>
+         <payloadFactory media-type="xml">
+            <format>
+               <ten:tengu xmlns:ten="http://tengu.ibcn.ugent.be/0/1/core"
+                          xmlns:lnk="http://www.w3.org/1999/xhtml">
+                  <ten:platform>
+                     <ten:id>$1</ten:id>
+                     <ten:status>$2</ten:status>
+                     <lnk:link rel="jfed.slice" href="$3"/>
+                  </ten:platform>
+               </ten:tengu>
+            </format>
+            <args>
+               <arg evaluator="xml" expression="get-property('id')"/>
+               <arg evaluator="xml" expression="get-property('status')"/>
+               <arg evaluator="xml" expression="get-property('slice')"/>
+            </args>
+         </payloadFactory>
+      </else>
+   </filter>
+   <property name="NO_ENTITY_BODY" scope="axis2" action="remove"/>
+   <header name="Access-Control-Allow-Origin" scope="transport" value="*"/>
+   <property name="HTTP_SC" value="200" scope="axis2"/>
+   <property name="messageType" value="application/xml" scope="axis2"/>
+   <log level="full"/>
+   <send/>
+</sequence>

@@ -1,0 +1,16 @@
+options:
+  output_dir: /home/ubuntu/resources
+resources:
+  pathlib:
+    pypi: path.py>=7.0
+  jujubigdata:
+    pypi: jujubigdata>=4.0.0,<5.0.0
+optional_resources:
+  flume-x86_64:
+    url: https://git.launchpad.net/bigdata-data/plain/apache/x86_64/apache-flume-1.6.0-bin.tar.gz?id=c34a21c939f5fce9ab89b95d65fe2df50e7bbab0
+    hash: defd21ad8d2b6f28cc0a16b96f652099
+    hash_type: md5
+  zookeeper-x86_64:
+    url: http://mirrors.gigenet.com/apache/zookeeper/stable/zookeeper-3.4.6.tar.gz
+    hash: 01b3938547cd620dc4c93efe07c0360411f4a66962a70500b163b59014046994
+    hash_type: sha256

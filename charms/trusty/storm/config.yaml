@@ -1,0 +1,62 @@
+options:
+  version:
+    type: string
+    default: 0.9.3
+    description: |
+      Version of storm to install. Changing this after install hook ran will not do anything.
+  nimbusmemory:
+    type: int
+    default: 1024
+    description: |
+      The maximum heap size in MB to allocate for Nimbus daemons processes within the
+      service units managed by this charm.
+  uimemory:
+    type: int
+    default: 768
+    description: |
+      The maximum heap size in MB to allocate for UI daemons processes within the
+      service units managed by this charm.
+  supervisormemory:
+    type: int
+    default: 256
+    description: |
+      The maximum heap size in MB to allocate for Supervisor daemons processes within the
+      service units managed by this charm.
+  workermemory:
+    type: int
+    default: 768
+    description: |
+      The maximum heap size in MB to allocate for Workers spun by the Supervisor daemons processes within the
+      service units managed by this charm.
+  zookeeperport:
+    type: int
+    default: 2181
+    description: |
+      The port zookeeper is listening on.
+  nimbusport:
+    type: int
+    default: 6627
+    description: |
+      The port nimbus is listening on. Must be higher than 1024.
+  uiport:
+    type: int
+    default: 8080
+    description: |
+      The port storm ui is listening on. Must be higher than 1024.
+  drpcport:
+    type: int
+    default: 3772
+    description: |
+      The port DRPC is listening on. Must be higher than 1024.
+  numberofworkers:
+    type: int
+    default: 4
+    description: |
+      The number of workers that a supervisor starts.
+  startingworkerport:
+    type: int
+    default: 6700
+    description: |
+      The port a worker is listening on. Must be higher than 1024.
+      Each worker on a supervisor takes a separate port so if there
+      are 4 workers then the ports 6700, 6701, 6702, 6703 are used.

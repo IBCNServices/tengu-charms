@@ -1,0 +1,32 @@
+*~
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# Save files that appear randomly
+*.save
+
+# bazaar files
+.bzr
+
+# python files
+*.pyc
+
+# Files that are to big
+hadoop-*.tar.gz
+chef_*.deb
+jfed_cli.tar.gz
+jfed_cli
+apache-activemq-5.9.0-bin.tar.gz
+server-jre-8u45-linux-x64.tar.gz
+wso2esb-4.8.0.zip
+wso2esb-4.9.0.zip
+
+# Test directory
+test
+
+# dependency directory of composer
+charms/deps

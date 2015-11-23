@@ -1,0 +1,30 @@
+# This file contains values that are likely to change per distribution.
+# The aim is to make it easier to update / extend the charms with
+# minimal changes to the shared code in the jujubigdata library.
+vendor: 'apache'
+packages:
+    - 'openjdk-7-jdk'
+groups:
+    - 'hadoop'
+users:
+    kafka:
+        groups: ['hadoop']
+dirs:
+    kafka:
+        path: '/usr/lib/kafka'
+    kafka_conf:
+        path: '/etc/kafka/conf'
+    kafka_app_logs:
+        path: '/var/log/kafka'
+        owner: 'kafka'
+    kafka_data_logs:
+        path: '/var/lib/kafka'
+        owner: 'kafka'
+ports:
+    # Ports that need to be exposed, overridden, or manually specified.
+    # Only expose ports serving a UI or external API (i.e., namenode and
+    # resourcemanager).  Communication among units within the cluster does
+    # not need ports to be explicitly opened.
+    kafka:
+        port: 9092
+        exposed_on: 'kafka'

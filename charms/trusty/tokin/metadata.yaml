@@ -1,0 +1,10 @@
+name: tokin
+summary: This Charm installs a tokin
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+description: |
+  This Charm installs a [Tengu](tengu.intec.ugent.be) tokin.
+tags:
+  # Replace "misc" with one or more whitelisted tags from this list:
+  # https://jujucharms.com/docs/stable/authors-charm-metadata
+  - big_data
+subordinate: false

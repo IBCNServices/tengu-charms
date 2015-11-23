@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse"
+          name="tengu_send_jfed"
+          statistics="enable">
+   <property name="messageType" value="application/xml" scope="axis2"/>
+   <header name="Accept" scope="transport" value="text/xml"/>
+   <property name="HTTP_METHOD" value="POST" scope="axis2" type="STRING"/>
+   <header xmlns:ns="http://org.apache.synapse/xsd"
+           name="To"
+           expression="concat('http://localhost:8080/cli/tool/jfed-create?async&amp;slice=', get-property('slice'),'&amp;project=', get-property('project'))"/>
+   <log level="full"/>
+   <send/>
+</sequence>

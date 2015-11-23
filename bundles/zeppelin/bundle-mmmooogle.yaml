@@ -1,0 +1,62 @@
+machines:
+  '6':
+    constraints: arch=amd64
+    series: trusty
+  '8':
+    constraints: arch=amd64
+    series: trusty
+  '9':
+    constraints: arch=amd64
+    series: trusty
+services:
+  compute-slave2:
+    charm: cs:trusty/apache-hadoop-compute-slave-9
+    num_units: 1
+    annotations:
+      gui-x: "300"
+      gui-y: "200"
+    constraints: mem=3G
+    to: lxc:8
+  hdfs-master2:
+    charm: cs:trusty/apache-hadoop-hdfs-master-9
+    num_units: 1
+    annotations:
+      gui-x: "600"
+      gui-y: "350"
+    constraints: mem=7G
+    to: lxc:6
+  plugin2:
+    charm: cs:trusty/apache-hadoop-plugin-8
+    annotations:
+      gui-x: "900"
+      gui-y: "200"
+  spark2:
+    charm: cs:trusty/apache-spark-6
+    num_units: 1
+    annotations:
+      gui-x: "1200"
+      gui-y: "100"
+    constraints: mem=7G
+    to: lxc:9
+  yarn-master2:
+    charm: cs:trusty/apache-hadoop-yarn-master-7
+    num_units: 1
+    annotations:
+      gui-x: "600"
+      gui-y: "100"
+    constraints: mem=7G
+    to: lxc:6
+  zeppelin2:
+    charm: cs:trusty/apache-zeppelin-5
+    annotations:
+      gui-x: "1500"
+      gui-y: "100"
+series: trusty
+relations:
+  - [yarn-master2, hdfs-master2]
+  - [compute-slave2, yarn-master2]
+  - [compute-slave2, hdfs-master2]
+  - [plugin2, yarn-master2]
+  - [plugin2, hdfs-master2]
+  - [spark2, plugin2]
+  - [zeppelin2, spark2]

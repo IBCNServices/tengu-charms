@@ -1,0 +1,25 @@
+options:
+  charm-repo-source:
+    type: string
+    description: Git url where charm repo resides. Expects charm repo in <repo_root>/charms.
+    default:
+  environment-name:
+    type: string
+    description: Name of the environment to configure
+    default:
+  environment-config:
+    type: string
+    description: base64 encoded environment config from environments.yaml
+    default:
+  environment-jenv:
+    type: string
+    description: base64 encoded environment.jenv file
+    default:
+  environment-pubkey:
+    type: string
+    description: base64 encoded pubkey file
+    default:
+  environment-privkey:
+    type: string
+    description: base64 encoded privkey file
+    default:

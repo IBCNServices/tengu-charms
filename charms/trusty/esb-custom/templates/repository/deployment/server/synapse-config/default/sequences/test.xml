@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="test">
+   <property xmlns:ns="http://org.apache.synapse/xsd"
+             name="test"
+             expression="get-property('registry', 'conf://_system/local/tengu@counter')"
+             scope="default"
+             type="INTEGER"/>
+   <log level="custom">
+      <property xmlns:ns="http://org.apache.synapse/xsd"
+                name="test"
+                expression="get-property('test')"/>
+   </log>
+   <script language="js">var t = parseInt(mc.getProperty("test"));var tp = t+1;mc.setProperty("testp", tp);</script>
+   <log level="custom">
+      <property xmlns:ns="http://org.apache.synapse/xsd"
+                name="testp"
+                expression="get-property('testp')"/>
+   </log>
+   <property xmlns:ns="http://org.apache.synapse/xsd"
+             name="conf://_system/local/tengu@counter"
+             expression="get-property('testp')"
+             scope="default"
+             type="STRING"/>
+   <drop/>
+</sequence>

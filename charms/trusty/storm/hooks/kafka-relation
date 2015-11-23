@@ -1,0 +1,12 @@
+#!/usr/bin/python
+import sys
+from charmhelpers.core import hookenv
+
+hooks = hookenv.Hooks()
+
+@hooks.hook('kafka-relation-joined')
+def client_relation_joined():
+    pass
+
+if __name__ == "__main__":
+    hooks.execute(sys.argv)

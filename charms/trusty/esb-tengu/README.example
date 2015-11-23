@@ -1,0 +1,25 @@
+# Overview
+
+This Charm installs the [tengu paas](https://github.ugent.be/Tengu/PaaS) on top of an existing WSO2 esb charm.
+
+# Usage
+
+Deploy the Charm:
+
+    juju deploy local:esb-tengu
+
+Relate it to an existing esb charm to install it:
+
+    juju add-relation wso2-esb esb-tengu
+
+To upgrade the charm:
+
+    juju upgrade-charm esb-tengu
+
+# Configuration
+
+
+
+# Contact Information
+
+merlijn.sebrechts@gmail.com

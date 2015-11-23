@@ -1,0 +1,5 @@
+netaddr
+PyYAML
+Tempita
+Jinja2
+six

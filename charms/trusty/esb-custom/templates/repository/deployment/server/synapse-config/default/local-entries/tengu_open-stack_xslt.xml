@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="tengu_open-stack_xslt">
+   <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                   xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1"
+                   xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1"
+                   xmlns:rspec="http://www.geni.net/resources/rspec/3"
+                   xmlns:jFed_command="http://jfed.iminds.be/rspec/ext/jfed-command/1"
+                   xmlns:jFed="http://jfed.iminds.be/rspec/ext/jfed/1"
+                   xmlns:jFedBonfire="http://jfed.iminds.be/rspec/ext/jfed-bonfire/1"
+                   xmlns:tengu="http://tengu.ibcn.ugent.be/1"
+                   xmlns:delay="http://www.protogeni.net/resources/rspec/ext/delay/1"
+                   xmlns:jfed-ssh-keys="http://jfed.iminds.be/rspec/ext/jfed-ssh-keys/1"
+                   xmlns:sharedvlan="http://www.protogeni.net/resources/rspec/ext/shared-vlan/1"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   version="1.0"
+                   xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd">
+      <xsl:output method="xml" indent="yes"/>
+      <xsl:template match="node()|@*">
+         <xsl:copy>
+            <xsl:apply-templates select="node()|@*"/>
+         </xsl:copy>
+      </xsl:template>
+      <xsl:template match="tengu:nodes_if1">
+         <xsl:call-template name="tengu:iterate-nodes_if1"/>
+      </xsl:template>
+      <xsl:template match="tengu:nodes_if2">
+         <xsl:call-template name="tengu:iterate-nodes_if2"/>
+      </xsl:template>
+      <xsl:template match="tengu:nodes">
+         <xsl:call-template name="tengu:iterate-nodes"/>
+      </xsl:template>
+      <xsl:template name="tengu:iterate-nodes_if1">
+         <xsl:param name="length" select="@count"/>
+         <xsl:param name="i" select="1"/>
+         <rspec:interface_ref>
+            <xsl:attribute name="client_id">compute<xsl:value-of select="$i"/>:if1</xsl:attribute>
+         </rspec:interface_ref>
+         <xsl:if test="$length &gt; 1">
+            <xsl:call-template name="tengu:iterate-nodes_if1">
+               <xsl:with-param name="length" select="$length - 1"/>
+               <xsl:with-param name="i" select="$i + 1"/>
+            </xsl:call-template>
+         </xsl:if>
+      </xsl:template>
+      <xsl:template name="tengu:iterate-nodes_if2">
+         <xsl:param name="length" select="@count"/>
+         <xsl:param name="i" select="1"/>
+         <rspec:interface_ref>
+            <xsl:attribute name="client_id">compute<xsl:value-of select="$i"/>:if2</xsl:attribute>
+         </rspec:interface_ref>
+         <xsl:if test="$length &gt; 1">
+            <xsl:call-template name="tengu:iterate-nodes_if2">
+               <xsl:with-param name="length" select="$length - 1"/>
+               <xsl:with-param name="i" select="$i + 1"/>
+            </xsl:call-template>
+         </xsl:if>
+      </xsl:template>
+      <xsl:template name="tengu:iterate-nodes">
+         <xsl:param name="length" select="@count"/>
+         <xsl:param name="cmi" select="@component_manager_id"/>
+         <xsl:param name="i" select="1"/>
+         <rspec:node exclusive="true">
+            <xsl:attribute name="client_id">compute<xsl:value-of select="$i"/>
+            </xsl:attribute>
+            <xsl:attribute name="component_manager_id">
+               <xsl:value-of select="$cmi"/>
+            </xsl:attribute>
+            <rspec:sliver_type name="raw-pc"/>
+            <rspec:services>
+               <rspec:execute shell="sh">
+                  <xsl:attribute name="command">cd /opt; sudo wget -6 -q http://webserver.web2.wall2-ilabt-iminds-be.wall2.ilabt.iminds.be/chefv2/install.sh; sudo chmod +x install.sh; sudo /opt/install.sh openstack</xsl:attribute>
+               </rspec:execute>
+            </rspec:services>
+            <rspec:interface>
+               <xsl:attribute name="client_id">compute<xsl:value-of select="$i"/>:if1</xsl:attribute>
+            </rspec:interface>
+            <rspec:interface>
+               <xsl:attribute name="client_id">compute<xsl:value-of select="$i"/>:if2</xsl:attribute>
+            </rspec:interface>
+            <jFed:nodeDescription>simple-node</jFed:nodeDescription>
+         </rspec:node>
+         <xsl:if test="$length &gt; 1">
+            <xsl:call-template name="tengu:iterate-nodes">
+               <xsl:with-param name="length" select="$length - 1"/>
+               <xsl:with-param name="i" select="$i + 1"/>
+            </xsl:call-template>
+         </xsl:if>
+      </xsl:template>
+   </xsl:stylesheet>
+   <description/>
+</localEntry>

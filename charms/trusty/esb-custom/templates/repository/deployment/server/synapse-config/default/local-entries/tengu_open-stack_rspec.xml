@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="tengu_open-stack_rspec">
+   <rspec:rspec xmlns:rspec="http://www.geni.net/resources/rspec/3"
+                xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1"
+                xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1"
+                xmlns:jFedBonfire="http://jfed.iminds.be/rspec/ext/jfed-bonfire/1"
+                xmlns:jFed_command="http://jfed.iminds.be/rspec/ext/jfed-command/1"
+                xmlns:tengu="http://tengu.ibcn.ugent.be/1"
+                xmlns:jfed-ssh-keys="http://jfed.iminds.be/rspec/ext/jfed-ssh-keys/1"
+                xmlns:flack="http://www.protogeni.net/resources/rspec/ext/flack/1"
+                xmlns:ns11="http://www.geni.net/resources/rspec/ext/shared-vlan/1"
+                xmlns:jFed="http://jfed.iminds.be/rspec/ext/jfed/1"
+                xmlns:delay="http://www.protogeni.net/resources/rspec/ext/delay/1"
+                xmlns:sharedvlan="http://www.protogeni.net/resources/rspec/ext/shared-vlan/1"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                type="request"
+                generated_by="Tengu v0.1"
+                xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd">
+      <rspec:node client_id="controller" exclusive="true" component_manager_id="$1">
+         <rspec:sliver_type name="raw-pc"/>
+         <rspec:services>
+            <rspec:execute shell="sh"
+                           command="cd /opt; sudo wget -6 -q http://webserver.web2.wall2-ilabt-iminds-be.wall2.ilabt.iminds.be/chefv2/install.sh; sudo chmod +x install.sh; sudo /opt/install.sh openstack"/>
+         </rspec:services>
+         <rspec:interface client_id="controller:if1">
+            <rspec:ip address="192.168.100.254" netmask="255.255.255.0" type="ipv4"/>
+         </rspec:interface>
+         <rspec:interface client_id="controller:if2">
+            <rspec:ip address="10.200.10.10" netmask="255.255.255.0" type="ipv4"/>
+         </rspec:interface>
+         <jFed:nodeDescription>simple-node</jFed:nodeDescription>
+      </rspec:node>
+      <rspec:node client_id="ChefServer" exclusive="true" component_manager_id="$1">
+         <rspec:sliver_type name="raw-pc"/>
+         <rspec:services>
+            <rspec:execute shell="sh"
+                           command="cd /opt; sudo wget -6 -q http://webserver.web2.wall2-ilabt-iminds-be.wall2.ilabt.iminds.be/chefv2/install.sh; sudo chmod +x install.sh; sudo /opt/install.sh openstack"/>
+         </rspec:services>
+         <rspec:interface client_id="ChefServer:if0">
+            <rspec:ip address="10.200.10.2" type="ipv4"/>
+         </rspec:interface>
+         <jFed:nodeDescription>simple-node</jFed:nodeDescription>
+      </rspec:node>
+      <tengu:nodes component_manager_id="$1" count="$2"/>
+      <rspec:link client_id="Data">
+         <rspec:component_manager name="$1"/>
+         <rspec:interface_ref client_id="controller:if1"/>
+         <tengu:nodes_if1 count="$2"/>
+         <rspec:link_type name="lan"/>
+      </rspec:link>
+      <rspec:link client_id="Admin">
+         <rspec:component_manager name="$1"/>
+         <rspec:interface_ref client_id="controller:if2"/>
+         <tengu:nodes_if2 count="$2"/>
+         <rspec:interface_ref client_id="ChefServer:if0"/>
+         <rspec:link_type name="lan"/>
+      </rspec:link>
+   </rspec:rspec>
+   <description/>
+</localEntry>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse"
+          name="tengu_core_get_in"
+          statistics="enable">
+   <log level="custom">
+      <property xmlns:ns="http://org.apache.synapse/xsd"
+                name="id"
+                expression="get-property('uri.var.id')"/>
+   </log>
+   <dblookup>
+      <connection>
+         <pool>
+            <dsName>jdbc/tengu_DB</dsName>
+         </pool>
+      </connection>
+      <statement>
+         <sql>
+            SELECT tool, CONCAT(tool, ID) as name, project FROM projects WHERE ref=?;</sql>
+         <parameter xmlns:ns="http://org.apache.synapse/xsd"
+                    expression="get-property('uri.var.id')"
+                    type="VARCHAR"/>
+         <result name="tool" column="tool"/>
+         <result name="slice" column="name"/>
+         <result name="uri.var.slice" column="name"/>
+         <result name="uri.var.project" column="project"/>
+      </statement>
+   </dblookup>
+   <header name="Accept" scope="transport" value="text/xml"/>
+   <log level="custom">
+      <property xmlns:ns="http://org.apache.synapse/xsd"
+                name="uri.var.project"
+                expression="get-property('uri.var.project')"/>
+      <property xmlns:ns="http://org.apache.synapse/xsd"
+                name="uri.var.slice"
+                expression="get-property('uri.var.slice')"/>
+   </log>
+   <send>
+      <endpoint key="jfed_get_status"/>
+   </send>
+</sequence>

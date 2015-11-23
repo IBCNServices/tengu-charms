@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="tengu_create_in_core">
+   <property name="tool" value="core"/>
+   <property xmlns:ns="http://org.apache.synapse/xsd"
+             name="snodes"
+             expression="get-property('query.param.snodes')"/>
+   <property xmlns:ns="http://org.apache.synapse/xsd"
+             name="hnodes"
+             expression="get-property('query.param.hnodes')"/>
+   <sequence key="tengu_create_in"/>
+</sequence>

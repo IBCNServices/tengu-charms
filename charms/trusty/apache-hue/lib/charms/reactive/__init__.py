@@ -14,6 +14,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with charm-helpers.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+import sys
+
 from .bus import set_state  # noqa
 from .bus import remove_state  # noqa
 from .helpers import toggle_state  # noqa
@@ -26,6 +29,7 @@ from .decorators import when  # noqa
 from .decorators import when_not  # noqa
 from .decorators import not_unless  # noqa
 from .decorators import only_once  # noqa
+from .decorators import when_file_changed  # noqa
 
 from . import bus
 from charmhelpers.core import hookenv
@@ -46,12 +50,17 @@ def main(relation_name=None):
     """
     hookenv.log('Reactive main running for hook %s' % hookenv.hook_name(), level=hookenv.INFO)
 
+    # work-around for https://bugs.launchpad.net/juju-core/+bug/1503039
+    # ensure that external handlers can tell what hook they're running in
+    os.environ['JUJU_HOOK_NAME'] = os.path.basename(sys.argv[0])
+
     def flush_kv():
         if unitdata._KV:
             unitdata._KV.flush()
     hookenv.atexit(flush_kv)
     try:
         bus.discover()
+        hookenv._run_atstart()
         bus.dispatch()
     except SystemExit as x:
         if x.code is None or x.code == 0:

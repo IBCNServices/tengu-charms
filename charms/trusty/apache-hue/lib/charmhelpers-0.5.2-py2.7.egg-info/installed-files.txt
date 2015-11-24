@@ -1,4 +1,5 @@
 ../charmhelpers/coordinator.py
+../charmhelpers/context.py
 ../charmhelpers/__init__.py
 ../charmhelpers/cli/benchmark.py
 ../charmhelpers/cli/unitdata.py
@@ -7,8 +8,10 @@
 ../charmhelpers/cli/hookenv.py
 ../charmhelpers/cli/__init__.py
 ../charmhelpers/core/decorators.py
+../charmhelpers/core/kernel.py
 ../charmhelpers/core/sysctl.py
 ../charmhelpers/core/templating.py
+../charmhelpers/core/hugepage.py
 ../charmhelpers/core/fstab.py
 ../charmhelpers/core/strutils.py
 ../charmhelpers/core/unitdata.py
@@ -78,6 +81,7 @@
 ../charmhelpers/contrib/templating/__init__.py
 ../charmhelpers/contrib/unison/__init__.py
 ../charmhelpers/coordinator.pyc
+../charmhelpers/context.pyc
 ../charmhelpers/__init__.pyc
 ../charmhelpers/cli/benchmark.pyc
 ../charmhelpers/cli/unitdata.pyc
@@ -86,8 +90,10 @@
 ../charmhelpers/cli/hookenv.pyc
 ../charmhelpers/cli/__init__.pyc
 ../charmhelpers/core/decorators.pyc
+../charmhelpers/core/kernel.pyc
 ../charmhelpers/core/sysctl.pyc
 ../charmhelpers/core/templating.pyc
+../charmhelpers/core/hugepage.pyc
 ../charmhelpers/core/fstab.pyc
 ../charmhelpers/core/strutils.pyc
 ../charmhelpers/core/unitdata.pyc

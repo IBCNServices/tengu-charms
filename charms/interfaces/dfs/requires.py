@@ -11,15 +11,14 @@ class HdfsRequires(RelationBase):
     def changed(self):
         conv = self.conversation()
         if conv.get_remote('private-address'):
-            # this unit's conversation has a port, so
-            # it is part of the set of available units
-            conv.set_state('hadoop.hdfs.available')
+            conv.set_state('hadoop.hdfs.ready')
 
 
     @hook('{requires:dfs}-relation-{departed,broken}')
     def broken(self):
         conv = self.conversation()
-        conv.remove_state('hadoop.hdfs.available')
+        conv.remove_state('hadoop.hdfs.ready')
+
 
     @property
     def private_address(self):

@@ -3,7 +3,6 @@
 from charms.reactive import when, when_not
 from charms.reactive import set_state
 from charmhelpers.core import hookenv
-from charmhelpers.core.hookenv import relation_get
 
 import hueutils
 
@@ -48,7 +47,7 @@ def stop_hue():
     hue.stop()
 
 
-@when('hadoop.hdfs.available')
+@when('hadoop.hdfs.ready')
 @when_not('hadoop.hdfs.configured')
 def namenode_relation_changed(hdfs):
     from jujubigdata.utils import re_edit_in_place
@@ -57,6 +56,7 @@ def namenode_relation_changed(hdfs):
 
     hue = hueutils.Hue()
     namenode_ip = hdfs.private_address
+    assert(namenode_ip)
     namenode = namenode_ip+":8020"
     re_edit_in_place(hue.hue_ini, {
         r'^\s*#*\s*fs_defaultfs=hdfs://.*' : "      fs_defaultfs=hdfs://{}".format(namenode),
@@ -67,13 +67,14 @@ def namenode_relation_changed(hdfs):
     hue.restart()
 
 
-@when('hadoop.yarn.available')
+@when('hadoop.yarn.ready')
 @when_not('hadoop.yarn.configured')
 def yarn_relation_changed(yarn):
     from jujubigdata.utils import re_edit_in_place
     set_state('yarn.connected')
     hue = hueutils.Hue()
     resourcemanager_ip = yarn.private_address
+    assert(resourcemanager_ip)
     re_edit_in_place(hue.hue_ini, {
         r'^\s*#*\s*resourcemanager_host=.*' : "      resourcemanager_host={}".format(resourcemanager_ip),
         r'^\s*#*\s*resourcemanager_port=.*' : "      resourcemanager_port=8032",

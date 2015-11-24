@@ -23,4 +23,7 @@ class MapredRequires(RelationBase):
 
     @property
     def private_address(self):
-        self.conversation().get_remote('private-address')
+        for conv in self.conversations():
+            host = conv.get_remote('private-address')
+            if host:
+                return host

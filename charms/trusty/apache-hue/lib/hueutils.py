@@ -24,7 +24,7 @@ class Hue(object):
             'root',
             'make', '-C', self.dist_config.path('build'), 'install',
             env={
-                'PREFIX' : self.dist_config.path('hue') + "../",
+                'PREFIX' : self.dist_config.path('hue') + "/../",
             }
         )
         templating.render(

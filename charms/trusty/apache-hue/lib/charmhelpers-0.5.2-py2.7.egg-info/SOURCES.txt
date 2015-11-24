@@ -9,6 +9,7 @@ bin/chlp
 bin/contrib/charmsupport/charmsupport
 bin/contrib/saltstack/salt-call
 charmhelpers/__init__.py
+charmhelpers/context.py
 charmhelpers/coordinator.py
 charmhelpers.egg-info/PKG-INFO
 charmhelpers.egg-info/SOURCES.txt
@@ -78,6 +79,8 @@ charmhelpers/core/files.py
 charmhelpers/core/fstab.py
 charmhelpers/core/hookenv.py
 charmhelpers/core/host.py
+charmhelpers/core/hugepage.py
+charmhelpers/core/kernel.py
 charmhelpers/core/strutils.py
 charmhelpers/core/sysctl.py
 charmhelpers/core/templating.py

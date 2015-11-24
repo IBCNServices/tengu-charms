@@ -1,0 +1,16 @@
+../jujuresources/version.py
+../jujuresources/backend.py
+../jujuresources/cli.py
+../jujuresources/__init__.py
+../jujuresources/version.pyc
+../jujuresources/backend.pyc
+../jujuresources/cli.pyc
+../jujuresources/__init__.pyc
+./
+PKG-INFO
+SOURCES.txt
+dependency_links.txt
+requires.txt
+top_level.txt
+entry_points.txt
+../../../bin/juju-resources

@@ -1,0 +1,4 @@
+six
+pyaml
+path.py>=7.0
+jujuresources>=0.2.5

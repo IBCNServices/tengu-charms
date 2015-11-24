@@ -1,0 +1,9 @@
+[console_scripts]
+juju-resources = jujuresources.cli:resources
+
+[jujuresources.subcommands]
+fetch = jujuresources.cli:fetch
+resource_path = jujuresources.cli:resource_path
+serve = jujuresources.cli:serve
+verify = jujuresources.cli:verify
+

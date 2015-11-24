@@ -22,7 +22,7 @@
     "lib/charmhelpers/cli/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "b6801f1eb0d990603ec5477b390f8710eb8ed70a40cc2f2691982fbea8a7313e"
+      "578a65187b4c65bd5b92dc75bdf9b06473364d4a7ba27baf03e73b608675eaa3"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -33,6 +33,11 @@
       "layer:basic", 
       "dynamic", 
       "ab2d0f9637b9209bafb020637a32728430a310075c0cb2bfd9a81571ec7c67a5"
+    ], 
+    "lib/jujuresources-0.3.1-py2.7.egg-info/top_level.txt": [
+      "apache-hue", 
+      "static", 
+      "5d1910aa7313e6f9ef0336ea27a60634fe7030d5e26c93cce0c5377cd8440f04"
     ], 
     "lib/netaddr/eui/ieee.py": [
       "layer:basic", 
@@ -72,7 +77,7 @@
     "lib/tempita/_looper.pyc": [
       "layer:basic", 
       "dynamic", 
-      "98b76ba416d8659de3f0115a483add57aefe9bcc730179f26409ac5e2a331d24"
+      "6df75202e91ee8b9ba71b99f05dbfe67dc971b2ee60530fc3742bcdb31caf7c5"
     ], 
     "lib/pyaml/__main__.py": [
       "apache-hue", 
@@ -102,17 +107,17 @@
     "lib/charmhelpers/contrib/amulet/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "19beeeb393df16a73ed1bf52681d612850edaa40ecb5e3e0d2fec0d4c75d177a"
+      "319b8e64d00089ba574108f2301553753c2b4e80a6e1af0720e15cc8692bf1da"
     ], 
     "lib/charmhelpers/contrib/openstack/context.pyc": [
       "layer:basic", 
       "dynamic", 
-      "b6afff8fc1a99cd454c25ff0987ee5a21f46e4b65225667c526715b843bba471"
+      "676e1f7c023b28520144f05e3fe5fed6f9cf6a1eed7022fc7e33b0fb4af216ac"
     ], 
     "lib/jinja2/exceptions.pyc": [
       "layer:basic", 
       "dynamic", 
-      "b785dff2e9760ebe827d881844ccfebeab4f519fc835003a5771cb6b9b5046e9"
+      "4fb4f3e3e88124ee955c71d1135b57cad0740158d57d1cdbe5db5da5be93454a"
     ], 
     "lib/charmhelpers/fetch/giturl.py": [
       "layer:basic", 
@@ -122,22 +127,22 @@
     "lib/jujubigdata/version.py": [
       "apache-hue", 
       "static", 
-      "ed0a656b81572b4342ee86d5e938425491cb3d40de41c8f46f47f05a6df9d26e"
+      "3fc7b1b0ff3b62c1dbd6c562b295c34f50fd95f711177cd5ebcaccd130d97f1c"
     ], 
     "lib/yaml/serializer.pyc": [
       "layer:basic", 
       "dynamic", 
-      "a891151dd6132d28b778460d8ac96283aaeaba1fbb08a511c834102ea427e85a"
+      "c6804740e06c76431787125203d2e868bb4ed5d501cf5152b854ff162054d58f"
     ], 
     "lib/yaml/nodes.pyc": [
       "layer:basic", 
       "dynamic", 
-      "f5b6e64dbcba94be5d9bb33ccf21234e36fb236f5d34bd577cd5278e42d8eca9"
+      "4b4adddebf293f67710cd5a6e64a0079a2124e1ade315df977a447c8c2f73bf7"
     ], 
     "lib/charmhelpers/contrib/python/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "8de2ba2cdc0661eaffa08a0c1122cf532e2e6e8f1b72be6a0f0338d852eada45"
+      "3378bc86267f43cc81eb804c37ab27f78bf5175fc55a20020b92471dc6e0875f"
     ], 
     "lib/jujubigdata-4.5.0.dist-info/pbr.json": [
       "apache-hue", 
@@ -157,7 +162,7 @@
     "lib/charms/reactive/helpers.pyc": [
       "layer:basic", 
       "dynamic", 
-      "a0da25bfa1ddd0229b1782b98c1cde8d792e36b8eb4603ac3ea81d184653c350"
+      "8c6f3b823eec2755f62bcbebbd893209a9f8c06562ecae929bc33ebe2dd4f0d4"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -197,7 +202,7 @@
     "lib/charmhelpers/core/hookenv.pyc": [
       "layer:basic", 
       "dynamic", 
-      "98f650a479352e0d2c2c2c1fe057904a4afa81c65065e5edc5c2ed760b40f2c2"
+      "64a0da3f3afd5e0574fab8f45f389ba3c12ca46b74cccf1bade5d59753cea948"
     ], 
     "hooks/namenode-relation-departed": [
       "interface:dfs", 
@@ -217,7 +222,7 @@
     "lib/netaddr/eui/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "05dfeeee8eab6d4742553e8ada59ff1f84e050184233918ef53043746cdbb1f0"
+      "bd060f28d9ac0d923240bdff94252169e723ea5f7e4694e40cc41c456bd0a4d1"
     ], 
     "lib/jinja2/defaults.py": [
       "layer:basic", 
@@ -227,12 +232,17 @@
     "lib/jinja2/compiler.pyc": [
       "layer:basic", 
       "dynamic", 
-      "aa2f52af4cf70562f66c110d647452c43cdc630e7236ef94fc7c3402799a6478"
+      "b568ed8476187124c09bec5bbf152ad40991f47f1ebd8b351f487c5e40664cee"
     ], 
     "lib/yaml/error.py": [
       "apache-hue", 
       "static", 
       "ecaf8d748bf4a8d28f29b9d7c448342ff6fd2bb9d80ce46bdebce6f3f6fe8816"
+    ], 
+    "lib/jujuresources-0.3.1-py2.7.egg-info/PKG-INFO": [
+      "apache-hue", 
+      "static", 
+      "7657adcc15cbceb9e4457aac98bca89448526b8ea74f06507fe0519d950c1a86"
     ], 
     "lib/netaddr/ip/glob.py": [
       "layer:basic", 
@@ -282,12 +292,12 @@
     "lib/yaml/events.pyc": [
       "layer:basic", 
       "dynamic", 
-      "2372b15ebb48995ba1a878c04eaa8d718b3b22b483dbbce3027dff921c839c55"
+      "cfdb2863c2b4768f72e58d2af3844a42ec1d9a04ada7cce206fabe83a50d719c"
     ], 
     "lib/jinja2/bccache.pyc": [
       "layer:basic", 
       "dynamic", 
-      "8f82b867ef9b1c175609a7c07d817e6182973c977c509ee7874ebd8bb7a28eef"
+      "aa5446b2ba74f184e09f6a7503cf0e34f2bc70a237f88290b8448d9b941fdd9e"
     ], 
     "lib/jinja2/_compat.py": [
       "layer:basic", 
@@ -297,7 +307,7 @@
     "lib/jinja2/_compat.pyc": [
       "layer:basic", 
       "dynamic", 
-      "2e1d7cd4f429e670a6972a54dfadc5c894cc178d65ad5c6d1b805b6547473fd1"
+      "14c327373a35adbaa31f3c83b7f30ea823883a8a9318a62e9fc7520e643d0564"
     ], 
     "lib/yaml/serializer.py": [
       "apache-hue", 
@@ -317,12 +327,12 @@
     "lib/jinja2/runtime.pyc": [
       "layer:basic", 
       "dynamic", 
-      "d97b3fb91e191c430505345abe7554cb1153d950ae46f3824bf911e4914af593"
+      "fdb780ec351faf3c7a422ad6d63e0f481b8a6b68321f7f60fe11ae27a57a159e"
     ], 
     "lib/charmhelpers/coordinator.pyc": [
       "layer:basic", 
       "dynamic", 
-      "81fb35c70f8a33b9f28ae4fc9573ac648e9bc59a6fa16edbceeca4cc06477ee3"
+      "2dedede986a7aba2bd8ec73711a21ff3dd364430683f9b5215b849a8e8fe3167"
     ], 
     "lib/Tempita-0.5.2-py2.7.egg-info/top_level.txt": [
       "layer:basic", 
@@ -337,7 +347,7 @@
     "lib/charmhelpers/core/host.pyc": [
       "layer:basic", 
       "dynamic", 
-      "e45d86f72c1125ddecaf4a16c47c5aeb8294268109715f636c2ee9b0324540a6"
+      "2a4c7310d15986476f00c1144bf70c2c4b00c2a4bb1bb93051892263b61582eb"
     ], 
     "lib/charms/reactive/decorators.py": [
       "layer:basic", 
@@ -367,17 +377,17 @@
     "lib/charmhelpers/core/hugepage.pyc": [
       "layer:basic", 
       "dynamic", 
-      "22d325a6c50a281da9b115de85d339c72f430dda3bc82264195f25b3e0d8693e"
+      "3181a6c7f1baaccd1dcccc20d91ae488eaf7863d7b1ff797386b8b74a0747d7f"
     ], 
     "lib/charmhelpers/contrib/openstack/alternatives.pyc": [
       "layer:basic", 
       "dynamic", 
-      "03458e67b6676f3477e22c35bb17bf6d2cf4fd8bc11cad0bccd4a7a2f5d24367"
+      "cd420f65ee16a365262985ea7c54c66b9b94188722a74f955a79985562cfce78"
     ], 
     "lib/jujubigdata/__init__.py": [
       "apache-hue", 
       "static", 
-      "20204b07ee4e6a7cf557620a56a1789184cb633096f17a9464808c504f56437a"
+      "5ccadedc526ea9c92f3b3395e94bb288d0beb8f741e1b4a1749ac9c95685264a"
     ], 
     "lib/tempita/_looper.py": [
       "layer:basic", 
@@ -402,7 +412,7 @@
     "lib/yaml/composer.pyc": [
       "layer:basic", 
       "dynamic", 
-      "edabd9fbb3112cdd4f01fcb4e305ede6fa82fadf37c894ceffce012cd64b983a"
+      "663c6e4715e6d67e2691c83c3caedb98a4e172bdf83ee4b85ac0c067e2c40911"
     ], 
     "lib/Jinja2-2.8.dist-info/entry_points.txt": [
       "layer:basic", 
@@ -417,17 +427,22 @@
     "lib/pyaml/tests/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "61f9b2b1713195ee3e653a8c6c54af46c439727409b69ef2b335d8c4f108ad84"
+      "ce484f9cb8124a0d245e8364ed402e6ba8b2394646f9ae56fb3da0239675ca8a"
     ], 
     "lib/yaml/representer.pyc": [
       "layer:basic", 
       "dynamic", 
-      "0181111d2e3e54b05b6a32299a25077372663dfc2dbc866a681f12565b0f9ce3"
+      "3ea24542d790e980ba4e2fcaff93be6caeec0fa541a3dfdc1866e278324908d0"
     ], 
     "lib/yaml/scanner.pyc": [
       "layer:basic", 
       "dynamic", 
-      "b742166551d9d5c833b0ed37dc7516e3d529929e7019d6d28ce373f47d1e0000"
+      "2e67a84ae68252ca6168bc72e7de9e1c74b28c94348977b6af650f60b8b29354"
+    ], 
+    "lib/jujuresources-0.3.1-py2.7.egg-info/requires.txt": [
+      "apache-hue", 
+      "static", 
+      "49e64c292e072e8841bb03d816eec8a4a0b2f1ac40909c0a6d6ba26e0fadefe7"
     ], 
     "lib/netaddr/fbsocket.py": [
       "layer:basic", 
@@ -447,7 +462,7 @@
     "lib/yaml/loader.pyc": [
       "layer:basic", 
       "dynamic", 
-      "8ed343caf8d392eed7c1d64fdc0d477a728d2f9c95f40562ce146f0ebe986573"
+      "989a5cd5cfe118f4f4f6ec7ddac624a50c656ca4c6fdc77cf40e231e85dad950"
     ], 
     "lib/MarkupSafe-0.23-py2.7.egg-info/installed-files.txt": [
       "layer:basic", 
@@ -462,7 +477,7 @@
     "lib/charmhelpers/core/kernel.pyc": [
       "layer:basic", 
       "dynamic", 
-      "ef495ff6df7b69eb2bd4b913f071dfed1d7d993a2cd60bcfff12e21d152ca904"
+      "1de778c1756890806a646c1d2c0ae98a8c1ad54b4df3b26eeee70663b0e4e3c9"
     ], 
     "lib/MarkupSafe-0.23-py2.7.egg-info/dependency_links.txt": [
       "layer:basic", 
@@ -482,7 +497,7 @@
     "lib/charmhelpers/cli/host.pyc": [
       "layer:basic", 
       "dynamic", 
-      "392668fb27e3f14ad6a0672ab8d68ae8cdae793cd881f9a3dd377237528c91fe"
+      "0f74e7bc46f694ca3128bd981f8bf72ade60d23fffee35912cf4a88050e4ae82"
     ], 
     "hooks/oozie-relation-joined": [
       "interface:oozie", 
@@ -492,7 +507,7 @@
     "lib/charmhelpers/contrib/openstack/files/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "85fd1c3586970dd99977f08750f7c38d9e7c3405ad7206167065ac8fc945b1f1"
+      "abdbf45379d85391cd5652c0dd19785f05c322245f5a10e2c94d0041596fa030"
     ], 
     "lib/charmhelpers/contrib/openstack/utils.py": [
       "layer:basic", 
@@ -527,17 +542,17 @@
     "lib/netaddr/ip/nmap.pyc": [
       "layer:basic", 
       "dynamic", 
-      "42555508afa26453903b6565e9a3cf905daebe6c3ae31bd1efd13fb5575838cf"
+      "57776ef3da56ace01d234f771cf315d95c71b710734333945c7a9dac97068146"
     ], 
     "lib/charmhelpers/core/services/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "43fb34321792aa3fb2ee6823965e709ec3f37f621a4dbb6e9c44b3ab1dbae06e"
+      "3fb59efd063a8f98aa8dcfcef26bd577a7e57024f146ec964ad50bf925343f06"
     ], 
     "lib/charmhelpers/payload/execd.pyc": [
       "layer:basic", 
       "dynamic", 
-      "9869abcd8ac1419d592dc2a3002eaf295974e5e2e1642bcbe2329adaa2eee289"
+      "bc77345ae84ff7f386650d91181bf20083b77edb1a60639805cd9ba3c4f8250d"
     ], 
     "lib/charms/reactive/cli.py": [
       "layer:basic", 
@@ -547,7 +562,7 @@
     "lib/charmhelpers/contrib/amulet/utils.pyc": [
       "layer:basic", 
       "dynamic", 
-      "23396e6d79ebe822e096ec6c02ddd9f7eccb7ad7865af8deac3c741a3ea3a372"
+      "d151c07e7af7649ff159e9552b21d9311ece20c5864e17be5403fa361208db27"
     ], 
     "lib/charmhelpers/cli/benchmark.py": [
       "layer:basic", 
@@ -557,7 +572,7 @@
     "lib/charmhelpers/core/files.pyc": [
       "layer:basic", 
       "dynamic", 
-      "b783493bccdc3ef4f68b9a8a889057601ce7387e6511bc507edd993e08f78681"
+      "2bb949a707d1f1c68fce529db686fe523bf3577af0367a5985ac6d98d7c9740c"
     ], 
     "lib/charms.reactive-0.3.6-py2.7.egg-info/top_level.txt": [
       "layer:basic", 
@@ -567,17 +582,17 @@
     "lib/charmhelpers/contrib/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "384f1078d5b991975a718b6741ad968c7d319923c8d6392243cb67259681679e"
+      "a3c897f071d4d1b55baeb62fd651a4d30255b1c85b8dcd06e4f836fd454ed825"
     ], 
     "lib/charmhelpers/contrib/database/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "a9334e305eb404cb36d6bc7eb7097608793ce462fe53eb1aa026fc5b9b73ad57"
+      "c5680ba430691dc4f63e6f9e3f73b01d25379c3dcbe0e5697ea475af07ae30f2"
     ], 
     "lib/jinja2/utils.pyc": [
       "layer:basic", 
       "dynamic", 
-      "04ad67ee99edf0877fdda3e2bf50baa4ee1fd2a1449a67937286afef2d090c9d"
+      "768e6e93eff4341d5c1481a594238aaec4903ed788a9912bf83ed9351b5ad4c1"
     ], 
     "lib/markupsafe/_speedups.c": [
       "layer:basic", 
@@ -587,7 +602,7 @@
     "lib/jinja2/meta.pyc": [
       "layer:basic", 
       "dynamic", 
-      "c55f1433b7e523e418f6d950218c15719ec394331e96b43f77bf91ed8eb72592"
+      "24bc1d0a11cebea3ae23926d950b83eae92be1e9cc8c2d3ddaddfa1a5fa2a141"
     ], 
     "lib/yaml/representer.py": [
       "apache-hue", 
@@ -612,7 +627,7 @@
     "lib/charmhelpers/contrib/ssl/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "6e6b81f18efedd6db85c3c2d7dfaa6b71a6607196a93629360a8b8dcf52be615"
+      "3035d3daff23144132ef880fa7ebbd71b039633709076fa62e818bdfc75fe70b"
     ], 
     "hooks/resourcemanager-relation-broken": [
       "interface:hive", 
@@ -637,7 +652,7 @@
     "lib/charmhelpers/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "3f684f0a5bc6581043b7a07211460def82e413d2ed3080f955fa70a6df257c5e"
+      "81fe02601d37e7e57d28d18dfb758a355ad66154e945b0886b1510604ba4aadd"
     ], 
     "lib/charmhelpers/cli/unitdata.py": [
       "layer:basic", 
@@ -667,12 +682,17 @@
     "lib/markupsafe/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "3920a18c4b596f1e26a9aef97a01a0fe8ccae8f3eb185a47143dff97c2cc1402"
+      "76b442652613d3a7354964a014f055f2879d7c3fe84ab0b0b27bd1c2511fc59e"
     ], 
     "lib/charmhelpers/contrib/hahelpers/cluster.pyc": [
       "layer:basic", 
       "dynamic", 
-      "c462d5df55841f0d1767ca0b3ec6cf93e00fb4d96bf599ce9665d27a5d6de2a3"
+      "2667fa5a8c48f87404412e3bf11e43fcba3148a4da40e0b87fae766ac2a0878a"
+    ], 
+    "lib/jujuresources-0.3.1-py2.7.egg-info/installed-files.txt": [
+      "apache-hue", 
+      "static", 
+      "8c367b62f24c9d98634dd89d9139bda81f6c76fb2dfb074b35aefdd062352622"
     ], 
     "lib/charmhelpers/cli/commands.py": [
       "layer:basic", 
@@ -682,7 +702,7 @@
     "lib/charmhelpers/core/unitdata.pyc": [
       "layer:basic", 
       "dynamic", 
-      "7a232988218191325e3d0bc517f3fd25553b42a17551385dd66fd7900cb8e28c"
+      "145555764bb32dfa00b1136facda4c8f1bb156cc308d23bf7bb568894aedfb5b"
     ], 
     "lib/jujubigdata-4.5.0.dist-info/WHEEL": [
       "apache-hue", 
@@ -692,7 +712,7 @@
     "lib/charmhelpers/contrib/database/mysql.pyc": [
       "layer:basic", 
       "dynamic", 
-      "332d67b257224378ca6770354d6262f56ed19ecf03f637ec1c033cedd0ea36e6"
+      "17693fb8cf5dfa0827b469199de198b3609b9361fe5af7a91baca79ce3bc3c38"
     ], 
     "lib/jinja2/optimizer.py": [
       "layer:basic", 
@@ -717,7 +737,7 @@
     "lib/jinja2/defaults.pyc": [
       "layer:basic", 
       "dynamic", 
-      "2f50565c4eae8882777e7e148e84ed4ef65659d17f3a339231444e86d1bbaa8e"
+      "1212702078bf6fba7a8fda3a4718e985aadeaf0e5b26dcb95d039d9ae4a17b01"
     ], 
     "lib/charms/reactive/relations.py": [
       "layer:basic", 
@@ -732,7 +752,7 @@
     "lib/yaml/cyaml.pyc": [
       "layer:basic", 
       "dynamic", 
-      "6ef4a5d8a7c0e2c1875f19f5b572d009344ed7c8d973d0c3de3d213b40eb222e"
+      "3472a8bc0b9b176b4002ba26846b174a578565b9a8c77754080573c7df4d21a2"
     ], 
     "hooks/namenode-relation-broken": [
       "interface:dfs", 
@@ -742,22 +762,22 @@
     "lib/hueutils.py": [
       "apache-hue", 
       "static", 
-      "281edd966171c648be4fd686f50a0137cd211f3c4c766d1bc4dd2f1bf67ce2f1"
+      "f3de4a270301b014b04befd8fd16887aea7bca61d796f0f54c2fc8da5076567e"
     ], 
     "lib/charmhelpers/contrib/charmsupport/volumes.pyc": [
       "layer:basic", 
       "dynamic", 
-      "ef287f9315e3332ebb0cb8c174831290e3956c22d9961e94e56f9179ec4d706b"
+      "2b208aa5d80c2d6934eee7d1fa71b818d4ec2ed6e75eeb137ac02995d32d52dc"
     ], 
     "lib/tempita/__main__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "2123c310bf631a28db78deb140b76f46a3661a1905576bad6145614de272da46"
+      "97e241688356fe091201e665b3a3676e88ced0ab8b440e4e35c2cbf57f5dfbba"
     ], 
     "lib/charmhelpers/fetch/giturl.pyc": [
       "layer:basic", 
       "dynamic", 
-      "98ed9de8a7e513cf926c5cf7a339b31dd8a024f95ef541ca723b336a613c050c"
+      "0650c10e974250dfe15ef3a7f8a9e838fd095f44cfefadf8bcd89cb63e9eb74a"
     ], 
     "lib/Tempita-0.5.2-py2.7.egg-info/dependency_links.txt": [
       "layer:basic", 
@@ -772,7 +792,7 @@
     "lib/charmhelpers/contrib/openstack/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "7b363bdc3dd25d4fcc5969916adcdbe6b393eb5396cdb90b2331610c67246712"
+      "f8b0acd22888fad6a8b4e6dfc4cc5e151516bd39da9ec294aee22699faaca476"
     ], 
     "lib/netaddr/eui/oui.txt": [
       "layer:basic", 
@@ -798,6 +818,11 @@
       "apache-hue", 
       "static", 
       "2536fb633b51f1f90f83a6928dce7bd50e1e8951c2c26503957f0f86ebaa2081"
+    ], 
+    "lib/jujubigdata/handlers.py": [
+      "apache-hue", 
+      "static", 
+      "f6d66e7359cc32e2bdf012d1a341e24f570d4537057021802ab2c0039c54e8ee"
     ], 
     "lib/netaddr-0.7.18.dist-info/METADATA": [
       "layer:basic", 
@@ -832,22 +857,22 @@
     "lib/markupsafe/_native.pyc": [
       "layer:basic", 
       "dynamic", 
-      "303a18151a431a132d05cd420a4c9546b27d477270c760e3ac50a58b2944a360"
+      "4e93734abb6d445c4c9a7b777c2765be0aef4fb3b5f3d4ef5295889fdcc524b2"
     ], 
     "lib/charms/reactive/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "48e8f3cc8cfe2c25bd17d1770d368fdc2daa922854345e7071fd1a5ef37d6cd8"
+      "054fbde7242176948e5bd7483e962255b987f5e3d716179494eb8a729de8b6d9"
     ], 
     "lib/charms/reactive/decorators.pyc": [
       "layer:basic", 
       "dynamic", 
-      "eafdb7d6a966c9b82e5755c78e208cd0254141e1ee8f28f656d759e7a5eaffa2"
+      "296c4ab2a9b01e3dc3de87f025613c747bd17e90e43fa672a740c6d7853dabb1"
     ], 
     "lib/charmhelpers/core/fstab.pyc": [
       "layer:basic", 
       "dynamic", 
-      "225da9e86b7e103493628b47e14484050b6447fa20b7f1f412807d10a110f383"
+      "14f43aca8b7f0a465e2b7504933d5d426e1b523f96652f0e083147b7ee8109e4"
     ], 
     "lib/charmhelpers/coordinator.py": [
       "layer:basic", 
@@ -862,7 +887,7 @@
     "lib/charmhelpers/contrib/hahelpers/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "31c1c41bd15c1d3e1decf2f8344cd40c30d3c83b27d9dd4ee118158fc64b2606"
+      "4ea7fe71e0dd9aec9b0e1c13cac5b046d062c79db89cda95ede539a8429ae438"
     ], 
     "lib/netaddr/strategy/__init__.py": [
       "layer:basic", 
@@ -874,10 +899,15 @@
       "dynamic", 
       "984072d093abf69ceccc939c569f530a099d5c47c06c4908cd022a5679f22f49"
     ], 
+    "lib/jujuresources-0.3.1-py2.7.egg-info/entry_points.txt": [
+      "apache-hue", 
+      "static", 
+      "8c464ff5eabf6e216ab773620d6195f3eb889a6911fa77a93802cecac780fd26"
+    ], 
     "lib/charmhelpers/core/services/base.pyc": [
       "layer:basic", 
       "dynamic", 
-      "bc10a05046eaa3932ea5c1021e2e1fcf90d8a3d706b6b048435d683d80cdab50"
+      "25977441a5270e0b12d187a0e6d6ab618a98915e263a980a759a81cfe056c640"
     ], 
     "lib/Tempita-0.5.2-py2.7.egg-info/zip-safe": [
       "layer:basic", 
@@ -892,12 +922,12 @@
     "lib/charmhelpers/fetch/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "f8ab6d2f95dd6680b974f2e23c29185ef852480e2c9c86b55a104c3fe23f5a6b"
+      "49fb635a8fe7dd55d1129e131991c7b0f6ac5cdcaf11287dac38e70cbd926550"
     ], 
     "lib/charmhelpers/contrib/benchmark/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "e824f9062764a7ce1e134ecbe8cd067b33111be1ed1e4fff1b3f518b12304812"
+      "77eefb7ae39e52733cde4abf11a0f17ceecbc8e5235969bdacd35f21af606941"
     ], 
     "lib/six-1.10.0.dist-info/WHEEL": [
       "apache-hue", 
@@ -917,7 +947,12 @@
     "lib/charmhelpers/contrib/python/rpdb.pyc": [
       "layer:basic", 
       "dynamic", 
-      "65e4aa2c802c00c70b101aeffcf2acf8a250b7991a399d4b048ecc8197d5033b"
+      "6acc7eb256d24c21fbb435cc3f235decf0268a0eb3f6a67712d85feed4958791"
+    ], 
+    "lib/jujuresources-0.3.1-py2.7.egg-info/SOURCES.txt": [
+      "apache-hue", 
+      "static", 
+      "a97c9599b9755f4b45a9dd2d740c8550be3e3ff9f07646fd8c4760efc89e5244"
     ], 
     "lib/netaddr/eui/oui.idx": [
       "layer:basic", 
@@ -947,12 +982,12 @@
     "lib/charmhelpers/contrib/openstack/amulet/utils.pyc": [
       "layer:basic", 
       "dynamic", 
-      "e393b312110c81907d8086ee3793bcacfa340a85828b6a8e19cdad24e80fe616"
+      "ddf70add65b9de8ecb5401ab9bf2f388746720df14a98997579aa2ae82a89c65"
     ], 
     "lib/netaddr/eui/ieee.pyc": [
       "layer:basic", 
       "dynamic", 
-      "e9c480dfbda540bab315872d7b569e97cf0dd1f5eae6304a319bfa2e7cdd5fba"
+      "65aa968458c2ff7231168248e2eb8c0ce845422b9499258277c74239349b4d1f"
     ], 
     "lib/netaddr/ip/ipv4-address-space.xml": [
       "layer:basic", 
@@ -962,7 +997,7 @@
     "lib/yaml/tokens.pyc": [
       "layer:basic", 
       "dynamic", 
-      "1d3291e864aa93a2b2c94a0ee581b98e67b5ef55527358a74dce930979c033f8"
+      "a5902b4ad681236a3044d5159e40ab8354aebdf855845299bceab4d83f872746"
     ], 
     "lib/netaddr/eui/__init__.py": [
       "layer:basic", 
@@ -982,12 +1017,12 @@
     "lib/charmhelpers/context.pyc": [
       "layer:basic", 
       "dynamic", 
-      "d812277c91ae0ce64c815473f14000e593a7eb35ef92f438c8c8a7f97134db3a"
+      "c3dc8e4ca8fb6fd37530986d06e865a3be856fc876243a4202a468419111a51d"
     ], 
     "lib/yaml/emitter.pyc": [
       "layer:basic", 
       "dynamic", 
-      "947d7dcb9cd5a3a2240021c0acc77d29ffa2f95f23282806c94998d2b2cb1ec8"
+      "649eb9535069fa3c1794baa0a1f28078d6e0948c78825cf604f52febc711503e"
     ], 
     "lib/charmhelpers/contrib/network/ovs/__init__.py": [
       "layer:basic", 
@@ -1007,7 +1042,7 @@
     "lib/charmhelpers/core/sysctl.pyc": [
       "layer:basic", 
       "dynamic", 
-      "9fd227790d3f2f393b7278785c60c4f9a36c6c24e3b3bf5fa67e2ebd3d3de6f2"
+      "5e3541ddcd82e2bebd25eb1b1169495304a684a90a708d4700067c4234264b97"
     ], 
     "lib/charms.reactive-0.3.6-py2.7.egg-info/dependency_links.txt": [
       "layer:basic", 
@@ -1027,22 +1062,22 @@
     "lib/netaddr/ip/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "9d832350c7a19cbe7d499d298a9b667c0b3f7f1b49640434732ef950499bd8f0"
+      "6758d00d2e70c13a13fde73ea572084d9abeb17395dd25ea50b974e4d1f0c34c"
     ], 
     "lib/charmhelpers/contrib/openstack/utils.pyc": [
       "layer:basic", 
       "dynamic", 
-      "5c2d3f2ce0317be228781f78fa2763dea9be14018e5fe32c023728fe27be8ecd"
+      "183886989d2225c5331e3dea10e3db2cbc047d04cbec1680e99b8209aee6b3c0"
     ], 
     "lib/jinja2/visitor.pyc": [
       "layer:basic", 
       "dynamic", 
-      "bdc1278cdf373482e3a342748da54e78147179061a2f0388369804378695e492"
+      "8c269521de590186afedf376b0680483b98cadc36ab7aaf48b43662719259926"
     ], 
     "lib/charmhelpers/contrib/openstack/amulet/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "badbf67067a3b4c7ffcb81db9a97f276b527399f70b5a5b71d8aa15ed34de828"
+      "bd2e76652059351545f2047e92de19008b017a9ea8e480e9a2d00cdcbed5cf5f"
     ], 
     "lib/charmhelpers/contrib/amulet/deployment.py": [
       "layer:basic", 
@@ -1052,12 +1087,12 @@
     "lib/charmhelpers/contrib/openstack/ip.pyc": [
       "layer:basic", 
       "dynamic", 
-      "ce84f34721821ee083d1a1ca6a1ceb8d2f496e6b9bb85a192b39095e8a73a778"
+      "6a410fd5c113c5d2c41d14a88718e2fca22b2844e9eebc01abd890455c43713e"
     ], 
     "lib/markupsafe/tests.pyc": [
       "layer:basic", 
       "dynamic", 
-      "19378ae8b96c19441ae79edce4dc68109144332910f9436298616012c000df31"
+      "f7b405e6ac178c64e10933f32477673c49a895d9c6424a85640c995e9815a207"
     ], 
     "lib/charmhelpers/payload/execd.py": [
       "layer:basic", 
@@ -1072,12 +1107,12 @@
     "lib/netaddr/ip/sets.pyc": [
       "layer:basic", 
       "dynamic", 
-      "4a3334e8be854c8434f59cbb0fb5ccd32a34c406cc75fbd726f40b4cb021cf2a"
+      "2261cdcc04bf63310ad2f7b52ea0a4b586875909ce16f1a3a2038eeb4923a699"
     ], 
     "lib/markupsafe/_constants.pyc": [
       "layer:basic", 
       "dynamic", 
-      "5df4813e2cf796a3c8c70f4bd5a413bf3772c70578ca471dfef92bce269170ea"
+      "85d9c232fb5d2b7a88f08df3ba198435c0902cc6b1ec0a00061e553580632c08"
     ], 
     "hooks/resourcemanager-relation-departed": [
       "interface:hive", 
@@ -1087,7 +1122,7 @@
     "lib/charmhelpers/cli/hookenv.pyc": [
       "layer:basic", 
       "dynamic", 
-      "3f0060d9a8fab511060d752a8bcd6dba99b3ae87e682db6fbf15df97f127262d"
+      "cef84f7f66ab0fdf962d4c38d1b5e8c12acfef2fd8555e5e36d753a6f6b43375"
     ], 
     "lib/path.py-8.1.2.dist-info/DESCRIPTION.rst": [
       "apache-hue", 
@@ -1097,7 +1132,7 @@
     "lib/charmhelpers/contrib/python/packages.pyc": [
       "layer:basic", 
       "dynamic", 
-      "3b9ec19dfdcde7d27dc12fee615a65d745a9726844b922c39d05bcb7760771f6"
+      "c029e90b316e9f3f262bbfe168ac1da31018b24e23ea571f280bfeb047324ca5"
     ], 
     "lib/charmhelpers/core/templating.py": [
       "layer:basic", 
@@ -1122,7 +1157,7 @@
     "lib/pyaml/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "6acf24ebb2faf0131cf7349a22329b4cda116afc26e1f4a73dca4f05a0fc3653"
+      "0175a4fc1f720c4eb1d1068973dc068fdaa84c51334e9fd9355e6f7f8661f7b4"
     ], 
     "lib/netaddr/strategy/ipv4.py": [
       "layer:basic", 
@@ -1133,6 +1168,11 @@
       "layer:basic", 
       "dynamic", 
       "80571a872703f69370154bcf211e37f6eeba707ab2a03b0b28ed3473861db40b"
+    ], 
+    "lib/jujuresources-0.3.1-py2.7.egg-info/dependency_links.txt": [
+      "apache-hue", 
+      "static", 
+      "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
     ], 
     "lib/charmhelpers/contrib/peerstorage/__init__.py": [
       "layer:basic", 
@@ -1147,12 +1187,12 @@
     "lib/yaml/resolver.pyc": [
       "layer:basic", 
       "dynamic", 
-      "49398b9bbeeb9654ed388b168c409d0e25a4068a762bb27f06359e638ca315eb"
+      "d7dadf6e9596b45227e7e0dcaaec6b75fc18d93f033e9f525848c040a56ed34c"
     ], 
     "lib/charmhelpers/contrib/storage/linux/lvm.pyc": [
       "layer:basic", 
       "dynamic", 
-      "4957216b783d0d3b6ba45592a82b93e9df183a07dcc729b1053431635f566e57"
+      "053165e0639840f384dc8cc0e5733f5619023b47237daf17bcb5fb7d378c7a84"
     ], 
     "lib/jujubigdata-4.5.0.dist-info/RECORD": [
       "apache-hue", 
@@ -1177,7 +1217,7 @@
     "lib/charmhelpers/contrib/network/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "96c3cab03e8e4b81bc21439894fcf14021edf115d23a07d9bc7b9bae2d089147"
+      "239d855b16bea4366d4503456067894e7ac42e07fb6478e9a7a5edd8391041c1"
     ], 
     "copyright": [
       "layer:basic", 
@@ -1197,7 +1237,7 @@
     "lib/jinja2/ext.pyc": [
       "layer:basic", 
       "dynamic", 
-      "39751dd4ad45fe2ea0943ccb013ecb3792110b6c2c1b5ceeafd0cb567f01ce32"
+      "4554049ef31c0b5b2f285d65317ba513802ba5de11ecc9b6647a86bfb544035a"
     ], 
     ".gitignore": [
       "layer:basic", 
@@ -1212,7 +1252,7 @@
     "lib/charmhelpers/contrib/python/debug.pyc": [
       "layer:basic", 
       "dynamic", 
-      "0e46eac97804ab22d98439231db2b77646af2d2886a5469a57f7bb2e17b6caca"
+      "8f0c344d23b19100d8c8eca614b20d91350174ca4b392d87fdf43a53dc86b72c"
     ], 
     "README.md": [
       "layer:basic", 
@@ -1227,7 +1267,7 @@
     "lib/jinja2/nodes.pyc": [
       "layer:basic", 
       "dynamic", 
-      "8fd3feff0248c3df5f77a4816081a8da3dca67aca58e5a79022c482b14f7cf06"
+      "dbc255fe10848ea69f539920dc2499ba75910080b0b4ce0d728f425c70f855a8"
     ], 
     "lib/jinja2/compiler.py": [
       "layer:basic", 
@@ -1252,7 +1292,7 @@
     "lib/charmhelpers/contrib/storage/linux/utils.pyc": [
       "layer:basic", 
       "dynamic", 
-      "82feb5b683dd03273360a70c2eacc40e94961c183f5880219a07d70e80b8e712"
+      "663ed1c945467ec77cbf82e749141f58f99a86aaf3edefe7f515ccf053d6edce"
     ], 
     "lib/charmhelpers/contrib/openstack/templating.py": [
       "layer:basic", 
@@ -1267,7 +1307,7 @@
     "lib/charmhelpers/cli/unitdata.pyc": [
       "layer:basic", 
       "dynamic", 
-      "af335dee829947fabb1759d325fe827f2239da0198400a9431a64d5b0418e81e"
+      "6d284fdeb88f34937b19ef9d4e1747ba9bf164f9eb927dd9dd39e7c69f8d8cbf"
     ], 
     "lib/jujubigdata-4.5.0.dist-info/METADATA": [
       "apache-hue", 
@@ -1277,7 +1317,7 @@
     "lib/charmhelpers/contrib/ansible/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "8dfb131ad2c5122e288181ee5d51cad7a9d3690f916222b37683bfa672969d47"
+      "741ac75d0ef69acf90cdd30bade2166226a52b7165ec933e918679c44f1e9627"
     ], 
     "lib/charmhelpers/fetch/bzrurl.py": [
       "layer:basic", 
@@ -1297,12 +1337,12 @@
     "lib/jinja2/constants.pyc": [
       "layer:basic", 
       "dynamic", 
-      "843204b54a9a64b421be3fb037dbfae00a03c96d0277f8d66035b355405f8793"
+      "25f0bbf317f53f4a7e75f655102c945a62efe0ef2428e0149ef0374a37ba5115"
     ], 
     "lib/charmhelpers/payload/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "f51f6b844aff5fc0dcf4dc2129258a58edc432f92e874c310e6a1b1ecda06bdb"
+      "1952f9545b8a652440870e2ed53a294326ea093fa953738f0a319eeadfb1c473"
     ], 
     "hooks/resourcemanager-relation-changed": [
       "interface:hive", 
@@ -1337,7 +1377,7 @@
     "lib/charmhelpers/contrib/peerstorage/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "9f318e85430462f3746e1e8920fdbb13b67fd4e5c768de414a21bc6b21f5a710"
+      "15a9eed83a2ba21d9802306f780d6d1edbf95a866b5fd13ff2ebc9097b9dd08a"
     ], 
     "hooks/stop": [
       "layer:basic", 
@@ -1347,7 +1387,7 @@
     "lib/netaddr/strategy/eui64.pyc": [
       "layer:basic", 
       "dynamic", 
-      "c4e270e835f54a6cc11a8d43016f6cbead9416c7c7d0d78096d7710ffb0429b3"
+      "311f6ec6378d07d66681033f648d6d933027b9262a5529520e3420d37ad95dd4"
     ], 
     "lib/charmhelpers/contrib/saltstack/__init__.py": [
       "layer:basic", 
@@ -1362,12 +1402,12 @@
     "lib/charmhelpers/contrib/storage/linux/loopback.pyc": [
       "layer:basic", 
       "dynamic", 
-      "7c8dd050c3a1f9454457ace3e3f44fb08d744dfd72e9472789ba890970231ebd"
+      "5eec9943ac2b94a3aee8d5017a4e7baab75cd62ec84e5b25361a77faa70e0dc1"
     ], 
     "lib/pyaml/__main__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "6f54048034fe7f730df4dbcb5b32e4d15c90e3c64c0688ad3ca79624a695d596"
+      "70e6a178230c2fb65d6112b76a71dd78b9dd2241f1b09d0a8b403ae258c2942f"
     ], 
     "hooks/relations/dfs/interface.yaml": [
       "interface:dfs", 
@@ -1377,12 +1417,12 @@
     "lib/jinja2/debug.pyc": [
       "layer:basic", 
       "dynamic", 
-      "ed67c28612e038fe90845297a0c4a35119a832f345e73c10ab8e2dced5417cdb"
+      "16cc0f464e1839bf7e2a8bd473ceaa0e8bce7d34946d67baca1a33219713f0f9"
     ], 
     "lib/charmhelpers/contrib/templating/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "ebd77ee58ef3371fda56d75adb5a804b3ed729bd903b38d946911510e2d5cecf"
+      "0c9edd8eb4b99c25aed6618a6e1a3c30574692b554c64a3e52c5abc4beda817b"
     ], 
     "lib/tempita/__main__.py": [
       "layer:basic", 
@@ -1392,7 +1432,7 @@
     "lib/jinja2/parser.pyc": [
       "layer:basic", 
       "dynamic", 
-      "6617b8ac5c32a2f856e9c1e695ec1005b6a9ee50d7a10c1d4c2396aecb215e57"
+      "f1aa779b8dd7eafdfae97924037a7e86a18e8c3f7db70f2b6e8cb474d02ad1a6"
     ], 
     "lib/netaddr-0.7.18.dist-info/metadata.json": [
       "layer:basic", 
@@ -1407,12 +1447,12 @@
     "lib/charmhelpers/contrib/openstack/templates/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "15ec0c931af98fc3df6d13cfd471ac4b0989aa9bd99891028d022ef660157469"
+      "f43d9b4b5c1884d42cd02eb2a6cf18260f0a41f1b6e0b95d863f9444141e5c46"
     ], 
     "lib/netaddr/core.pyc": [
       "layer:basic", 
       "dynamic", 
-      "4e8f7b059e84d430990b3d6040a40f8ef6935ca825b3b1ca47fb23872074fe25"
+      "fbe8acd144a933a6732ca3d1999a9baeef52444a4e632fe838bd81547cbd98c1"
     ], 
     "lib/jujubigdata-4.5.0.dist-info/top_level.txt": [
       "apache-hue", 
@@ -1434,10 +1474,15 @@
       "static", 
       "1aba90bda9b08015789cba097b4be1611496cd6b31ef18e5b7be054f449661f1"
     ], 
+    "lib/jujubigdata/relations.py": [
+      "apache-hue", 
+      "static", 
+      "a82545b231e2170c26e77c66224d6b5f365d47a903ae9c1d26a437da88d3066c"
+    ], 
     "lib/jinja2/filters.pyc": [
       "layer:basic", 
       "dynamic", 
-      "c1e1af229834b4ca16cc2bdfaa0d5132673bdde036a5d00ee607e9d999c521aa"
+      "96ecd55d1a0d713aa738c6a57d12860b097d74bab21202429e647d757bcb59b5"
     ], 
     "lib/PyYAML-3.11.dist-info/DESCRIPTION.rst": [
       "apache-hue", 
@@ -1452,7 +1497,7 @@
     "lib/charmhelpers/contrib/saltstack/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "28ef490be2f26104d4c8cdee881a9b01102559f70c2fe4a33440f830ff1ca9f3"
+      "f16d9ef01d42f47c4cd5e86973901321c3112935ecc83b08552227ccb29acda6"
     ], 
     "hooks/start": [
       "layer:basic", 
@@ -1472,7 +1517,7 @@
     "lib/charmhelpers/contrib/network/ovs/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "efcd8344eac031fdb1397bbd733d0a0a399d62a2d4c3bcfacb013cf40755ac2c"
+      "2b66aa5478fd4aa626855533c611cdc4ca6bb02c67357f3c9c99295a335aa9e5"
     ], 
     "lib/charmhelpers/contrib/charmsupport/volumes.py": [
       "layer:basic", 
@@ -1482,7 +1527,7 @@
     "lib/charmhelpers/contrib/charmsupport/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "2c2d2698d3696e7386521a4271e7e7f32907aeaa3df31725e45be8098fcc2adb"
+      "7b8a1e88ab28f492146d2f145522f59941f2a6b81af8b89def1c32f2a1ad3b36"
     ], 
     "lib/Tempita-0.5.2-py2.7.egg-info/installed-files.txt": [
       "layer:basic", 
@@ -1492,7 +1537,7 @@
     "lib/markupsafe/_speedups.so": [
       "layer:basic", 
       "dynamic", 
-      "bd54d40a4b42deef8ba9ad71e87744f8878bd2a2978f20106edce840ca78fa32"
+      "5a5be3f86a68942bbd6bb44f7629305fdfc05ac2ae70be7907f7661cdb26aec8"
     ], 
     "lib/charmhelpers/context.py": [
       "layer:basic", 
@@ -1507,7 +1552,7 @@
     "lib/netaddr/ip/glob.pyc": [
       "layer:basic", 
       "dynamic", 
-      "cddfe3ab664c553c6df58a95ea4536c7cb8b9f2a30310bb8c251c482bb0c618a"
+      "2a525d5fdbb66e4159d87869f17ba45f8bcbfe287433790cdc8b73c322bc5b7f"
     ], 
     "lib/yaml/resolver.py": [
       "apache-hue", 
@@ -1522,12 +1567,12 @@
     "lib/jinja2/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "34348ee1b48d5890526ae57fcb2852888f83619e4f4236bac5812520041d1a47"
+      "1fd57a43b37cd843ff6b68115f13de00770f9c5bc55c33e1efd0387c3ba12f50"
     ], 
     "lib/yaml/constructor.pyc": [
       "layer:basic", 
       "dynamic", 
-      "2ac3cfdfcd70a9c4e402db9786af0a6b65ea07abbbf7674c4a015605d35275ad"
+      "5bb252319404a70faa41100bf54432cb1c47efdb4eb8ba738c2090d6052371dd"
     ], 
     "lib/charms.reactive-0.3.6-py2.7.egg-info/SOURCES.txt": [
       "layer:basic", 
@@ -1542,7 +1587,7 @@
     "lib/charmhelpers/contrib/ssl/service.pyc": [
       "layer:basic", 
       "dynamic", 
-      "be6448f0bee08faa4f1b3c85e598cad3bca6f4595af2c1b07c9642ea66644dd2"
+      "138bf6952525bdbffe9d957a59c36b4b66d98a8b1740d11209fed7d89087b4ac"
     ], 
     "lib/jinja2/_stringdefs.py": [
       "layer:basic", 
@@ -1597,7 +1642,7 @@
     "lib/jujubigdata/utils.py": [
       "apache-hue", 
       "static", 
-      "fd61fc6ce00086f3d6a196024615847868ee15a3651ec7b05595f550052f53ac"
+      "d07e5ebaee23aa7dacee84a507cd205f98e65c001b2c848a2dd5af5f52575715"
     ], 
     "lib/jujuresources-0.2.11.dist-info/entry_points.txt": [
       "apache-hue", 
@@ -1622,32 +1667,37 @@
     "lib/charmhelpers/contrib/openstack/templating.pyc": [
       "layer:basic", 
       "dynamic", 
-      "da8f21d3a0f23977e32e1a721507a4971183b1a45636d929483fe8e66a6a12e1"
+      "c3e92e9425c3aa3ed146b3267360a9013aab25104e9f8554635bc71fc6dfd80c"
     ], 
     "lib/jinja2/_stringdefs.pyc": [
       "layer:basic", 
       "dynamic", 
-      "24ae5941f415c9d6e3a4fa1ebce310dd2d4c8c29a46b1e004fb4a2c2133dd0e0"
+      "52ece3020876b026c9f7bf90f588ea6314f7d852a65a692956ad7057fdb379fb"
     ], 
     "lib/charmhelpers/contrib/templating/pyformat.pyc": [
       "layer:basic", 
       "dynamic", 
-      "b35d36c30885e7e1969f30f245a1c9e3756836c769c76f3be4dbba0356ffebdf"
+      "03441555c172fd47a9964f114ccd3172659f0b5d6f8407c8ad5cecf10060e85f"
     ], 
     "lib/jinja2/sandbox.pyc": [
       "layer:basic", 
       "dynamic", 
-      "af493e10d55881452c7b7442954fb67ed50ad1f38c550849e0e9428040e6796e"
+      "9b353c88f44f435c68804589935b4c96d18545b34c18e983689fefda23e88e98"
+    ], 
+    "lib/jujubigdata-4.6.1-py2.7.egg-info/PKG-INFO": [
+      "apache-hue", 
+      "static", 
+      "ca49cea3ea3b05cebf7f4d0f7afc9b0f54b14a4d82069bb6110ac0df2522038a"
     ], 
     "lib/charmhelpers/contrib/storage/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "c7768f5e869aaa7a0c5f335c8c7c3d354bfffa115e825bfa688aa7722807ce89"
+      "b1c1df1458ed9d84bfb97a5da38a2a0dcd49b88393061a9d5ce8688e198ec35d"
     ], 
     "lib/netaddr/strategy/ipv4.pyc": [
       "layer:basic", 
       "dynamic", 
-      "d9147d416cce8701f594d147370b530716fda99edefea84b377f32b190174119"
+      "6ac9fe4209ac7c65f5ebfe4c1ff95ec35f861ee3971d0368cf7dca62072c201d"
     ], 
     "lib/jinja2/bccache.py": [
       "layer:basic", 
@@ -1662,12 +1712,17 @@
     "lib/yaml/error.pyc": [
       "layer:basic", 
       "dynamic", 
-      "4416dacf1a0c008ef4fc78eb34a9684ac248b951be54c2e7efc754278a6ab725"
+      "85998ac2e417698f1aef04f2238e1a08304c244ff68460c38202ffb1223c151b"
     ], 
     "lib/netaddr/strategy/eui48.pyc": [
       "layer:basic", 
       "dynamic", 
-      "a7ccf55c8432b3c3aebbb6a1bdff2d6efbd6fe19b607faf3c310624797ebe8f8"
+      "2725385913a53d8e5ecc8507134a338b9f191da2505ff240643534f84575f4d5"
+    ], 
+    "lib/jujubigdata-4.6.1-py2.7.egg-info/top_level.txt": [
+      "apache-hue", 
+      "static", 
+      "dc53d60b55248c8b934212cb7382555bd4f9f1a796272eb4a8176b226ee2e411"
     ], 
     "lib/Tempita-0.5.2-py2.7.egg-info/PKG-INFO": [
       "layer:basic", 
@@ -1677,12 +1732,12 @@
     "lib/jinja2/lexer.pyc": [
       "layer:basic", 
       "dynamic", 
-      "47945c3780d36b518c820f783137a49096ca64ab67c06bc537e23fd96590cde8"
+      "bb125db3bca6884239a896c6eaceaf1571608e6ccd0bcf110205408b085b7720"
     ], 
     "lib/markupsafe/_compat.pyc": [
       "layer:basic", 
       "dynamic", 
-      "e695ffface52707185a4c967741587922b0800ee9b3a5711cc94040a94e2dfd0"
+      "8172995373b8365a0743c06a3f56e6b5f9e2f98256f2b00f1753ee574214d7fe"
     ], 
     "lib/yaml/events.py": [
       "apache-hue", 
@@ -1697,17 +1752,17 @@
     "lib/charmhelpers/contrib/storage/linux/ceph.pyc": [
       "layer:basic", 
       "dynamic", 
-      "6123b1505d2d82d20e50a7bac79b5a34e404489e645ed80130d496cb9a0588b4"
+      "70508c623b0eb22411987bc92734a7acc4e44b4fed9b4f8c633a61a268347114"
     ], 
     "lib/netaddr/fbsocket.pyc": [
       "layer:basic", 
       "dynamic", 
-      "7a464706ee14b5e65ed0278a891f1f68a381cc71d0ba9ad827660cd720b56a05"
+      "56c4a8d51ee255b24a37afcbec8e51dfc27262845e6d7791efc658952a204244"
     ], 
     "lib/jujuresources/backend.py": [
       "apache-hue", 
       "static", 
-      "2c96c3f9d5db1bb6cdacac7b8ecf99876f7e54881ba80965f7a62e2a744aa8f7"
+      "464979f8e2c26b207b6897a3c2027fc59520aacba7035187f94b5fca162d8fb6"
     ], 
     "lib/charmhelpers/contrib/__init__.py": [
       "layer:basic", 
@@ -1717,7 +1772,7 @@
     "lib/charmhelpers/contrib/charmsupport/nrpe.pyc": [
       "layer:basic", 
       "dynamic", 
-      "19693f7c1928e1ae513c5570ae64b4c7cc82918f982b9fd02274e04fcd657cfd"
+      "104e8816124b4d8ddd97cac7208fb4abd1b129adc0910a28449c70a783b77137"
     ], 
     "lib/PyYAML-3.11.dist-info/metadata.json": [
       "apache-hue", 
@@ -1732,7 +1787,7 @@
     "lib/charms/reactive/relations.pyc": [
       "layer:basic", 
       "dynamic", 
-      "4b0281847a0bf29cbe90c28a421550a0a4c014bd55e61e06b3b5febf61581b7d"
+      "5f8a5a6e9f6a76f2e74fbb09459dd8e2b37d0a7dae29e508221b568ef853895b"
     ], 
     "lib/six-1.10.0.dist-info/top_level.txt": [
       "apache-hue", 
@@ -1747,17 +1802,17 @@
     "lib/jinja2/optimizer.pyc": [
       "layer:basic", 
       "dynamic", 
-      "e58356ac716d5557385789fc5f9ba6d641e9423c822e937515e6b41d5cecb7a7"
+      "886bd114221e70614510a0f65b73eda4be5b4bc9748dee687d7ac99ec14c4de5"
     ], 
     "lib/charmhelpers/core/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "81e59bec325f212fdd04ec1cebe5eff2621ffdf310e13646c8322030c6125efa"
+      "820282c265601b2f63327494be7e202545e441910381db6fcc22d35e70087a00"
     ], 
     "lib/charmhelpers/core/decorators.pyc": [
       "layer:basic", 
       "dynamic", 
-      "ea44fca94c2c24e708b9aabb33fb48fff21a965ab34825ec21c6ac2706c33308"
+      "461187afd803ea9c856f53a594de02f70d5b41e3a96f96d30cd81f8a22e42f25"
     ], 
     "lib/jinja2/debug.py": [
       "layer:basic", 
@@ -1767,7 +1822,7 @@
     "lib/charmhelpers/payload/archive.pyc": [
       "layer:basic", 
       "dynamic", 
-      "64d4c1571f91243e30eba563239a7875d696aba957aa7a2f462d142399381725"
+      "ce74db7a29079ed752a47c5beda89eab083bd4846552e800af1f58afacfda0a2"
     ], 
     "lib/jinja2/sandbox.py": [
       "layer:basic", 
@@ -1777,17 +1832,17 @@
     "lib/jinja2/tests.pyc": [
       "layer:basic", 
       "dynamic", 
-      "492d9f10dbad1ae30b5538006c3ea3d0814f4ebd26e684cd72fa5f52f79d2210"
+      "dfefbe89774c803698b72c19cfed5965ce56453a822a73f365f8c9429ed9ea49"
     ], 
     "lib/jinja2/environment.pyc": [
       "layer:basic", 
       "dynamic", 
-      "0a6274fa142fc02df7cb1c69f25ddf83a2dfc75ccc2d01491e08e21d074d24b3"
+      "10a2cc3e69b4ab3c3940a8d5dfd1b0804d40a90ade372ee3254bc8dffa552d85"
     ], 
     "lib/netaddr/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "2350d7a0e16936a8112b01b48504db67411463231aae1e1988541198004cbd39"
+      "a3283cce867939682399ac9e54802546c1e1b921ade62a8626b7c58e42c6afce"
     ], 
     "lib/charmhelpers/contrib/network/ip.py": [
       "layer:basic", 
@@ -1817,7 +1872,7 @@
     "lib/charmhelpers/contrib/amulet/deployment.pyc": [
       "layer:basic", 
       "dynamic", 
-      "d5ca0d574bb4742487f64817ac28e4212b3b1d302b78e13ad00887c207a7be83"
+      "0a350352a6747d0a9636294e4ae3d650f53b0d9f2e45ffee0ae932b831bb897e"
     ], 
     "lib/charmhelpers/fetch/__init__.py": [
       "layer:basic", 
@@ -1832,17 +1887,17 @@
     "lib/six.pyc": [
       "layer:basic", 
       "dynamic", 
-      "56443660887cc34590435c6a430004edd1f2ba1fddcd78ce51122beb8b363e99"
+      "5f79b803dd917bdb12cd0a33f1128b471e3550615d198688e223d0fc5f7ee60c"
     ], 
     "lib/tempita/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "45f7275718a19051ed7b422f1f30b77a0676a455e29c91fbd10b61b3ca7c1861"
+      "f6552d98361a305ec719b3a72f784053679175c6b44e73e360ccc86f3c796979"
     ], 
     "lib/netaddr/compat.pyc": [
       "layer:basic", 
       "dynamic", 
-      "d91081aaa1d922946cb7124ae997801a8476f1e49aaaf508c883975e4418bf41"
+      "a349bf07b353e008d6d32d752e41171ba31f10f278146688686b9ece84357dff"
     ], 
     "lib/charmhelpers/contrib/amulet/__init__.py": [
       "layer:basic", 
@@ -1872,7 +1927,7 @@
     "lib/charmhelpers/core/services/helpers.pyc": [
       "layer:basic", 
       "dynamic", 
-      "f1e50c2e9a9e26070013d4502eae35837568f8cbde65fc92d5dfc854210dbda2"
+      "cbb7143eebf6a6a1fdad43a4ddd0d790a67ebf8885982f80cdf092d91235261d"
     ], 
     "lib/MarkupSafe-0.23-py2.7.egg-info/not-zip-safe": [
       "layer:basic", 
@@ -1887,12 +1942,12 @@
     "lib/netaddr/ip/iana.pyc": [
       "layer:basic", 
       "dynamic", 
-      "eab4b97976c0e1f2f1c0827ffc14943315839302b8bb2c82340937ea7bb64358"
+      "a413f1a6d452fd52441fdf092d91d140f871be901ce57df23cb59b4bb2518522"
     ], 
     "lib/yaml/dumper.pyc": [
       "layer:basic", 
       "dynamic", 
-      "c933ddc32b8eb50aa9e6a873f45b7af06549710dda9980cf303f4d344a2bd481"
+      "2ad97f86cac048a3ad82d9bfec1add884d635b594b5f17b7038bafdc1c4c8908"
     ], 
     "reactive/hue.py": [
       "apache-hue", 
@@ -1912,7 +1967,7 @@
     "lib/charmhelpers/contrib/openstack/neutron.pyc": [
       "layer:basic", 
       "dynamic", 
-      "e330d67c57715313fa167d8a26c41b1f0da7aa05c6ff1881eab462d2a929a680"
+      "cca4992b89699fa913d5a9b83f397a01283484fd54d95f20640dd9e7e3a89b3f"
     ], 
     "lib/jujuresources-0.2.11.dist-info/RECORD": [
       "apache-hue", 
@@ -1927,7 +1982,7 @@
     "lib/pyaml/tests/dump.pyc": [
       "layer:basic", 
       "dynamic", 
-      "09e2f820e106579f53b4cae834d52d053232ad494a17ebb4bfb0b424e1e247e7"
+      "ce0cf6335f32297eb44e611dd737f33a44bf2168bcac69359f9d98b72b79ac12"
     ], 
     "lib/charmhelpers/contrib/charmsupport/__init__.py": [
       "layer:basic", 
@@ -1947,7 +2002,7 @@
     "lib/yaml/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "4bd91f81ddfa86c84ad9af8083d5050d14746119d870b5e399fd6bca6a241eaa"
+      "43159a0b5b419b919a6e79833befd2cddc02e68a6973a7c9aac5121ef20586e6"
     ], 
     "lib/jinja2/environment.py": [
       "layer:basic", 
@@ -1962,7 +2017,7 @@
     "lib/charmhelpers/contrib/hahelpers/apache.pyc": [
       "layer:basic", 
       "dynamic", 
-      "eed9b6f5ffb96fa0372021119b8b91324b5713d70c208cabcd9955279ffc7614"
+      "41e0da2466af2d9ef4e7b33cf2835e0e4bef5d7054022b4b3fd175d9f2962902"
     ], 
     "lib/charmhelpers/contrib/network/__init__.py": [
       "layer:basic", 
@@ -1972,22 +2027,32 @@
     "lib/charmhelpers/contrib/network/ip.pyc": [
       "layer:basic", 
       "dynamic", 
-      "d8ccd95ef6c9024a836b2d902b3390eaa2dcd951069ff97ef82bec52aa8729bf"
+      "805936759cea46abe3c38e6e1b53fc5e0517f2dcec12471d57de379c6b23e4e5"
     ], 
     "lib/jinja2/meta.py": [
       "layer:basic", 
       "dynamic", 
       "73100eb4cb925964905f61fcce162c02d8cdc1170d07c66fb34e98f899569db9"
     ], 
+    "lib/jujubigdata-4.6.1-py2.7.egg-info/installed-files.txt": [
+      "apache-hue", 
+      "static", 
+      "e00fe9957b2e81dceffa54903102a5fa98eea31ff37ae1160b1f3854386c51f1"
+    ], 
     "lib/charmhelpers/fetch/archiveurl.pyc": [
       "layer:basic", 
       "dynamic", 
-      "fd0f5d81ae0d773ee1b54d4040280c69aea66b7e83380f648d1b80b5de088b54"
+      "a981941a1c4c105e4a7c8a7f4e774e50dd25e32fae4f6b7c4e811fee8db3169c"
     ], 
     "lib/charmhelpers/contrib/storage/linux/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "fee45853894122948efe08a52394fd5b611e05f2a9c73b5221d1a08fed445c77"
+      "84920cb3757cd145078e2599ce3bbe601c211c350b726630913c432385ea5415"
+    ], 
+    "lib/jujubigdata-4.6.1-py2.7.egg-info/requires.txt": [
+      "apache-hue", 
+      "static", 
+      "3b570c920b5d0a0d135056566e90b4c0916f1d7360567745d66fc95459455bc6"
     ], 
     "lib/netaddr/ip/iana.py": [
       "layer:basic", 
@@ -2002,7 +2067,7 @@
     "lib/charmhelpers/core/strutils.pyc": [
       "layer:basic", 
       "dynamic", 
-      "0bbce4f7211a3b0d160774e624da67a7858dd89fbc132caa1a1150202f92eac5"
+      "8ff0157228f6bb0551a66e40b295b21e470a2bd07e15bc7f57bdbbdcf4879476"
     ], 
     "lib/PyYAML-3.11.dist-info/WHEEL": [
       "apache-hue", 
@@ -2022,7 +2087,7 @@
     "lib/charms/reactive/cli.pyc": [
       "layer:basic", 
       "dynamic", 
-      "732e8ec29a25bdc22042e3356f0ccbe35d6a018c8530aa65ac0fccfe25ccdace"
+      "896d7e9c6190241a296db54516e73e903cf5b458451d43efc8fc6b9c29e3f274"
     ], 
     "lib/charms/__init__.py": [
       "layer:basic", 
@@ -2032,7 +2097,12 @@
     "lib/tempita/compat3.pyc": [
       "layer:basic", 
       "dynamic", 
-      "a29aad8386463a4a8eb45826b7df4d584f36510ec6c8545a7e9224d880f7d633"
+      "fcef43ae954869743b358a7b3d2d7035d44337b9694cf7a9395abdbe06809ad8"
+    ], 
+    "lib/jujubigdata-4.6.1-py2.7.egg-info/SOURCES.txt": [
+      "apache-hue", 
+      "static", 
+      "06361ecf831f6232d47ac448db54f5a128c88015e60bab38a5eb803cddec34a6"
     ], 
     "hooks/relations/dfs/requires.py": [
       "interface:dfs", 
@@ -2042,7 +2112,7 @@
     "lib/charmhelpers/contrib/templating/jinja.pyc": [
       "layer:basic", 
       "dynamic", 
-      "362d6336bc5588a2d280cfd8801b72008d1780f4e1eb8d20235f149548ebf247"
+      "e827492404873bb9e9628071d27cf20a4d8f9a7dbbf238b3a927be82b3626f88"
     ], 
     "lib/Jinja2-2.8.dist-info/METADATA": [
       "layer:basic", 
@@ -2062,7 +2132,7 @@
     "lib/charmhelpers/contrib/network/ufw.pyc": [
       "layer:basic", 
       "dynamic", 
-      "eeba8f1ee91ff6978e8a22ccf7a20ce87f70c199b0754cdf86c778a31197a546"
+      "7f635a0654882dbd2cc7067c9dcac85b2e211282096fadd9510d011488666657"
     ], 
     "lib/charmhelpers/core/services/__init__.py": [
       "layer:basic", 
@@ -2072,12 +2142,12 @@
     "lib/yaml/reader.pyc": [
       "layer:basic", 
       "dynamic", 
-      "d11b291d42a7561c420e84033a641263441e7aafe2908ae769af2f99a78f5477"
+      "1a514a17f18f881228749c6214c3a1b4c465efd6a727d8769528d90ee9e50b24"
     ], 
     "lib/charms/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "cdb727501a73e45c9ec41692e4c69131ba693fa3e7e52d17c7ae811348001fbc"
+      "8579cc0f9592374b694283089d52b7dbaeb001d8c360e4729860cfa12eb47f2f"
     ], 
     "lib/charmhelpers/contrib/python/packages.py": [
       "layer:basic", 
@@ -2097,7 +2167,7 @@
     "lib/charmhelpers/contrib/openstack/amulet/deployment.pyc": [
       "layer:basic", 
       "dynamic", 
-      "c42b6686d40b5752558f2892dd21d4ed9308fb95625f7acf2302bca23b42cc1e"
+      "352233f239f60c140c0682e1adbe3e117eb718feef046329665a6f08c24b4f4b"
     ], 
     "lib/charmhelpers/contrib/python/debug.py": [
       "layer:basic", 
@@ -2117,12 +2187,12 @@
     "lib/charmhelpers/core/templating.pyc": [
       "layer:basic", 
       "dynamic", 
-      "af1a640b4d228b1254daac1b1f66e76cd633bf458130b3d7b769fa57bdcbfaf4"
+      "66151719262743944cdbe001ceadf3e8a121828cc7b9cf87bb0956a77000bca7"
     ], 
     "lib/charms/reactive/bus.pyc": [
       "layer:basic", 
       "dynamic", 
-      "4fe9abae489a1c2fee06f434f1f046139e88692a2f0245079147b14ed0f77d0d"
+      "2ac49051ed4c56794f27230831716bc185dea6f4fa572a657288486088c40081"
     ], 
     "lib/pyaml-15.8.2.dist-info/DESCRIPTION.rst": [
       "apache-hue", 
@@ -2134,6 +2204,11 @@
       "dynamic", 
       "8dd35f126e0bbbc2489ee3e165691b86f376d370c75730d84639cddb9550fd03"
     ], 
+    "lib/jujubigdata-4.6.1-py2.7.egg-info/dependency_links.txt": [
+      "apache-hue", 
+      "static", 
+      "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    ], 
     "lib/charmhelpers/contrib/unison/__init__.py": [
       "layer:basic", 
       "dynamic", 
@@ -2142,12 +2217,12 @@
     "lib/charmhelpers/contrib/templating/contexts.pyc": [
       "layer:basic", 
       "dynamic", 
-      "3922af7d23251efade9cecf21ef6dd2bffd0259261f6ee8deb9695241bc4d964"
+      "66471db4d98e1f4d2f02a671e9d4f3cb1ed222ee30863e86cedc90b2465acf24"
     ], 
     "lib/charmhelpers/contrib/unison/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "d920c4f64097a86a4b9d27ffbd031b2f04a7db9b89fb7688be400cfdbe90503e"
+      "8bc04c8c6682e0e9278ab6858c66d33c7a52e4e9f593c25da2c2661abf92d53e"
     ], 
     "lib/charmhelpers/contrib/openstack/__init__.py": [
       "layer:basic", 
@@ -2162,7 +2237,7 @@
     "lib/jujuresources/version.py": [
       "apache-hue", 
       "static", 
-      "dfb60c9963deb5cb22a707a5327a67cb0545ffbb8b7e109172861ef757dea6d1"
+      "52ab3d8214a82fe81d575327293eb95ac40457705a58be95061a74754f6189bb"
     ], 
     "lib/netaddr/ip/multicast-addresses.xml": [
       "layer:basic", 
@@ -2177,12 +2252,12 @@
     "lib/charmhelpers/contrib/python/version.pyc": [
       "layer:basic", 
       "dynamic", 
-      "4354933c64841e7852ad214c466a68ee557226ad16c60b2fc34b568d730a4483"
+      "6fc3b41c3516e10a895a6e7f7d59e199d3a577303eea7dc34a9bee32c5177e0c"
     ], 
     "lib/yaml/parser.pyc": [
       "layer:basic", 
       "dynamic", 
-      "c74a02a6f37ed20d640e3aa607c1a42db2787fb1e357a0eaa6ce5c550162d45c"
+      "473512eb12a215acdf1703314f8205432b88e7dbcab5d9ba4790d971495d8ede"
     ], 
     "lib/yaml/tokens.py": [
       "apache-hue", 
@@ -2192,7 +2267,7 @@
     "lib/netaddr/ip/rfc1924.pyc": [
       "layer:basic", 
       "dynamic", 
-      "b834a83335c6eb57d89f497e9687804e166ad1a8fb9e83b3647365c21815218a"
+      "3ec33c97c792870aa2a7c14ffdf06d133242382cd3318a486781ffdf305ba8c1"
     ], 
     "lib/jinja2/parser.py": [
       "layer:basic", 
@@ -2202,7 +2277,7 @@
     "lib/jinja2/loaders.pyc": [
       "layer:basic", 
       "dynamic", 
-      "7f438def271eb34a7e9ab78b55789af46edf7032bde96896af647eb9c0feb2e0"
+      "29680301f9b9081a1797e3a076fef32a90553b49879b30d360137f80a530972a"
     ], 
     "lib/charmhelpers/contrib/network/ufw.py": [
       "layer:basic", 
@@ -2237,7 +2312,7 @@
     "lib/charmhelpers/fetch/bzrurl.pyc": [
       "layer:basic", 
       "dynamic", 
-      "2070da0356f4e4e1f1ecbdca13b3f9d5a2c3fe166c922ac1e56a29e4797a6355"
+      "3288a48dcbb209d15245b1b6257694d63516922f3f7cb9dccddb44042c4aee41"
     ], 
     "lib/charmhelpers/contrib/storage/__init__.py": [
       "layer:basic", 
@@ -2262,7 +2337,7 @@
     "lib/netaddr/strategy/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "bf7c38c102242b1bd07c86c282a86aa292938c0a8ef5c36c7b51630c6a8fe6dd"
+      "06d2b815ef0c7717cc8c7218d3300da817250f7fdf8a606936922383b8f15a69"
     ], 
     "lib/six-1.10.0.dist-info/RECORD": [
       "apache-hue", 
@@ -2292,17 +2367,17 @@
     "lib/charmhelpers/cli/commands.pyc": [
       "layer:basic", 
       "dynamic", 
-      "9d080f7db329fcff31c440b7ee53871bf6168eb710029c845c90ecf37b72193c"
+      "cc1f6fe77582535caaff352d3498a7fd3f3a86c59ef1f54d9a06efed9f74f47e"
     ], 
     "lib/charmhelpers/cli/benchmark.pyc": [
       "layer:basic", 
       "dynamic", 
-      "3a76cd57eb1f2b69a8adeed3f611276fc9e29deb5a2bb16fc275a5fff658fab0"
+      "e1e729147d2a45fac5185bd2fbb7833df4141b21f73343c1a8fe72b6357ac07d"
     ], 
     "lib/charmhelpers/contrib/charmhelpers/__init__.pyc": [
       "layer:basic", 
       "dynamic", 
-      "f8bddbe3ac19118d6256150b5d54ffec57fcc96803fd2ed7baa145e1ad387632"
+      "b8f15646c4f6409071bb7cebd4faf77745602a55e133e04e78201c8daa5bcb55"
     ], 
     "lib/PyYAML-3.11.dist-info/METADATA": [
       "apache-hue", 
@@ -2312,7 +2387,7 @@
     "lib/netaddr/strategy/ipv6.pyc": [
       "layer:basic", 
       "dynamic", 
-      "91c4e1beffc1293273e5644d13ab4bbb29ed9c991699aa7abe2e8984001be9a8"
+      "b551aba4a55f3985991aa01bebe11d7ed42ad9a13a8fff852a85cf7fdbf7e90e"
     ]
   }
 }

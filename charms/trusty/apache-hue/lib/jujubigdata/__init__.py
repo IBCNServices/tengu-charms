@@ -11,3 +11,13 @@
 # Apache License for more details.
 
 from . import utils  # noqa
+from . import handlers  # noqa
+
+# relations doesn't work with stock charmhelpers and is being phased out in the
+# layered charms, so this makes it conditional
+try:
+    from charmhelpers.core import charmframework  # noqa
+except ImportError:
+    pass
+else:
+    from . import relations  # noqa

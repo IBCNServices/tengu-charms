@@ -10,10 +10,12 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # Apache License for more details.
 
+import os
 import re
 import time
 import yaml
 import socket
+import subprocess
 from contextlib import contextmanager
 from subprocess import check_call, check_output, CalledProcessError
 from xml.etree import ElementTree as ET
@@ -45,7 +47,8 @@ class DistConfig(object):
     :param str filename: File to process (default dist.yaml)
     :param list required_keys: A list of keys required to be present in the yaml
 
-    Example dist.yaml with supported keys:
+    Example dist.yaml with supported keys::
+
         vendor: '<name>'
         hadoop_version: '<version>'
         packages:
@@ -192,7 +195,7 @@ def xmlpropmap_edit_in_place(filename):
     """
     Edit an XML property map (configuration) file in-place.
 
-    This helper acts as a context manager which edits an XML file of the form:
+    This helper acts as a context manager which edits an XML file of the form::
 
         <configuration>
             <property>
@@ -207,7 +210,7 @@ def xmlpropmap_edit_in_place(filename):
     mappings.  Properties can then be modified, added, or removed, and the
     changes will be reflected in the file.
 
-    Example usage:
+    Example usage::
 
         with xmlpropmap_edit_in_place('my.xml') as props:
             props['foo'] = 'bar'
@@ -257,7 +260,7 @@ def environment_edit_in_place(filename='/etc/environment'):
     Also note that the file is not locked during the edits.
     """
     etc_env = Path(filename)
-    lines = [l.strip().split('=') for l in etc_env.lines()]
+    lines = [l.strip().split('=', 1) for l in etc_env.lines()]
     data = {k.strip(): v.strip(' \'"') for k, v in lines}
     yield data
     etc_env.write_lines('{}="{}"'.format(k, v) for k, v in data.items())
@@ -290,14 +293,22 @@ class TimeoutError(Exception):
 
 def read_etc_env():
     """
-    Read /etc/environment and return it as a dict.
+    Read /etc/environment and return it, along with proxy configuration, as
+    a dict.
     """
-    etc_env = Path('/etc/environment')
     env = {}
+
+    # Proxy config (e.g. https_proxy, no_proxy, etc) is not stored in
+    # /etc/environment on a Juju unit, but we should pass it along so anyone
+    # using this env will have correct proxy settings.
+    env.update({k: v for k, v in os.environ.items()
+                if k.lower().endswith('_proxy')})
+
+    etc_env = Path('/etc/environment')
     if etc_env.exists():
         for line in etc_env.lines():
-            var, value = line.split('=')
-            env[var.strip()] = value.strip().strip('"')
+            var, value = line.split('=', 1)
+            env[var.strip()] = value.strip(' \'"')
     return env
 
 
@@ -473,11 +484,15 @@ def wait_for_jps(process_name, timeout):
     raise TimeoutError('Timed-out waiting for jps process:\n%s' % process_name)
 
 
+def cpu_arch():
+    return subprocess.check_output(['uname', '-p']).strip()
+
+
 class verify_resources(object):
     """
     Predicate for specific named resources, with useful rendering in the logs.
 
-    :param str *which: One or more resource names to fetch & verify.  Defaults to
+    :param str \*which: One or more resource names to fetch & verify.  Defaults to
         all non-optional resources.
     """
     def __init__(self, *which):

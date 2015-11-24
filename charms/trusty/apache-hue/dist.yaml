@@ -32,8 +32,6 @@ users:
 dirs:
     hue:
         path: '/usr/share/hue'
-    hue_conf:
-        path: '/usr/share/hue/desktop/conf'
     build:
         path: '/home/ubuntu/huebuild'
 ports:

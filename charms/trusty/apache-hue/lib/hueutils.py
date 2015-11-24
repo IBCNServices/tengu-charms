@@ -65,4 +65,4 @@ class Hue(object):
 
     @property
     def hue_ini(self):
-        return self.dist_config.path('hue_conf') + "/hue.ini"
+        return '/usr/share/hue/desktop/conf' + "/hue.ini"

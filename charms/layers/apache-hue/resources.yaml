@@ -1,6 +1,10 @@
 options:
   output_dir: /home/ubuntu/resources
 resources:
+  pathlib:
+    pypi: path.py>=7.0
+  jujubigdata:
+    pypi: jujubigdata>=4.0.0,<5.0.0
   java-installer:
     # This points to a script which manages installing Java.
     # If replaced with an alternate implementation, it must output *only* two

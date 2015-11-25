@@ -1,0 +1,11 @@
+options:
+    resources_mirror:
+        type: string
+        default: ''
+        description: |
+            URL from which to fetch resources (e.g., Hadoop binaries) instead of Launchpad.
+    spark_execution_mode:
+        type: string
+        default: 'yarn-client'
+        description: |
+            Options are empty string "" for standalone (no YARN), "yarn-client", and "yarn-cluster".

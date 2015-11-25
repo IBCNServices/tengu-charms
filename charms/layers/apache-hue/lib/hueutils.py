@@ -56,12 +56,12 @@ class Hue(object):
         self.dist_config.remove_dirs()
 
     def open_ports(self):
-        for port in self.dist_config.exposed_ports('hue'):
-            hookenv.open_port(port)
+        #for port in self.dist_config.exposed_ports('hue'):
+        hookenv.open_port('8000')
 
     def close_ports(self):
-        for port in self.dist_config.exposed_ports('hue'):
-            hookenv.close_port(port)
+        #for port in self.dist_config.exposed_ports('hue'):
+        hookenv.close_port('8000')
 
     @property
     def hue_ini(self):

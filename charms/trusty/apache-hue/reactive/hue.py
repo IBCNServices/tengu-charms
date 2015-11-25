@@ -1,12 +1,13 @@
 # pylint: disable=C0111,R0201,C0301
 # Source: http://gethue.com/how-to-build-hue-on-ubuntu-14-04-trusty/
-from charms.reactive import when, when_not
+from charms.reactive import when, when_not, when_file_changed
 from charms.reactive import set_state
 from charmhelpers.core import hookenv
 
 import hueutils
 
 @when_not('hue.installed')
+@when('bootstrapped')
 def install_hue():
     hue = hueutils.Hue()
     if hue.verify_resources(): # will set blocked state if fetching failed
@@ -28,9 +29,9 @@ def waiting():
     hookenv.status_set('waiting', 'Waiting for Hadoop to become ready')
 
 
-@when('hue.installed', 'hadoop.yarn.ready', 'hadoop.hdfs.ready')
+@when('hue.installed', 'hadoop.yarn.configured', 'hadoop.hdfs.configured')
+@when_not('hue.started')
 def start_hue():
-    hookenv.status_set('maintenance', 'Setting up Apache Hue')
     hue = hueutils.Hue()
     hue.start()
     hue.open_ports()
@@ -45,6 +46,13 @@ def stop_hue():
     hue = hueutils.Hue()
     hue.close_ports()
     hue.stop()
+
+
+@when_file_changed('/usr/share/hue/desktop/conf/hue.ini')
+def restart_hue():
+    hue = hueutils.Hue()
+    hue.restart()
+
 
 
 @when('hadoop.hdfs.ready')
@@ -64,7 +72,6 @@ def namenode_relation_changed(hdfs):
 
     })
     set_state('hadoop.hdfs.configured')
-    hue.restart()
 
 
 @when('hadoop.yarn.ready')
@@ -83,7 +90,6 @@ def yarn_relation_changed(yarn):
         r'^\s*#*\s*history_server_api_url=http://.*' : "      history_server_api_url=http://{}:19888".format(resourcemanager_ip),
     })
     set_state('hadoop.yarn.configured')
-    hue.restart()
 
 
 @when('hadoop.hive.available')
@@ -97,7 +103,6 @@ def hive_relation_changed(hive):
         r'^\s*#*\s*hive_server_host=localhost' : "      hive_server_host={}".format(hive_ip),
     })
     set_state('hadoop.hive.configured')
-    hue.restart()
 
 
 @when('hadoop.oozie.available')
@@ -111,4 +116,3 @@ def oozie_relation_changed(oozie):
         r'^\s*#*\s*oozie_url=http://localhost:11000/oozie' : "      oozie_url=http://{}:11000/oozie".format(oozie_ip),
     })
     set_state('hadoop.oozie.configured')
-    hue.restart()

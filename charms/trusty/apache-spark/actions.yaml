@@ -1,0 +1,6 @@
+start-spark-job-history-server:
+    description: Start the Spark job history server.
+stop-spark-job-history-server:
+    description: Stop the Spark job history server.
+restart-spark-job-history-server:
+    description: Restart the Spark job history server.

@@ -12,3 +12,6 @@ provides:
   hadoop:
     interface: hadoop-plugin
     scope: container
+  spark-plugin:
+    interface: spark-plugin
+    scope: container

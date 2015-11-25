@@ -1,5 +1,10 @@
 # pylint: disable=C0111,R0201,C0301
+import string
+import random
+
 import jujuresources
+from jujubigdata.utils import re_edit_in_place
+
 from charmhelpers.core import hookenv, templating, host
 
 class Hue(object):
@@ -21,7 +26,7 @@ class Hue(object):
         jujuresources.install(self.resources['hue'],
                               destination=self.dist_config.path('build'),
                               skip_top_level=True)
-    #ln -s /usr/lib/python2.7/plat-*/_sysconfigdata_nd.py /usr/lib/python2.7/
+        #ln -s /usr/lib/python2.7/plat-*/_sysconfigdata_nd.py /usr/lib/python2.7/
         utils.run_as(
             'root',
             'make', '-C', self.dist_config.path('build'), 'install',
@@ -37,7 +42,12 @@ class Hue(object):
                 'hue_connect': '{}:{}'.format(hookenv.unit_private_ip(), '8000')
             },
         )
-
+        randomstring = ''.join(random.SystemRandom().choice(
+            string.ascii_letters + string.digits) for _ in range(20)
+        )
+        re_edit_in_place(self.hue_ini, {
+            r'^\s*#*\s*desktop.secret_key=.*' : "      desktop.secret_key={}".format(randomstring),
+        })
 
     def configure(self):
         pass

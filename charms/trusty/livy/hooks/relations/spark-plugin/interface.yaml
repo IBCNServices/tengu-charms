@@ -1,0 +1,4 @@
+name: spark-plugin
+summary: Interface to get in Spark container
+version: 1
+maintainer: "Merlijn Sebrechts <merlijn.sebrechts@gmail.com"

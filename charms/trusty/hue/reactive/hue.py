@@ -55,7 +55,7 @@ def restart_hue():
 
 
 
-@when('hadoop.hdfs.ready')
+@when('hue.installed','hadoop.hdfs.ready')
 @when_not('hadoop.hdfs.configured')
 def namenode_relation_changed(hdfs):
     from jujubigdata.utils import re_edit_in_place
@@ -74,7 +74,7 @@ def namenode_relation_changed(hdfs):
     set_state('hadoop.hdfs.configured')
 
 
-@when('hadoop.yarn.ready')
+@when('hue.installed','hadoop.yarn.ready')
 @when_not('hadoop.yarn.configured')
 def yarn_relation_changed(yarn):
     from jujubigdata.utils import re_edit_in_place
@@ -92,7 +92,7 @@ def yarn_relation_changed(yarn):
     set_state('hadoop.yarn.configured')
 
 
-@when('hadoop.hive.available')
+@when('hue.installed','hadoop.hive.available')
 @when_not('hadoop.hive.configured')
 def hive_relation_changed(hive):
     from jujubigdata.utils import re_edit_in_place
@@ -105,7 +105,7 @@ def hive_relation_changed(hive):
     set_state('hadoop.hive.configured')
 
 
-@when('hadoop.oozie.available')
+@when('hue.installed','hadoop.oozie.available')
 @when_not('hadoop.oozie.configured')
 def oozie_relation_changed(oozie):
     from jujubigdata.utils import re_edit_in_place

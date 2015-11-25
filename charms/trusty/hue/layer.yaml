@@ -5,4 +5,5 @@ includes:
 - interface:dfs
 - interface:hive
 - interface:oozie
-is: apache-hue
+- interface:livy
+is: hue

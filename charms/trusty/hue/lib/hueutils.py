@@ -15,6 +15,7 @@ class Hue(object):
 
     def install(self):
         from jujubigdata import utils
+        self.dist_config.add_users()
         self.dist_config.add_dirs()
         self.dist_config.add_packages()
         jujuresources.install(self.resources['hue'],

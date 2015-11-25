@@ -16,8 +16,9 @@ requires:
     interface: hive
   oozie:
     interface: oozie
-provides:
+  spark:
+    interface: livy
   hadoop:
-    interface: hadoop-rest
+    interface: hadoop-plugin
     scope: container
 subordinate: false

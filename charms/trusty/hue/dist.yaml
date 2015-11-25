@@ -25,10 +25,10 @@ packages:
     - 'python-pip'
     - 'libgmp3-dev'
 groups:
-    - 'hue'
+    - 'hadoop'
 users:
     hue:
-        groups: ['hue']
+        groups: ['hadoop']
 dirs:
     hue:
         path: '/usr/share/hue'

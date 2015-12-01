@@ -11,17 +11,37 @@
 # limitations under the License.
 
 from charms.reactive import RelationBase
-from charms.reactive import when
+from charms.reactive import hook
 from charms.reactive import scopes
 
 
-class HadoopPlugin(RelationBase):
+class HadoopPluginProvides(RelationBase):
     scope = scopes.GLOBAL
 
-    @when('yarn.ready')
     def yarn_ready(self):
-        self.set_remote('yarn-ready', True)
+        return self.get_remote('yarn-ready', 'false').lower() == 'true'
 
-    @when('hdfs.ready')
     def hdfs_ready(self):
-        self.set_remote('hdfs-ready', True)
+        return self.get_remote('hdfs-ready', 'false').lower() == 'true'
+
+    @hook('{provides:hadoop-plugin}-relation-joined')
+    def joined(self):
+        conv = self.conversation()
+        conv.set_state('{relation_name}.connected')
+
+    @hook('{provides:hadoop-plugin}-relation-changed')
+    def changed(self):
+        if self.yarn_ready():
+            self.set_state('{relation_name}.yarn.ready')
+        if self.hdfs_ready():
+            self.set_state('{relation_name}.hdfs.ready')
+        if self.yarn_ready() and self.hdfs_ready():
+            self.set_state('{relation_name}.ready')
+
+    @hook('{provides:hadoop-plugin}-relation-departed')
+    def departed(self):
+        conv = self.conversation()
+        conv.remove_state('{relation_name}.connected')
+        conv.remove_state('{relation_name}.ready')
+        conv.remove_state('{relation_name}.yarn.ready')
+        conv.remove_state('{relation_name}.hdfs.ready')

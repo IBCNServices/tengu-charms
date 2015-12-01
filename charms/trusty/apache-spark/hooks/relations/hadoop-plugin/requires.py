@@ -15,18 +15,21 @@ from charms.reactive import hook
 from charms.reactive import scopes
 
 
-class HadoopPlugin(RelationBase):
+class HadoopPluginRequires(RelationBase):
     scope = scopes.GLOBAL
 
-    def yarn_ready(self):
-        return self.get_remote('yarn-ready', 'false').lower() == 'true'
+    @hook('{requires:hadoop-plugin}-relation-joined')
+    def joined(self):
+        conv = self.conversation()
+        conv.set_state('{relation_name}.connected')
 
-    def hdfs_ready(self):
-        return self.get_remote('hdfs-ready', 'false').lower() == 'true'
+    @hook('{requires:hadoop-plugin}-relation-departed')
+    def departed(self):
+        conv = self.conversation()
+        conv.remove_state('{relation_name}.connected')
 
-    @hook('{requires:hadoop-plugin}-relation-changed')
-    def changed(self):
-        if self.yarn_ready():
-            self.set_state('{relation_name}.yarn.ready')
-        if self.hdfs_ready():
-            self.set_state('{relation_name}.hdfs.ready')
+    def set_yarn_ready(self):
+        self.set_remote('yarn-ready', True)
+
+    def set_hdfs_ready(self):
+        self.set_remote('hdfs-ready', True)

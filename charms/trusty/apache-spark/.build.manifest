@@ -8,30 +8,25 @@
     "build"
   ], 
   "signatures": {
-    "hooks/relations/hadoop-plugin/interface.yaml": [
-      "interface:hadoop-plugin", 
-      "static", 
-      "328c379dc80f10a5f2f5e8c5d5c586f2d4409b95be81e3d5b68a91d5095b6281"
+    "wheelhouse/charmhelpers-0.5.2-py2-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "7ac31ba6db34665a76ffcaeb62200c0af270712a71a30bb2bb67a7f6c606eff3"
     ], 
     "actions/stop-spark-job-history-server": [
       "apache-spark", 
       "static", 
       "4b3d1193b0d276485c3970b24a0f7c0bbe0ba56db7b5fc9e9fe677e1a5d6a1fe"
     ], 
-    "lib/jujuresources-0.3.1.dist-info/RECORD": [
-      "layer:bigdata", 
-      "dynamic", 
-      "d76a6215d9d1137b6a60926626f821be4eecafd30462fe68eb9e80d943bb224b"
+    "hooks/relations/hadoop-plugin/interface.yaml": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "328c379dc80f10a5f2f5e8c5d5c586f2d4409b95be81e3d5b68a91d5095b6281"
     ], 
-    "lib/yaml/reader.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "3b9711498feeb112a6f5b724161472ce24dd62685f8c5e39fe75aeb833a31d6a"
-    ], 
-    "lib/yaml/__init__.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "b2fe7167f24b498a444b5f0ca297cc4a59966597fef6d2c65cd7fc31361471a8"
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -43,25 +38,35 @@
       "static", 
       "016dafe80b49ecf1b154f59677fc61870dba7c3d711d554e4a20b7c1c5d3334c"
     ], 
-    "lib/yaml/resolver.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "d90e7c3a4a2ad265dc12ff3e87cc66f4304091b1805a016c8a33029a87ef2572"
+    "hooks/relations/hadoop-plugin/copyright": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
     ], 
-    "dist.yaml": [
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    "actions/start-spark-job-history-server": [
       "apache-spark", 
       "static", 
-      "4ac353d3f4f8aad94fd1eadc13cab08c3615491b69c8a94bf05178eacd97ee15"
+      "79c56e725532f6d8532806a22ef695f1cc12a62689fe62ab9016bccdec49e576"
     ], 
-    "lib/yaml/resolver.py": [
+    "hooks/spark-plugin-relation-broken": [
+      "interface:spark-plugin", 
+      "dynamic", 
+      "76f43a288bedf29f4d4466c8337ee6c5d91899800654a5a256a9629c0e654667"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+    ], 
+    "wheelhouse/jujuresources-0.3.1-py2-none-any.whl": [
       "layer:bigdata", 
       "dynamic", 
-      "095091761af1acb552096f4f0a056f768d6ab01e27c6b171d9a49e9603538c3b"
-    ], 
-    "lib/yaml/parser.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "b205da8590370e4c92627682e03ff3725de5db2e18e51e3489c5ad770905fcd1"
+      "867a1de1bbd09e218b942bf2a1bee99dbbad0933c7d204e0f4b7f0178a19bfe3"
     ], 
     "actions.yaml": [
       "apache-spark", 
@@ -78,50 +83,55 @@
       "static", 
       "69e60be9dae6c9eda2870cd4aa3ffec46aa87852da0b8772b495a0b997860e2a"
     ], 
-    "hooks/relations/spark-plugin/provides.py": [
-      "interface:spark-plugin", 
+    "tox.ini": [
+      "layer:basic", 
       "static", 
-      "2e6a66b2faafd180940f4e87c08171c87b16fa94f44b079b8e95acb9e629d63d"
+      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
     ], 
-    "lib/yaml/constructor.pyc": [
-      "layer:bigdata", 
+    "metadata.yaml": [
+      "apache-spark", 
       "dynamic", 
-      "ad2f0e5a72015699b814316fdcc9a1b759d810039307559852c01800ef169cc0"
+      "1ed67956c1e75e2554797ee84f2539ece0644eca96c3bf7742112b50bdc283de"
     ], 
-    "lib/yaml/nodes.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "80f28d8fca4a09d87677882bde021820d9cf39a3b11a12405226211919cf13ce"
-    ], 
-    "lib/yaml/constructor.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "4bf3eec7bebe8609a0b4978956d4af43dca79ad1084768c0c76963028721294d"
+    "actions/restart-spark-job-history-server": [
+      "apache-spark", 
+      "static", 
+      "82cad88d194c2c5e5abcd3a5c5ce00153a240d40b3ae58c53ad9c67799ec021b"
     ], 
     "copyright": [
       "apache-spark", 
       "static", 
       "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
     ], 
-    "lib/yaml/representer.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "eeb8279cfeed6bbaf07c2428c2b015dfa2aa2b8c86d603537cc9a1d054c6efe6"
-    ], 
     "wheelhouse/Tempita-0.5.2-py2-none-any.whl": [
       "layer:basic", 
       "dynamic", 
-      "681970c6b38c65780fd6a5646200871ee9dadb6a707649cb081a7da0d400e59b"
+      "f2045be162d1d55c4d1aea7393e9af9059b84517c4e76bf01260c99ccdf4cc77"
     ], 
-    "requirements.txt": [
-      "layer:basic", 
+    "dist.yaml": [
+      "apache-spark", 
       "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+      "4ac353d3f4f8aad94fd1eadc13cab08c3615491b69c8a94bf05178eacd97ee15"
+    ], 
+    "hooks/relations/hadoop-plugin/__init__.py": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "wheelhouse/Jinja2-2.8-py2.py3-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "13cd9b109f37471a5097798f6520c1b0a5b57e0d03948cd5991cfb5f9c60df95"
     ], 
     ".gitignore": [
       "layer:basic", 
       "static", 
       "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "hooks/relations/spark-plugin/provides.py": [
+      "interface:spark-plugin", 
+      "static", 
+      "2e6a66b2faafd180940f4e87c08171c87b16fa94f44b079b8e95acb9e629d63d"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -131,12 +141,17 @@
     "wheelhouse/charms.reactive-0.3.6-py2-none-any.whl": [
       "layer:basic", 
       "dynamic", 
-      "d79c5035c6366ad81c1b40471c369a81b5a2351880353294f12ed5231b3b81e9"
+      "c5afcc6800d8c3f01b9202f00864c3d9a1e2060101273961f8658eb6a4c11924"
     ], 
-    "lib/pyaml/__main__.py": [
-      "layer:bigdata", 
+    "hooks/hadoop-relation-joined": [
+      "interface:hadoop-plugin", 
       "dynamic", 
-      "9193f5a951ca6502ec41d8b3230728d16ef4429d7c4930643cc20c24c2d78c1f"
+      "c85f148d5cfa5b1964ea65fc3f3ab12e9814b5c74aef635958a901ebfca89705"
+    ], 
+    "hooks/hadoop-relation-departed": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "c85f148d5cfa5b1964ea65fc3f3ab12e9814b5c74aef635958a901ebfca89705"
     ], 
     "icon.svg": [
       "apache-spark", 
@@ -148,336 +163,6 @@
       "dynamic", 
       "6b4df61d6036501308611156c3ef0c600961289bb44812b3d97cbd032599e435"
     ], 
-    "lib/pyaml-15.8.2.dist-info/top_level.txt": [
-      "layer:bigdata", 
-      "dynamic", 
-      "49e64c292e072e8841bb03d816eec8a4a0b2f1ac40909c0a6d6ba26e0fadefe7"
-    ], 
-    "hooks/relations/hadoop-plugin/__init__.py": [
-      "interface:hadoop-plugin", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "wheelhouse/pyaml-15.8.2-py2-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "cf1a25992f81e9dbdf3367c4eb25ab662a94ce0f7d64b6b77ac8f6f40302cbc6"
-    ], 
-    "lib/yaml/scanner.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "d25096e2fbb3265b42d5bc4173ee5acbf9afe95252004f2da83e1d97d434a1ef"
-    ], 
-    "lib/PyYAML-3.11.dist-info/METADATA": [
-      "layer:bigdata", 
-      "dynamic", 
-      "9ac1005567915748f51a5e2a8ead5b5559db04e29a2bf260c2e4d0681dc9de4c"
-    ], 
-    "lib/jujuresources-0.3.1.dist-info/WHEEL": [
-      "layer:bigdata", 
-      "dynamic", 
-      "2536fb633b51f1f90f83a6928dce7bd50e1e8951c2c26503957f0f86ebaa2081"
-    ], 
-    "lib/yaml/serializer.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "b51b11c1fbb913d7e92d4ecb637bc141fda9aedefb8709d894cb797670492e28"
-    ], 
-    "lib/yaml/emitter.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "f5b253f2f9964ab4bbe24b3c3a582a26fdb8ab407d42ca47d0a336cfd2c4e3cb"
-    ], 
-    "lib/jujuresources/version.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "52ab3d8214a82fe81d575327293eb95ac40457705a58be95061a74754f6189bb"
-    ], 
-    "lib/jujuresources-0.3.1.dist-info/metadata.json": [
-      "layer:bigdata", 
-      "dynamic", 
-      "217c23e375d89429277745fd7a71754c77aba6e9343aac2da0958d57c2571a2c"
-    ], 
-    "hooks/hadoop-relation-departed": [
-      "interface:hadoop-plugin", 
-      "dynamic", 
-      "c85f148d5cfa5b1964ea65fc3f3ab12e9814b5c74aef635958a901ebfca89705"
-    ], 
-    "lib/yaml/dumper.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "7420c172444fd90f05a49e1d7c28387d19d2448540931ad78b20bf14aab0b915"
-    ], 
-    "wheelhouse/six-1.10.0-py2.py3-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "ac3e9598bc9e72ba8ed8c24d75dc9bbff4833c9bb1437ccedb22f61fa159ba8e"
-    ], 
-    "lib/jujuresources/__init__.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "45f05b65f1c5358af5c0a4cda17f12ac72ddbbb2a1468711c63fd39e69c10dec"
-    ], 
-    "README.md": [
-      "layer:basic", 
-      "static", 
-      "6dfdfa3f3dda300eba642ebed55ebb88c6f4ca58e448bb38aaeacc7934e790cf"
-    ], 
-    "lib/yaml/serializer.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "f687223cd32403365984c725e428489915357248f5ceb0e6407a786b2ec59b7a"
-    ], 
-    "lib/jujuresources/version.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "c74bcba03a80cd44a8326582878536a032a6362d4cb760f69b3ae938803e4218"
-    ], 
-    "lib/charms/spark.py": [
-      "apache-spark", 
-      "static", 
-      "ddcf0488ed7dc15b0289748c972bc79bae0a05b68be009ba5d3b4eb8e6f34420"
-    ], 
-    "lib/yaml/nodes.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "1812c8ce6e1ecec8363000cee292a7815c10cc40d4aa1b76f4d1e4140f093164"
-    ], 
-    "lib/pyaml-15.8.2.dist-info/metadata.json": [
-      "layer:bigdata", 
-      "dynamic", 
-      "547e2c5e2fc22088d580705463178c9e0839e2926e40910036317972730a92e3"
-    ], 
-    "lib/yaml/error.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "ecaf8d748bf4a8d28f29b9d7c448342ff6fd2bb9d80ce46bdebce6f3f6fe8816"
-    ], 
-    "lib/yaml/reader.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "84abb149b89dd6b4a57ca06cb217f9a9a3f055db9a089039b794bd26e9ba0800"
-    ], 
-    "lib/yaml/tokens.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "21595f6ec03714116367a2d461db038b4a0686298be9ce279ceefeb52cc7ad91"
-    ], 
-    "lib/pyaml/tests/__init__.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "lib/yaml/parser.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "d2ca9d07c806630caf68600325099916eb015c26f57ad11750ab68b3a87bcfe6"
-    ], 
-    "hooks/relations/hadoop-plugin/copyright": [
-      "interface:hadoop-plugin", 
-      "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
-    ], 
-    "hooks/spark-plugin-relation-broken": [
-      "interface:spark-plugin", 
-      "dynamic", 
-      "76f43a288bedf29f4d4466c8337ee6c5d91899800654a5a256a9629c0e654667"
-    ], 
-    "lib/pyaml/tests/dump.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "3f875e431a5f5dbfcb0035a6558ea6d9b77730435b126c3663694444eef5b1b7"
-    ], 
-    "lib/pyaml/tests/dump.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "fa63fa04950eba2a41d7327de2a6eba0ec3558986b16e78d79b28c51f253cf95"
-    ], 
-    "hooks/relations/spark-plugin/requires.py": [
-      "interface:spark-plugin", 
-      "static", 
-      "9c4321482f4eb04da49767c8db752ea6f2dcf3c016e0eb8662f40189dfbcc506"
-    ], 
-    "lib/pyaml/tests/__init__.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "44661c79015db3b88b49aa186400f2d42826a1f5f5cdc6431315237f9979c03e"
-    ], 
-    "reactive/spark.py": [
-      "apache-spark", 
-      "static", 
-      "a2d07e676afa780aed50a705802a33b05657fa810b840c3a18b878c4b2974e3f"
-    ], 
-    "wheelhouse/charmhelpers-0.5.2-py2-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "4ecc390572f48ce65b46e63bae17db015f7874e11a919b38692d67ed506a2bca"
-    ], 
-    "lib/yaml/scanner.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "ed0210b87a9e79c478bb846fe185ed033ff710f733259333f6ce48d97a9cc560"
-    ], 
-    "lib/yaml/cyaml.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "c4afc8c64ad171eb5978dc01ff0cc30076025acba63857ec4e593709ea0ce644"
-    ], 
-    "lib/PyYAML-3.11.dist-info/RECORD": [
-      "layer:bigdata", 
-      "dynamic", 
-      "7eb977990a8e1342a6226b6f62d8b1e585e861d0b0ce788dba62b1730f8e957d"
-    ], 
-    "lib/yaml/__init__.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "24cbf8ae0d071849383e5388916cf18b69a0d66bd4c765cd914734824e61b02c"
-    ], 
-    "lib/yaml/emitter.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "5f26bbce14d7df293130074080321e75e8e62dbd50ef55b61b8cade274d23083"
-    ], 
-    "Makefile": [
-      "layer:basic", 
-      "static", 
-      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
-    ], 
-    "lib/yaml/cyaml.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "bcf9f820846fb437d0ca01b294b2b7f10a138a7944136dc663eadb4e6d5d8cb2"
-    ], 
-    "lib/yaml/composer.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "0fe5d583f883f1419a0ee474029d7c1d89d3f2151395ba3791c99db4f2a84c1f"
-    ], 
-    "lib/pyaml/__main__.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "6e7293293c4c50e78a2211ef5734f959d412999d4950cf7e8fd97f3e98b7b64b"
-    ], 
-    ".build.manifest": [
-      "build", 
-      "dynamic", 
-      "unchecked"
-    ], 
-    "actions/start-spark-job-history-server": [
-      "apache-spark", 
-      "static", 
-      "79c56e725532f6d8532806a22ef695f1cc12a62689fe62ab9016bccdec49e576"
-    ], 
-    "lib/jujuresources-0.3.1.dist-info/top_level.txt": [
-      "layer:bigdata", 
-      "dynamic", 
-      "5d1910aa7313e6f9ef0336ea27a60634fe7030d5e26c93cce0c5377cd8440f04"
-    ], 
-    "hooks/upgrade-charm": [
-      "layer:basic", 
-      "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
-    ], 
-    "scripts/sparkpi.sh": [
-      "apache-spark", 
-      "static", 
-      "8039e058e33c6a2b7dbe4e6fef20bdc760f4d63492598fccb0cbc49966db197b"
-    ], 
-    "lib/jujuresources-0.3.1.dist-info/DESCRIPTION.rst": [
-      "layer:bigdata", 
-      "dynamic", 
-      "bf968c0eb1dbf2a71379dc879ab67ff59f37ed321124cbd73ade90ec3c523ff7"
-    ], 
-    "lib/yaml/dumper.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "38d3d83478ab9cb9bea829be87db309cc5b36619dc8a57b16e820f46835d72ae"
-    ], 
-    "hooks/relations/spark-plugin/interface.yaml": [
-      "interface:spark-plugin", 
-      "static", 
-      "9fe6d8ab294227cccac5aef3a601e4d6a9f0d8691b34ff1dd35fca35f41b9fb5"
-    ], 
-    "tox.ini": [
-      "layer:basic", 
-      "static", 
-      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
-    ], 
-    "metadata.yaml": [
-      "apache-spark", 
-      "dynamic", 
-      "1ed67956c1e75e2554797ee84f2539ece0644eca96c3bf7742112b50bdc283de"
-    ], 
-    "wheelhouse/netaddr-0.7.18-py2-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "331ef753c0cb3a3d8f9ea13c5d692135d45f9ca6bed87d65a020fe0374aec8bf"
-    ], 
-    "lib/PyYAML-3.11.dist-info/top_level.txt": [
-      "layer:bigdata", 
-      "dynamic", 
-      "ae98f42153138ac02387fd6f1b709c7fdbf98e9090c00cfa703d48554e597614"
-    ], 
-    "lib/yaml/loader.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "235ba82876afd6212da3178d983d8b6790140010b07cd3cbc1c9f346e669bdf6"
-    ], 
-    "wheelhouse/Jinja2-2.8-py2.py3-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "ff3e656bdb1b151c95ca06f886f52b5e95bae891818b5ba5da7efc29dd24391d"
-    ], 
-    "bin/juju-resources": [
-      "layer:bigdata", 
-      "dynamic", 
-      "5253e2d483652778e4249da6ea57e6d3c772080b49da7affcede10a4c16ad0bf"
-    ], 
-    "lib/jujuresources/__init__.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "45d71419778c5e2206f51b76b222ad2eeed82e014675aa4ab1b7e9ff47c53d1b"
-    ], 
-    "lib/jujuresources/cli.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "8e6c198c6883cd050fce66375269d86511f0e7e8d01a66c848933b4c963ea630"
-    ], 
-    "lib/yaml/loader.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "b7f58b6f0d7e896438293fc5529a49bb7d1c14853e97c3426fb6e3a1726857a0"
-    ], 
-    "hooks/hadoop-relation-joined": [
-      "interface:hadoop-plugin", 
-      "dynamic", 
-      "c85f148d5cfa5b1964ea65fc3f3ab12e9814b5c74aef635958a901ebfca89705"
-    ], 
-    "lib/pyaml-15.8.2.dist-info/WHEEL": [
-      "layer:bigdata", 
-      "dynamic", 
-      "2536fb633b51f1f90f83a6928dce7bd50e1e8951c2c26503957f0f86ebaa2081"
-    ], 
-    "lib/pyaml-15.8.2.dist-info/RECORD": [
-      "layer:bigdata", 
-      "dynamic", 
-      "cc5a3383cefb43f3218ee6467086f96ea346bb7dfcb900edf985b3ad286adfc9"
-    ], 
-    "lib/jujuresources/cli.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "beb9de0b7f0454a635c5e6a11fdbc70f68849c82ec2c0227d16388455c28f605"
-    ], 
-    "lib/yaml/events.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "e74fd392c810884e2ea7e94aa3f57e9c1cbeb402319083d0c58e6a0e1282787c"
-    ], 
-    "hooks/config-changed": [
-      "layer:basic", 
-      "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
-    ], 
     "hooks/hadoop-relation-changed": [
       "interface:hadoop-plugin", 
       "dynamic", 
@@ -488,80 +173,65 @@
       "static", 
       "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
     ], 
-    "lib/jujuresources-0.3.1.dist-info/entry_points.txt": [
-      "layer:bigdata", 
-      "dynamic", 
-      "8c464ff5eabf6e216ab773620d6195f3eb889a6911fa77a93802cecac780fd26"
-    ], 
-    "lib/PyYAML-3.11.dist-info/WHEEL": [
-      "layer:bigdata", 
-      "dynamic", 
-      "d7d51074ef91c1616cdfc9a754de61ad7a3f76b545f122769cb68a68adf493d5"
+    "scripts/sparkpi.sh": [
+      "apache-spark", 
+      "static", 
+      "8039e058e33c6a2b7dbe4e6fef20bdc760f4d63492598fccb0cbc49966db197b"
     ], 
     "hooks/relations/hadoop-plugin/README.md": [
       "interface:hadoop-plugin", 
       "static", 
-      "938ba74f4f3f6a16aa6feac8f8be2b4e755305e0c82bd2f3baf0f247727d049b"
+      "6c487353f0a4e43dceea6d2893325c245ff572256f3ac3a09f3ad08648f19c54"
     ], 
     "wheelhouse/MarkupSafe-0.23-cp27-none-linux_x86_64.whl": [
       "layer:basic", 
       "dynamic", 
-      "e454e55f752eaa9af832343877efbfc494f878c80f356adb6a69f59b41850324"
+      "e135b8dc01195cd33efde81e4341719cc388ca8b5cb163c5b339a6aec0d2b39c"
+    ], 
+    "wheelhouse/pyaml-15.8.2-py2-none-any.whl": [
+      "layer:bigdata", 
+      "dynamic", 
+      "031b5c4b661cdaf0eb90048478bf91c9aed99509864cee3113061490f596dd00"
     ], 
     "hooks/spark-plugin-relation-joined": [
       "interface:spark-plugin", 
       "dynamic", 
       "76f43a288bedf29f4d4466c8337ee6c5d91899800654a5a256a9629c0e654667"
     ], 
-    "lib/jujuresources/backend.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "464979f8e2c26b207b6897a3c2027fc59520aacba7035187f94b5fca162d8fb6"
-    ], 
-    "lib/jujuresources/backend.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "aaf0d0925016940bce9c97ede39cccd92d2a2689e4a7a01240826623a64d3c1c"
-    ], 
-    "lib/pyaml/__init__.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "7ef1a49b3133b623d3f4616dd47d7ade2c04bf67b9a29fac59b389da035705c0"
-    ], 
-    "lib/pyaml-15.8.2.dist-info/METADATA": [
-      "layer:bigdata", 
-      "dynamic", 
-      "9e6ed1c390ee9c654f1d2675a79af19c6cc1e8ee1e25c471c2851fa1c881c77a"
-    ], 
-    "actions/restart-spark-job-history-server": [
-      "apache-spark", 
-      "static", 
-      "82cad88d194c2c5e5abcd3a5c5ce00153a240d40b3ae58c53ad9c67799ec021b"
-    ], 
     "hooks/spark-plugin-relation-changed": [
       "interface:spark-plugin", 
       "dynamic", 
       "76f43a288bedf29f4d4466c8337ee6c5d91899800654a5a256a9629c0e654667"
     ], 
-    "lib/PyYAML-3.11.dist-info/metadata.json": [
-      "layer:bigdata", 
+    "wheelhouse/netaddr-0.7.18-py2-none-any.whl": [
+      "layer:basic", 
       "dynamic", 
-      "80dd9af2ff53be608237c2648c4dc50811e31b01f7dd6f1d459a336a7a2ce921"
+      "3d2a9155cd4af0590458d1db547070b6d550fb2da52ff10a0589a78bd77eb930"
     ], 
-    "lib/pyaml/__init__.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "784a2fd10d656ac59c7e2dc522d9e7e58bcc4b5a94785587a78383ab70f9b428"
+    "lib/charms/__init__.py": [
+      "apache-spark", 
+      "static", 
+      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
     ], 
-    "lib/PyYAML-3.11.dist-info/DESCRIPTION.rst": [
-      "layer:bigdata", 
-      "dynamic", 
-      "e27ce4acec0c4d87eeb087dd473e3e765ffd0656a7e5ac473ca32254910e57ee"
+    "hooks/relations/spark-plugin/interface.yaml": [
+      "interface:spark-plugin", 
+      "static", 
+      "9fe6d8ab294227cccac5aef3a601e4d6a9f0d8691b34ff1dd35fca35f41b9fb5"
     ], 
-    "lib/jujuresources-0.3.1.dist-info/METADATA": [
-      "layer:bigdata", 
+    "wheelhouse/six-1.10.0-py2.py3-none-any.whl": [
+      "layer:basic", 
       "dynamic", 
-      "4d1157bd0736cc126ba74a7c2cd9f023bb8bef36f05c14931144d57e7274ac9e"
+      "8f495def8f35a54fdccc90484a9c000545fd888ca4f2269fb0c45f7eb27c31a7"
+    ], 
+    "README.md": [
+      "layer:basic", 
+      "static", 
+      "6dfdfa3f3dda300eba642ebed55ebb88c6f4ca58e448bb38aaeacc7934e790cf"
+    ], 
+    "hooks/relations/spark-plugin/requires.py": [
+      "interface:spark-plugin", 
+      "static", 
+      "9c4321482f4eb04da49767c8db752ea6f2dcf3c016e0eb8662f40189dfbcc506"
     ], 
     "hooks/relations/spark-plugin/__init__.py": [
       "interface:spark-plugin", 
@@ -569,49 +239,44 @@
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
     "wheelhouse/pip-7.1.2-py2.py3-none-any.whl": [
-      "layer:basic", 
+      "layer:bigdata", 
       "dynamic", 
-      "510c789054ac8196b8bcb6b567868abc0a9749ea36beec1e12a3d14036d82277"
+      "1ddc7d891e8aaf376ab9c57b0c54166448db4562a900bc01643984c7c1505c16"
     ], 
     "hooks/relations/hadoop-plugin/requires.py": [
       "interface:hadoop-plugin", 
       "static", 
-      "0cc9e28f01f54d290f3021e60c64c79a75830314c38e28f8509161ce52427dc8"
+      "1308bd2e1bd423e3ca8b0dbd932d672dc449a27161f997551490f21a832cecfd"
     ], 
-    "lib/yaml/tokens.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "953408cd2570f0c83dc2fe39f7e4e388e41eeb05738aa69196a5f6ffcf6ba79e"
+    "lib/charms/spark.py": [
+      "apache-spark", 
+      "static", 
+      "ddcf0488ed7dc15b0289748c972bc79bae0a05b68be009ba5d3b4eb8e6f34420"
     ], 
     "wheelhouse/PyYAML-3.11-cp27-none-linux_x86_64.whl": [
-      "layer:basic", 
+      "layer:bigdata", 
       "dynamic", 
-      "ecac728a1e04c8a83f039aaf81e21bc798fa6e962a95a5d97d8d94f56c89ff5d"
+      "bbbeab9fecda82978ecbf31e140e4dfe33d45a6549c2b68c623b8927193eb7b2"
     ], 
     "hooks/start": [
       "layer:basic", 
       "static", 
       "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
     ], 
-    "lib/yaml/representer.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "7d0387c6876fc9a300e2a305acc4b1a7e378c47a759d05782d72f672830170aa"
-    ], 
     "reactive/bigdata.py": [
       "layer:bigdata", 
       "static", 
       "6ae3cc406804ce3ef2b42a75b6cb9609babbcba943fd727eb6e4981cf1ed21d4"
     ], 
-    "lib/yaml/error.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "2a82f2c9338bf891cc658c66c78048c0e792b4e8a8113f27398265782f42f3a9"
-    ], 
     "layer.yaml": [
       "apache-spark", 
       "dynamic", 
       "1be1c1bbae598ed13f52842c25e17babb5c55a88790b60702aaa839dc6a22471"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
     ], 
     "hooks/spark-plugin-relation-departed": [
       "interface:spark-plugin", 
@@ -623,25 +288,20 @@
       "static", 
       "875dce0e99707525fd7cb06b8691ff5d783ef8e115ebd47164885edb2e40c905"
     ], 
-    "lib/yaml/composer.py": [
-      "layer:bigdata", 
-      "dynamic", 
-      "a4e8d9e5a7ea35f1f6d965f24bac654020763db4ab14f8cafaa14f38423be9fc"
-    ], 
-    "lib/yaml/events.pyc": [
-      "layer:bigdata", 
-      "dynamic", 
-      "a857a75316950b15b582ca06498f846337237dd67f8cc17b1fab991f1c4524f2"
-    ], 
-    "lib/pyaml-15.8.2.dist-info/DESCRIPTION.rst": [
-      "layer:bigdata", 
-      "dynamic", 
-      "7483fdb59a6c49be038412e50a70bcd80788b1f97c6222bbcc2ad4b4b3c9b29d"
-    ], 
     "hooks/relations/hadoop-plugin/provides.py": [
       "interface:hadoop-plugin", 
       "static", 
-      "afecfc676503ae6a9bd9f10a35a0fc6c1bfdadab6e0e16bf9a5bd142b1c8e682"
+      "db24ba8942ea38892be39a33b79fc2a80ccbf34452b9f59ff5f312734e518938"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "reactive/spark.py": [
+      "apache-spark", 
+      "static", 
+      "7a8b0b90b427635d0840ccff2bf5778ff7630d5818216c18c42653b71e3acbf0"
     ]
   }
 }

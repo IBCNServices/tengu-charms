@@ -1,5 +1,5 @@
 from charms.reactive import when, when_not
-from charms.reactive import set_state
+from charms.reactive import set_state, remove_state
 from charmhelpers.core import hookenv
 
 
@@ -42,32 +42,38 @@ def dist_config():
 
 
 @when('bootstrapped')
-@when_not('spark.installed')
-def install_spark():
-    from charms.spark import Spark  # in lib/charms; not available until after bootstrap
-
-    spark = Spark(dist_config())
-    if spark.verify_resources():
-        hookenv.status_set('maintenance', 'Installing Apache Spark')
-        spark.install()
-        set_state('spark.installed')
-
-
-@when('spark.installed')
 @when_not('hadoop.connected')
 def blocked():
     hookenv.status_set('blocked', 'Waiting for relation to Hadoop')
 
 
-@when('spark.installed', 'hadoop.connected')
-@when_not('hadoop.yarn.ready', 'hadoop.hdfs.ready')
-@when_not('spark.started')
-def waiting(*args):
+@when('bootstrapped')
+@when('hadoop.connected')
+@when_not('hadoop.ready')
+def waiting(hadoop):
     hookenv.status_set('waiting', 'Waiting for Hadoop to become ready')
 
 
-@when('spark.installed', 'hadoop.yarn.ready', 'hadoop.hdfs.ready')
-def start_spark(*args):
+# TODO: support standalone mode when Yarn not connected
+@when('bootstrapped')
+@when('hadoop.ready')
+@when_not('spark.installed')
+def install_spark(hadoop):
+    from charms.spark import Spark  # in lib/charms; not available until after bootstrap
+
+    dist = dist_config()
+    spark = Spark(dist)
+    if spark.verify_resources():
+        hookenv.status_set('maintenance', 'Installing Apache Spark')
+        dist.add_dirs()
+        dist.add_packages()
+        spark.install()
+        set_state('spark.installed')
+
+
+@when('spark.installed', 'hadoop.ready')
+@when_not('spark.started')
+def start_spark(hadoop):
     from charms.spark import Spark  # in lib/charms; not available until after bootstrap
 
     hookenv.status_set('maintenance', 'Setting up Apache Spark')
@@ -81,7 +87,7 @@ def start_spark(*args):
 
 
 @when('spark.started')
-@when_not('hadoop.yarn.ready', 'hadoop.hdfs.ready')
+@when_not('hadoop.ready')
 def stop_spark():
     from charms.spark import Spark  # in lib/charms; not available until after bootstrap
 
@@ -89,3 +95,4 @@ def stop_spark():
     spark = Spark(dist_config())
     spark.close_ports()
     spark.stop()
+    remove_state('spark.started')

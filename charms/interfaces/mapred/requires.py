@@ -13,13 +13,13 @@ class MapredRequires(RelationBase):
         if conv.get_remote('private-address'):
             # this unit's conversation has a port, so
             # it is part of the set of available units
-            conv.set_state('hadoop.yarn.ready')
+            conv.set_state('yarn.available')
 
 
     @hook('{requires:mapred}-relation-{departed,broken}')
     def broken(self):
         conv = self.conversation()
-        conv.remove_state('hadoop.yarn.ready')
+        conv.remove_state('yarn.available')
 
     @property
     def private_address(self):

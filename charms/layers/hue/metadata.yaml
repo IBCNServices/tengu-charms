@@ -18,6 +18,7 @@ requires:
     interface: oozie
   spark:
     interface: livy
+provides:
   hadoop:
     interface: hadoop-plugin
     scope: container

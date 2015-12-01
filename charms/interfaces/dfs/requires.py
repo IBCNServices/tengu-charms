@@ -11,13 +11,13 @@ class HdfsRequires(RelationBase):
     def changed(self):
         conv = self.conversation()
         if conv.get_remote('private-address'):
-            conv.set_state('hadoop.hdfs.ready')
+            conv.set_state('hdfs.available')
 
 
     @hook('{requires:dfs}-relation-{departed,broken}')
     def broken(self):
         conv = self.conversation()
-        conv.remove_state('hadoop.hdfs.ready')
+        conv.remove_state('hdfs.available')
 
 
     @property

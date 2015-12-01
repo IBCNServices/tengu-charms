@@ -3,7 +3,6 @@ import string
 import random
 
 import jujuresources
-from jujubigdata.utils import re_edit_in_place
 
 from charmhelpers.core import hookenv, templating, host
 
@@ -20,7 +19,9 @@ class Hue(object):
 
     def install(self):
         from jujubigdata import utils
-        self.dist_config.add_users()
+        from jujubigdata.utils import re_edit_in_place
+        #TODO: use correct users when https://github.com/juju-solutions/jujubigdata/issues/21 is fixed
+        #self.dist_config.add_users()
         self.dist_config.add_dirs()
         self.dist_config.add_packages()
         jujuresources.install(self.resources['hue'],
@@ -36,16 +37,16 @@ class Hue(object):
         )
         templating.render(
             'upstart.conf',
-            '/etc/init/livy.conf',
+            '/etc/init/hue.conf',
             context={
                 'hue': self.dist_config.path('hue'),
+                'hue_connect': '{}:{}'.format(hookenv.unit_private_ip(), '8000')
             },
         )
         randomstring = ''.join(random.SystemRandom().choice(
-            string.ascii_letters + string.digits) for _ in range(20)
-        )
+            string.ascii_letters + string.digits) for _ in range(20))
         re_edit_in_place(self.hue_ini, {
-            r'^\s*#*\s*desktop.secret_key=.*' : "      desktop.secret_key={}".format(randomstring),
+            r'^\s*#*\s*secret_key=.*' : "  secret_key={}".format(randomstring),
         })
 
     def configure(self):
@@ -56,10 +57,10 @@ class Hue(object):
         self.start()
 
     def start(self):
-        host.service_start('livy')
+        host.service_start('hue')
 
     def stop(self):
-        host.service_stop('livy')
+        host.service_stop('hue')
 
     def cleanup(self):
         self.dist_config.remove_users()
@@ -67,11 +68,11 @@ class Hue(object):
 
     def open_ports(self):
         #for port in self.dist_config.exposed_ports('hue'):
-        hookenv.open_port('8090')
+        hookenv.open_port('8000')
 
     def close_ports(self):
         #for port in self.dist_config.exposed_ports('hue'):
-        hookenv.close_port('8090')
+        hookenv.close_port('8000')
 
     @property
     def hue_ini(self):

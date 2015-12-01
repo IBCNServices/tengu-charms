@@ -54,7 +54,7 @@ def blocked():
 @when('hue.installed', 'hadoop.connected')
 @when_not('hadoop.yarn.ready', 'hadoop.hdfs.ready')
 @when_not('hue.started')
-def waiting():
+def waiting(*args):
     hookenv.status_set('waiting', 'Waiting for Hadoop to become ready')
 
 
@@ -72,7 +72,7 @@ def start_hue():
 
 
 @when('hue.started')
-@when_not('yarn.ready', 'hdfs.ready')
+@when_not('yarn.available', 'hdfs.available')
 def stop_hue():
     hookenv.status_set('maintenance', 'Stopping Hue')
     hue = hueutils.Hue()
@@ -93,7 +93,7 @@ def restart_hue():
     'hadoop.hdfs.ready' # Plugin should indicate hdfs is ready
     )
 @when_not('hdfs.configured')
-def namenode_relation_changed(hdfs):
+def configure_hdfs(hdfs, hadoop):
     from jujubigdata.utils import re_edit_in_place
     hue = hueutils.Hue()
     namenode_ip = hdfs.private_address
@@ -105,6 +105,27 @@ def namenode_relation_changed(hdfs):
 
     })
     set_state('hdfs.configured')
+
+
+@when(
+    'hue.installed', # Hue should be installed
+    'yarn.available', # Yarn relation available
+    'hadoop.yarn.ready' # Plugin should indicate yarn is ready
+    )
+@when_not('yarn.configured')
+def configure_yarn(yarn, hadoop):
+    from jujubigdata.utils import re_edit_in_place
+    hue = hueutils.Hue()
+    resourcemanager_ip = yarn.private_address
+    assert resourcemanager_ip
+    re_edit_in_place(hue.hue_ini, {
+        r'^\s*#*\s*resourcemanager_host=.*' : "      resourcemanager_host={}".format(resourcemanager_ip),
+        r'^\s*#*\s*resourcemanager_port=.*' : "      resourcemanager_port=8032",
+        r'^\s*#*\s*resourcemanager_api_url=http://.*' : "      resourcemanager_api_url=http://{}:8088".format(resourcemanager_ip),
+        r'^\s*#*\s*proxy_api_url=http://.*' : "      proxy_api_url=http://{}:8088".format(resourcemanager_ip),
+        r'^\s*#*\s*history_server_api_url=http://.*' : "      history_server_api_url=http://{}:19888".format(resourcemanager_ip),
+    })
+    set_state('yarn.configured')
 
 
 @when(
@@ -124,27 +145,6 @@ def configure_spark(spark):
         r'^\s*#*\s*server_url=http://.*' : "      server_url=http://{}".format(livy),
     })
     set_state('spark.configured')
-
-
-@when(
-    'hue.installed', # Hue should be installed
-    'yarn.available', # Yarn relation available
-    'hadoop.yarn.ready' # Plugin should indicate yarn is ready
-    )
-@when_not('yarn.configured')
-def yarn_relation_changed(yarn):
-    from jujubigdata.utils import re_edit_in_place
-    hue = hueutils.Hue()
-    resourcemanager_ip = yarn.private_address
-    assert resourcemanager_ip
-    re_edit_in_place(hue.hue_ini, {
-        r'^\s*#*\s*resourcemanager_host=.*' : "      resourcemanager_host={}".format(resourcemanager_ip),
-        r'^\s*#*\s*resourcemanager_port=.*' : "      resourcemanager_port=8032",
-        r'^\s*#*\s*resourcemanager_api_url=http://.*' : "      resourcemanager_api_url=http://{}:8088".format(resourcemanager_ip),
-        r'^\s*#*\s*proxy_api_url=http://.*' : "      proxy_api_url=http://{}:8088".format(resourcemanager_ip),
-        r'^\s*#*\s*history_server_api_url=http://.*' : "      history_server_api_url=http://{}:19888".format(resourcemanager_ip),
-    })
-    set_state('yarn.configured')
 
 
 @when('hue.installed', 'hive.available')

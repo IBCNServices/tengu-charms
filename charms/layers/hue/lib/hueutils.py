@@ -3,7 +3,6 @@ import string
 import random
 
 import jujuresources
-from jujubigdata.utils import re_edit_in_place
 
 from charmhelpers.core import hookenv, templating, host
 
@@ -20,6 +19,7 @@ class Hue(object):
 
     def install(self):
         from jujubigdata import utils
+        from jujubigdata.utils import re_edit_in_place
         #TODO: use correct users when https://github.com/juju-solutions/jujubigdata/issues/21 is fixed
         #self.dist_config.add_users()
         self.dist_config.add_dirs()
@@ -44,10 +44,9 @@ class Hue(object):
             },
         )
         randomstring = ''.join(random.SystemRandom().choice(
-            string.ascii_letters + string.digits) for _ in range(20)
-        )
+            string.ascii_letters + string.digits) for _ in range(20))
         re_edit_in_place(self.hue_ini, {
-            r'^\s*#*\s*desktop.secret_key=.*' : "      desktop.secret_key={}".format(randomstring),
+            r'^\s*#*\s*secret_key=.*' : "  secret_key={}".format(randomstring),
         })
 
     def configure(self):

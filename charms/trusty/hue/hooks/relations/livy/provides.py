@@ -1,4 +1,3 @@
-
 from charms.reactive import hook
 from charms.reactive import RelationBase
 from charms.reactive import scopes

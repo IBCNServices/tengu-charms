@@ -20,7 +20,8 @@ class Hue(object):
 
     def install(self):
         from jujubigdata import utils
-        self.dist_config.add_users()
+        #TODO: use correct users when https://github.com/juju-solutions/jujubigdata/issues/21 is fixed
+        #self.dist_config.add_users()
         self.dist_config.add_dirs()
         self.dist_config.add_packages()
         jujuresources.install(self.resources['hue'],

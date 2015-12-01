@@ -6,4 +6,5 @@ includes:
 - interface:hive
 - interface:oozie
 - interface:livy
+- interface:hadoop-plugin
 is: hue

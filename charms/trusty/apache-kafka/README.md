@@ -33,13 +33,15 @@ We can list topics with:
 
 We can write to a topic with:
 
-    juju action do kafka/0 write-topic topic=<topic_name>
+    juju action do kafka/0 write-topic topic=<topic_name> data=<data>
     juju action fetch <id>  # <-- id from above command
 
 We can read from a topic with:
 
     juju action do kafka/0 read-topic topic=<topic_name> partition=<#>
     juju action fetch <id>  # <-- id from above command
+
+*partition numbers start at 0*
 
 And finally, we can delete a topic with:
 

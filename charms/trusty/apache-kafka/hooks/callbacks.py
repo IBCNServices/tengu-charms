@@ -1,3 +1,4 @@
+#pylint: disable=c0301,c0111,r0201
 import os
 from subprocess import Popen, check_output
 
@@ -24,7 +25,8 @@ def update_blocked_status():
     if unitdata.kv().get('charm.active', False):
         return True
     if not Zookeeper().connected_units():
-        hookenv.status_set('blocked', 'Waiting for relation to apache-zookeeper')
+        hookenv.status_set(
+            'blocked', 'Waiting for relation to apache-zookeeper')
     elif not Zookeeper().is_ready():
         hookenv.status_set('waiting', 'Waiting for Zookeeper to become ready')
     return True
@@ -106,7 +108,10 @@ class Kafka(object):
             r'^kafka.logs.dir=.*': 'kafka.logs.dir=%s' % self.dist_config.path('kafka_app_logs'),
         })
         # fix for lxc containers and some corner cases in manual provider
-        utils.update_etc_hosts({hookenv.unit_private_ip():hostname()})
+        ip_addr = utils.resolve_private_address(utils.unit_private_ip())
+        utils.update_etc_hosts({
+            ip_addr:hostname()
+        })
         templating.render(
             'upstart.conf',
             '/etc/init/kafka.conf',
@@ -121,8 +126,8 @@ class Kafka(object):
         if Zookeeper().connected_units() and Zookeeper().is_ready():
             zks = []
             for unit, data in Zookeeper().filtered_data().items():
-                ip = utils.resolve_private_address(data['private-address'])
-                zks.append("%s:%s" % (ip, data['port']))
+                zk_ip = utils.resolve_private_address(data['private-address'])
+                zks.append("%s:%s" % (zk_ip, data['port']))
             zks.sort()
             zk_connect = ",".join(zks)
 
@@ -150,8 +155,8 @@ class Kafka(object):
         """
         parts = [command] + list(args)
         quoted = ' '.join("'%s'" % p for p in parts)
-        e = utils.read_etc_env()
-        Popen(['su', user, '-c', quoted], env=e)
+        env = utils.read_etc_env()
+        Popen(['su', user, '-c', quoted], env=env)
 
     def restart(self):
         self.stop()

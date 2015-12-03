@@ -1,3 +1,0 @@
-six
-pyaml
-charmhelpers>=0.5.0

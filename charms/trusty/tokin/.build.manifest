@@ -1,0 +1,205 @@
+{
+  "layers": [
+    "layer:basic", 
+    "layer:juju-client", 
+    "tokin", 
+    "build"
+  ], 
+  "signatures": {
+    "reactive/juju-client.py": [
+      "layer:juju-client", 
+      "static", 
+      "385d4a1e0166021f863ef4ef1078a930a35029d0bf761923dfa1d26d8efa9d0e"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+    ], 
+    "LICENSE": [
+      "tokin", 
+      "static", 
+      "1fff31bc8297921cd62c5eb51acd17a9a9be3e7d7b1dd808e4ae73080631a581"
+    ], 
+    "wheelhouse/MarkupSafe-0.23-cp27-none-linux_x86_64.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "0928901896a2bad246ceced5592da9c3dc07cf452b549d34651d10500a3a054e"
+    ], 
+    "wheelhouse/pyaml-15.8.2-py2-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "1260e44735267775c96f1267e3ab8c61bd84f8446b7dee3e52d6a7fbbbafb177"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "files/tokin/bundletools/__init__.py": [
+      "tokin", 
+      "static", 
+      "947131db8edaf76eda7341b5c422d481b3fd2ed585bc80c934633026c4822357"
+    ], 
+    "files/tokin/templates/lambda-bundle.yaml": [
+      "tokin", 
+      "static", 
+      "85d85a1346ee7dd3a7ca4bf8d6f48e17022e9a46405522ee41344578197a7552"
+    ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    "reactive/tokin.py": [
+      "tokin", 
+      "static", 
+      "a6b1350ba864d57d7a0bafcc23bee803d51372828c04758c966174f7c7a94341"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:juju-client", 
+      "static", 
+      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+    ], 
+    "wheelhouse/pip-7.1.2-py2.py3-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "9bc1af7ee82b996e66cb7ee98257d78d36701b769f88b1e91c91333bca6f1d36"
+    ], 
+    "templates/juju.sh": [
+      "layer:juju-client", 
+      "static", 
+      "d571499626bb985cda154bfb21fe076d0937255f8a87fb20654cd13143040e68"
+    ], 
+    "wheelhouse/six-1.10.0-py2.py3-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "4f34a92761d5516f1970121a3a236e87f25f3aaa51b84ccedb3bc73fa4bfe455"
+    ], 
+    "files/tokin/tokin.py": [
+      "tokin", 
+      "static", 
+      "bf11348f3c56ae07dfa055c0d8beeecac53df98485c93a478afdba84152455fd"
+    ], 
+    "README.md": [
+      "tokin", 
+      "static", 
+      "4794d8254322d35ef2e24c2155763172904e7305c85e3963717c89622fba0817"
+    ], 
+    "templates/upstart.conf": [
+      "tokin", 
+      "static", 
+      "f578dd8d18df8372ec465ca0ac4b65556e06f4f7e37922b24243aa5c21188212"
+    ], 
+    "icon.svg": [
+      "tokin", 
+      "static", 
+      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
+    ], 
+    "metadata.yaml": [
+      "tokin", 
+      "dynamic", 
+      "2d05f98374e49471664ed4a3048c00ebad237bca43a1d67ffb9e995f0f9b68f9"
+    ], 
+    "wheelhouse/netaddr-0.7.18-py2-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "e4ce47f8b7091890d6f9c5d109da37a15eddd14ee4af41f6d5ef35f197a7da43"
+    ], 
+    "files/tokin/bundletools/bundlecreator.py": [
+      "tokin", 
+      "static", 
+      "f7e67bf97ca341bb71c72768027e34e8d0b14bbb3dda271ea16cf7ab1a175cda"
+    ], 
+    "copyright": [
+      "layer:basic", 
+      "static", 
+      "1e2afbd75c71affa132ae7ee3327cb29b5e4b9d9705f27dfd03857c326f50c5c"
+    ], 
+    "wheelhouse/PyYAML-3.11-cp27-none-linux_x86_64.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "31921947ff88636d5eb796381e2d252ae5725f5b2c6008ff70ad28b26b5b39d9"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "wheelhouse/Jinja2-2.8-py2.py3-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "facc0892d8ba7107c0e446858b7eaa6cb9c4f2a972cd5956bc3f420fc01489f5"
+    ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "files/tokin/bcolors.py": [
+      "tokin", 
+      "static", 
+      "636f399b0484b9833681fe3ff8be36189f330adac010bfefa4afa32c7ccfd9a8"
+    ], 
+    "wheelhouse/Tempita-0.5.2-py2-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "d96c0c402d7e23e0fc1b65726fb08e7d126a00aa8e0b12f3e5cf900aac538cf7"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "5f1bf2a89d26e56e57f56456d1390c55803c5f33c0c65f414692555c508283ea"
+    ], 
+    "templates/environments.yaml": [
+      "layer:juju-client", 
+      "static", 
+      "ea7a1f93d096d8b7bf4b432d9cb277c6233fc7465b965de2f6108c7ced12b7db"
+    ], 
+    "config.yaml": [
+      "layer:juju-client", 
+      "dynamic", 
+      "5048939199730be5773d1f3ef44dd0aab19c1465357629814bd5eb21dc246f58"
+    ], 
+    "layer.yaml": [
+      "tokin", 
+      "dynamic", 
+      "29c25f7c843edc8b75b87f42f2cffb1e49e8e1ddcfbcf7c5efd3d52d973b6ecc"
+    ], 
+    "wheelhouse/charms.reactive-0.3.6-py2-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "9c16918c00ac3820b7c6f72bbdb0edf4a0cf9702f6b7307b801728570a6e29d4"
+    ], 
+    "wheelhouse/charmhelpers-0.6.0-py2-none-any.whl": [
+      "layer:basic", 
+      "dynamic", 
+      "e6f6337471c41be9ab4a73f254223fa4b77947121600dc91fbfa849cfed2b220"
+    ], 
+    "files/tokin/juju.py": [
+      "tokin", 
+      "static", 
+      "15763c03190b05d329c48abb6b8bfa7b9b98df6734c2d114974ada2040fd35cc"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+    ]
+  }
+}

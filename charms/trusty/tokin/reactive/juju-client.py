@@ -1,7 +1,4 @@
-#!/usr/bin/python
-# pylint: disable=C0111,C0103
 import os
-import sys
 from os.path import expanduser
 import subprocess
 import pwd
@@ -68,7 +65,6 @@ def get_and_configure_charm_repo(git_url):
             }
         )
         chownr(repo_path, USER, USER)
-    hookenv.status_set('active', 'Ready')
 
 
 def configure_environments():
@@ -130,10 +126,10 @@ def return_environment(name):
     env_conf['environment-jenv'] = b64encode(e_content)
     with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
         e_content = e_file.read()
-    env_conf['environment-privkey'] = b64encode(e_content)
+    env_conf['environment-pubkey'] = b64encode(e_content)
     with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
         e_content = e_file.read()
-    env_conf['environment-pubkey'] = b64encode(e_content)
+    env_conf['environment-privkey'] = b64encode(e_content)
     return env_conf
 
 
@@ -152,9 +148,9 @@ def import_environment(env_conf):
               'w+') as e_file:
         e_file.write(jenv)
     with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'w+') as e_file:
-        e_file.write(privkey)
-    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
         e_file.write(pubkey)
+    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
+        e_file.write(privkey)
     switch_env(name)
 
 
@@ -167,14 +163,3 @@ def switch_env(name):
     except CalledProcessError as ex:
         print ex.output
         raise
-
-if __name__ == '__main__':
-    main()
-
-def main():
-    if len(sys.argv) > 2:
-        if sys.argv[1] == "export":
-            print "exporting env {} to {}".format(sys.argv[3], sys.argv[2])
-            export_environment(sys.argv[2], sys.argv[3])
-            return
-    print "Usage: export <path> <name>"

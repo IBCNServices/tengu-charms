@@ -8,8 +8,12 @@ packages:
 dirs:
     spark:
         path: '/usr/lib/spark'
+        owner: 'ubuntu'
+        group: 'hadoop'
     spark_conf:
         path: '/etc/spark/conf'
+        owner: 'ubuntu'
+        group: 'hadoop'
 ports:
     # Ports that need to be exposed, overridden, or manually specified.
     # Only expose ports serving a UI or external API (i.e., namenode and

@@ -57,7 +57,7 @@ class Rest2jfedConnector(object):
 
     def get_manifest(self, manifest_path):
         """ Gets the manifest of jfed slice (if it exists)"""
-        url = self.get_status
+        url = self.slice_url
         response = requests.get(url, headers=self.headers)
         if response.status_code == 200:
             with open(manifest_path, 'r+') as manifest_file:
@@ -139,7 +139,7 @@ class Rest2jfedConnector(object):
 
     @property
     def exp_url(self):
-        """ rest url for status """
+        """ rest url for expiration """
         return '{0}/expiration'.format(self.slice_url)
 
 

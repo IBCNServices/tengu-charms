@@ -1,0 +1,9 @@
+#!/bin/bash
+# Decodes and writes bundle to temp file
+# Deploys bundle
+# Removes tempfile
+if [ "$(id -u)" == "0" ]; then
+   exec su ubuntu "$0"
+fi
+name=$(action-get name)
+tengu create $name

@@ -64,12 +64,32 @@ def init_bare_jfed(global_conf):
     return init_jfed(None, global_conf, locked=True)
 
 
+def create_from_bundle(env_name, bundle_path):
+    if not os.path.isfile(bundle_path):
+        fail("cannot find bundle at {}".format(bundle_path))
+    nrnodes = count_machines(bundle_path)
+    create_env(env_name, nrnodes)
+    deploy_bundle(bundle_path)
+
+
+def count_machines(bundle_path):
+    with open(bundle_path, 'r') as bundle_file:
+        bundle = yaml.load(bundle_file)
+    return len(bundle['machines'])
+
+
+def deploy_bundle(bundle_path):
+    command = ['juju', 'deployer', '-c', bundle_path]
+    subprocess.check_output(command)
+
+
 def create_virtualwall(env_name, env_conf, jfed):
     """Deploys a tengu env"""
-    if jfed.exp_exists() and not os.path.isfile(env_conf['manifest_path']):
-        print "jFed experiment exists, downloading manifest"
-        if not jfed.download_manifest(env_conf['manifest_path']):
-            fail('Manifest download failed')
+    if jfed.exp_exists():
+        print "jfed exp exists"
+        if os.path.isfile(env_conf['manifest_path']):
+            print "jFed experiment exists, downloading manifest"
+            jfed.get_manifest(env_conf['manifest_path'])
     else:
         print "jFed experiment doesn't exist, making one now."
         try:
@@ -104,6 +124,7 @@ def create_env(env_name, nodes=5, public_ipv4=0):
     env_conf = init_environment_config(env_name, rspec=rspec)
     create_virtualwall(env_name, env_conf, jfed)
     env_conf['locked'] = 'False'
+    env_conf['juju_env_conf']['bootstrap-user'] = 'jujuuser'
     env_conf.save()
     create_juju(env_conf)
 
@@ -318,6 +339,7 @@ def downloadbigfiles(path):
 
 WRONG_INPUT_MSG = """Usage:
 tengu create <env-name> [<#nodes> [<#pub_ipv4>]]
+tengu create --bundle <bundle-path> <env-name>
 tengu destroy <env-name>
 tengu config <env-name>
 tengu lock <env-name>
@@ -394,7 +416,10 @@ def main():
             return
     elif len(sys.argv) == 5:
         if sys.argv[1] == "create":
-            create_env(sys.argv[2], sys.argv[3], sys.argv[4])
+            if sys.argv[2] == "--bundle":
+                create_from_bundle(sys.argv[4], sys.argv[3])
+            else:
+                create_env(sys.argv[2], sys.argv[3], sys.argv[4])
             return
         if sys.argv[1] == "jfed" and sys.argv[2] == "renew":
             slicename = sys.argv[3]

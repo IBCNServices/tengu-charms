@@ -1,7 +1,5 @@
 #!/bin/bash
-# Decodes and writes bundle to temp file
-# Deploys bundle
-# Removes tempfile
+# Deploys bundle. Creates Juju and Jfed environment if they don't exist.
 if [ "$(id -u)" == "0" ]; then
    exec su ubuntu "$0"
 fi

@@ -23,3 +23,11 @@ options:
     type: string
     description: base64 encoded privkey file
     default:
+  emulab-s4-cert:
+    type: string
+    default: VGhpcyBpcyB0aGUgZGVmYXVsdCBjZXJ0aWZpY2F0ZSB2YWx1ZS4gUGxlYXNlIGNoYW5nZSBtZSBiZWZvcmUgdXNlCg==
+    description: Emulab speaksfor certificate (BASE64 encoded)
+  emulab-project-name:
+    type: string
+    default: This is the default project value. Please change me before use.
+    description: Password of the emulab certificate

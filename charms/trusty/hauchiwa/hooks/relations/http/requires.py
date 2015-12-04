@@ -47,7 +47,7 @@ class HttpRequires(RelationBase):
                 'service_name': service_name,
                 'hosts': [],
             })
-            host = conv.get_remote('hostname') or conv.get_remove('private-address')
+            host = conv.get_remote('hostname') or conv.get_remote('private-address')
             port = conv.get_remote('port')
             if host and port:
                 service['hosts'].append({

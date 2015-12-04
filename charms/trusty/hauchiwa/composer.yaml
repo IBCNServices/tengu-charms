@@ -1,4 +1,0 @@
-includes:
-- layer:juju-client
-- interface:http
-is: hauchiwa

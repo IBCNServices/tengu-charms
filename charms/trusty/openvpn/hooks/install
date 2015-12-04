@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# Retrieve all client settings
+DOMAIN=`config-get domain`
+KEY_SIZE=`config-get key-size`
+KEY_COUNTRY=`config-get key-country`
+KEY_PROVINCE=`config-get key-province`
+KEY_CITY=`config-get key-city`
+KEY_ORG=`config-get key-org`
+
+# If the user hasn't set a domain, default it to localhost.
+# Using 'hostname -f' will most often reveal the internal IP
+# so defaulting to localhost seems like a better option.
+[ -n "${DOMAIN}" ] || DOMAIN='localhost'
+
+# Import shared functions and variables
+juju-log "Importing common variables and functions"
+source hooks/common.sh
+
+# Install OpenVPN via the distro's repository
+juju-log "Installing OpenVPN package"
+apt-get install -qqy openvpn easy-rsa
+
+# Create the easy-rsa environment based on the provided skeleton
+# and force openssl-1.0.0 to be the referenced config since the
+# openssl-1.X.X package is installed by default now.
+juju-log "Creating initial environment"
+mkdir $EASY_RSA
+cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0/* $EASY_RSA/
+ln -s $EASY_RSA/openssl-1.0.0.cnf $EASY_RSA/openssl.cnf
+
+# The charm favors using a modified 'vars' file to remove extraneous
+# export statements. We will persist the user specified KEY_* settings
+# and change the EASY_RSA export to use the newly created directory.
+# Finally, a cd is necessary to properly source and run the "clean-all"
+# script which recreates the $EASY_RSA/keys directory.
+juju-log "Setting environment variables"
+cp files/vars $EASY_RSA
+echo "export KEY_EMAIL=webmaster@${DOMAIN}" >> $EASY_RSA/vars
+echo "export KEY_SIZE=\"${KEY_SIZE}\"" >> $EASY_RSA/vars
+echo "export KEY_COUNTRY=\"${KEY_COUNTRY}\"" >> $EASY_RSA/vars
+echo "export KEY_PROVINCE=\"${KEY_PROVINCE}\"" >> $EASY_RSA/vars
+echo "export KEY_CITY=\"${KEY_CITY}\"" >> $EASY_RSA/vars
+echo "export KEY_ORG=\"${KEY_ORG}\"" >> $EASY_RSA/vars
+sed -r -i -e "s|export EASY_RSA=\"\"|export EASY_RSA=\"${EASY_RSA}\"|g" $EASY_RSA/vars
+cd $EASY_RSA && source ./vars && ./clean-all
+
+# Create a server and client config from the skeleton provided, and
+# remove all comments for the production configs for readability. Leave
+# a example config for users to reference if desired, although not
+# necessary.
+juju-log "Unpacking initial server configuration"
+cat /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz | gunzip - > ${SERVER_CONF}.example
+cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ${CLIENT_CONF}.example
+egrep -v '^#.*' ${SERVER_CONF}.example | egrep -v '^;.*' | egrep '^[a-z].*' > $SERVER_CONF
+egrep -v '^#.*' ${CLIENT_CONF}.example | egrep -v '^;.*' | egrep '^[a-z].*' > $CLIENT_CONF
+
+# Generate all the keys/certs for the server based on the given
+# KEY_* variables. Copy the keys/certs for use with the server
+# and update the config with their names. Add TLS auth support
+# to both server and client configs.
+juju-log "Generating and installing server certificates"
+juju-log "Starting with CA"
+$PKITOOL --initca
+juju-log "Now to the server"
+$PKITOOL --server $DOMAIN
+juju-log "now to DH"
+$EASY_RSA/build-dh
+juju-log "generating TA key"
+openvpn --genkey --secret $EASY_RSA/keys/ta.key
+juju-log "copying keys over..."
+cp $EASY_RSA/keys/{${DOMAIN}.crt,${DOMAIN}.key,ta.key,ca.crt,dh${KEY_SIZE}.pem} /etc/openvpn/
+sed -i -e "s/cert server.crt/cert ${DOMAIN}.crt/g" $SERVER_CONF
+sed -i -e "s/key server.key/key ${DOMAIN}.key/g" $SERVER_CONF
+sed -r -i "s/dh .*/dh dh${KEY_SIZE}.pem/g" $SERVER_CONF
+echo "tls-auth ta.key 0" >> $SERVER_CONF
+echo "tls-auth ta.key 1" >> $CLIENT_CONF
+
+# Move on to the real fun.
+juju-log "Install complete"

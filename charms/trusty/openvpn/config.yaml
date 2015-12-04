@@ -1,0 +1,61 @@
+options:
+  user:
+    type: string
+    default: admin
+    description: user for certificate generation
+  domain:
+    type: string
+    default: ""
+    description: FQDN of the server, defaults to unit's given hostname
+  port:
+    type: int
+    default: 1194
+    description: port for VPN traffic
+  interface:
+    type: string
+    default: eth0
+    description: interface to forward traffic to/from (WARNING only change this if you are sure)
+  protocol:
+    type: string
+    default: udp
+    description: protocol for VPN communication (tcp|udp)
+  reroute-gateway:
+    type: boolean
+    default: False
+    description: reroutes all client traffic through the established VPN tunnel
+  reroute-dns:
+    type: boolean
+    default: False
+    description: reroutes all DNS traffic through the established VPN tunnel
+  dns-servers:
+    type: string
+    default: "208.67.220.220, 208.67.222.222"
+    description: DNS servers to use for reroute options (defaults to OpenDNS)
+  client-network:
+    type: string
+    default: "5.5.0.0/20"
+    description: network to use for client addressing; must include a cidr suffix, i.e. X.X.X.X/XX
+  additional-routes:
+    type: string
+    default: ""
+    description: additional routes to be routed through the VPN (i.e. '1.1.1.0/23, 2.2.2.0/8')
+  key-size:
+    type: int
+    default: 1024
+    description: size of the RSA key (typically 1024 or 2048)
+  key-country:
+    type: string
+    default: "US"
+    description: country field for RSA certificate
+  key-province:
+    type: string
+    default: "CA"
+    description: province field for RSA certificate 
+  key-city:
+    type: string
+    default: "Ubuntu"
+    description: city field for RSA certificate
+  key-org:
+    type: string
+    default: "Juju"
+    description: organization field for RSA certificate

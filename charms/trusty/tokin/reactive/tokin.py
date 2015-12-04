@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# pylint: disable=c0111,
 import subprocess
 import os
 import shutil
@@ -16,6 +17,8 @@ from charms.reactive.decorators import when_file_changed
 def start():
     host.service_start('tokin')
     set_state('tokin.started')
+    hookenv.status_set('Ready', 'Tokin ready')
+
 
 # Flask reloads itself on file change, so restart is only needed if upstart
 # file changed
@@ -39,7 +42,9 @@ def install_tokin():
     hookenv.status_set('maintenance', 'Installing tokin')
     packages = ['python-pip']
     fetch.apt_install(fetch.filter_installed_packages(packages))
-    subprocess.check_output(['pip', 'install', 'Jinja2', 'Flask', 'jujuclient', 'pyyaml'])
+    subprocess.check_output([
+        'pip', 'install', 'Jinja2', 'Flask', 'jujuclient', 'pyyaml'
+    ])
     mergecopytree('files/tokin', '/opt/tokin',
                   symlinks=True)
     templating.render(
@@ -47,6 +52,7 @@ def install_tokin():
         target='/etc/init/tokin.conf',
         context={}
     )
+
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):
     """"Recursive copy src to dst, mergecopy directory if dst exists.

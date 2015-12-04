@@ -1,6 +1,4 @@
-# import pprint
-# pprint.pprint(config)
-#
+# pylint: disable=c0111,r0201
 #
 """ Handles communication to Juju """
 
@@ -105,14 +103,17 @@ class JujuEnvironment(object):
             raise
 
 
-    def deploy(self, charm, name, config_path=None):
+    def deploy(self, charm, name, config_path=None, to=None): #pylint: disable=c0103
         """ Deploy <charm> as <name> with config in <config_path> """
         c_action = ['juju', 'deploy']
         c_charm = [charm, name]
         c_config = []
+        c_to = []
         if config_path:
             c_config = ['--config', config_path]
-        command = c_action + c_charm + c_config
+        if to:
+            c_to = ['--to', to]
+        command = c_action + c_charm + c_config + c_to
         try:
             check_output(command, stderr=STDOUT)
         except CalledProcessError as ex:
@@ -152,6 +153,17 @@ class JujuEnvironment(object):
         c_charm = [name]
         c_force = ['--force']
         command = c_action + c_charm + c_force
+        try:
+            check_output(command, stderr=STDOUT)
+        except CalledProcessError as ex:
+            print ex.output
+            raise
+
+    def add_relation(self, charm1, charm2):
+        """ add relation between two charms """
+        c_action = ['juju', 'add-relation']
+        c_relations = [charm1, charm2]
+        command = c_action + c_relations
         try:
             check_output(command, stderr=STDOUT)
         except CalledProcessError as ex:

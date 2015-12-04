@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" tengu-controller REST API """
+#pylint: disable=c0111
 from flask import Flask, Response, request
 import tempfile
 import yaml
@@ -12,10 +12,10 @@ APP = Flask(__name__)
 @APP.route('/')
 def api_root():
     """ Welcome message """
-    return 'Welcome to tengu-controller v0.1'
+    return 'Welcome to tokin v0.1'
 
 
-@APP.route('/hauchiwa/<instance_id>', methods=['POST'])
+@APP.route('/hauchiwa/<instance_id>', methods=['PUT'])
 def api_hauchiwa_create(instance_id):
     """ Creates new tengu hauchiwa """
     if len(instance_id) > 10:
@@ -24,17 +24,19 @@ def api_hauchiwa_create(instance_id):
                         mimetype='text/plain')
     juju = JujuEnvironment(None)
     hauchiwa_name = instance_id + 'hauchiwa'
-    hauchiwa_cfg = {}
-    hauchiwa_cfg[hauchiwa_name]['emulab-s4-cert'] = request.headers.get('emulab-s4-cert')
+    hauchiwa_cfg = {str(hauchiwa_name):{}}
+    hauchiwa_cfg[hauchiwa_name]['emulab-s4-cert'] = str(request.headers.get('emulab-s4-cert'))
     hauchiwa_cfg[hauchiwa_name]['emulab-project-name'] = "tengu"
     hauchiwa_cfg[hauchiwa_name]['charm-repo-source'] = "https://github.com/galgalesh/tengu-charms.git"
     t_dir = tempfile.mkdtemp()
     hauchiwa_cfg_path = t_dir + 'hauchiwa-cfg.yaml'
     with open(hauchiwa_cfg_path, 'w+') as hauchiwa_cfg_file:
-        hauchiwa_cfg_file(yaml.dump(hauchiwa_cfg, default_flow_style=False))
-    juju.deploy('local:tengu-instance-admin',
-                instance_id,
-                config_path=hauchiwa_cfg_path)
+        hauchiwa_cfg_file.write(yaml.dump(hauchiwa_cfg, default_flow_style=False))
+    juju.deploy('local:hauchiwa',
+                hauchiwa_name,
+                config_path=hauchiwa_cfg_path,
+                to='lxc:1')
+    juju.add_relation(hauchiwa_name, 'rest2jfed')
     resp = Response("", status=201, mimetype='text/plain')
     return resp
 

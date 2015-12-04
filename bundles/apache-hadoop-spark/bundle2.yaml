@@ -33,7 +33,7 @@ services:
       gui-x: "900"
       gui-y: "200"
   spark2:
-    charm: cs:trusty/apache-spark-3
+    charm: apache-spark
     num_units: 1
     annotations:
       gui-x: "1200"

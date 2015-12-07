@@ -195,7 +195,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "88f1b933b4738e62a534526edc62758928f3acde90b3e8d6d54b3716e47b1b5d"
+      "0227685ac8873656e221658d29a3464bc8e3c2677a6a5990a02afb6c25ff0dc4"
     ], 
     "hooks/rest2jfed-relation-broken": [
       "interface:http", 

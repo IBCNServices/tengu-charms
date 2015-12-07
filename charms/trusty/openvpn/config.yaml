@@ -5,12 +5,12 @@ options:
     description: FQDN of the server, defaults to unit's given hostname
   port:
     type: int
-    default: 443
-    description: port for VPN traffic
+    default: 21
+    description: port for VPN traffic. Default is 21(FTP) since it isn't likely to be used by the server or blocked by the firewall.
   protocol:
     type: string
     default: tcp
-    description: protocol for VPN communication (tcp|udp). Tcp on port 443 is less likely to be blocked by firewalls. Udp on port 1194 is faster.
+    description: protocol for VPN communication (tcp|udp). Tcp on port 443 is least likely to be blocked by firewalls. Udp on port 1194 is fastest.
   key-country:
     type: string
     default: "US"

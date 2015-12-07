@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 sudo iptables -A FORWARD -i eth0 -o eth3 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i eth3 -o eth0 -j ACCEPT
@@ -35,6 +36,34 @@ sudo iptables -t nat -A PREROUTING -p udp -i eth0 --dport 1194 -j DNAT --to-dest
 
 sudo iptables -I FORWARD -p tcp -i eth0 -d 10.2.33.164 --dport 443 -j ACCEPT
 sudo iptables -t nat -A PREROUTING -p tcp -i eth0 --dport 443 -j DNAT --to-destination 10.2.33.164:443
+
+
+# tunnel to openvpn GENERIC
+
+sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+sed -i -e "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g" /etc/sysctl.conf
+
+
+# NAT
+export PUB_IF=eth0
+export PUB_IP=193.190.127.246
+sudo iptables -t nat -A POSTROUTING -o $PUB_IF -j MASQUERADE
+#sudo service iptables-persistent save
+sudo iptables-save > ~/iptables-rules.fw
+# Port forwarding
+export PUB_PORT=443
+export DEST_IP=10.2.33.185
+export DEST_PORT=443
+export PROTOCOL=tcp
+sudo iptables -I FORWARD -p $PROTOCOL -i $PUB_IF -d $DEST_IP --dport $PUB_PORT -j ACCEPT
+sudo iptables -t nat -A PREROUTING -p $PROTOCOL -i $PUB_IF -d $PUB_IP --dport $PUB_PORT -j DNAT --to-destination $DEST_IP:$DEST_PORT
+
+export PUB_PORT=1194
+export DEST_IP=10.2.33.185
+export DEST_PORT=1194
+export PROTOCOL=udp
+sudo iptables -I FORWARD -p $PROTOCOL -i $PUB_IF -d $DEST_IP --dport $PUB_PORT -j ACCEPT
+sudo iptables -t nat -A PREROUTING -p $PROTOCOL -i $PUB_IF -d $PUB_IP --dport $PUB_PORT -j DNAT --to-destination $DEST_IP:$DEST_PORT
 
 
 http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/

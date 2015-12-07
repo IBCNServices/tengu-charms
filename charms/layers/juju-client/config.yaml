@@ -23,3 +23,7 @@ options:
     type: string
     description: base64 encoded privkey file
     default:
+  ssh-keys:
+    type: string
+    description: a comma-seperated list of public ssh keys to add to the default (admin) user. The keys must be in the authorized-keys format: "ssh-rsa <key> <comment>".
+    default:

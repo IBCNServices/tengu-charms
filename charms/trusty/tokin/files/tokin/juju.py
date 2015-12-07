@@ -102,6 +102,14 @@ class JujuEnvironment(object):
             print ex.output
             raise
 
+    def deploy_lxc_networking(self):
+        self.deploy("local:dhcp-server", "dhcp-server", to='0')
+        self.deploy("local:lxc-networking", "lxc-networking", to='1')
+        for machine in self.machines:
+            if machine != '1' and machine != '0':
+                self.add_unit('lxc-networking', to=machine)
+
+
 
     def deploy(self, charm, name, config_path=None, to=None): #pylint: disable=c0103
         """ Deploy <charm> as <name> with config in <config_path> """
@@ -120,6 +128,19 @@ class JujuEnvironment(object):
             print ex.output
             raise
 
+
+    def add_unit(self, name, to=None): #pylint: disable=c0103
+        """ Add unit to existing Charm"""
+        c_action = ['juju', 'add-unit', name]
+        c_to = []
+        if to:
+            c_to = ['--to', to]
+        command = c_action + c_to
+        try:
+            check_output(command, stderr=STDOUT)
+        except CalledProcessError as ex:
+            print ex.output
+            raise
 
     def deploy_bundle(self, bundle_path):
         """ Deploy Juju bundle """

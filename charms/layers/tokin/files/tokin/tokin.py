@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#pylint: disable=c0111
+#pylint: disable=c0111,c0301
 from flask import Flask, Response, request
 import tempfile
 import yaml
@@ -7,7 +7,7 @@ from juju import JujuEnvironment
 #import base64
 
 APP = Flask(__name__)
-
+DEFAULT_PUBKEYS = 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiF+Y54T4MySG8akVwolplZoo8+uGdWHMQtzNEwbirqW8tutHmH2osYavsWyAuIbJPMH/mEMpvWNRilqXv7aw43YcD2Ie43MiLuEV6xWuC1SwdxxfyQ7Y2e0JEKohl6Xx3lWgHpiR5EZFeJmwHazthJnt94m/mTP7sEweK1m9cbk= thomasvanhove,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2AvnkZTypu/srnyAdjHjk6x+vsre05NOwFIOieu2mcAb4aJZOLHBqEE1pxxWrvPUULFS066xgNgvKwNZOZh+OPlUdFpjY2AqN8CtNnLuQ72EPYjpV69nrtsKaJO+ZYqTnl4uZOZDeSoqK0v6RBuBfb5YcZfqpR/z/turw5yZ1H5Ju5mykhzy5wBtWMXWjnODI309Q//0+0MZTSJIYDJ05mwkM0ma1kNWEpJCw9nAvADqYZdU/8thX2j1f3KFdfupZuDIw+rvX3KgCb1cRYvfr8N165J209lxxkwJQuSVGRZ3wUytC/JkqJB1ZK5FhL9WoKD0yXDxi+5nmAQVpVPgD merlijnsebrechts'
 
 @APP.route('/')
 def api_root():
@@ -22,16 +22,24 @@ def api_hauchiwa_create(instance_id):
         return Response("instance_id cannot be longer than 10 characters",
                         status=400,
                         mimetype='text/plain')
-    juju = JujuEnvironment(None)
+    # get values from request
+    s4_cert = str(request.headers.get('emulab-s4-cert'))
+    public_keys = request.form.get('public-keys')
+    # Create config file
     hauchiwa_name = instance_id + 'hauchiwa'
-    hauchiwa_cfg = {str(hauchiwa_name):{}}
-    hauchiwa_cfg[hauchiwa_name]['emulab-s4-cert'] = str(request.headers.get('emulab-s4-cert'))
-    hauchiwa_cfg[hauchiwa_name]['emulab-project-name'] = "tengu"
-    hauchiwa_cfg[hauchiwa_name]['charm-repo-source'] = "https://github.com/galgalesh/tengu-charms.git"
-    t_dir = tempfile.mkdtemp()
-    hauchiwa_cfg_path = t_dir + 'hauchiwa-cfg.yaml'
+    hauchiwa_cfg = {
+        str(hauchiwa_name):{
+            'emulab-s4-cert' : s4_cert,
+            'emulab-project-name' : "tengu",
+            'charm-repo-source' : "https://github.com/galgalesh/tengu-charms.git",
+            'public-keys' : ','.join([DEFAULT_PUBKEYS, public_keys]),
+        }
+    }
+    hauchiwa_cfg_path = tempfile.mkdtemp() + 'hauchiwa-cfg.yaml'
     with open(hauchiwa_cfg_path, 'w+') as hauchiwa_cfg_file:
         hauchiwa_cfg_file.write(yaml.dump(hauchiwa_cfg, default_flow_style=False))
+    # Deploy Hauchiwa
+    juju = JujuEnvironment(None)
     juju.deploy('local:hauchiwa',
                 hauchiwa_name,
                 config_path=hauchiwa_cfg_path,

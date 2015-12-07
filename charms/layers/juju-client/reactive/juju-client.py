@@ -39,11 +39,20 @@ def upgrade():
 def config_changed():
     config = hookenv.config()
     git_url = config.get('charm-repo-source')
+    env_name = config.get('environment-name')
+    ssh_keys = config.get('ssh-keys')
     if git_url:
         get_and_configure_charm_repo(git_url)
-    if config.get('environment-name'):
+    if env_name:
         import_environment(config)
-    reactive.set_state('juju.config-changed')
+    if ssh_keys:
+        for key in ssh_keys.split(','):
+            add_key(key)
+
+
+def add_key(key):
+    """add ssh public key in authorized-keys format"""
+    subprocess.check_call(['juju', 'authorized-keys', 'add', key])
 
 
 def install_packages():

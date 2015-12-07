@@ -1,4 +1,7 @@
+#!/usr/bin/python
+# pylint: disable=C0111,C0103
 import os
+import sys
 from os.path import expanduser
 import subprocess
 import pwd
@@ -36,11 +39,20 @@ def upgrade():
 def config_changed():
     config = hookenv.config()
     git_url = config.get('charm-repo-source')
+    env_name = config.get('environment-name')
+    ssh_keys = config.get('ssh-keys')
     if git_url:
         get_and_configure_charm_repo(git_url)
-    if config.get('environment-name'):
+    if env_name:
         import_environment(config)
-    reactive.set_state('juju.config-changed')
+    if ssh_keys:
+        for key in ssh_keys.split(','):
+            add_key(key)
+
+
+def add_key(key):
+    """add ssh public key in authorized-keys format"""
+    subprocess.check_call(['juju', 'authorized-keys', 'add', key])
 
 
 def install_packages():
@@ -65,6 +77,7 @@ def get_and_configure_charm_repo(git_url):
             }
         )
         chownr(repo_path, USER, USER)
+    hookenv.status_set('active', 'Ready')
 
 
 def configure_environments():
@@ -126,10 +139,10 @@ def return_environment(name):
     env_conf['environment-jenv'] = b64encode(e_content)
     with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
         e_content = e_file.read()
-    env_conf['environment-pubkey'] = b64encode(e_content)
+    env_conf['environment-privkey'] = b64encode(e_content)
     with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
         e_content = e_file.read()
-    env_conf['environment-privkey'] = b64encode(e_content)
+    env_conf['environment-pubkey'] = b64encode(e_content)
     return env_conf
 
 
@@ -148,9 +161,9 @@ def import_environment(env_conf):
               'w+') as e_file:
         e_file.write(jenv)
     with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'w+') as e_file:
-        e_file.write(pubkey)
-    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
         e_file.write(privkey)
+    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
+        e_file.write(pubkey)
     switch_env(name)
 
 
@@ -163,3 +176,14 @@ def switch_env(name):
     except CalledProcessError as ex:
         print ex.output
         raise
+
+if __name__ == '__main__':
+    main()
+
+def main():
+    if len(sys.argv) > 2:
+        if sys.argv[1] == "export":
+            print "exporting env {} to {}".format(sys.argv[3], sys.argv[2])
+            export_environment(sys.argv[2], sys.argv[3])
+            return
+    print "Usage: export <path> <name>"

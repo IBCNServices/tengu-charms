@@ -1,16 +1,16 @@
 {
   "layers": [
     "layer:basic", 
-    "layer:juju-client", 
+    "juju-client", 
     "hauchiwa", 
     "interface:http", 
     "build"
   ], 
   "signatures": {
     "reactive/juju-client.py": [
-      "layer:juju-client", 
+      "juju-client", 
       "static", 
-      "385d4a1e0166021f863ef4ef1078a930a35029d0bf761923dfa1d26d8efa9d0e"
+      "4237f826ddff76374607072f26e9562d31ba78780430a60094a0277c0f70642e"
     ], 
     "files/tengu_management/templates/admin.rspec": [
       "hauchiwa", 
@@ -78,7 +78,7 @@
       "unchecked"
     ], 
     "hooks/upgrade-charm": [
-      "layer:juju-client", 
+      "juju-client", 
       "static", 
       "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
     ], 
@@ -163,7 +163,7 @@
       "c4eb52a2e1453975ec59fd7531c8ed28c5bffabae09d12638643359d16f3e296"
     ], 
     "templates/environments.yaml": [
-      "layer:juju-client", 
+      "juju-client", 
       "static", 
       "ea7a1f93d096d8b7bf4b432d9cb277c6233fc7465b965de2f6108c7ced12b7db"
     ], 
@@ -195,7 +195,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "a1066865b9e9ab812b74b958a40d336853761812d5ba090a1580d20e4fc374c9"
+      "88f1b933b4738e62a534526edc62758928f3acde90b3e8d6d54b3716e47b1b5d"
     ], 
     "hooks/rest2jfed-relation-broken": [
       "interface:http", 
@@ -258,7 +258,7 @@
       "366124ae372d5136db75c6a1934524ac1420bac86b5ad182cc50dd5481ab13ab"
     ], 
     "templates/juju.sh": [
-      "layer:juju-client", 
+      "juju-client", 
       "static", 
       "d571499626bb985cda154bfb21fe076d0937255f8a87fb20654cd13143040e68"
     ], 
@@ -300,7 +300,7 @@
     "layer.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "2c85f4b44d38ce495aa5d90a79a5a738ed6b6160d5551e585479ef1ec20611e1"
+      "450eb006ee0360c21df313c9108904c4fbaa9234756d707ebb3f718f84b4a96d"
     ], 
     "hooks/config-changed": [
       "layer:basic", 

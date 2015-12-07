@@ -1,1 +1,1 @@
-includes: ['layer:juju-client', 'interface:http']
+includes: ['juju-client', 'interface:http']

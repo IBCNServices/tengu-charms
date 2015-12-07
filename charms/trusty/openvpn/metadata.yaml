@@ -1,6 +1,6 @@
 name: openvpn
 summary: OpenVPN Server
-maintainer: NextRevision <notarobot@nextrevision.net>
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
 description: |
   OpenVPN is an application to securely tunnel IP networks over a single
   UDP or TCP port. It can be used to access remote sites, make secure

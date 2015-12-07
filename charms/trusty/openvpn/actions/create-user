@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source hooks/common.sh
+
+USER=$(action-get command)
+create_user($USER)

@@ -43,12 +43,12 @@ of downloading the config for the default user, "admin", from machine "1":
     juju scp 1:~/admin.tgz .
 
 Next extract and view the contents of the files:
-    
+
     tar xzf admin.tgz
     cd admin_keys
-    
+
 Finally, install the VPN client and connect to the VPN:
-    
+
     sudo apt-get install openvpn
     sudo openvpn --config client.ovpn
 
@@ -71,24 +71,14 @@ There are a number of configuration options available via the charm. Most option
 can be safely left to their default settings, but are available for more advanced
 usage.
 
-By default, the charm runs on UDP port 1194 and generates a user certificate for
-client "admin". The interface "eth0" is assumed to the be the primary interface
-used by the VPN and it's IP subnet is routed by default through the VPN.
+By default, the charm runs on TCP port 443 and generates a user certificate for
+client "client1". NAT is enabled on all interfaces (VPN users can connect to all subnets behind those interfaces).
 
 ## Common Configuration Settings
 
 Below are some of the most common configuration options that can be changed any
 time during the lifecycle of the charm.
 
-### User
-
-Specify a user to create a certificate for. If this is a new user, then a new
-client certificate is created, tar'ed, and placed in the system default user's
-home directory for retrieval. If the user has been previously created, then no
-action is performed.
-
-    juju set openvpn user=joesmith
-    
 ### Port
 
 Specify a port to run the VPN service over.
@@ -102,70 +92,18 @@ see better performance overall.
 
     juju set openvpn protocol=udp
 
-## Advanced Configuration Settings
-
-These settings are provided for users who require more granular control over
-VPN settings. These settings may also be changed at any time during the
-lifecycle of the charm.
-
-### Client Network
-
-The client-network option defines the network used when assigning VPN clients
-addresses. If your home or corporate network uses the same range as the set
-default, then you may consider changing it to an alternate network range. A
-CIDR value is required for the network.
-
-    juju set openvpn client-network=10.11.12.0/25
-
-### Additional Routes
-
-Additional routes can be specified in a comma separated list to instruct the
-VPN to route the given networks. This can be helpful when wanting to route only
-specific traffic through the VPN. By default, no additional routes are given.
-
-    juju set openvpn additional-routes="1.1.1.0/24, 2.2.2.0/8"
-
-### Reroute Gateway
-
-By default, all client traffic will NOT be routed through the VPN tunnel. To
-allow clients to send all traffic through the VPN tunnel, set this to 'True'.
-
-    juju set openvpn reroute-gateway=False
-
-### Reroute DNS
-
-By default, all DNS queries will NOT be routed through the VPN tunnel. To
-enable this feature, set the option to 'True'.
-
-    juju set openvpn reroute-dns=False
-
-### DNS Servers
-
-When either reroute-gateway or reroute-dns is set to 'True', a DHCP DNS option
-will be pushed to the client, causing the nameserver to change. By default, the
-nameservers used are the OpenDNS nameservers, but alternatives can be specified.
-
-    juju set opevpn dns-servers="4.2.2.2, 8.8.8.8"
-
-### Interface
-
-Specify an interface to be used for NAT and access to networks behind the VPN.
-The default interface is 'eth0' and should not be changed unless absolutely
-certain.
-
-    juju set openvpn interface=eth0
 
 ## Advanced Installation Configuration Settings
 
-These settings are only applied during the initial installation of the charm
-or an additional unit. Changing these settings after deployment will have no
+*These settings are only applied during the initial installation of the charm
+or an additional unit.* Changing these settings after deployment will have no
 effect whatsoever. Each example provided details how to use the setting in a
 YAML config file for deployment. An example YAML file looks like the following:
 
     openvpn:
         key: value
         key2: value2
-        
+
 A charm can then be deployed with these options using the following:
 
     juju deploy --config openvpn.yaml openvpn
@@ -180,31 +118,24 @@ Specify a domain to use for certificate signing and generation.
 
     domain: mydomain.tld
 
-### Key Size
-
-Specify the number of bits in the key to create. By default this is set to
-1024, although another common key size is 2048 bits.
-
-    key-size: 2048
-    
 ### Key Country
 
 Specify a country location for the key.
 
     key-country: US
-    
+
 ### Key Province
 
 Specify a province location for the key.
 
     key-province: WA
-    
+
 ### Key City
 
 Specify a city location for the key.
 
     key-city: Seattle
-    
+
 ### Key Organization
 
 Specify an organization for the key.
@@ -213,12 +144,7 @@ Specify an organization for the key.
 
 # Managing Users
 
-To add users, you can set the 'user' config option to a different value. A more
-granular way of managing users is available via the OpenVPN command line tools
-located in the '/etc/openvpn/easy-rsa' directory of the VPN server. User
-certificates and certificate passwords can be created. An optional CRL can be
-managed using these tools as well. For more information, consult the OpenVPN
-documentation.
+To add users, you can run `juju action do generate-user username=<name>`
 
 During the lifecycle of the charm, it should be noted that no user certificates
 are ever removed. They are left in tact in the '/etc/openvpn/easy-rsa/keys'
@@ -233,6 +159,5 @@ server or client certificates.
 
 # Contact Information
 
-Author: NextRevision <notarobot@nextrevision.net>
-Report bugs at: http://bugs.launchpad.net/charms/+source/openvpn
-Location: http://jujucharms.com/charms/distro/openvpn
+Author: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+Report bugs at: https://github.com/galgalesh/tengu-charms

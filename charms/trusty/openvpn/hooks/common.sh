@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Set static variables
-HOME=`dirname $0`
-EASY_RSA=/etc/openvpn/easy-rsa
-PKITOOL=$EASY_RSA/pkitool
 SERVER_CONF=/etc/openvpn/server.conf
-CLIENT_CONF=/etc/openvpn/client.ovpn
+DEFAULT_CLIENT_CONF=/etc/openvpn/client.ovpn
+PROTO=`config-get protocol`
+PORT=`config-get port`
+PUBLIC_IP=`unit-get public-ip`
+NETWORK=10.8.0.0/8
 
 # Convert a CIDR notation to netmask for use with the route command.
 # Essentially, this will take a CIDR value (/1-32) and return a
@@ -37,4 +38,35 @@ function parse_network {
   local cidr=`echo ${full_net} | cut -d'/' -f2`
   cidr=`convert_cidr ${cidr}`
   echo "${network} ${cidr}"
+}
+
+create_user () {
+  USER=$1
+  # Check to see if a user certificate has been generated. If one
+  # has not, then go ahead and create one. Next, create a directory
+  # for the user and copy the user and server certs/keys as well as
+  # the client config. Create a nice little tarball and place it in
+  # the ubuntu user's home directory for download via SCP and remove
+  # the temp directory.
+  juju-log "Creating user certificate"
+  if ! `ls /etc/openvpn/easy-rsa/keys/ | grep -q ${USER}`; then
+    juju-log "Generating new certificate for user ${USER}"
+    # Update the client config settings to include public IP and user certificates
+    sed -r -i -e "s/^remote.*/remote ${PUBLIC_IP} ${PORT}/g" $DEFAULT_CLIENT_CONF
+    sed -r -i -e "s/cert .*\.crt/cert ${USER}.crt/g" $DEFAULT_CLIENT_CONF
+    sed -r -i -e "s/key .*\.key/key ${USER}.key/g" $DEFAULT_CLIENT_CONF
+    sed -r -i -e "s/proto (tcp|udp).*/proto ${PROTO}/g" $DEFAULT_CLIENT_CONF
+    cd /etc/openvpn/easy-rsa && source ./vars
+    /etc/openvpn/easy-rsa/pkitool $USER
+    mkdir ${USER}_keys
+    cp $DEFAULT_CLIENT_CONF keys/ca.crt keys/$USER.crt keys/$USER.key keys/ta.key ${USER}_keys/
+    tar -czf /home/ubuntu/$USER.tgz ${USER}_keys
+    rm -Rf ${USER}_keys
+    print "User settings ready for download. Located at /home/ubuntu/$USER.tgz"
+  else
+    juju-log "Updating config for user ${USER}"
+    CLIENT_CONFIG=${USER}_keys/client.ovpn
+    sed -r -i -e "s/^remote.*/remote ${PUBLIC_IP} ${PORT}/g" $CLIENT_CONFIG
+    sed -r -i -e "s/proto (tcp|udp).*/proto ${PROTO}/g" $CLIENT_CONFIG
+  fi
 }

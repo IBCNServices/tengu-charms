@@ -32,6 +32,12 @@ class JujuEnvironment(object):
         print "machine not found"
 
 
+    def get_ip(self, name):
+        """ gets ip from service name """
+        status = self.status
+
+
+
     @property
     def machines(self):
         """ Return machines"""

@@ -30,7 +30,7 @@
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "366124ae372d5136db75c6a1934524ac1420bac86b5ad182cc50dd5481ab13ab"
     ], 
     "wheelhouse/pyaml-15.8.2.tar.gz": [
       "layer:basic", 
@@ -60,7 +60,7 @@
     "hooks/rest2jfed-relation-changed": [
       "interface:http", 
       "dynamic", 
-      "f6c4bbfa70814d56953cfaff89602e0f23b7ac81a7e026597338b56135398729"
+      "06df941941794bd2b7e03c9d1c1ec5bcf07b50a0de87987b43ad9ce74b5ba96a"
     ], 
     "files/tengu_management/templates/template.rspec": [
       "hauchiwa", 
@@ -180,7 +180,7 @@
     "hooks/leader-elected": [
       "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "366124ae372d5136db75c6a1934524ac1420bac86b5ad182cc50dd5481ab13ab"
     ], 
     "templates/global-conf.yaml": [
       "hauchiwa", 
@@ -200,7 +200,7 @@
     "hooks/rest2jfed-relation-broken": [
       "interface:http", 
       "dynamic", 
-      "f6c4bbfa70814d56953cfaff89602e0f23b7ac81a7e026597338b56135398729"
+      "06df941941794bd2b7e03c9d1c1ec5bcf07b50a0de87987b43ad9ce74b5ba96a"
     ], 
     "hooks/stop": [
       "layer:basic", 
@@ -225,7 +225,7 @@
     "hooks/rest2jfed-relation-departed": [
       "interface:http", 
       "dynamic", 
-      "f6c4bbfa70814d56953cfaff89602e0f23b7ac81a7e026597338b56135398729"
+      "06df941941794bd2b7e03c9d1c1ec5bcf07b50a0de87987b43ad9ce74b5ba96a"
     ], 
     "actions/deploy-bundle": [
       "hauchiwa", 
@@ -255,7 +255,7 @@
     "hooks/update-status": [
       "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "366124ae372d5136db75c6a1934524ac1420bac86b5ad182cc50dd5481ab13ab"
     ], 
     "templates/juju.sh": [
       "layer:juju-client", 
@@ -270,7 +270,7 @@
     "hooks/rest2jfed-relation-joined": [
       "interface:http", 
       "dynamic", 
-      "f6c4bbfa70814d56953cfaff89602e0f23b7ac81a7e026597338b56135398729"
+      "06df941941794bd2b7e03c9d1c1ec5bcf07b50a0de87987b43ad9ce74b5ba96a"
     ], 
     "README.md": [
       "hauchiwa", 

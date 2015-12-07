@@ -5,7 +5,7 @@ SERVER_CONF=/etc/openvpn/server.conf
 DEFAULT_CLIENT_CONF=/etc/openvpn/client.ovpn
 PROTO=`config-get protocol`
 PORT=`config-get port`
-PUBLIC_IP=`unit-get public-ip`
+PUBLIC_IP=`unit-get public-address`
 NETWORK=10.8.0.0/8
 
 # Convert a CIDR notation to netmask for use with the route command.
@@ -59,13 +59,14 @@ create_user () {
     cd /etc/openvpn/easy-rsa && source ./vars
     /etc/openvpn/easy-rsa/pkitool $USER
     mkdir ${USER}_keys
-    cp $DEFAULT_CLIENT_CONF keys/ca.crt keys/$USER.crt keys/$USER.key keys/ta.key ${USER}_keys/
+    cp $DEFAULT_CLIENT_CONF keys/ca.crt keys/$USER.crt keys/$USER.key ${USER}_keys/
     tar -czf /home/ubuntu/$USER.tgz ${USER}_keys
     rm -Rf ${USER}_keys
     print "User settings ready for download. Located at /home/ubuntu/$USER.tgz"
   else
     juju-log "Updating config for user ${USER}"
     CLIENT_CONFIG=${USER}_keys/client.ovpn
+    cd /etc/openvpn/easy-rsa
     sed -r -i -e "s/^remote.*/remote ${PUBLIC_IP} ${PORT}/g" $CLIENT_CONFIG
     sed -r -i -e "s/proto (tcp|udp).*/proto ${PROTO}/g" $CLIENT_CONFIG
   fi

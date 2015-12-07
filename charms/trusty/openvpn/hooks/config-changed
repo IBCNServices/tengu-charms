@@ -21,7 +21,7 @@ sed -r -i -e "s/proto (tcp|udp).*/proto ${PROTO}/g" $SERVER_CONF
 
 
 # Generate client key
-create_user('client1')
+create_user 'client1'
 
 
 # Restart OpenVPN services

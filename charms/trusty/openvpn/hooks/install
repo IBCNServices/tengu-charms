@@ -1,5 +1,6 @@
 #!/bin/bash
 # based on: https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04
+# based on: https://jujucharms.com/openvpn/precise/2
 set -e
 
 juju-log "Importing shared variables and functions"
@@ -12,6 +13,8 @@ apt-get -y install openvpn easy-rsa
 # copy default server config
 gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz > $SERVER_CONF
 
+# Allow multiple connections using single client
+sed -i -e "s/;duplicate-cn/duplicate-cn/g" $SERVER_CONF
 # Use bigger key
 sed -i -e "s/dh dh1024.pem/dh dh2048.pem/g" $SERVER_CONF
 # Pass client web traffic to its destination
@@ -30,15 +33,20 @@ sed -i -e "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g" /etc/sysctl.conf
 
 
 # Configure easy-rsa
-export KEY_COUNTRY=`config-get country`
-export KEY_PROVINCE=`config-get province`
-export KEY_CITY=`config-get city`
-export KEY_ORG=`config-get org`
-export KEY_EMAIL=`config-get email`
-export KEY_OU=`config-get ou`
-export DOMAIN='server'
+export KEY_COUNTRY=`config-get key-country`
+export KEY_PROVINCE=`config-get key-province`
+export KEY_CITY=`config-get key-city`
+export KEY_ORG=`config-get key-org`
+#export KEY_OU=`config-get key-ou`
+export DOMAIN=`config-get domain`
+if [ -z "$DOMAIN" ]; then
+  export DOMAIN=$(hostname)
+fi
+export KEY_EMAIL=`webmaster@${DOMAIN}`
+
+
 cp -r /usr/share/easy-rsa/ /etc/openvpn
-mkdir /etc/openvpn/easy-rsa/keys
+mkdir -p /etc/openvpn/easy-rsa/keys
 sed -i -e "s/export KEY_COUNTRY=\".*\"/export KEY_COUNTRY=\"$KEY_COUNTRY\"/g" /etc/openvpn/easy-rsa/vars
 sed -i -e "s/export KEY_PROVINCE=\".*\"/export KEY_PROVINCE=\"$KEY_PROVINCE\"/g" /etc/openvpn/easy-rsa/vars
 sed -i -e "s/export KEY_CITY=\".*\"/export KEY_CITY=\"$KEY_CITY\"/g" /etc/openvpn/easy-rsa/vars
@@ -46,22 +54,22 @@ sed -i -e "s/export KEY_ORG=\".*\"/export KEY_ORG=\"$KEY_ORG\"/g" /etc/openvpn/e
 sed -i -e "s/export KEY_EMAIL=\".*\"/export KEY_EMAIL=\"$KEY_EMAIL\"/g" /etc/openvpn/easy-rsa/vars
 sed -i -e "s/export KEY_OU=\".*\"/export KEY_OU=\"$KEY_OU\"/g" /etc/openvpn/easy-rsa/vars
 
-## Generate Diffie-Hellman parameters
-#openssl dhparam -out /etc/openvpn/dh2048.pem 2048
-cd /etc/openvpn/easy-rsa
-. ./vars
-./clean-all
 
+# Build server keys and certs
+cd /etc/openvpn/easy-rsa
+source ./vars
+./clean-all
+# build diffie-Hellman keys
+/etc/openvpn/easy-rsa/build-dh
 # what ./build-ca does
 /etc/openvpn/easy-rsa/pkitool --initca
 # what ./build-key does
 /etc/openvpn/easy-rsa/pkitool --server $DOMAIN
-# build diffie-Hellman keys
-/etc/openvpn/easy-rsa/build-dh
-cp /etc/openvpn/easy-rsa/keys/{${DOMAIN}.crt,${DOMAIN}.key,ta.key,ca.crt,dh2048.pem} /etc/openvpn/
 
-#openvpn --genkey --secret /etc/openvpn/easy-rsa/keys/ta.key
+cp /etc/openvpn/easy-rsa/keys/{${DOMAIN}.crt,${DOMAIN}.key,ca.crt,dh2048.pem} /etc/openvpn/
 
-
-
-#./build-ca
+# Create client config template
+cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf /etc/openvpn/client.ovpn
+echo "ca ca.crt
+cert client.crt
+key client.key" >> /etc/openvpn/client.ovpn

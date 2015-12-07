@@ -27,8 +27,8 @@ create_user 'client1'
 # Restart OpenVPN services
 juju-log "Restarting the OpenVPN service"
 service openvpn stop || true
-service openvpn start || echo "Failed to start OpenVPN" && exit 1
-
+service openvpn start || ( echo "Failed to start OpenVPN" && exit 1 )
+open-port ${PORT}/${PROTO}
 
 
 # Great work, go take a break.

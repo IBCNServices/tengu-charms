@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Set static variables
 SERVER_CONF=/etc/openvpn/server.conf
@@ -49,25 +50,27 @@ create_user () {
   # the ubuntu user's home directory for download via SCP and remove
   # the temp directory.
   juju-log "Creating user certificate"
-  if ! `ls /etc/openvpn/easy-rsa/keys/ | grep -q ${USER}`; then
+  EASYRSA_DIR=/etc/openvpn/easy-rsa
+  CLIENT_DIR=/etc/openvpn/easy-rsa/${USER}_keys
+  CLIENT_CONFIG=$CLIENT_DIR/client.ovpn
+  cd $EASYRSA_DIR
+
+  if [ ! -d "$CLIENT_DIR" ]; then
     juju-log "Generating new certificate for user ${USER}"
-    # Update the client config settings to include public IP and user certificates
-    sed -r -i -e "s/^remote.*/remote ${PUBLIC_IP} ${PORT}/g" $DEFAULT_CLIENT_CONF
-    sed -r -i -e "s/cert .*\.crt/cert ${USER}.crt/g" $DEFAULT_CLIENT_CONF
-    sed -r -i -e "s/key .*\.key/key ${USER}.key/g" $DEFAULT_CLIENT_CONF
-    sed -r -i -e "s/proto (tcp|udp).*/proto ${PROTO}/g" $DEFAULT_CLIENT_CONF
-    cd /etc/openvpn/easy-rsa && source ./vars
-    /etc/openvpn/easy-rsa/pkitool $USER
-    mkdir ${USER}_keys
-    cp $DEFAULT_CLIENT_CONF keys/ca.crt keys/$USER.crt keys/$USER.key ${USER}_keys/
-    tar -czf /home/ubuntu/$USER.tgz ${USER}_keys
-    rm -Rf ${USER}_keys
-    print "User settings ready for download. Located at /home/ubuntu/$USER.tgz"
-  else
-    juju-log "Updating config for user ${USER}"
-    CLIENT_CONFIG=${USER}_keys/client.ovpn
-    cd /etc/openvpn/easy-rsa
-    sed -r -i -e "s/^remote.*/remote ${PUBLIC_IP} ${PORT}/g" $CLIENT_CONFIG
-    sed -r -i -e "s/proto (tcp|udp).*/proto ${PROTO}/g" $CLIENT_CONFIG
+    source $EASYRSA_DIR/vars
+    $EASYRSA_DIR/pkitool $USER
+    mkdir -p $CLIENT_DIR
+    cp  $DEFAULT_CLIENT_CONF\
+        $EASYRSA_DIR/keys/ca.crt\
+        $EASYRSA_DIR/keys/$USER.crt\
+        $EASYRSA_DIR/keys/$USER.key\
+        $CLIENT_DIR
+    sed -r -i -e "s/cert .*\.crt/cert ${USER}.crt/g" $CLIENT_CONFIG
+    sed -r -i -e "s/key .*\.key/key ${USER}.key/g" $CLIENT_CONFIG
   fi
+
+  sed -r -i -e "s/^remote.*/remote ${PUBLIC_IP} ${PORT}/g" $CLIENT_CONFIG
+  sed -r -i -e "s/proto (tcp|udp).*/proto ${PROTO}/g" $CLIENT_CONFIG
+  tar -czf /home/ubuntu/$USER.tgz ${USER}_keys
+  echo "User settings ready for download. Located at /home/ubuntu/$USER.tgz"
 }

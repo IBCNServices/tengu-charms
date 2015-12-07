@@ -68,6 +68,9 @@ source ./vars
 
 cp /etc/openvpn/easy-rsa/keys/{${DOMAIN}.crt,${DOMAIN}.key,ca.crt,dh2048.pem} /etc/openvpn/
 
+sed -i -e "s/cert server.crt/cert ${DOMAIN}.crt/g" $SERVER_CONF
+sed -i -e "s/key server.key/key ${DOMAIN}.key/g" $SERVER_CONF
+
 # Create client config template
 cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf /etc/openvpn/client.ovpn
 echo "ca ca.crt

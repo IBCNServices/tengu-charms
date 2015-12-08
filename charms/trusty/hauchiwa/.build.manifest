@@ -10,7 +10,7 @@
     "reactive/juju-client.py": [
       "juju-client", 
       "static", 
-      "4237f826ddff76374607072f26e9562d31ba78780430a60094a0277c0f70642e"
+      "9d49d43af1245c316350a690f7e1770ecbcfb50c9124070358ca90b65f51a2f3"
     ], 
     "files/tengu_management/templates/admin.rspec": [
       "hauchiwa", 
@@ -45,7 +45,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "70c01ade4c8e0e95a0beecfc4183e55f36e38350bcecd43ea4451e61853c40d7"
+      "abb0968817113506803c4bfec8fe56fe896a691e8460bcb09a1f0cde6c9c0045"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -60,7 +60,7 @@
     "hooks/rest2jfed-relation-changed": [
       "interface:http", 
       "dynamic", 
-      "06df941941794bd2b7e03c9d1c1ec5bcf07b50a0de87987b43ad9ce74b5ba96a"
+      "69eff16975542ac297a117798637cc89b71eb6709325bc13f33b1f53576e10ee"
     ], 
     "files/tengu_management/templates/template.rspec": [
       "hauchiwa", 
@@ -170,7 +170,7 @@
     "reactive/tengu_charmhelpers/confighelpers.py": [
       "hauchiwa", 
       "static", 
-      "c8b199571dd1450785af9779210220918417602a022615dfba02a8f0173bf0e2"
+      "19924488a9923532125ca6254b430abdcd84f69698803c952ef4ef43190997cd"
     ], 
     "wheelhouse/charms.reactive-0.3.6.tar.gz": [
       "layer:basic", 
@@ -200,7 +200,7 @@
     "hooks/rest2jfed-relation-broken": [
       "interface:http", 
       "dynamic", 
-      "06df941941794bd2b7e03c9d1c1ec5bcf07b50a0de87987b43ad9ce74b5ba96a"
+      "69eff16975542ac297a117798637cc89b71eb6709325bc13f33b1f53576e10ee"
     ], 
     "hooks/stop": [
       "layer:basic", 
@@ -225,7 +225,7 @@
     "hooks/rest2jfed-relation-departed": [
       "interface:http", 
       "dynamic", 
-      "06df941941794bd2b7e03c9d1c1ec5bcf07b50a0de87987b43ad9ce74b5ba96a"
+      "69eff16975542ac297a117798637cc89b71eb6709325bc13f33b1f53576e10ee"
     ], 
     "actions/deploy-bundle": [
       "hauchiwa", 
@@ -270,7 +270,7 @@
     "hooks/rest2jfed-relation-joined": [
       "interface:http", 
       "dynamic", 
-      "06df941941794bd2b7e03c9d1c1ec5bcf07b50a0de87987b43ad9ce74b5ba96a"
+      "69eff16975542ac297a117798637cc89b71eb6709325bc13f33b1f53576e10ee"
     ], 
     "README.md": [
       "hauchiwa", 
@@ -320,7 +320,7 @@
     "files/tengu_management/templates/env-conf.yaml.template": [
       "hauchiwa", 
       "static", 
-      "262515be654ab681ee7ea062d7378dca9fff7444c901937cf62d5f838fbfef88"
+      "16f00bbe14fe69ee86ab0c17d4a27807780015c87496d811b0d5aaa374a70432"
     ], 
     "hooks/relations/http/requires.py": [
       "interface:http", 

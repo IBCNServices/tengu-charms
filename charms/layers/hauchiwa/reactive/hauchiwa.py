@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # pylint: disable=c0111,c0103
 """hooks"""
 from os.path import expanduser
@@ -47,7 +47,7 @@ def config_changed():
     """Config changed"""
     conf = hookenv.config()
     with open(S4_CERT_PATH, 'w+') as certfile:
-        certfile.write(base64.b64decode(conf['emulab-s4-cert']))
+        certfile.write(str(base64.b64decode(conf['emulab-s4-cert'])))
         certfile.truncate()
     with open(GLOBAL_CONF_PATH, 'r') as infile:
         content = yaml.load(infile)

@@ -3,3 +3,4 @@
 juju_env_conf:
     type: 'manual'
     default-series: trusty
+    authorized-keys-path: ~/.ssh/authorized_keys

@@ -3,6 +3,7 @@
 from flask import Flask, Response, request
 import tempfile
 import yaml
+import json
 from juju import JujuEnvironment
 #import base64
 
@@ -24,15 +25,15 @@ def api_hauchiwa_create(instance_id):
                         mimetype='text/plain')
     # get values from request
     s4_cert = str(request.headers.get('emulab-s4-cert'))
-    public_keys = request.form.get('public-keys')
+    ssh_keys = request.form.get('ssh-keys')
     # Create config file
-    hauchiwa_name = instance_id + 'hauchiwa'
+    hauchiwa_name = 'h-{}'.format(instance_id)
     hauchiwa_cfg = {
         str(hauchiwa_name):{
             'emulab-s4-cert' : s4_cert,
             'emulab-project-name' : "tengu",
             'charm-repo-source' : "https://github.com/galgalesh/tengu-charms.git",
-            'public-keys' : ','.join([DEFAULT_PUBKEYS, public_keys]),
+            'ssh-keys' : ','.join([DEFAULT_PUBKEYS, ssh_keys]),
         }
     }
     hauchiwa_cfg_path = tempfile.mkdtemp() + 'hauchiwa-cfg.yaml'
@@ -45,7 +46,48 @@ def api_hauchiwa_create(instance_id):
                 config_path=hauchiwa_cfg_path,
                 to='lxc:1')
     juju.add_relation(hauchiwa_name, 'rest2jfed')
-    resp = Response("", status=201, mimetype='text/plain')
+    resp = Response(
+        "Created hauchiwa instance {}".format(instance_id),
+        status=201,
+        mimetype='text/plain',
+    )
+    resp.headers['location'] = '/hauchiwa/{}'.format(instance_id)
+
+    return resp
+
+
+@APP.route('/hauchiwa/<instance_id>', methods=['GET'])
+def api_hauchiwa_info(instance_id):
+    """ Shows the info of the specified Hauchiwa instance """
+    if len(instance_id) > 10:
+        return Response("instance_id cannot be longer than 10 characters",
+                        status=400,
+                        mimetype='text/plain')
+    # get values from request
+    #TODO: Authenticate this action
+    #s4_cert = str(request.headers.get('emulab-s4-cert'))
+    juju = JujuEnvironment(None)
+    info = juju.status['services'].get('h-{}'.format(instance_id))
+    if info:
+        info = {
+            'status' : info['service-status'],
+            'public-address' : info['units'][0].get('public-address')
+        }
+        resp = Response(
+            json.dumps(info),
+            status=200,
+            mimetype='application/json',
+        )
+    else:
+        resp = Response(
+            'Cannot find instance {}'.format(instance_id),
+            status=404,
+            mimetype='text/plain',
+        )
+
+
+    resp.headers['location'] = '/hauchiwa/{}'.format(instance_id)
+
     return resp
 
 

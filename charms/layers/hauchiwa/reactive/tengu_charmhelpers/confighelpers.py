@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
+#pylint: disable=C0325,c0111
 import os
 import shutil
 import tarfile
@@ -15,7 +16,7 @@ def add_line_to_file(line, filepath):
             lst = myfile.readlines()
         for existingline in lst:
             if line in existingline:
-                print "line already present"
+                print("line already present")
                 found = True
     if not found:
         myfile = open(filepath, 'a+')
@@ -47,7 +48,7 @@ def set_ssh_key_authorized(key, home_dir):
     found = False
     for line in lst:
         if key in line:
-            print "ssh key already present"
+            print("ssh key already present")
             found = True
 
     if not found:
@@ -87,7 +88,7 @@ def downloadbigfiles(path):
     """Downloads url from .source files it finds in path"""
     # The top argument for walk
     topdir = os.path.realpath(path)
-    print "downloading sources in %s " % topdir
+    print("downloading sources in %s " % topdir)
     # The extension to search for
     exten = '.source'
     for dirpath, dirnames, files in os.walk(topdir):
@@ -95,22 +96,22 @@ def downloadbigfiles(path):
             if name.lower().endswith(exten):
                 source = os.path.join(dirpath, name)
                 file_to_download = source[:-len(exten)]
-                print '%s' % file_to_download
+                print('%s' % file_to_download)
 
                 if not os.path.isfile(file_to_download):
                     with open(source, "r") as myfile:
                         url = myfile.readline().rstrip()
                         command = myfile.readline().rstrip()
-                    print '\t DOWNLOADING FROM: %s' % url
+                    print('\t DOWNLOADING FROM: %s' % url)
                     urlopener = urllib.URLopener()
                     urlopener.retrieve(url, file_to_download)
                     if command == "extract":
-                        print '\t EXTRACTING: %s' % file_to_download
+                        print('\t EXTRACTING: %s' % file_to_download)
                         tfile = tarfile.open(file_to_download, 'r')
                         # Important to note that the following extraction is
                         # UNSAFE since .tar.gz archive could contain
                         # relative path like ../../ and overwrite other dirs
                         tfile.extractall(os.path.dirname(file_to_download))
                 else:
-                    print '\t OK'
-                print
+                    print('\t OK')
+                print()

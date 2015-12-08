@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# pylint: disable=C0111,C0103
+#!/usr/bin/env python3
+# pylint: disable=C0111,C0103,c0325
 import os
 import sys
 from os.path import expanduser
@@ -52,7 +52,13 @@ def config_changed():
 
 def add_key(key):
     """add ssh public key in authorized-keys format"""
-    subprocess.check_call(['juju', 'authorized-keys', 'add', key])
+    add_line_to_file(key, '/home/ubuntu/.ssh/authorized_keys')
+    try:
+        subprocess.check_call([
+            'su', 'ubuntu', '-c',
+            'juju authorized-keys add {}'.format(key)])
+    except subprocess.CalledProcessError as err:
+        print("failed to add key to environment: {}".format(err))
 
 
 def install_packages():
@@ -92,7 +98,7 @@ def configure_environments():
     templating.render(
         source='environments.yaml',
         target=expanduser('{}/.juju/environments.yaml'.format(HOME)),
-        perms=0644,
+        perms=0o644,
         context={
         }
     )
@@ -174,8 +180,28 @@ def switch_env(name):
                       '-l', USER,
                       '-c', 'juju switch {}'.format(name)], stderr=STDOUT)
     except CalledProcessError as ex:
-        print ex.output
+        print(ex.output)
         raise
+
+
+def add_line_to_file(line, filepath):
+    """appends line to file if not present"""
+    filepath = os.path.realpath(filepath)
+    if not os.path.isdir(os.path.dirname(filepath)):
+        os.makedirs(os.path.dirname(filepath))
+    found = False
+    if os.path.isfile(filepath):
+        with open(filepath, 'r+') as myfile:
+            lst = myfile.readlines()
+        for existingline in lst:
+            if line in existingline:
+                print("line already present")
+                found = True
+    if not found:
+        myfile = open(filepath, 'a+')
+        myfile.write(line+"\n")
+        myfile.close()
+
 
 if __name__ == '__main__':
     main()
@@ -183,7 +209,7 @@ if __name__ == '__main__':
 def main():
     if len(sys.argv) > 2:
         if sys.argv[1] == "export":
-            print "exporting env {} to {}".format(sys.argv[3], sys.argv[2])
+            print("exporting env {} to {}".format(sys.argv[3], sys.argv[2]))
             export_environment(sys.argv[2], sys.argv[3])
             return
-    print "Usage: export <path> <name>"
+    print("Usage: export <path> <name>")

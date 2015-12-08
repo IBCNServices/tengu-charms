@@ -19,7 +19,7 @@
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "366124ae372d5136db75c6a1934524ac1420bac86b5ad182cc50dd5481ab13ab"
     ], 
     "LICENSE": [
       "tokin", 
@@ -59,7 +59,7 @@
     "hooks/update-status": [
       "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "366124ae372d5136db75c6a1934524ac1420bac86b5ad182cc50dd5481ab13ab"
     ], 
     "files/tokin/templates/lambda-bundle.yaml": [
       "tokin", 
@@ -104,7 +104,7 @@
     "files/tokin/tokin.py": [
       "tokin", 
       "static", 
-      "9536c2d344e057b76be00e9937f901ed30bb8fe0aa1387bacf3cb77c5f6d62e8"
+      "437845cf950574afee7696cddb636ab795c02f83f9eddb16bb040176a66d3f00"
     ], 
     "README.md": [
       "tokin", 
@@ -114,7 +114,7 @@
     "templates/upstart.conf": [
       "tokin", 
       "static", 
-      "f578dd8d18df8372ec465ca0ac4b65556e06f4f7e37922b24243aa5c21188212"
+      "256239148fdb7c041ffbdfff8e38d92f837f9008723389815583405fc2307f2c"
     ], 
     "wheelhouse/charmhelpers-0.6.0.tar.gz": [
       "layer:basic", 
@@ -194,7 +194,7 @@
     "hooks/leader-elected": [
       "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "366124ae372d5136db75c6a1934524ac1420bac86b5ad182cc50dd5481ab13ab"
     ], 
     ".build.manifest": [
       "build", 

@@ -12,8 +12,7 @@ import grp
 import subprocess
 
 from charmhelpers import fetch
-from charmhelpers.core import templating
-from charmhelpers.core import hookenv
+from charmhelpers.core import templating, hookenv, host
 from charms.reactive import hook, when, when_not, set_state, remove_state
 
 
@@ -130,6 +129,7 @@ def install_tengu():
     # Make hostname resolvable
     with open('/etc/hosts', 'a') as hosts_file:
         hosts_file.write('127.0.0.1 {}\n'.format(service_name))
+    host.service_restart('h_api')
 
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):

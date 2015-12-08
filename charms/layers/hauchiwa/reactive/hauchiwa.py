@@ -88,7 +88,7 @@ def install_tengu():
     """ Installs tengu management tools """
     packages = ['python-pip']
     fetch.apt_install(fetch.filter_installed_packages(packages))
-    subprocess.check_output(['pip', 'install', 'Jinja2'])
+    subprocess.check_output(['pip', 'install', 'Jinja2', 'Flask', 'pyyaml'])
     # Install Tengu. Existing /etc files don't get overwritten.
     t_dir = None
     if os.path.isdir(TENGU_DIR + '/etc'):
@@ -111,10 +111,25 @@ def install_tengu():
         source='tengu',
         target='/usr/bin/tengu',
         perms=493,
-        context={
-        }
+        context={}
     )
     chownr(TENGU_DIR, USER, USER)
+    templating.render(
+        source='upstart.conf',
+        target='/etc/init/h_api.conf',
+        context={}
+    )
+
+    # get the name of this service from the unit name
+    service_name = hookenv.local_unit().split('/')[0]
+    # set it as hostname
+    subprocess.check_call(['hostname', 'service_name'])
+    # Persist hostname
+    with open('/etc/hostname', 'w') as hostname_file:
+        hostname_file.write(service_name)
+    # Make hostname resolvable
+    with open('/etc/hosts', 'a') as hosts_file:
+        hosts_file.write('127.0.0.1 {}\n'.format(service_name))
 
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):

@@ -45,7 +45,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "abb0968817113506803c4bfec8fe56fe896a691e8460bcb09a1f0cde6c9c0045"
+      "7ce5e15678557e087d79223b73f6b16ec5c45fe3546f79914db62271d85d0157"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -172,6 +172,11 @@
       "static", 
       "19924488a9923532125ca6254b430abdcd84f69698803c952ef4ef43190997cd"
     ], 
+    "files/tengu_management/scripts/h_api.py": [
+      "hauchiwa", 
+      "static", 
+      "554c50295f9432f1b417abc680417d78d3038bf6f594e4923f24596fd0ca3059"
+    ], 
     "wheelhouse/charms.reactive-0.3.6.tar.gz": [
       "layer:basic", 
       "dynamic", 
@@ -286,6 +291,11 @@
       "hauchiwa", 
       "static", 
       "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+    ], 
+    "templates/upstart.conf": [
+      "hauchiwa", 
+      "static", 
+      "738071054e01f4960732223d26e509200f714aac9f9f35813731ec8206a5cb38"
     ], 
     "hooks/start": [
       "layer:basic", 

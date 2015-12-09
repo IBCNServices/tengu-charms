@@ -4,7 +4,7 @@ from flask import Flask, Response, request
 import tempfile
 import yaml
 import json
-from juju import JujuEnvironment
+from jujuhelpers import JujuEnvironment
 #import base64
 
 APP = Flask(__name__)

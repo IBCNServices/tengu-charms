@@ -18,7 +18,7 @@ from rest2jfed_connector import Rest2jfedConnector # pylint: disable=F0401
 import rspec_utils                                 # pylint: disable=F0401
 from output import okblue, fail, okwhite           # pylint: disable=F0401
 from config import Config, script_dir, tengu_dir   # pylint: disable=F0401
-from juju_environment import JujuEnvironment       # pylint: disable=F0401
+from jujuhelpers import JujuEnvironment       # pylint: disable=F0401
 
 LIB_PATH = realpath(script_dir() + "/../lib")
 GLOBAL_CONF = realpath(script_dir() + "/../etc/global-conf.yaml")

@@ -45,7 +45,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "8eca52308c1daab654bde60bd0639850e47160ea0973e2166feac98c279d0a20"
+      "700aae99817989ef3bbf3d3f120352a54be481cedf2afc27fe77679fc465cbf0"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -107,6 +107,11 @@
       "static", 
       "b7fb8491511a22139438bd5f0a82eb34b7699cc4676dee6db0128a84ec4ce95d"
     ], 
+    "files/tengu_management/scripts/jujuhelpers.py": [
+      "hauchiwa", 
+      "static", 
+      "8e3b7df7ed194e03a9725f4ab7de5b48fd3bd2e9b1645b750e041386f2292154"
+    ], 
     "tox.ini": [
       "layer:basic", 
       "static", 
@@ -155,7 +160,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "07f76ff1a5da9f385a49f84875beea6255f77a7f51a9aad8fa12bc951373b38e"
+      "b77bd916ae2c87e79c1988c4a7942f2e14744bcc2c4a59b2e333176de619bbc9"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -175,7 +180,7 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "554c50295f9432f1b417abc680417d78d3038bf6f594e4923f24596fd0ca3059"
+      "b29c10f0db7c5e790ad98a9e78ebb591c909a51a9406baaabb31e86887208ba3"
     ], 
     "wheelhouse/charms.reactive-0.3.6.tar.gz": [
       "layer:basic", 
@@ -216,11 +221,6 @@
       "interface:http", 
       "static", 
       "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
-    ], 
-    "files/tengu_management/scripts/juju_environment.py": [
-      "hauchiwa", 
-      "static", 
-      "560286fcfb3fe6d821a2074ce5170edb9a73329a1fb9945e641b13ba37c349d7"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 
@@ -295,7 +295,7 @@
     "templates/upstart.conf": [
       "hauchiwa", 
       "static", 
-      "738071054e01f4960732223d26e509200f714aac9f9f35813731ec8206a5cb38"
+      "771e43b99994e3b29b696df73c2e9892536b667e3a0804e35dbb91da185f3a5f"
     ], 
     "hooks/start": [
       "layer:basic", 

@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # pylint: disable=c0111,
 import subprocess
 import os
@@ -43,7 +42,7 @@ def install_tokin():
     packages = ['python-pip']
     fetch.apt_install(fetch.filter_installed_packages(packages))
     subprocess.check_output([
-        'pip', 'install', 'Jinja2', 'Flask', 'jujuclient', 'pyyaml'
+        'pip2', 'install', 'Jinja2', 'Flask', 'jujuclient', 'pyyaml'
     ])
     mergecopytree('files/tokin', '/opt/tokin',
                   symlinks=True)

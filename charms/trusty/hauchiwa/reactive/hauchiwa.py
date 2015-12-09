@@ -1,6 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # pylint: disable=c0111,c0103
-"""hooks"""
 from os.path import expanduser
 import yaml
 import base64
@@ -46,7 +45,7 @@ def config_changed():
     """Config changed"""
     conf = hookenv.config()
     with open(S4_CERT_PATH, 'w+') as certfile:
-        certfile.write(str(base64.b64decode(conf['emulab-s4-cert'])))
+        certfile.write(str(base64.b64decode(conf['emulab-s4-cert']).decode("utf-8")))
         certfile.truncate()
     with open(GLOBAL_CONF_PATH, 'r') as infile:
         content = yaml.load(infile)
@@ -87,7 +86,7 @@ def install_tengu():
     """ Installs tengu management tools """
     packages = ['python-pip']
     fetch.apt_install(fetch.filter_installed_packages(packages))
-    subprocess.check_output(['pip', 'install', 'Jinja2', 'Flask', 'pyyaml'])
+    subprocess.check_output(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml'])
     # Install Tengu. Existing /etc files don't get overwritten.
     t_dir = None
     if os.path.isdir(TENGU_DIR + '/etc'):
@@ -121,11 +120,8 @@ def install_tengu():
 
     # get the name of this service from the unit name
     service_name = hookenv.local_unit().split('/')[0]
-    # set it as hostname
-    subprocess.check_call(['hostname', 'service_name'])
-    # Persist hostname
-    with open('/etc/hostname', 'w') as hostname_file:
-        hostname_file.write(service_name)
+    # set service_name as hostname
+    subprocess.check_call(['hostnamectl', 'set-hostname', service_name])
     # Make hostname resolvable
     with open('/etc/hosts', 'a') as hosts_file:
         hosts_file.write('127.0.0.1 {}\n'.format(service_name))

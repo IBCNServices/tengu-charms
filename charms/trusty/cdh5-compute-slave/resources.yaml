@@ -11,7 +11,7 @@ resources:
     # lines containing the JAVA_HOME path, and the Java version, respectively,
     # on stdout.  Upon error, it must exit with a non-zero exit code.
     url: https://raw.githubusercontent.com/galgalesh/tengu-charms/master/java_installer.sh
-    hash: 33a1acfd924202df4b96919a2836784fa37c8c32f6063483ec00c231d8513b62
+    hash: b7e9b04296423a845e99568afc01001480ad7656f22796daf1580ae2d7595d5f
     hash_type: sha256
 optional_resources:
   hadoop-aarch64:

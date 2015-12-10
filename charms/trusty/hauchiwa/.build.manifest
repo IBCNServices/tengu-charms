@@ -65,7 +65,7 @@
     "files/tengu_management/templates/template.rspec": [
       "hauchiwa", 
       "static", 
-      "ac64532f7b43b855637e1fa604aae6eda155ad52db22cdb416985c8ba24df8ae"
+      "e1074bc95a40532561e6749d34a82cc19a7dd4769daa938e5f94ab99d48cf521"
     ], 
     "files/tengu_management/README.md": [
       "hauchiwa", 
@@ -110,7 +110,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "8e3b7df7ed194e03a9725f4ab7de5b48fd3bd2e9b1645b750e041386f2292154"
+      "174eed7138bf410a3c70aaad6edb8e3a815631c3574099124b1e73ddb73e82f6"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -237,11 +237,6 @@
       "static", 
       "686da8711b71bc05333df93962bc517e9b57e8235baa6b3f88ed7267ebe27759"
     ], 
-    "templates/virtualwall_nat_config.sh": [
-      "hauchiwa", 
-      "static", 
-      "f7a83b3de2daf751e82ea33a39352a215cf15315a83430a05644d0d91c940475"
-    ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
       "dynamic", 
@@ -316,6 +311,11 @@
       "layer:basic", 
       "static", 
       "366124ae372d5136db75c6a1934524ac1420bac86b5ad182cc50dd5481ab13ab"
+    ], 
+    "files/tengu_management/scripts/virtualwall_prepare.sh": [
+      "hauchiwa", 
+      "static", 
+      "0da0b019cfa5ef5320bdb1770d3d7423328381cc3aab9316a6d6c38d482cc32b"
     ], 
     "templates/tengu": [
       "hauchiwa", 

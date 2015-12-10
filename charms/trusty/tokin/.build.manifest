@@ -76,11 +76,6 @@
       "static", 
       "947131db8edaf76eda7341b5c422d481b3fd2ed585bc80c934633026c4822357"
     ], 
-    "reactive/tokin.py": [
-      "tokin", 
-      "static", 
-      "936622350219a6e1206d48c73d1e348bf9e4bb33d55ee6c4800990913e439c41"
-    ], 
     "hooks/upgrade-charm": [
       "layer:juju-client", 
       "static", 
@@ -104,7 +99,7 @@
     "files/tokin/tokin.py": [
       "tokin", 
       "static", 
-      "437845cf950574afee7696cddb636ab795c02f83f9eddb16bb040176a66d3f00"
+      "4aefb7704873b4fe1e7a1f59f97989a9dcba97ea96aee03d871b0ee27f5f86cd"
     ], 
     "README.md": [
       "tokin", 
@@ -114,7 +109,7 @@
     "templates/upstart.conf": [
       "tokin", 
       "static", 
-      "256239148fdb7c041ffbdfff8e38d92f837f9008723389815583405fc2307f2c"
+      "589789df6346d3f496e440750a2e3117a051e441db8bb20b2aec85131e68badc"
     ], 
     "wheelhouse/charmhelpers-0.6.0.tar.gz": [
       "layer:basic", 
@@ -191,6 +186,11 @@
       "dynamic", 
       "761949a130f0e09c1ef39720c3bcd783baa3b30a7806f3029a3b3d14b751ef1a"
     ], 
+    "files/tokin/jujuhelpers.py": [
+      "tokin", 
+      "static", 
+      "8e3b7df7ed194e03a9725f4ab7de5b48fd3bd2e9b1645b750e041386f2292154"
+    ], 
     "hooks/leader-elected": [
       "layer:basic", 
       "static", 
@@ -201,10 +201,10 @@
       "dynamic", 
       "unchecked"
     ], 
-    "files/tokin/juju.py": [
+    "reactive/tokin.py": [
       "tokin", 
       "static", 
-      "f65f4b578d45229bcb1879d84f86ce6895ed4b6279d8cf82e6d896076279d756"
+      "f17f6f711ccde8ccfbdfc76777ac324b54c654bae2e93ad232d602b8d45cf92b"
     ], 
     "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 

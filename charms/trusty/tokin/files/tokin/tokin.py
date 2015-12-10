@@ -4,7 +4,7 @@ from flask import Flask, Response, request
 import tempfile
 import yaml
 import json
-from juju import JujuEnvironment
+from jujuhelpers import JujuEnvironment
 #import base64
 
 APP = Flask(__name__)
@@ -33,7 +33,7 @@ def api_hauchiwa_create(instance_id):
             'emulab-s4-cert' : s4_cert,
             'emulab-project-name' : "tengu",
             'charm-repo-source' : "https://github.com/galgalesh/tengu-charms.git",
-            'ssh-keys' : ','.join([DEFAULT_PUBKEYS, ssh_keys]),
+            'ssh-keys' : str(','.join([DEFAULT_PUBKEYS, ssh_keys])),
         }
     }
     hauchiwa_cfg_path = tempfile.mkdtemp() + 'hauchiwa-cfg.yaml'
@@ -101,25 +101,6 @@ def api_hauchiwa_info(instance_id):
 #     juju = JujuEnvironment(None)
 #     hauchiwa_name = instance_id + '-hauchiwa'
 #     juju.destroy_service(tia_name)
-#
-#
-# @APP.route('/tia/<instance_id>/lambda', methods=['PUT'])
-# def api_hauchiwa_deploy_lambda(instance_id):
-#     """ Deploy lambda architecture on instance """
-#     hnodes = request.form['hnodes']
-#     snodes = request.form['snodes']
-#     from bundletools.bundlecreator import create_lambda
-#     bundle = create_lambda(hnodes, snodes)
-#     bundleb64 = base64.b64encode(bundle)
-#     unit = "{}/0".format(instance_id)
-#     juju = JujuEnvironment(None)
-#     output = juju.action_do(unit, 'deploy-bundle', bundle=bundleb64)
-#     a_id = output.lstrip("Action queued with id: ").rstrip()
-#     resp = Response("Action id: {} "
-#                     "started creating bundle {}".format(a_id, bundleb64),
-#                     status=203,
-#                     mimetype='text/plain')
-#     return resp
 
 
 if __name__ == '__main__':

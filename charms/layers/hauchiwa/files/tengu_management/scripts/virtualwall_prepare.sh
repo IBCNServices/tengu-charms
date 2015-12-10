@@ -1,6 +1,7 @@
 #!/bin/bash
-# This script configures the NAT routes for a node on the virtual wall 1 and 2.
-# VM's are not yet configured exactly as they should.
+# This script does all the stuf that is needed to make a Virtual Wall node ready for Tengu.
+sudo apt-get update; sudo locale-gen nl_BE.UTF-8; sudo useradd safety --uid 30000
+
 SCRIPT=`readlink -f $0`
 SCRIPTPATH=`dirname $SCRIPT`
 ipaddr=$(ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }')

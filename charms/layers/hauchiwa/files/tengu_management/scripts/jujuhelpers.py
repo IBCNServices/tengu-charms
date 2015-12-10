@@ -1,9 +1,10 @@
-#pylint: disable=r0201,c0111
+#pylint: disable=r0201,c0111,c0325
 #
 """ Handles communication to Juju """
 
 from os.path import expanduser
 from subprocess import check_output, STDOUT, CalledProcessError, PIPE, Popen
+from subprocess import check_call
 from time import sleep
 import yaml
 import json
@@ -38,7 +39,8 @@ class JujuEnvironment(object):
 
     def get_ip(self, name):
         """ gets ip from service name """
-        status = self.status
+        pass
+        #status = self.status
 
 
     @property
@@ -278,7 +280,7 @@ class JujuEnvironment(object):
             check_output(['juju', 'switch', name], stderr=STDOUT)
             print "bootstrapping juju environment"
             sleep(5) # otherwise we get a weird error
-            check_output(['juju', 'bootstrap'], stderr=STDOUT)
+            check_call(['juju', 'bootstrap'])
         except CalledProcessError as ex:
             print ex.output
             raise

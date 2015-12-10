@@ -1,9 +1,9 @@
 #!/bin/bash
 # This script does all the stuf that is needed to make a Virtual Wall node ready for Tengu.
+# Please be aware that all changes to this script need to be backwards compatible, since all instances automatically download the latest version.
 sudo apt-get update; sudo locale-gen nl_BE.UTF-8; sudo useradd safety --uid 30000
 
-SCRIPT=`readlink -f $0`
-SCRIPTPATH=`dirname $SCRIPT`
+SCRIPTPATH=`readlink -f $0`
 ipaddr=$(ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }')
 hostname=$(hostname --fqdn)
 

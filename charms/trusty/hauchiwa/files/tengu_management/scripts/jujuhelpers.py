@@ -42,6 +42,15 @@ class JujuEnvironment(object):
         pass
         #status = self.status
 
+    def get_status(self, name):
+        """ Return status of service """
+        info = self.status.get(name)
+        if not info:
+            return info
+        return {
+            'service-status' : info['service-status']['current'],
+            'message' : info['service-status'].get('message'),
+        }
 
     @property
     def machines(self):
@@ -257,6 +266,15 @@ class JujuEnvironment(object):
         sleep(5)
         environment.add_machines(machines)
         environment.deploy_gui()
+        check_output(['juju', 'deploy', 'local:dhcp-server', '--to', '0'])
+        #TODO: see if we really need to wait here, remove sleep or really check status.
+        while(not environment.get_status('dhcp-server') or not ('Ready' in environment.get_status('dhcp-server')['message'])):
+            sleep(10)
+            print('.'),
+        if machines:
+            check_call(['juju', 'deploy', 'local:lxc-networking', '--to', '1'])
+            for machine in range(1, len(machines)):
+                check_call(['juju', 'add-unit', 'local:lxc-networking', '--to', str(machine)])
 
 
     @staticmethod

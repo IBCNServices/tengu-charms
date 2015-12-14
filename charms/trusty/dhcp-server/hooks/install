@@ -17,8 +17,8 @@ def install():
     fetch.apt_update()
     fetch.apt_install(fetch.filter_installed_packages(['isc-dhcp-server']))
     hookenv.log('Configuring isc-dhcp')
-    network = netaddr.IPNetwork('192.168.0.0/24')
-    dhcp_range = '192.168.0.150 192.168.0.253'
+    network = netaddr.IPNetwork('192.168.14.0/24')
+    dhcp_range = '192.168.14.150 192.168.14.253'
     dns = ", ".join(get_dns())
     interface = None
     default_if = get_gateway_if()
@@ -61,6 +61,7 @@ def install():
                              '-j', 'MASQUERADE'])
     subprocess.check_output(['iptables', '--append', 'FORWARD',
                              '--in-interface', interface, '-j', 'ACCEPT'])
+    hookenv.status_set('active', 'Ready')
 
 
 def get_dns():

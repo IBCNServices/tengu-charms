@@ -43,6 +43,7 @@ def config_changed():
     ssh_keys = config.get('ssh-keys')
     if git_url:
         get_and_configure_charm_repo(git_url)
+        reactive.set_state('juju.repo.available')
     if env_name:
         import_environment(config)
     if ssh_keys:

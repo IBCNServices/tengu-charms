@@ -10,7 +10,7 @@
     "reactive/juju-client.py": [
       "juju-client", 
       "static", 
-      "9d49d43af1245c316350a690f7e1770ecbcfb50c9124070358ca90b65f51a2f3"
+      "754d30c57683fa4de21a8ce0e1f6f508fc7fb39bc4df2f54e045ae97b3b6b1c5"
     ], 
     "files/tengu_management/templates/admin.rspec": [
       "hauchiwa", 
@@ -20,7 +20,7 @@
     "files/tengu_management/scripts/rspec_utils.py": [
       "hauchiwa", 
       "static", 
-      "cb1e069361dff2802f7374ec8c041b02b420fe0574cd9c11487b0f19afda8bdc"
+      "686985420d2327dc0df408c0c42803486e8f2662c692e09e5cc2cf539bd72feb"
     ], 
     "hooks/relations/http/interface.yaml": [
       "interface:http", 
@@ -45,7 +45,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "11d89db22876fd0617224ef7b50f381e89a10b8ca8a49b2d74c2d7a3d827b75b"
+      "3548fdf0cd047d10a5f9128b7499a28f2efa21c09344573be4f81faa614d608d"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -115,7 +115,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "174eed7138bf410a3c70aaad6edb8e3a815631c3574099124b1e73ddb73e82f6"
+      "ff0dd85881ff9f8a72fb83e82414a2f1df5c987e428eff282b14543176c23e1d"
     ], 
     "tox.ini": [
       "layer:basic", 

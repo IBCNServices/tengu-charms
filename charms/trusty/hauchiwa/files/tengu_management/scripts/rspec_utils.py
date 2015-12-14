@@ -26,7 +26,7 @@ def create_rspec(nr_nodes, userkeys, pub_ipv4, testbed):
             'component_manager_id' : "urn:publicid:IDN+{}.ilabt.iminds.be+authority+cm".format(testbed),
             'sliver_type' : sliver_type,
             'disk_image' : disk_image,
-            'private_ip' : "192.168.0.{}".format(nodenr),
+            'private_ip' : "192.168.14.{}".format(nodenr+1),
             'private_netmask' : "255.255.255.0",
         })
     output = template.render(

@@ -49,6 +49,7 @@ def install():
         subprocess.check_output(['sudo', 'ifup', 'lxcbr0'])
     except subprocess.CalledProcessError as exception:
         print exception.output
+    hookenv.status_set('active', 'Ready')
 
 
 # Hook logic

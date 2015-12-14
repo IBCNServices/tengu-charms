@@ -9,21 +9,21 @@ from output import okblue # pylint: disable=F0401
 from jinja2 import Environment, FileSystemLoader
 import os
 
-def create_rspec(nr_nodes, userkeys, pub_ipv4):
+def create_rspec(nr_nodes, userkeys, pub_ipv4, testbed):
     env = Environment(
         loader=FileSystemLoader('{}/../templates/'.format(os.path.dirname(__file__)))
     )
     pub_ipv4 = int(pub_ipv4)
     nr_nodes = int(nr_nodes)
     template = env.get_template('template.rspec')
-    component_manager_id = "urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"
+    component_manager_id = "urn:publicid:IDN+{}.ilabt.iminds.be+authority+cm".format(testbed)
     sliver_type = "raw-pc"
-    disk_image = "urn:publicid:IDN+wall2.ilabt.iminds.be+image+emulab-ops:UBUNTU14-64-STD"
+    disk_image = "urn:publicid:IDN+{}.ilabt.iminds.be+image+emulab-ops:UBUNTU14-64-STD".format(testbed)
     nodes = []
     for nodenr in range(nr_nodes):
         nodes.append({
             'name' : 'node{}'.format(nodenr),
-            'component_manager_id' : "urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm",
+            'component_manager_id' : "urn:publicid:IDN+{}.ilabt.iminds.be+authority+cm".format(testbed),
             'sliver_type' : sliver_type,
             'disk_image' : disk_image,
             'private_ip' : "192.168.0.{}".format(nodenr),

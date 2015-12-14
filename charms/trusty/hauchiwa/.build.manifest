@@ -20,7 +20,7 @@
     "files/tengu_management/scripts/rspec_utils.py": [
       "hauchiwa", 
       "static", 
-      "871700bbdd61c34cde6e0d810f029d308f1a03d7087881b67faab7b5fa399b3d"
+      "cb1e069361dff2802f7374ec8c041b02b420fe0574cd9c11487b0f19afda8bdc"
     ], 
     "hooks/relations/http/interface.yaml": [
       "interface:http", 
@@ -45,7 +45,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "700aae99817989ef3bbf3d3f120352a54be481cedf2afc27fe77679fc465cbf0"
+      "11d89db22876fd0617224ef7b50f381e89a10b8ca8a49b2d74c2d7a3d827b75b"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -77,6 +77,11 @@
       "dynamic", 
       "unchecked"
     ], 
+    "wheelhouse/charmhelpers-0.6.1.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "c41a4cb3dcf6aa35e115addf9fb83a94585a4ff3bddc63148983431af45905f8"
+    ], 
     "hooks/upgrade-charm": [
       "juju-client", 
       "static", 
@@ -105,7 +110,7 @@
     "files/tengu_management/templates/bundle.yaml": [
       "hauchiwa", 
       "static", 
-      "b7fb8491511a22139438bd5f0a82eb34b7699cc4676dee6db0128a84ec4ce95d"
+      "92a8e7dbe17a8cd691b30beacb4d850461e5b06f636790935a4915b60d9c6509"
     ], 
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
@@ -160,7 +165,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "b77bd916ae2c87e79c1988c4a7942f2e14744bcc2c4a59b2e333176de619bbc9"
+      "787e6d690b415d043c11460a17f444498632f9aad25fcb212fbfca1c2db4ae10"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -180,7 +185,7 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "b29c10f0db7c5e790ad98a9e78ebb591c909a51a9406baaabb31e86887208ba3"
+      "703b35129d114222c109de7f263d568b549316abd825a6f7645b38a511fcb684"
     ], 
     "wheelhouse/charms.reactive-0.3.6.tar.gz": [
       "layer:basic", 
@@ -276,11 +281,6 @@
       "hauchiwa", 
       "static", 
       "4d91b380af5815f0604f98fc517cfd2085074e446b026d98d6ca83fc277deca2"
-    ], 
-    "wheelhouse/charmhelpers-0.6.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "397b73b02058c5d29ea67eb3d1caed25b1780f43952df58cffd3572a2a70451c"
     ], 
     "icon.svg": [
       "hauchiwa", 

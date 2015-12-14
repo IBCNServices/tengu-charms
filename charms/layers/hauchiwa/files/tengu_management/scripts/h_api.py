@@ -33,7 +33,7 @@ def api_bundle_create():
     with open(bundle_path, 'w+') as bundle_file:
         bundle_file.write(bundle)
     # Run bundle
-    output = subprocess.check_output(['/opt/tengu/scripts/tengu.py', 'create', '--bundle', bundle_path, instance_id])
+    output = subprocess.check_call(['/opt/tengu/scripts/tengu.py', 'create', '--bundle', bundle_path, instance_id])
     resp = Response(
         "Sucessfully deployed bundle to environment {}. Output: {}".format(instance_id, output),
         status=200,

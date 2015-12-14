@@ -1,67 +1,12 @@
-default:
-  services: 
-    zookeeper: 
-      charm: "cs:trusty/zookeeper"
-      num_units: 1
-      annotations: 
-        "gui-x": "600"
-        "gui-y": "450"
-      to: kafka=0
-    "storm-slavecluster":
-      charm: "local:trusty/storm"
-      num_units: 1
-      annotations: 
-        "gui-x": "800"
-        "gui-y": "800"
-    nimbus: 
-      charm: "local:trusty/storm"
-      num_units: 1
-      options: 
-        kafka_requested_topics: toStorm toESB
-      annotations: 
-        "gui-x": "400"
-        "gui-y": "800"
-    kafka: 
-      charm: "local:trusty/kafka"
-      num_units: 1
-      options: 
-        requested_topics: toStorm toESB
-      annotations: 
-        "gui-x": "400"
-        "gui-y": "100"
-    "wso2-esb":
-      charm: "local:trusty/wso2-esb"
-      num_units: 1
-      annotations: 
-        "gui-x": "1200"
-        "gui-y": "-100"
-    "hadoop-master":
-      charm: "local:trusty/chef-hadoop"
-      num_units: 1
-      annotations: 
-        "gui-x": "1600"
-        "gui-y": "800"
-    "hadoop-slavecluster":
-      charm: "local:trusty/chef-hadoop"
-      num_units: 1
-      annotations: 
-        "gui-x": "2000"
-        "gui-y": "800"
-  relations: 
-    - - "kafka:zk"
-      - "zookeeper:zookeeper"
-    - - "nimbus:kafka"
-      - "kafka:client"
-    - - "kafka:client"
-      - "wso2-esb:kafka"
-    - - "nimbus:master"
-      - "storm-slavecluster:worker"
-    - - "nimbus:zookeeper"
-      - "zookeeper:zookeeper"
-    - - "storm-slavecluster:zookeeper"
-      - "zookeeper:zookeeper"
-    - - "hadoop-master:namenode"
-      - "hadoop-slavecluster:datanode"
-    - - "hadoop-master:resourcemanager"
-      - "hadoop-slavecluster:nodemanager"
-  series: trusty
+machines:
+  '0':
+    constraints: 'arch=amd64 testbed=wall1'
+    series: trusty
+  '1':
+    constraints: 'arch=amd64 testbed=wall1'
+    series: trusty
+services:
+  juju-gui:
+    charm: cs:trusty/juju-gui
+    to: 0
+series: trusty

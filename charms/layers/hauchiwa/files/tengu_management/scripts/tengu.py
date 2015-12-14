@@ -1,16 +1,19 @@
 #!/usr/bin/python
-# pylint: disable=C0111
+# pylint: disable=C0111,c0321,c0301
 #
 """ deploys a tengu env """
 import os
 from os.path import expanduser, realpath
 import shutil
-import yaml
-import sys
 from Crypto.PublicKey import RSA
 import subprocess
 import urllib
 import tarfile
+from time import sleep
+
+# non-default pip dependencies
+import yaml
+import click
 
 
 # Own modules
@@ -18,18 +21,11 @@ from rest2jfed_connector import Rest2jfedConnector # pylint: disable=F0401
 import rspec_utils                                 # pylint: disable=F0401
 from output import okblue, fail, okwhite           # pylint: disable=F0401
 from config import Config, script_dir, tengu_dir   # pylint: disable=F0401
-from jujuhelpers import JujuEnvironment       # pylint: disable=F0401
+from jujuhelpers import JujuEnvironment            # pylint: disable=F0401
 
-LIB_PATH = realpath(script_dir() + "/../lib")
-GLOBAL_CONF = realpath(script_dir() + "/../etc/global-conf.yaml")
-DEFAULT_ENV_CONF = realpath(\
-                script_dir() + "/../templates/env-conf.yaml.template")
+global_conf = Config("", realpath(script_dir() + "/../etc/global-conf.yaml")) # pylint: disable=c0103
+DEFAULT_ENV_CONF = realpath(script_dir() + "/../templates/env-conf.yaml.template")
 ENV_CONF_NAME = "env-conf.yaml"
-
-
-def init_global_config():
-    global_conf = Config("", GLOBAL_CONF)
-    return  global_conf #env config must be present
 
 
 def init_environment_config(env_name, rspec=None):
@@ -51,7 +47,7 @@ def init_environment_config(env_name, rspec=None):
     return config
 
 
-def init_jfed(env_name, global_conf, locked=True):
+def init_jfed(env_name, locked=True):
     return Rest2jfedConnector(global_conf['rest2jfed_hostname'],
                               global_conf['rest2jfed_port'],
                               global_conf['s4_cert_path'],
@@ -60,15 +56,17 @@ def init_jfed(env_name, global_conf, locked=True):
                               locked=locked)
 
 
-def init_bare_jfed(global_conf):
-    return init_jfed(None, global_conf, locked=True)
+def init_bare_jfed():
+    return init_jfed(None, locked=True)
 
 
 def create_from_bundle(env_name, bundle_path):
     if not os.path.isfile(bundle_path):
         fail("cannot find bundle at {}".format(bundle_path))
-    nrnodes = count_machines(bundle_path)
-    create_env(env_name, nrnodes)
+    with open(bundle_path, 'r') as bundle_file:
+        bundle = yaml.load(bundle_file)
+    data = get_data_from_bundle(bundle)
+    create_env(env_name, data['nrnodes'], data['pub_ipv4'], data['testbed'])
     deploy_bundle(bundle_path)
 
 
@@ -82,47 +80,87 @@ def deploy_bundle(bundle_path):
     command = ['juju', 'deployer', '-c', bundle_path]
     subprocess.check_output(command)
 
+def get_data_from_bundle(bundle):
+    machines = bundle.get('machines')
+    if not machines: fail('Could not find machines item in bundle.')
+    if not len(machines) > 0: fail('There has to be at least 1 machine specified')
+    testbed = None
+    pub_ipv4 = False
+    for m_id in range(len(machines)):
+        if not machines.get(str(m_id)): fail('machine {} not found while number of machines is {}.'.format(m_id, len(machines)))
+        if m_id == 0:
+            constraints = machines[str(m_id)].get('constraints').split()
+            for constraint in constraints:
+                if constraint.startswith('testbed='):
+                    testbed = constraint.split('=')[1]
+                elif constraint.startswith('testbed=') and constraint.split('=')[1].lower() == 'true':
+                    pub_ipv4 = True
+            if not testbed: fail("machine {} doesn't specify testbed.".format(m_id))
+    return {
+        'nrnodes' : len(machines),
+        'testbed' : testbed,
+        'pub_ipv4' : pub_ipv4,
+    }
 
-def create_virtualwall(env_name, env_conf, jfed):
+
+def create_virtualwall(env_conf, jfed):
     """Deploys a tengu env"""
     if jfed.exp_exists():
         print "jfed exp exists"
         if os.path.isfile(env_conf['manifest_path']):
-            print "jFed experiment exists, downloading manifest"
+            okwhite("jFed experiment exists, downloading manifest")
             jfed.get_manifest(env_conf['manifest_path'])
     else:
-        print "jFed experiment doesn't exist, making one now."
+        okwhite("jFed experiment doesn't exist, making one now.")
         try:
             jfed.create(env_conf['rspec_path'], env_conf['manifest_path'])
         except Exception as ex: # pylint: disable=W0703
             fail('Creation of JFed experiment failed', ex)
 
 
+def wait_for_init(env_conf):
+    """Waits until VW prepare script has happened"""
+    bootstrap_host = env_conf['bootstrap_host']
+    okwhite('Waiting for {} to finish partition resize'.format(bootstrap_host))
+    while True:
+        print('.'),
+        output = subprocess.Popen([
+            'ssh',
+            'jujuuser@{}'.format(bootstrap_host),
+            '[[ -f /var/log/afterextend.log ]] && echo "1"'
+        ])
+        if output:
+            break
+        sleep(5)
+
+
+
+
 def create_juju(env_conf):
     if JujuEnvironment.env_exists(env_conf['env_name']):
-        fail("Juju environment already exists")
+        fail("Juju environment already exists. Remove it first with 'tengu destroy {}'".format(env_conf['env_name']))
     try:
         machines = rspec_utils.get_machines(env_conf['manifest_path'])
     except Exception as ex: # pylint: disable=W0703
         fail("Could not get machines from manifest", ex)
     # Create Juju environment
     bootstrap_host = machines.pop(0)
+    wait_for_init(env_conf)
     JujuEnvironment.create(env_conf['env_name'],
                            bootstrap_host,
                            env_conf['juju_env_conf'],
                            machines)
 
 
-def create_env(env_name, nodes=5, public_ipv4=0):
-    global_conf = init_global_config()
+def create_env(env_name, nodes=5, pub_ipv4=0, testbed='wall1'):
     jfed = init_jfed(env_name, global_conf)
     userkeys = [{
         'user' : 'jujuuser',
         'pubkey' : get_or_create_ssh_key()
     }]
-    rspec = rspec_utils.create_rspec(nodes, userkeys, public_ipv4)
+    rspec = rspec_utils.create_rspec(nodes, userkeys, pub_ipv4, testbed)
     env_conf = init_environment_config(env_name, rspec=rspec)
-    create_virtualwall(env_name, env_conf, jfed)
+    create_virtualwall(env_conf, jfed)
     env_conf['locked'] = 'False'
     env_conf['juju_env_conf']['bootstrap-user'] = 'jujuuser'
     env_conf.save()
@@ -159,14 +197,14 @@ def destroy_environment(name):
     if env_conf['locked']:
         fail('Cannot destroy locked environment')
     else:
-        print "removing juju environment from juju config files"
+        okwhite("removing juju environment from juju config files")
         with open(expanduser("~/.juju/environments.yaml"), 'r') as config_file:
             config = yaml.load(config_file)
         if config['environments'] is not None:
             config['environments'].pop(name, None)
         with open(expanduser("~/.juju/environments.yaml"), 'w') as config_file:
             config_file.write(yaml.dump(config, default_flow_style=False))
-        print "removing juju environment from juju environment folder"
+        okwhite("removing juju environment from juju environment folder")
         if os.path.isfile(expanduser("~/.juju/environments/%s.jenv" % name)):
             os.remove(expanduser("~/.juju/environments/%s.jenv" % name))
 
@@ -218,25 +256,9 @@ def add_pubkey_to_rspec(env_name, env_conf):
         pubkey)
 
 
-def show_status(_env_name):
-    jfed = init_jfed(_env_name, init_global_config())
-    print "status of slice {} is {}".format(_env_name, jfed.get_status())
-
-
-def show_info(_env_name):
-    jfed = init_jfed(_env_name, init_global_config())
-    info = jfed.get_sliceinfo()
-    print "info of slice {}".format(_env_name)
-    print "slice Expiration date: {}".format(info['sliceExpiration'])
-    print "slice urn date: {}".format(info['sliceUrn'])
-    print "user urn date: {}".format(info['userUrn'])
-    print "speaksfor?: {}".format(info['usedSpeaksfor'])
-
-
 def destroy_jfed_exp(_env_name):
-    global_conf = init_global_config()
     env_conf = init_environment_config(_env_name)
-    jfed = init_jfed(_env_name, global_conf, locked=env_conf['locked'])
+    jfed = init_jfed(_env_name, locked=env_conf['locked'])
     jfed.delete()
     print "Slice deleted"
 
@@ -292,11 +314,6 @@ def initial_config(config):
 
     config.save()
 
-def show_userinfo():
-    global_conf = init_global_config()
-    jfed = init_bare_jfed(global_conf)
-    print jfed.get_userinfo()
-
 
 def downloadbigfiles(path):
     """Downloads url from .source files it finds in path"""
@@ -305,7 +322,7 @@ def downloadbigfiles(path):
     print "downloading sources in %s " % topdir
     # The extension to search for
     exten = '.source'
-    for dirpath, dirnames, files in os.walk(topdir):
+    for dirpath, dirnames, files in os.walk(topdir): #pylint:disable=w0612
         for name in files:
             if name.lower().endswith(exten):
                 source = os.path.join(dirpath, name)
@@ -336,104 +353,137 @@ def downloadbigfiles(path):
                     print '\t OK'
                 print
 
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
-WRONG_INPUT_MSG = """Usage:
-tengu create <env-name> [<#nodes> [<#pub_ipv4>]]
-tengu create --bundle <bundle-path> <env-name>
-tengu destroy <env-name>
-tengu config <env-name>
-tengu lock <env-name>
-tengu unlock <env-name>
-tengu jfed userinfo
-tengu jfed status <env-name>
-tengu jfed info <env-name>
-tengu jfed create <env-name>
-tengu jfed delete <env-name>
-tengu jfed renew <env-name> <hours>
-tengu juju create <env-name>
-tengu juju add-machines <env-name>
-tengu downloadbigfiles"""
+@click.group(name='juju', context_settings=CONTEXT_SETTINGS)
+def g_juju():
+    """ Juju related commands """
+    pass
 
-def main():
-    if len(sys.argv) == 2:
-        if sys.argv[1] == "downloadbigfiles":
-            downloadbigfiles('/opt/tengu-charms')
-            return
-    if len(sys.argv) == 3:
-        if sys.argv[1] == "create":
-            create_env(sys.argv[2])
-            return
-        elif sys.argv[1] == "destroy":
-            destroy_environment(sys.argv[2])
-            return
-        elif sys.argv[1] == "config":
-            configure_environment(sys.argv[2])
-            return
-        elif sys.argv[1] == "lock":
-            lock_environment(sys.argv[2], True)
-            return
-        elif sys.argv[1] == "unlock":
-            lock_environment(sys.argv[2], False)
-            return
-        elif sys.argv[1] == "jfed" and sys.argv[2] == 'userinfo':
-            show_userinfo()
-            return
-    elif len(sys.argv) == 4:
-        if sys.argv[1] == "create":
-            create_env(sys.argv[2], sys.argv[3])
-            return
-        if sys.argv[1] == "jfed" and sys.argv[2] == "status":
-            show_status(sys.argv[3])
-            return
-        if sys.argv[1] == "jfed" and sys.argv[2] == "info":
-            show_info(sys.argv[3])
-            return
-        elif sys.argv[1] == "jfed" and sys.argv[2] == "delete":
-            destroy_jfed_exp(sys.argv[3])
-            return
-        elif sys.argv[1] == "jfed" and sys.argv[2] == "create":
-            global_conf = init_global_config()
-            jfed = init_jfed(sys.argv[3], global_conf)
-            env_conf = init_environment_config(sys.argv[3])
-            create_virtualwall(sys.argv[3], env_conf, jfed)
-            return
-        elif sys.argv[1] == "juju" and sys.argv[2] == "create":
-            global_conf = init_global_config()
-            env_conf = init_environment_config(sys.argv[3])
-            create_juju(env_conf)
-            return
-        elif sys.argv[1] == "juju" and sys.argv[2] == "export":
-            global_conf = init_global_config()
-            env_conf = init_environment_config(sys.argv[3])
-            return
-        elif sys.argv[1] == "juju" and sys.argv[2] == "add-machines":
-            global_conf = init_global_config()
-            env_conf = init_environment_config(sys.argv[3])
-            machines = rspec_utils.get_machines(env_conf['manifest_path'])
-            machines.pop(0)
-            jujuenv = JujuEnvironment(sys.argv[3])
-            jujuenv.add_machines(machines)
-            return
-    elif len(sys.argv) == 5:
-        if sys.argv[1] == "create":
-            if sys.argv[2] == "--bundle":
-                create_from_bundle(sys.argv[4], sys.argv[3])
-            else:
-                create_env(sys.argv[2], sys.argv[3], sys.argv[4])
-            return
-        if sys.argv[1] == "jfed" and sys.argv[2] == "renew":
-            slicename = sys.argv[3]
-            hours = sys.argv[4]
-            okwhite('renewing slice {} for {} hours'.format(slicename, hours))
-            global_conf = init_global_config()
-            jfed = init_jfed(slicename, global_conf)
-            try:
-                jfed.renew(hours)
-            except Exception as ex:
-                fail('renewing slice failed', ex)
-            return
-    print WRONG_INPUT_MSG
+@click.command(
+    name='add-machines',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name')
+def c_add_machines(name):
+    """Add machines of jfed experiment to Juju environment
+    NAME: name of Kotengu """
+    env_conf = init_environment_config(name)
+    machines = rspec_utils.get_machines(env_conf['manifest_path'])
+    machines.pop(0)
+    jujuenv = JujuEnvironment(name)
+    jujuenv.add_machines(machines)
 
+g_juju.add_command(c_add_machines)
+
+
+@click.group()
+def g_cli():
+    pass
+
+@click.command(
+    name='create',
+    context_settings=CONTEXT_SETTINGS)
+@click.option(
+    '--bundle',
+    type=click.Path(exists=True, readable=True),
+    default='/opt/tengu/templates/bundle.yaml',
+    help='Path to bundle that contains machines to create and services to deploy')
+@click.option(
+    '--clean/--no-clean',
+    default=False,
+    help='destroys juju environment before creating Kotengu')
+@click.argument('name')
+def c_create(bundle, name, clean):
+    """Create a Kotengu with given name. Skips slice creation if it already exists.
+    NAME: name of Kotengu """
+    if clean:
+        destroy_environment(name)
+    create_from_bundle(name, bundle)
+
+@click.command(
+    name='destroy',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name')
+def c_destroy(name):
+    """Destroys Kotengu with given name
+    NAME: name of Kotengu """
+    if click.confirm('Warning! This will destroy both the Juju environment and the jFed experiment. Are you sure you want to continue?'):
+        destroy_environment(name)
+        destroy_jfed_exp(name)
+
+@click.command(
+    name='lock',
+    context_settings=CONTEXT_SETTINGS)
+@click.option('lock/unlock', default=False)
+@click.argument('name')
+def c_lock(name, lock):
+    """Lock destructive actions for given Kotengu
+    NAME: name of Kotengu """
+    lock_environment(name, lock)
+
+@click.command(
+    name='renew',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name')
+@click.argument('hours', default=1)
+def c_renew(name, hours):
+    """ Set expiration date of Kotengu to now + given hours
+    NAME: name of Kotengu
+    HOURS: requested expiration hours"""
+    okwhite('renewing slice {} for {} hours'.format(name, hours))
+    jfed = init_jfed(name, global_conf)
+    try:
+        #TODO: Really check if renewing slice failed.
+        jfed.renew(hours)
+    except Exception as ex: #pylint:disable=W0703
+        fail('renewing slice failed', ex)
+
+@click.command(
+    name='status',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name')
+def c_status(name):
+    """Show status of Kotengu with given name
+    NAME: name of Kotengu """
+    jfed = init_jfed(name, global_conf)
+    status = jfed.get_status()
+    if status == 'READY':
+        okblue("status of jfed slice is READY")
+        info = jfed.get_sliceinfo()
+        okblue("slice Expiration date: {}".format(info['sliceExpiration']))
+        okblue("slice urn date: {}".format(info['sliceUrn']))
+        okblue("user urn date: {}".format(info['userUrn']))
+        okblue("speaksfor?: {}".format(info['usedSpeaksfor']))
+    else:
+        okwhite("status of jfed slice is {}".format(status))
+    if JujuEnvironment.env_exists(name):
+        okblue('Juju environment exists')
+    else:
+        okwhite("Juju environment doesn't exist")
+
+@click.command(
+    name='userinfo',
+    context_settings=CONTEXT_SETTINGS)
+def c_userinfo():
+    """ Print info of configured jfed user """
+    jfed = init_bare_jfed()
+    okwhite(jfed.get_userinfo())
+
+@click.command(
+    name='downloadbigfiles',
+    context_settings=CONTEXT_SETTINGS)
+def c_downloadbigfiles():
+    """ Download bigfiles in /opt/tengu-charms repository """
+    downloadbigfiles('/opt/tengu-charms')
+
+g_cli.add_command(c_create)
+g_cli.add_command(c_destroy)
+g_cli.add_command(c_lock)
+g_cli.add_command(c_renew)
+g_cli.add_command(c_status)
+g_cli.add_command(c_userinfo)
+g_cli.add_command(c_downloadbigfiles)
+g_cli.add_command(g_juju)
 
 if __name__ == '__main__':
-    main()
+    g_cli()

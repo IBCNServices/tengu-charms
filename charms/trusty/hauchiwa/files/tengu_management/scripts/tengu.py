@@ -144,10 +144,11 @@ def create_juju(env_conf):
     except Exception as ex: # pylint: disable=W0703
         fail("Could not get machines from manifest", ex)
     # Create Juju environment
-    bootstrap_host = machines.pop(0)
+    env_conf['bootstrap_host'] = machines.pop(0)
+    env_conf.save()
     wait_for_init(env_conf)
     JujuEnvironment.create(env_conf['env_name'],
-                           bootstrap_host,
+                           env_conf['bootstrap_host'],
                            env_conf['juju_env_conf'],
                            machines)
 

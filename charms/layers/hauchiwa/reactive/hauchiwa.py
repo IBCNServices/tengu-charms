@@ -26,7 +26,7 @@ HOME = '/home/{}'.format(USER)
 
 @when('juju.repo.available')
 def downloadbigfiles():
-    subprocess.check_call(['su', '-', 'ubuntu', '-c', '{}/tengu.py'.format(TENGU_DIR), 'downloadbigfiles'])
+    subprocess.check_call(['su', '-', 'ubuntu', '-c', '{}/scripts/tengu.py downloadbigfiles'.format(TENGU_DIR)])
 
 @hook('upgrade-charm')
 def upgrade_charm():

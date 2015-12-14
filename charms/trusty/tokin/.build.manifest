@@ -36,11 +36,6 @@
       "dynamic", 
       "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
     ], 
-    "icon.svg": [
-      "tokin", 
-      "static", 
-      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
-    ], 
     "Makefile": [
       "layer:basic", 
       "static", 
@@ -71,6 +66,11 @@
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
     "files/tokin/bundletools/__init__.py": [
       "tokin", 
       "static", 
@@ -99,7 +99,7 @@
     "files/tokin/tokin.py": [
       "tokin", 
       "static", 
-      "4aefb7704873b4fe1e7a1f59f97989a9dcba97ea96aee03d871b0ee27f5f86cd"
+      "63ab9be8c20aee94906ef9ac83b210ac2d8ceeb7492cefdea255236cd8b5b86c"
     ], 
     "README.md": [
       "tokin", 
@@ -111,10 +111,10 @@
       "static", 
       "589789df6346d3f496e440750a2e3117a051e441db8bb20b2aec85131e68badc"
     ], 
-    "wheelhouse/charmhelpers-0.6.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "397b73b02058c5d29ea67eb3d1caed25b1780f43952df58cffd3572a2a70451c"
+    "icon.svg": [
+      "tokin", 
+      "static", 
+      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -151,10 +151,10 @@
       "static", 
       "ea7a1f93d096d8b7bf4b432d9cb277c6233fc7465b965de2f6108c7ced12b7db"
     ], 
-    ".gitignore": [
+    "wheelhouse/charmhelpers-0.6.1.tar.gz": [
       "layer:basic", 
-      "static", 
-      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+      "dynamic", 
+      "c41a4cb3dcf6aa35e115addf9fb83a94585a4ff3bddc63148983431af45905f8"
     ], 
     "files/tokin/bcolors.py": [
       "tokin", 

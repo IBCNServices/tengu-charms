@@ -71,7 +71,7 @@ def api_hauchiwa_info(instance_id):
     if info:
         info = {
             'status' : info['service-status'],
-            'public-address' : info['units'][0].get('public-address')
+            'public-address' : info['units'].values()[0].get('public-address')
         }
         resp = Response(
             json.dumps(info),

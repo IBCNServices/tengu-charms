@@ -110,7 +110,7 @@ class JFed(object):
         renew_c = ['renew', '--expiration-hours', str(exp_hours)]
         output = self.run_command(renew_c, slice_name,
                                   ignore_errors=True)
-        debug('output delete: {}'.format(output))
+        debug('output renew: {}'.format(output))
         return output
 
 

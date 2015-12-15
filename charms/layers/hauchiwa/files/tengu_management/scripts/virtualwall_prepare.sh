@@ -69,37 +69,43 @@ if [[ $hostname == *"-vm"* ]]; then
   echo "hostname: $hostname; Node is a VM, will not expand root partition"
 else
   echo "Will resize root partition"
-  ROOTDEV=$(lsblk | grep / | cut -c 3- |  tr -s ' ' | cut -d ' ' -f 1)
-  SWAPDEV=$(lsblk | grep 'SWAP' | cut -c 3- |  tr -s ' ' | cut -d ' ' -f 1)
-  FREE_SIZE=$(lsblk | grep 'sda4' |  tr -s ' ' | cut -d ' ' -f 4 | cut -d '.' -f 1)
+  ROOTDEV=$(lsblk --raw | grep / | tr -s ' ' | cut -d ' ' -f 1)
+  SWAPDEV=$(lsblk --raw | grep 'SWAP' | tr -s ' ' | cut -d ' ' -f 1)
+  FREE_SIZE=$(lsblk --raw | grep 'sda4' |  tr -s ' ' | cut -d ' ' -f 4 | cut -d '.' -f 1 | cut -d ',' -f 1)
   START_ROOT=$(cat /sys/class/block/$ROOTDEV/start)
   #We have two known cases:
-  if [[ $ROOTDEV == "sda2" ]]; then
+  if [[ $ROOTDEV == "sda2" && $SWAPDEV == 'sda3' ]]; then
     echo 'assuming this is an MBRv2 image since root device $ROOTDEV = sda2 (Ubuntu 12.04 images)'
-    echo 'MBRv2 images not supported, not extending partition.'
-    # fdisk /dev/sda << EOF
-    # d
-    # 2
-    # d
-    # 3
-    # d
-    # 4
-    # n
-    # p
-    # 2
-    # $START_ROOT
-    # +100GB
-    # n
-    # p
-    # 3
-    #
-    # +12GB
-    # t
-    # 3
-    # 82
-    # w
-    # EOF
-    # #echo "$SCRIPTPATH resize $ROOTDEV >> /var/log/afterextend.log" | tee -a /etc/rc.local
+    fdisk /dev/sda << EOF
+    d
+    2
+    d
+    3
+    d
+    4
+    n
+    p
+    2
+    $START_ROOT
+    +${FREE_SIZE}GB
+    n
+    p
+    3
+
+    +12GB
+    t
+    2
+    83
+    t
+    3
+    82
+    a
+    2
+    w
+EOF
+    echo "$SCRIPTPATH resize $ROOTDEV >> /var/log/afterextend.log" | tee -a /etc/rc.local
+    sleep 10
+    reboot
   elif [[ ( $ROOTDEV == "sda1" ) && ( $START_ROOT == '2048' ) && ( $SWAPDEV == 'sda3' ) && "$FREE_SIZE" ]]; then
     echo 'assuming this is an MBRv3 image since root device $ROOTDEV = sda1 (Ubuntu 14.04 images)'
     fdisk /dev/sda << EOF
@@ -126,6 +132,8 @@ else
     t
     3
     82
+    a
+    1
     w
 EOF
     echo "$SCRIPTPATH resize $ROOTDEV >> /var/log/afterextend.log" | tee -a /etc/rc.local

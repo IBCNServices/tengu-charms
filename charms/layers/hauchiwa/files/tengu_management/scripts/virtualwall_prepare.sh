@@ -2,6 +2,7 @@
 # This script does all the stuf that is needed to make a Virtual Wall node ready for Tengu.
 # Run this script as root. Emulab boot scripts run as geniuser so it is required to use `sudo` to run this.
 # Please be aware that all changes to this script need to be backwards compatible, since all instances automatically download the latest version.
+
 exec >> /var/log/tengu-prepare.log
 exec 2>&1
 
@@ -10,12 +11,14 @@ SCRIPTPATH=`readlink -f $0`
 ipaddr=$(ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }')
 hostname=$(hostname --fqdn)
 
+# Do we need to resize?
 if [[ $1 == "resize" ]] ; then
   resize2fs /dev/$2
   sed -i "\@^$SCRIPTPATH resize $2\$@d" /etc/rc.local
   touch '/var/log/tengu-init-done'
   exit
 fi
+
 
 # Fix for weird apt errors
 sudo apt-get update
@@ -75,6 +78,12 @@ else
     echo "ERROR: hostname: $hostname is not part of wall1 or wall2, will not configure NAT";
     exit 1
   fi
+fi
+
+# exit if we already expanded, so we don't get lost in an infinite reboot cycle
+# in the case this script gets called after each reboot
+if [[ -f /var/log/tengu-expansion-done ]] ; then
+  exit
 fi
 
 # root expansion
@@ -156,3 +165,5 @@ EOF
     echo "I don't recognize this partion layout. rootdev=$ROOTDEV, start_root=$START_ROOT, swapdev=$SWAPDEV, freesize=$FREE_SIZE"
   fi
 fi
+
+touch /var/log/tengu-expansion-done

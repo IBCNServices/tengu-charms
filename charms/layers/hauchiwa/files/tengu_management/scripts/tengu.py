@@ -124,16 +124,17 @@ def wait_for_init(env_conf):
     okwhite('Waiting for {} to finish partition resize'.format(bootstrap_host))
     while True:
         print('.'),
-        output = subprocess.Popen([
-            'ssh',
-            'jujuuser@{}'.format(bootstrap_host),
-            '[[ -f /var/log/afterextend.log ]] && echo "1"'
-        ])
-        if output:
+        try:
+            output = subprocess.check_output([
+                'ssh',
+                'jujuuser@{}'.format(bootstrap_host),
+                '[[ -f /var/log/tengu-init-done ]] && echo "1"'
+            ])
+        except subprocess.CalledProcessError:
+            pass
+        if output and output.rstrip() == '1':
             break
         sleep(5)
-
-
 
 
 def create_juju(env_conf):

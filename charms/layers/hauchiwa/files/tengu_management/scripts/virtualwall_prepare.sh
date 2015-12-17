@@ -1,6 +1,10 @@
 #!/bin/bash
 # This script does all the stuf that is needed to make a Virtual Wall node ready for Tengu.
+# Run this script as root. Emulab boot scripts run as geniuser so it is required to use `sudo` to run this.
 # Please be aware that all changes to this script need to be backwards compatible, since all instances automatically download the latest version.
+exec >> /var/log/tengu-prepare.log
+exec 2>&1
+
 
 SCRIPTPATH=`readlink -f $0`
 ipaddr=$(ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }')
@@ -8,11 +12,19 @@ hostname=$(hostname --fqdn)
 
 if [[ $1 == "resize" ]] ; then
   resize2fs /dev/$2
-  sed -i "\@^$SCRIPTPATH resize $2 >> /var/log/afterextend.log\$@d" /etc/rc.local
+  sed -i "\@^$SCRIPTPATH resize $2\$@d" /etc/rc.local
+  touch '/var/log/tengu-init-done'
   exit
 fi
 
-sudo apt-get update; sudo locale-gen nl_BE.UTF-8; sudo useradd safety --uid 30000
+# Fix for weird apt errors
+sudo apt-get update
+# Fix for locale not found error when ssh-ing from belgian Linux machine
+sudo locale-gen nl_BE.UTF-8
+# Emulab creates users with fixed userids starting from userid 20000.
+# Emulab assumes no other users are added.
+# Next line makes sure new users will not have userid that emulab uses.
+sudo useradd safety --uid 30000
 
 # NAT config
 if [[ $ipaddr == *"193.190."* ]]; then
@@ -104,7 +116,7 @@ else
     2
     w
 EOF
-    echo "$SCRIPTPATH resize $ROOTDEV >> /var/log/afterextend.log" | tee -a /etc/rc.local
+    echo "$SCRIPTPATH resize $ROOTDEV" | tee -a /etc/rc.local
     sleep 10
     reboot
   elif [[ ( $ROOTDEV == "sda1" ) && ( $START_ROOT == '2048' ) && ( $SWAPDEV == 'sda3' ) && "$FREE_SIZE" ]]; then
@@ -137,7 +149,7 @@ EOF
     1
     w
 EOF
-    echo "$SCRIPTPATH resize $ROOTDEV >> /var/log/afterextend.log" | tee -a /etc/rc.local
+    echo "$SCRIPTPATH resize $ROOTDEV" | tee -a /etc/rc.local
     sleep 10
     reboot
   else

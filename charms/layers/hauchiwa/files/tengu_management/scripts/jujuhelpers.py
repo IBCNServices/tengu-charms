@@ -267,7 +267,8 @@ class JujuEnvironment(object):
         environment.add_machines(machines)
         environment.deploy_gui()
         check_output(['juju', 'deploy', 'local:dhcp-server', '--to', '0'])
-        #TODO: see if we really need to wait here, remove sleep or really check status.
+        check_output(['juju', 'deploy', 'local:openvpn', '--to', '0'])
+        #TODO: see if we really need to wait here.
         while(not environment.get_status('dhcp-server') or not ('Ready' in environment.get_status('dhcp-server')['message'])):
             sleep(10)
             print('.'),

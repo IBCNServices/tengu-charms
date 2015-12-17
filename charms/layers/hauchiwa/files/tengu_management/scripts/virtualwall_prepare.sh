@@ -126,6 +126,7 @@ else
     w
 EOF
     echo "$SCRIPTPATH resize $ROOTDEV" | tee -a /etc/rc.local
+    touch /var/log/tengu-expansion-done
     sleep 10
     reboot
   elif [[ ( $ROOTDEV == "sda1" ) && ( $START_ROOT == '2048' ) && ( $SWAPDEV == 'sda3' ) && "$FREE_SIZE" ]]; then
@@ -159,6 +160,7 @@ EOF
     w
 EOF
     echo "$SCRIPTPATH resize $ROOTDEV" | tee -a /etc/rc.local
+    touch /var/log/tengu-expansion-done
     sleep 10
     reboot
   else

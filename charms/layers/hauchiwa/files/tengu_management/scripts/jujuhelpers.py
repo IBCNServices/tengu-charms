@@ -8,6 +8,7 @@ from subprocess import check_call
 from time import sleep
 import yaml
 import json
+import sys
 
 
 class JujuEnvironment(object):
@@ -44,7 +45,7 @@ class JujuEnvironment(object):
 
     def get_status(self, name):
         """ Return status of service """
-        info = self.status.get(name)
+        info = self.status['services'].get(name)
         if not info:
             return info
         return {
@@ -269,14 +270,21 @@ class JujuEnvironment(object):
         check_output(['juju', 'deploy', 'local:dhcp-server', '--to', '0'])
         check_output(['juju', 'deploy', 'local:openvpn', '--to', '0'])
         #TODO: see if we really need to wait here.
+        sys.stdout.write('waiting until dhcp-server charm is ready\n')
         while(not environment.get_status('dhcp-server') or not ('Ready' in environment.get_status('dhcp-server')['message'])):
             sleep(10)
-            print('.'),
+            sys.stdout.write('.')
+            sys.stdout.flush()
         if machines:
+            sys.stdout.write('\n')
             check_call(['juju', 'deploy', 'local:lxc-networking', '--to', '1'])
             for machine in range(1, len(machines)):
                 check_call(['juju', 'add-unit', 'local:lxc-networking', '--to', str(machine)])
-
+        sys.stdout.write('waiting until lxc-networking charm is ready\n')
+        while(not environment.get_status('lxc-networking') or not ('Ready' in environment.get_status('lxc-networking')['message'])):
+            sleep(10)
+            sys.stdout.write('.')
+            sys.stdout.flush()
 
     @staticmethod
     def _create_env(name, bootstrap_host, juju_config):

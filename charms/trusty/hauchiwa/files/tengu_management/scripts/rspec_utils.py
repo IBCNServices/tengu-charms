@@ -2,6 +2,7 @@
 Wrapper around jFed_CLI tool
 See http://doc.ilabt.iminds.be/jfed-documentation/cli.html
 """
+# pylint:disable=c0301,c0111
 import subprocess
 from lxml import etree
 # Own modules
@@ -13,7 +14,6 @@ def create_rspec(nr_nodes, userkeys, pub_ipv4, testbed):
     env = Environment(
         loader=FileSystemLoader('{}/../templates/'.format(os.path.dirname(__file__)))
     )
-    pub_ipv4 = int(pub_ipv4)
     nr_nodes = int(nr_nodes)
     template = env.get_template('template.rspec')
     component_manager_id = "urn:publicid:IDN+{}.ilabt.iminds.be+authority+cm".format(testbed)
@@ -28,12 +28,12 @@ def create_rspec(nr_nodes, userkeys, pub_ipv4, testbed):
             'disk_image' : disk_image,
             'private_ip' : "192.168.14.{}".format(nodenr+1),
             'private_netmask' : "255.255.255.0",
+            'pubipv4' : (nodenr == 0 and pub_ipv4),
         })
     output = template.render(
         nodes=nodes,
         userkeys=userkeys,
         network_componentmanager=component_manager_id,
-        pub_ipv4=pub_ipv4,
     )
     return output
 
@@ -124,7 +124,7 @@ def get_pub_ipv4(manifestpath):
     }
     tree = etree.parse(manifestpath)
     root = tree.getroot()
-    for ip in root.findall('.//emulab:routable_pool/emulab:ipv4', namespaces):
+    for ip in root.findall('.//emulab:routable_pool/emulab:ipv4', namespaces): # pylint: disable=c0103
         ips.append({
             'address' : ip.get('address'),
             'netmask' : ip.get('netmask'),

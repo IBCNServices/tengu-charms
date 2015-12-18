@@ -22,16 +22,13 @@
     {% endfor %}
     <link_type name="lan"/>
   </link>
-  {% if pub_ipv4 > 0 %}
-  <emulab:routable_pool client_id="foo" count="{{ pub_ipv4 }}" type="any"/>
-  {% endif %}
   {% for userkey in userkeys %}
   <jfed-ssh-keys:user-ssh-keys user="urn:publicid:IDN+example.com+user+{{ userkey.user }}">
     <jfed-ssh-keys:sshkey>{{ userkey.pubkey }}</jfed-ssh-keys:sshkey>
   </jfed-ssh-keys:user-ssh-keys>
   {% endfor %}
   {% for node in nodes %}
-    {% if node.pub_ipv4 %}
+    {% if node.pubipv4 %}
   <emulab:routable_pool client_id="pubipv4-{{ node.name }}" count="1" type="any"/>
     {% endif %}
   {% endfor %}

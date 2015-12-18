@@ -14,7 +14,6 @@ def create_rspec(nr_nodes, userkeys, pub_ipv4, testbed):
     env = Environment(
         loader=FileSystemLoader('{}/../templates/'.format(os.path.dirname(__file__)))
     )
-    pub_ipv4 = int(pub_ipv4)
     nr_nodes = int(nr_nodes)
     template = env.get_template('template.rspec')
     component_manager_id = "urn:publicid:IDN+{}.ilabt.iminds.be+authority+cm".format(testbed)
@@ -35,7 +34,6 @@ def create_rspec(nr_nodes, userkeys, pub_ipv4, testbed):
         nodes=nodes,
         userkeys=userkeys,
         network_componentmanager=component_manager_id,
-        pub_ipv4=pub_ipv4,
     )
     return output
 

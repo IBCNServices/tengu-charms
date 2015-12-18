@@ -10,6 +10,7 @@ import subprocess
 import urllib
 import tarfile
 from time import sleep
+import sys
 
 # non-default pip dependencies
 import yaml
@@ -105,13 +106,14 @@ def get_data_from_bundle(bundle):
 
 def create_virtualwall(env_conf, jfed):
     """Deploys a tengu env"""
+    okwhite('checking if jfed exp exists..')
     if jfed.exp_exists():
-        print "jfed exp exists"
+        okwhite("jfed exp exists")
         if os.path.isfile(env_conf['manifest_path']):
             okwhite("jFed experiment exists, downloading manifest")
             jfed.get_manifest(env_conf['manifest_path'])
     else:
-        okwhite("jFed experiment doesn't exist, making one now.")
+        okwhite("jFed experiment doesn't exist, creating one now.")
         try:
             jfed.create(env_conf['rspec_path'], env_conf['manifest_path'])
         except Exception as ex: # pylint: disable=W0703
@@ -122,8 +124,10 @@ def wait_for_init(env_conf):
     """Waits until VW prepare script has happened"""
     bootstrap_host = env_conf['bootstrap_host']
     okwhite('Waiting for {} to finish partition resize'.format(bootstrap_host))
+    output = None
     while True:
-        print('.'),
+        sys.stdout.write('.')
+        sys.stdout.flush()
         try:
             output = subprocess.check_output([
                 'ssh',
@@ -135,6 +139,7 @@ def wait_for_init(env_conf):
         if output and output.rstrip() == '1':
             break
         sleep(5)
+    sys.stdout.write('\n')
 
 
 def create_juju(env_conf):
@@ -167,12 +172,6 @@ def create_env(env_name, nodes=5, pub_ipv4=0, testbed='wall1'):
     env_conf['juju_env_conf']['bootstrap-user'] = 'jujuuser'
     env_conf.save()
     create_juju(env_conf)
-
-
-def configure_environment(_env_name):
-    """ Run user-feedback-based initial config """
-    env_conf = Config(DEFAULT_ENV_CONF, env_conf_path(_env_name))
-    initial_config(env_conf)
 
 
 def lock_environment(env_name, lock_status):
@@ -262,66 +261,14 @@ def destroy_jfed_exp(_env_name):
     env_conf = init_environment_config(_env_name)
     jfed = init_jfed(_env_name, locked=env_conf['locked'])
     jfed.delete()
-    print "Slice deleted"
-
-
-def initial_config(config):
-    """ asks environment config """
-    def ask_value(question, default):
-        """ Question helper: Ask question, show default, return default if
-        answer == empty string"""
-        print okblue(question)
-        if default is not None:
-            print "\tDefault: %s (press enter for default)" % default
-        user_input = raw_input()
-        if default is not None and (not user_input or user_input.isspace()):
-            user_input = default
-            print default
-        print
-        return user_input
-
-    config['juju_env_conf']['bootstrap-user'] = ask_value( \
-            "What is your username?\n\t(The username of your emulab account)",
-            config['juju_env_conf'].get('bootstrap-user'))
-
-    config['project_name'] = ask_value( \
-            "What is your jFed/emulab project name?",
-            config.get('project_name'))
-
-    while True:
-        user_input = ask_value(
-            "What is the location of you emulab .PEM keyfile?"\
-            "\n\tThis file is used to connect to jFed and the Virtual Wall "
-            "servers. Please enter the absolute location"
-            , config.get('key_path'))
-        if os.path.isfile(user_input):
-            with open(user_input, "r") as key_file:
-                text = key_file.read()
-            if text.startswith("-----BEGIN RSA PRIVATE KEY-----"):
-                break
-            else:
-                print fail("ERROR: The given file is not a keyfile.")\
-                      + "\nPlease specify the correct keyfile."
-        else:
-            print fail(
-                "ERROR: could not find .PEM keyfile at this location.")\
-                + "\nPlease enter the absolute location."
-    config['key_path'] = user_input
-
-    config['password'] = ask_value( \
-                "What is the Password of your emulab keyfile?\n\t"\
-                "This is the password you use to login to jFed."\
-                "\n\tNote: this password will be stored plaintext in ~/.tengu",
-                config.get('password'))
-
-    config.save()
+    okwhite("Slice deleted")
 
 
 def downloadbigfiles(path):
     """Downloads url from .source files it finds in path"""
     # The top argument for walk
     topdir = os.path.realpath(path)
-    print "downloading sources in %s " % topdir
+    okwhite("downloading sources in %s " % topdir)
     # The extension to search for
     exten = '.source'
     for dirpath, dirnames, files in os.walk(topdir): #pylint:disable=w0612
@@ -329,7 +276,7 @@ def downloadbigfiles(path):
             if name.lower().endswith(exten):
                 source = os.path.join(dirpath, name)
                 file_to_download = source[:-len(exten)]
-                print '%s' % file_to_download
+                okwhite('%s' % file_to_download)
 
                 if not os.path.isfile(file_to_download):
                     with open(source, "r") as myfile:
@@ -341,19 +288,19 @@ def downloadbigfiles(path):
                             [command], shell=True, cwd=dirpath
                         )
                     else:
-                        print '\t DOWNLOADING FROM: %s' % url
+                        okwhite('\t DOWNLOADING FROM: %s' % url)
                         urlopener = urllib.URLopener()
                         urlopener.retrieve(url, file_to_download)
                         if command == "extract":
-                            print '\t EXTRACTING: %s' % file_to_download
+                            okwhite('\t EXTRACTING: %s' % file_to_download)
                             tfile = tarfile.open(file_to_download, 'r')
                             # Important to note that the following extraction is
                             # UNSAFE since .tar.gz archive could contain
                             # relative path like ../../ and overwrite other dirs
                             tfile.extractall(os.path.dirname(file_to_download))
                 else:
-                    print '\t OK'
-                print
+                    okwhite('\t OK')
+                okwhite('')
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 

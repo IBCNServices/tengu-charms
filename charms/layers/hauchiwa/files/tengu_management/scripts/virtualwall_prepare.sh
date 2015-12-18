@@ -83,6 +83,7 @@ else
       sudo route add -net 157.193.215.0 netmask 255.255.255.0 gw 10.2.15.254
       sudo route add -net 192.168.126.0 netmask 255.255.255.0 gw 10.2.15.254
       sudo route add -net 10.2.32.0 netmask 255.255.240.0 gw 10.2.15.254
+      sed -i '/    up echo "Emulab control net is $IFACE"/a \    up route del default gw 10.2.15.254\n    up route add default gw 10.2.15.253\n    up route add -net 10.11.0.0 netmask 255.255.0.0 gw 10.2.15.254\n    up route add -net 157.193.135.0 netmask 255.255.255.0 gw 10.2.15.254\n    up route add -net 157.193.214.0 netmask 255.255.255.0 gw 10.2.15.254\n    up route add -net 157.193.215.0 netmask 255.255.255.0 gw 10.2.15.254\n    up route add -net 192.168.126.0 netmask 255.255.255.0 gw 10.2.15.254\n    up route add -net 10.2.32.0 netmask 255.255.240.0 gw 10.2.15.254' /etc/network/interfaces
     fi
   elif [[ $hostname == *".wall2.ilabt.iminds.be" ]]; then
     if [[ $hostname == *"-vm"* ]]; then
@@ -94,6 +95,7 @@ else
       sudo route add -net 157.193.215.0 netmask 255.255.255.0 gw 172.16.0.1
       sudo route add -net 192.168.126.0 netmask 255.255.255.0 gw 172.16.0.1
       sudo route add -net 10.2.0.0 netmask 255.255.240.0 gw 172.16.0.1
+      sed -i '/    up echo "Emulab control net is $IFACE"/a \    up route add -net 10.2.32.0 netmask 255.255.240.0 gw 172.16.0.1\n    up route del default gw 172.16.0.1\n    up route add default gw 172.16.0.2\n    up route add -net 157.193.135.0 netmask 255.255.255.0 gw 172.16.0.1\n    up route add -net 157.193.214.0 netmask 255.255.255.0 gw 172.16.0.1\n    up route add -net 157.193.215.0 netmask 255.255.255.0 gw 172.16.0.1\n    up route add -net 192.168.126.0 netmask 255.255.255.0 gw 172.16.0.1\n    up route add -net 10.2.0.0 netmask 255.255.240.0 gw 172.16.0.1' /etc/network/interfaces
     else
       echo "hostname: $hostname; Configuring NAT and routes for physical node on wall2";
       sudo route del default gw 10.2.47.254 && sudo route add default gw 10.2.47.253
@@ -103,6 +105,7 @@ else
       sudo route add -net 157.193.215.0 netmask 255.255.255.0 gw 10.2.47.254
       sudo route add -net 192.168.126.0 netmask 255.255.255.0 gw 10.2.47.254
       sudo route add -net 10.2.0.0 netmask 255.255.240.0 gw 10.2.47.254
+      sed -i '/    up echo "Emulab control net is $IFACE"/a \    up route del default gw 10.2.47.254\n    up route add default gw 10.2.47.253\n    up route add -net 10.11.0.0 netmask 255.255.0.0 gw 10.2.47.254\n    up route add -net 157.193.135.0 netmask 255.255.255.0 gw 10.2.47.254\n    up route add -net 157.193.214.0 netmask 255.255.255.0 gw 10.2.47.254\n    up route add -net 157.193.215.0 netmask 255.255.255.0 gw 10.2.47.254\n    up route add -net 192.168.126.0 netmask 255.255.255.0 gw 10.2.47.254\n    up route add -net 10.2.0.0 netmask 255.255.240.0 gw 10.2.47.254' /etc/network/interfaces
     fi
   else
     echo "ERROR: hostname: $hostname is not part of wall1 or wall2, will not configure NAT";

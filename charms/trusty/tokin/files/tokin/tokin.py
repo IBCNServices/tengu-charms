@@ -25,7 +25,7 @@ def api_hauchiwa_create(instance_id):
                         mimetype='text/plain')
     # get values from request
     s4_cert = str(request.headers.get('emulab-s4-cert'))
-    ssh_keys = request.form.get('ssh-keys')
+    ssh_keys = request.form.get('ssh-keys', default="")
     # Create config file
     hauchiwa_name = 'h-{}'.format(instance_id)
     hauchiwa_cfg = {

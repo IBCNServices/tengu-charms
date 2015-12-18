@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 apt-get -y install unzip
+cp ./templates/upstart.conf /etc/init/spark-notebook.conf
 cd /opt
 wget https://s3.eu-central-1.amazonaws.com/spark-notebook/zip/spark-notebook-0.6.1-scala-2.10.4-spark-1.3.0-hadoop-2.4.1-with-hive.zip
 unzip spark-notebook-0.6.1-scala-2.10.4-spark-1.3.0-hadoop-2.4.1-with-hive.zip
 mv spark-notebook-0.6.1-scala-2.10.4-spark-1.3.0-hadoop-2.4.1-with-hive spark-notebook
 rm spark-notebook-0.6.1-scala-2.10.4-spark-1.3.0-hadoop-2.4.1-with-hive.zip
-exit 1
+chown ubuntu /opt/spark-notebook/ -R
+service spark-notebook start
+open-port 9000/tcp

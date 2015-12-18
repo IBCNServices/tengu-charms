@@ -5,8 +5,8 @@ options:
     description: FQDN of the server, defaults to unit's given hostname
   port:
     type: int
-    default: 21
-    description: port for VPN traffic. Default is 21(FTP) since it isn't likely to be used by the server or blocked by the firewall.
+    default: 8080
+    description: port for VPN traffic. Default is 8080(HTTP2) since it isn't likely to be used by the server or blocked by the firewall.
   protocol:
     type: string
     default: tcp

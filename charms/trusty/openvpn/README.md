@@ -40,12 +40,12 @@ and the name of the user set by Juju (default: "admin"). You can find the
 machine number by viewing the output from 'juju status'. Below is an example
 of downloading the config for the default user, "admin", from machine "1":
 
-    juju scp 1:~/admin.tgz .
+    juju scp openvpn/0:~/client1.tgz .
 
 Next extract and view the contents of the files:
 
-    tar xzf admin.tgz
-    cd admin_keys
+    tar xzf client1.tgz
+    cd client1_keys
 
 Finally, install the VPN client and connect to the VPN:
 
@@ -59,8 +59,8 @@ configuring the OpenVPN client: http://bit.ly/19R9dP3.
 It is a good idea to remove the tarball from the VPN server once you have
 downloaded it. You can do so by issuing the commands below:
 
-    juju ssh 1
-    sudo rm admin.tgz
+    juju ssh openvpn/0
+    sudo rm client1.tgz
     exit
 
 The keys are still retained in '/etc/openvpn/easy-rsa/keys' for later use.

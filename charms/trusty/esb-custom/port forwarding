@@ -66,4 +66,24 @@ sudo iptables -I FORWARD -p $PROTOCOL -i $PUB_IF -d $DEST_IP --dport $PUB_PORT -
 sudo iptables -t nat -A PREROUTING -p $PROTOCOL -i $PUB_IF -d $PUB_IP --dport $PUB_PORT -j DNAT --to-destination $DEST_IP:$DEST_PORT
 
 
+export PUB_IF=eth0
+export PUB_IP=193.190.127.232
+export PUB_PORT=21
+export DEST_IP=10.2.1.99
+export DEST_PORT=21
+export PROTOCOL=tcp
+sudo iptables -I FORWARD -p $PROTOCOL -i $PUB_IF -d $DEST_IP --dport $PUB_PORT -j ACCEPT
+sudo iptables -t nat -A PREROUTING -p $PROTOCOL -i $PUB_IF -d $PUB_IP --dport $PUB_PORT -j DNAT --to-destination $DEST_IP:$DEST_PORT
+
+
+
+export PUB_IF=eth0
+export PUB_IP=193.190.127.232
+export PUB_PORT=8080
+export DEST_IP=10.2.1.99
+export DEST_PORT=8080
+export PROTOCOL=tcp
+sudo iptables -I FORWARD -p $PROTOCOL -i $PUB_IF -d $DEST_IP --dport $PUB_PORT -j ACCEPT
+sudo iptables -t nat -A PREROUTING -p $PROTOCOL -i $PUB_IF -d $PUB_IP --dport $PUB_PORT -j DNAT --to-destination $DEST_IP:$DEST_PORT
+
 http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/

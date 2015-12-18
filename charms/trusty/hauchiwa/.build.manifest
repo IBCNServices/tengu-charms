@@ -115,7 +115,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "dd647fa239078a7da5d417271cecc9414d74feabe15e76d5d3bedaba6986b9f5"
+      "31f3120a7525b06c0b800deb37c41e38d4adac7ca897d0d139f4fe29783add5b"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -170,7 +170,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "0aafa6a8623a7f1c826b028138f1a972a3ba0efdf0d86c7b483af7074b9e2b10"
+      "82ed9e37b81431db47ffae383ae11c68c8e6c81bb1f605fb3cf92c51def89df1"
     ], 
     "hooks/install": [
       "layer:basic", 

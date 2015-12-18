@@ -17,50 +17,51 @@ def install():
     fetch.apt_update()
     fetch.apt_install(fetch.filter_installed_packages(['isc-dhcp-server']))
     hookenv.log('Configuring isc-dhcp')
-    network = netaddr.IPNetwork('192.168.14.0/24')
-    dhcp_range = '192.168.14.150 192.168.14.253'
+    private_network = netaddr.IPNetwork('192.168.14.0/24')
+    private_dhcp_range = '192.168.14.150 192.168.14.253'
     dns = ", ".join(get_dns())
-    interface = None
-    default_if = get_gateway_if()
-    netmask = None
-    addr = None
-    found = False
+    private_if = None
+    public_ifs = []
+    private_netmask = None
+    private_addr = None
     for interface in netifaces.interfaces():
         af_inet = netifaces.ifaddresses(interface).get(AF_INET)
         if af_inet and af_inet[0].get('broadcast'):
-            broadcast = \
-                      netifaces.ifaddresses(interface)[AF_INET][0]['broadcast']
+            broadcast = netifaces.ifaddresses(interface)[AF_INET][0]['broadcast']
             netmask = netifaces.ifaddresses(interface)[AF_INET][0]['netmask']
             addr = netifaces.ifaddresses(interface)[AF_INET][0]['addr']
-            if netaddr.IPAddress(addr) in network:
-                found = True
-                break
-    assert found
+            if netaddr.IPAddress(addr) in private_network:
+                private_if = interface
+                private_addr = addr
+                private_netmask = netmask
+                private_broadcast = broadcast
+            else:
+                public_ifs.append(interface)
+    assert private_if
     templating.render(
         source='isc-dhcp-server',
         target='/etc/default/isc-dhcp-server',
         context={
-            'interfaces': interface
+            'interfaces': private_if
         }
     )
     templating.render(
         source='dhcpd.conf',
         target='/etc/dhcp/dhcpd.conf',
         context={
-            'subnet': network.ip,
-            'netmask': netmask,
-            'routers': addr,
-            'broadcast_address': broadcast,
+            'subnet': private_network.ip,
+            'netmask': private_netmask,
+            'routers': private_addr,
+            'broadcast_address': private_broadcast,
             'domain_name_servers': dns,
-            'dhcp_range': dhcp_range,
+            'dhcp_range': private_dhcp_range,
         }
     )
     host.service_restart('isc-dhcp-server')
-    subprocess.check_output(['iptables', '--table', 'nat', '--append',
-                             'POSTROUTING', '--out-interface', default_if,
-                             '-j', 'MASQUERADE'])
-    subprocess.check_output(['iptables', '--append', 'FORWARD',
-                             '--in-interface', interface, '-j', 'ACCEPT'])
+
+    for pub_if in public_ifs:
+        subprocess.check_output(['iptables', '--table', 'nat', '--append', 'POSTROUTING', '--out-interface', pub_if, '-j', 'MASQUERADE'])
+    subprocess.check_output(['iptables', '--append', 'FORWARD', '--in-interface', private_if, '-j', 'ACCEPT'])
     hookenv.status_set('active', 'Ready')
 
 

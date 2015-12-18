@@ -266,9 +266,7 @@ class JujuEnvironment(object):
         environment = JujuEnvironment(name)
         sleep(5)
         environment.add_machines(machines)
-        environment.deploy_gui()
         check_output(['juju', 'deploy', 'local:dhcp-server', '--to', '0'])
-        check_output(['juju', 'deploy', 'local:openvpn', '--to', '0'])
         #TODO: see if we really need to wait here.
         sys.stdout.write('waiting until dhcp-server charm is ready\n')
         while(not environment.get_status('dhcp-server') or not ('Ready' in environment.get_status('dhcp-server')['message'])):
@@ -280,6 +278,8 @@ class JujuEnvironment(object):
             check_call(['juju', 'deploy', 'local:lxc-networking', '--to', '1'])
             for machine in range(1, len(machines)):
                 check_call(['juju', 'add-unit', 'local:lxc-networking', '--to', str(machine)])
+        check_output(['juju', 'deploy', 'local:openvpn', '--to', '0'])
+        environment.deploy_gui()
         sys.stdout.write('waiting until lxc-networking charm is ready\n')
         while(not environment.get_status('lxc-networking') or not ('Ready' in environment.get_status('lxc-networking')['message'])):
             sleep(10)

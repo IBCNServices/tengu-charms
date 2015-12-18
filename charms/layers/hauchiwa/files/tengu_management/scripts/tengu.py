@@ -131,6 +131,8 @@ def wait_for_init(env_conf):
         try:
             output = subprocess.check_output([
                 'ssh',
+                '-o',
+                'StrictHostKeyChecking=no',
                 'jujuuser@{}'.format(bootstrap_host),
                 '[[ -f /var/log/tengu-init-done ]] && echo "1"'
             ])
@@ -363,7 +365,7 @@ def c_destroy(name):
 @click.command(
     name='lock',
     context_settings=CONTEXT_SETTINGS)
-@click.option('lock/unlock', default=False)
+@click.option('--lock/--no-lock', default=False)
 @click.argument('name')
 def c_lock(name, lock):
     """Lock destructive actions for given Kotengu

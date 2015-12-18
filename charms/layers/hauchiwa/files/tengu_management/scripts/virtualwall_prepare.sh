@@ -8,7 +8,6 @@ exec 2>&1
 
 
 SCRIPTPATH=`readlink -f $0`
-ipaddr=$(ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }')
 hostname=$(hostname --fqdn)
 
 # Do we need to resize?
@@ -28,6 +27,18 @@ sudo locale-gen nl_BE.UTF-8
 # Emulab assumes no other users are added.
 # Next line makes sure new users will not have userid that emulab uses.
 sudo useradd safety --uid 30000
+
+# Check if we got assigned a public ip. if so, configure it.
+wget https://raw.githubusercontent.com/galgalesh/tengu-charms/master/charms/layers/hauchiwa/files/tengu_management/scripts/get_pubipv4.py -O /get_pubipv4.py
+chmod u+x /get_pubipv4.py
+$PUBIPV4 = $(/get_pubipv4.py)
+if [[ ( $? == 0 ) && ( "$PUBIPV4" ) ]] ; then
+  vconfig add eth0 28
+  ifconfig eth0.28 $PUBIPV4
+  route del default && route add default gw 193.190.127.129
+fi
+
+ipaddr=$(ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }')
 
 # NAT config
 if [[ $ipaddr == *"193.190."* ]]; then

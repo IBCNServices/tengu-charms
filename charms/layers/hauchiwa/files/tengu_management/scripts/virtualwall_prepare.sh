@@ -48,14 +48,14 @@ elif [[ ( "$PUBIPV4" ) && ( $hostname == *".wall1.ilabt.iminds.be" ) ]]; then
   ifconfig eth0.28 $PUBIPV4
   route del default && route add default gw 193.190.127.129
   # Persist in /etc/network/interfaces
-  sed -i '/    up echo "Emulab control net is $IFACE"/a \    up vconfig add eth0 28\n    up ifconfig eth0.28 ',"$PUBIPV4",'\n    up route del default\n    up route add default gw 193.190.127.129' /etc/network/interfaces
+  sed -i '/    up echo "Emulab control net is $IFACE"/a \    up vconfig add eth0 28\n    up ifconfig eth0.28 '"$PUBIPV4"'\n    up route del default\n    up route add default gw 193.190.127.129' /etc/network/interfaces
 elif [[ ( "$PUBIPV4" ) && ( $hostname == *".wall2.ilabt.iminds.be" ) ]]; then
   echo "configuring for public ip $PUBIPV4 on wall2"
   vconfig add eth0 29
   ifconfig eth0.29 $PUBIPV4
   route del default && route add default gw 193.190.127.193
   # Persist in /etc/network/interfaces
-  sed -i '/    up echo "Emulab control net is $IFACE"/a \    up vconfig add eth0 29\n    up ifconfig eth0.29 ',"$PUBIPV4",'\n    up route del default\n    up route add default gw 193.190.127.193' /etc/network/interfaces
+  sed -i '/    up echo "Emulab control net is $IFACE"/a \    up vconfig add eth0 29\n    up ifconfig eth0.29 '"$PUBIPV4"'\n    up route del default\n    up route add default gw 193.190.127.193' /etc/network/interfaces
 else
   if [[ $hostname == *".wall1.ilabt.iminds.be" ]]; then
     if [[ $hostname == *"-vm"* ]]; then

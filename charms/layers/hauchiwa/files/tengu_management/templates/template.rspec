@@ -30,4 +30,9 @@
     <jfed-ssh-keys:sshkey>{{ userkey.pubkey }}</jfed-ssh-keys:sshkey>
   </jfed-ssh-keys:user-ssh-keys>
   {% endfor %}
+  {% for node in nodes %}
+    {% if node.pub_ipv4 %}
+  <emulab:routable_pool client_id="pubipv4-{{ node.name }}" count="1" type="any"/>
+    {% endif %}
+  {% endfor %}
 </rspec>

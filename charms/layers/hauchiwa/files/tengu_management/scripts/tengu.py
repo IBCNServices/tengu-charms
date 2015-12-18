@@ -93,7 +93,7 @@ def get_data_from_bundle(bundle):
             for constraint in constraints:
                 if constraint.startswith('testbed='):
                     testbed = constraint.split('=')[1]
-                elif constraint.startswith('testbed=') and constraint.split('=')[1].lower() == 'true':
+                elif constraint.startswith('pubipv4=') and constraint.split('=')[1].lower() == 'true':
                     pub_ipv4 = True
             if not testbed: fail("machine {} doesn't specify testbed.".format(m_id))
     return {
@@ -389,7 +389,7 @@ def g_cli():
     '--bundle',
     type=click.Path(exists=True, readable=True),
     default='/opt/tengu/templates/bundle.yaml',
-    help='Path to bundle that contains machines to create and services to deploy')
+    help='path to bundle that contains machines to create and services to deploy')
 @click.option(
     '--clean/--no-clean',
     default=False,

@@ -11,6 +11,6 @@ optional_resources:
     hash: defd21ad8d2b6f28cc0a16b96f652099
     hash_type: md5
   zookeeper-x86_64:
-    url: http://mirrors.gigenet.com/apache/zookeeper/stable/zookeeper-3.4.6.tar.gz
-    hash: 01b3938547cd620dc4c93efe07c0360411f4a66962a70500b163b59014046994
-    hash_type: sha256
+    url: http://mirrors.gigenet.com/apache/zookeeper/stable/zookeeper-3.4.7.tar.gz
+    hash: 58b515d1c1352e135d17c9a9a9ffedd0
+    hash_type: md5

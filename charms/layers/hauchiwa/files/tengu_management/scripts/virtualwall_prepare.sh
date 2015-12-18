@@ -6,12 +6,12 @@
 exec >> /var/log/tengu-prepare.log
 exec 2>&1
 
-
+ipaddr=$(ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }')
 SCRIPTPATH=`readlink -f $0`
 hostname=$(hostname --fqdn)
 
 # Do we need to resize?
-if [[ $1 == "resize" ]] ; then
+if [[ $1 == "resize" ]]; then
   resize2fs /dev/$2
   sed -i "\@^$SCRIPTPATH resize $2\$@d" /etc/rc.local
   touch '/var/log/tengu-init-done'
@@ -31,18 +31,27 @@ sudo useradd safety --uid 30000
 # Check if we got assigned a public ip. if so, configure it.
 wget https://raw.githubusercontent.com/galgalesh/tengu-charms/master/charms/layers/hauchiwa/files/tengu_management/scripts/get_pubipv4.py -O /get_pubipv4.py
 chmod u+x /get_pubipv4.py
-$PUBIPV4 = $(/get_pubipv4.py)
-if [[ ( $? == 0 ) && ( "$PUBIPV4" ) ]] ; then
+PUBIPV4=$(/get_pubipv4.py)
+
+if [[ $? == 0 ]]; then
+  print 'ERROR: get_pubipv4 exited with error, aborting'
+  exit 1
+fi
+
+
+# NAT and ipv4 config
+if [[ $ipaddr == *"193.190."* ]]; then
+  echo "Node has public IP. Skipping NAT and pubipv4 config"
+elif [[ ( "$PUBIPV4" ) && ( $hostname == *".wall1.ilabt.iminds.be" ) ]]; then
+  echo "configuring for public ip $PUBIPV4 on wall1"
   vconfig add eth0 28
   ifconfig eth0.28 $PUBIPV4
   route del default && route add default gw 193.190.127.129
-fi
-
-ipaddr=$(ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }')
-
-# NAT config
-if [[ $ipaddr == *"193.190."* ]]; then
-  echo "Node has public IP. Skipping NAT config"
+elif [[ ( "$PUBIPV4" ) && ( $hostname == *".wall2.ilabt.iminds.be" ) ]]; then
+  echo "configuring for public ip $PUBIPV4 on wall2"
+  vconfig add eth0 29
+  ifconfig eth0.29 $PUBIPV4
+  route del default && route add default gw 193.190.127.193
 else
   if [[ $hostname == *".wall1.ilabt.iminds.be" ]]; then
     if [[ $hostname == *"-vm"* ]]; then
@@ -93,7 +102,7 @@ fi
 
 # exit if we already expanded, so we don't get lost in an infinite reboot cycle
 # in the case this script gets called after each reboot
-if [[ -f /var/log/tengu-expansion-done ]] ; then
+if [[ -f /var/log/tengu-expansion-done ]]; then
   exit
 fi
 

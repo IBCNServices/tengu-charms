@@ -427,7 +427,7 @@ def c_lock(name, lock):
     name='renew',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('name')
-@click.argument('hours', default=1)
+@click.argument('hours', type=int, default=800)
 def c_renew(name, hours):
     """ Set expiration date of Kotengu to now + given hours
     NAME: name of Kotengu

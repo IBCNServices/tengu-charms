@@ -95,6 +95,7 @@ class Rest2jfedConnector(object):
 
     def renew(self, exp_time):
         """ Renews jfed slice """
+        exp_time = str(exp_time)
         url = self.exp_url
         response = requests.post(url, data=exp_time,
                                  headers=self.headers)

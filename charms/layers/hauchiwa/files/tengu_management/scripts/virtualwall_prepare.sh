@@ -33,8 +33,8 @@ wget https://raw.githubusercontent.com/galgalesh/tengu-charms/master/charms/laye
 chmod u+x /get_pubipv4.py
 PUBIPV4=$(/get_pubipv4.py)
 
-if [[ $? == 1 ]]; then
-  print 'ERROR: get_pubipv4 exited with error, aborting'
+if [[ "$?" == '1' ]]; then
+  echo 'ERROR: get_pubipv4 exited with error, aborting. Output: $PUBIPV4'
   exit 1
 fi
 

@@ -276,8 +276,8 @@ class JujuEnvironment(object):
         if machines:
             sys.stdout.write('\n')
             check_call(['juju', 'deploy', 'local:lxc-networking', '--to', '1'])
-            for machine in range(1, len(machines)):
-                check_call(['juju', 'add-unit', 'local:lxc-networking', '--to', str(machine)])
+            for machine in range(2, len(machines)):
+                check_call(['juju', 'add-unit', 'lxc-networking', '--to', str(machine)])
         check_output(['juju', 'deploy', 'local:openvpn', '--to', '0'])
         environment.deploy_gui()
         sys.stdout.write('waiting until lxc-networking charm is ready\n')

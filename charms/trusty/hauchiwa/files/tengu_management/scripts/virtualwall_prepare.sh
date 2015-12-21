@@ -2,16 +2,15 @@
 # This script does all the stuf that is needed to make a Virtual Wall node ready for Tengu.
 # Run this script as root. Emulab boot scripts run as geniuser so it is required to use `sudo` to run this.
 # Please be aware that all changes to this script need to be backwards compatible, since all instances automatically download the latest version.
+#set -e
 
+# Log output of this script
 exec >> /var/log/tengu-prepare.log
 exec 2>&1
 
-ipaddr=$(hostname -i | cut -d ' ' -f 2) # only works if hostname is resolvable
-def_if=$(ifconfig | grep -B1 "inet addr:$ipaddr" | awk '$1!="inet" && $1!="--" {print $1}')
 SCRIPTPATH=`readlink -f $0`
-hostname=$(hostname --fqdn)
 
-# Do we need to resize?
+# resize and exit if requested
 if [[ $1 == "resize" ]]; then
   resize2fs /dev/$2
   sed -i "\@^$SCRIPTPATH resize $2\$@d" /etc/rc.local
@@ -25,98 +24,114 @@ if [[ -f /var/log/tengu-expansion-done ]]; then
   exit
 fi
 
+export https_proxy=http://proxy.atlantis.ugent.be:8080
+
 # Fix for weird apt errors
-sudo apt-get update
+apt-get update
 # Fix for locale not found error when ssh-ing from belgian Linux machine
-sudo locale-gen nl_BE.UTF-8
+locale-gen nl_BE.UTF-8
 # Emulab creates users with fixed userids starting from userid 20000.
 # Emulab assumes no other users are added.
 # Next line makes sure new users will not have userid that emulab uses.
-sudo useradd safety --uid 30000
+useradd safety --uid 30000
 
-# Check if we got assigned a public ip. if so, configure it.
+# Get help script
 wget https://raw.githubusercontent.com/galgalesh/tengu-charms/master/charms/layers/hauchiwa/files/tengu_management/scripts/get_pubipv4.py -O /get_pubipv4.py
 chmod u+x /get_pubipv4.py
-PUBIPV4=$(/get_pubipv4.py)
 
-if [[ "$?" == '1' ]]; then
-  echo 'ERROR: get_pubipv4 exited with error, aborting. Output: $PUBIPV4'
-  exit 1
+# Get required values
+ORIG_PUB_IPADDR=$(hostname -i | cut -d ' ' -f 2) # only works if hostname is resolvable
+PUB_IF=$(ifconfig | grep -B1 "inet addr:$ORIG_PUB_IPADDR" | awk '$1!="inet" && $1!="--" {print $1}')
+IP_ADRESSES=$(ifconfig | awk -F "[: ]+" '/inet addr:/ { if ($4 != "127.0.0.1") print $4 }')
+HOSTNAME=$(hostname --fqdn)
+NEW_PUBIPV4=$(/get_pubipv4.py)
+
+# Init empty array of network configuration commands
+NET_CONFIG=()
+
+# Add public ipv4 commands if we got assigned one
+if [[ "$NEW_PUBIPV4" ]]; then
+  if [[ ( "$HOSTNAME" == *".wall1.ilabt.iminds.be" ) ]]; then
+    PUB_GATEWAY='193.190.127.129'
+  else
+    PUB_GATEWAY='193.190.127.193'
+  fi
+  NET_CONFIG+=(
+    "vconfig add ${PUB_IF} 29"
+    "ifconfig ${PUB_IF}.29 $NEW_PUBIPV4"
+    "route del default && route add default gw $PUB_GATEWAY"
+  )
 fi
 
-
-# NAT and ipv4 config
-if [[ $ipaddr == *"193.190."* ]]; then
-  echo "Node has public IP. Skipping NAT and pubipv4 config"
-elif [[ ( "$PUBIPV4" ) && ( $hostname == *".wall1.ilabt.iminds.be" ) ]]; then
-  echo "configuring for public ip $PUBIPV4 on wall1"
-  vconfig add ${def_if} 28
-  ifconfig ${def_if}.28 $PUBIPV4
-  route del default && route add default gw 193.190.127.129
-  # Persist in /etc/network/interfaces
-  sed -i '/    up echo "Emulab control net is $IFACE"/a \    up vconfig add '"${def_if}"' 28\n    up ifconfig '"${def_if}"'.28 '"$PUBIPV4"'\n    up route del default\n    up route add default gw 193.190.127.129' /etc/network/interfaces
-elif [[ ( "$PUBIPV4" ) && ( $hostname == *".wall2.ilabt.iminds.be" ) ]]; then
-  echo "configuring for public ip $PUBIPV4 on wall2"
-  vconfig add ${def_if} 29
-  ifconfig ${def_if}.29 $PUBIPV4
-  route del default && route add default gw 193.190.127.193
-  # Persist in /etc/network/interfaces
-  sed -i '/    up echo "Emulab control net is $IFACE"/a \    up vconfig add '"${def_if}"' 29\n    up ifconfig '"${def_if}"'.29 '"$PUBIPV4"'\n    up route del default\n    up route add default gw 193.190.127.193' /etc/network/interfaces
-else
-  if [[ $hostname == *".wall1.ilabt.iminds.be" ]]; then
-    if [[ $hostname == *"-vm"* ]]; then
-      echo "hostname: $hostname; Configuring NAT and routes for VM on wall1";
-      echo 'Wall1 NAT is currently not working; will not change routes.';
-      # sudo route add -net 10.2.0.0 netmask 255.255.240.0 gw 172.16.0.1
-      # sudo route del default gw 172.16.0.1 && sudo route add default gw 172.16.0.2
-      # sudo route add -net 157.193.135.0 netmask 255.255.255.0 gw 172.16.0.1
-      # sudo route add -net 157.193.214.0 netmask 255.255.255.0 gw 172.16.0.1
-      # sudo route add -net 157.193.215.0 netmask 255.255.255.0 gw 172.16.0.1
-      # sudo route add -net 192.168.126.0 netmask 255.255.255.0 gw 172.16.0.1
-      # sudo route add -net 10.2.32.0 netmask 255.255.240.0 gw 172.16.0.1
-    else
-      echo "hostname: $hostname; Configuring NAT and routes for physical node on wall1";
-      sudo route del default gw 10.2.15.254 && sudo route add default gw 10.2.15.253
-      sudo route add -net 10.11.0.0 netmask 255.255.0.0 gw 10.2.15.254
-      sudo route add -net 157.193.135.0 netmask 255.255.255.0 gw 10.2.15.254
-      sudo route add -net 157.193.214.0 netmask 255.255.255.0 gw 10.2.15.254
-      sudo route add -net 157.193.215.0 netmask 255.255.255.0 gw 10.2.15.254
-      sudo route add -net 192.168.126.0 netmask 255.255.255.0 gw 10.2.15.254
-      sudo route add -net 10.2.32.0 netmask 255.255.240.0 gw 10.2.15.254
-      sed -i '/    up echo "Emulab control net is $IFACE"/a \    up route del default gw 10.2.15.254\n    up route add default gw 10.2.15.253\n    up route add -net 10.11.0.0 netmask 255.255.0.0 gw 10.2.15.254\n    up route add -net 157.193.135.0 netmask 255.255.255.0 gw 10.2.15.254\n    up route add -net 157.193.214.0 netmask 255.255.255.0 gw 10.2.15.254\n    up route add -net 157.193.215.0 netmask 255.255.255.0 gw 10.2.15.254\n    up route add -net 192.168.126.0 netmask 255.255.255.0 gw 10.2.15.254\n    up route add -net 10.2.32.0 netmask 255.255.240.0 gw 10.2.15.254' /etc/network/interfaces
-    fi
-  elif [[ $hostname == *".wall2.ilabt.iminds.be" ]]; then
-    if [[ $hostname == *"-vm"* ]]; then
-      echo "hostname: $hostname; Configuring NAT and routes for VM on wall2";
-      sudo route add -net 10.2.32.0 netmask 255.255.240.0 gw 172.16.0.1
-      sudo route del default gw 172.16.0.1 && sudo route add default gw 172.16.0.2
-      sudo route add -net 157.193.135.0 netmask 255.255.255.0 gw 172.16.0.1
-      sudo route add -net 157.193.214.0 netmask 255.255.255.0 gw 172.16.0.1
-      sudo route add -net 157.193.215.0 netmask 255.255.255.0 gw 172.16.0.1
-      sudo route add -net 192.168.126.0 netmask 255.255.255.0 gw 172.16.0.1
-      sudo route add -net 10.2.0.0 netmask 255.255.240.0 gw 172.16.0.1
-      sed -i '/    up echo "Emulab control net is $IFACE"/a \    up route add -net 10.2.32.0 netmask 255.255.240.0 gw 172.16.0.1\n    up route del default gw 172.16.0.1\n    up route add default gw 172.16.0.2\n    up route add -net 157.193.135.0 netmask 255.255.255.0 gw 172.16.0.1\n    up route add -net 157.193.214.0 netmask 255.255.255.0 gw 172.16.0.1\n    up route add -net 157.193.215.0 netmask 255.255.255.0 gw 172.16.0.1\n    up route add -net 192.168.126.0 netmask 255.255.255.0 gw 172.16.0.1\n    up route add -net 10.2.0.0 netmask 255.255.240.0 gw 172.16.0.1' /etc/network/interfaces
-    else
-      echo "hostname: $hostname; Configuring NAT and routes for physical node on wall2";
-      sudo route del default gw 10.2.47.254 && sudo route add default gw 10.2.47.253
-      sudo route add -net 10.11.0.0 netmask 255.255.0.0 gw 10.2.47.254
-      sudo route add -net 157.193.135.0 netmask 255.255.255.0 gw 10.2.47.254
-      sudo route add -net 157.193.214.0 netmask 255.255.255.0 gw 10.2.47.254
-      sudo route add -net 157.193.215.0 netmask 255.255.255.0 gw 10.2.47.254
-      sudo route add -net 192.168.126.0 netmask 255.255.255.0 gw 10.2.47.254
-      sudo route add -net 10.2.0.0 netmask 255.255.240.0 gw 10.2.47.254
-      sed -i '/    up echo "Emulab control net is $IFACE"/a \    up route del default gw 10.2.47.254\n    up route add default gw 10.2.47.253\n    up route add -net 10.11.0.0 netmask 255.255.0.0 gw 10.2.47.254\n    up route add -net 157.193.135.0 netmask 255.255.255.0 gw 10.2.47.254\n    up route add -net 157.193.214.0 netmask 255.255.255.0 gw 10.2.47.254\n    up route add -net 157.193.215.0 netmask 255.255.255.0 gw 10.2.47.254\n    up route add -net 192.168.126.0 netmask 255.255.255.0 gw 10.2.47.254\n    up route add -net 10.2.0.0 netmask 255.255.240.0 gw 10.2.47.254' /etc/network/interfaces
-    fi
+# Get Values for route commands
+if [[ "$HOSTNAME" == *".wall1.ilabt.iminds.be" ]]; then
+  OTHER_WALL='10.2.32.0'
+  if [[ "$HOSTNAME" == *"-vm"* ]]; then
+    IBCN_GATEWAY='172.16.0.1'
+    PUB_GATEWAY='172.16.0.2'
+    OTHER_TYPE_IP='10.2.0.0'
+    OTHER_TYPE_NETMASK='255.255.240.0'
   else
-    echo "ERROR: hostname: $hostname is not part of wall1 or wall2, will not configure NAT";
-    exit 1
+    IBCN_GATEWAY='10.2.15.254'
+    PUB_GATEWAY='10.2.15.253'
+    OTHER_TYPE_IP='10.11.0.0'
+    OTHER_TYPE_NETMASK='255.255.0.0'
+  fi
+elif [[ "$HOSTNAME" == *".wall2.ilabt.iminds.be" ]]; then
+  OTHER_WALL='10.2.0.0'
+  if [[ "$HOSTNAME" == *"-vm"* ]]; then
+    IBCN_GATEWAY='172.16.0.1'
+    PUB_GATEWAY='172.16.0.2'
+    OTHER_TYPE_IP='10.2.32.0'
+    OTHER_TYPE_NETMASK='255.255.240.0'
+  else
+    IBCN_GATEWAY='10.2.47.254'
+    PUB_GATEWAY='10.2.47.253'
+    OTHER_TYPE_IP='10.11.0.0'
+    OTHER_TYPE_NETMASK='255.255.0.0'
   fi
 fi
 
 
+# if not directly connected to internet, add new NATted default gateway
+if [[ ! ( $IP_ADRESSES == *'193'* ) ]]; then
+  NET_CONFIG+=(
+    "route del default gw $IBCN_GATEWAY && route add default gw $PUB_GATEWAY"
+  )
+fi
+
+# If there is an interface connected to ibcn network, add routes for ibcn network
+if [[ $IP_ADRESSES == *'10.2.'* || $IP_ADRESSES == *'172.16.'* ]]; then
+  NET_CONFIG+=(
+    "route add -net $OTHER_TYPE_IP netmask $OTHER_TYPE_NETMASK gw $IBCN_GATEWAY"
+    "route add -net 157.193.135.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"
+    "route add -net 157.193.214.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"
+    "route add -net 157.193.215.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"
+    "route add -net 192.168.126.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"
+    "route add -net $OTHER_WALL netmask 255.255.240.0 gw $IBCN_GATEWAY"
+  )
+fi
+
+# execute commands
+for CONFIG_COMMAND in "${NET_CONFIG[@]}"; do
+  echo "DEBUG: $CONFIG_COMMAND"
+  eval $CONFIG_COMMAND
+done
+
+# Persist commands in /etc/network/interfaces
+SEDCOMMAND="sed -i '/    up echo \"Emulab control net is \$IFACE\"/a \\"
+for CONFIG_COMMAND in "${NET_CONFIG[@]}"; do
+  SEDCOMMAND="${SEDCOMMAND}    up $CONFIG_COMMAND\n"
+done
+SEDCOMMAND="${SEDCOMMAND}' /etc/network/interfaces"
+echo "DEBUG: $SEDCOMMAND"
+eval $SEDCOMMAND
+
+
+
 # root expansion
-if [[ $hostname == *"-vm"* ]]; then
-  echo "hostname: $hostname; Node is a VM, will not expand root partition"
+if [[ "$HOSTNAME" == *"-vm"* ]]; then
+  echo "hostname: "$HOSTNAME"; Node is a VM, will not expand root partition"
 else
   echo "Will resize root partition"
   ROOTDEV=$(lsblk --raw | grep / | tr -s ' ' | cut -d ' ' -f 1)

@@ -2,7 +2,7 @@
 
 set -e
 
-private_address=`unit-get private-address`
+private_address=`unit-get private-address` #TODO: this won't always return an ip address
 version=`config-get version`
 
 configure_hosts () {
@@ -13,9 +13,7 @@ configure_hosts () {
 
 		# Fixup stuff in lxc containers
 		hostname=`hostname`
-		grep -q "^127.0.0.1.*$hostname" /etc/hosts &&
-		sed -i -e "s/^\(127.0.0.1 .*\)$hostname/\1/" /etc/hosts &&
-		echo "$private_address $hostname" >> /etc/hosts
+		grep -q "$private_address $hostname" /etc/hosts || echo "$private_address $hostname" >> /etc/hosts
 		set -e
 }
 

@@ -6,6 +6,7 @@ SERVER_CONF=/etc/openvpn/server.conf
 DEFAULT_CLIENT_CONF=/etc/openvpn/client.ovpn
 PROTO=`config-get protocol`
 PORT=`config-get port`
+DEFAULT_GW_IP=`ip route get 8.8.8.8 | grep src | tr -s ' ' | rev | cut -d ' ' -f 2 | rev`
 PUBLIC_IP=`unit-get public-address`
 NETWORK=10.8.0.0/8
 
@@ -69,7 +70,28 @@ create_user () {
     sed -r -i -e "s/key .*\.key/key ${USER}.key/g" $CLIENT_CONFIG
   fi
 
-  sed -r -i -e "s/^remote.*/remote ${PUBLIC_IP} ${PORT}/g" $CLIENT_CONFIG
+  # Generate list of ips and hostnames to put in config file. Default gateway ip is first, then public ip the all the others. Remove tunnel ip.
+  ips=($(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'))
+  tunip=$(ip addr | awk '/inet/ && /tun0/{sub(/\/.*$/,"",$2); print $2}')
+  ips=(${ips[@]/$tunip})
+  ips=(${ips[@]/$PUBLIC_IP})
+  ips=($PUBLIC_IP "${ips[@]}")
+  ips=(${ips[@]/$DEFAULT_GW_IP})
+  ips=($DEFAULT_GW_IP "${ips[@]}")
+  # Remove all remotes of config file
+  sed -r -i -e "/^remote.*/d" $CLIENT_CONFIG
+  # Add new remotes to config file
+  SEDCOMMAND="sed -i '/# to load balance between the servers./a \\"
+  for IP in "${ips[@]}"; do
+    SEDCOMMAND+="remote ${IP} ${PORT}\n"
+  done
+  SEDCOMMAND="${SEDCOMMAND}' $CLIENT_CONFIG"
+  echo "DEBUG: $SEDCOMMAND"
+  eval $SEDCOMMAND
+
+
+  # to load balance between the servers.
+
   sed -r -i -e "s/proto (tcp|udp).*/proto ${PROTO}/g" $CLIENT_CONFIG
   tar -czf /home/ubuntu/$USER.tgz ${USER}_keys
   echo "User settings ready for download. Located at /home/ubuntu/$USER.tgz"

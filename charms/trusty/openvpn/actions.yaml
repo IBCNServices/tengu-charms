@@ -4,5 +4,5 @@ create-user:
     name:
       type: string
       description: Name for user
-  required: [bundle]
+  required: [name]
   additionalProperties: false

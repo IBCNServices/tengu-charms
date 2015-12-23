@@ -36,3 +36,7 @@ options:
     type: string
     default: This is the default project value. Please change me before use.
     description: Password of the emulab certificate
+  alpha-model:
+    type: string
+    default:
+    description: alpha model to deploy after setup

@@ -8,3 +8,6 @@ subordinate: false
 requires:
   rest2jfed:
     interface: http
+provides:
+  hauchiwa:
+    interface: opened-ports

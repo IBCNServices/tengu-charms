@@ -33,8 +33,10 @@ def upgrade():
 
 
 @when('juju.installed')
+@when_not('tokin.installed')
 def install():
     install_tokin()
+    set_state('tokin.installed')
 
 
 def install_tokin():

@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
+# pylint: disable=C0111,C0103,c0325
 import os
+import sys
 from os.path import expanduser
 import subprocess
 import pwd
@@ -36,11 +39,27 @@ def upgrade():
 def config_changed():
     config = hookenv.config()
     git_url = config.get('charm-repo-source')
+    env_name = config.get('environment-name')
+    ssh_keys = config.get('ssh-keys')
     if git_url:
         get_and_configure_charm_repo(git_url)
-    if config.get('environment-name'):
+        reactive.set_state('juju.repo.available')
+    if env_name:
         import_environment(config)
-    reactive.set_state('juju.config-changed')
+    if ssh_keys:
+        for key in ssh_keys.split(','):
+            add_key(key)
+
+
+def add_key(key):
+    """add ssh public key in authorized-keys format"""
+    add_line_to_file(key, '/home/ubuntu/.ssh/authorized_keys')
+    try:
+        subprocess.check_call([
+            'su', 'ubuntu', '-c',
+            'juju authorized-keys add {}'.format(key)])
+    except subprocess.CalledProcessError as err:
+        print("failed to add key to environment: {}".format(err))
 
 
 def install_packages():
@@ -65,6 +84,7 @@ def get_and_configure_charm_repo(git_url):
             }
         )
         chownr(repo_path, USER, USER)
+    hookenv.status_set('active', 'Ready')
 
 
 def configure_environments():
@@ -79,7 +99,7 @@ def configure_environments():
     templating.render(
         source='environments.yaml',
         target=expanduser('{}/.juju/environments.yaml'.format(HOME)),
-        perms=0644,
+        perms=0o644,
         context={
         }
     )
@@ -111,7 +131,7 @@ def export_environment(path, name):
 
 
 def return_environment(name):
-    env_conf = {'environment-name':name}
+    env_conf = {'environment-name': str(name)}
     with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
         e_content = yaml.load(e_file)
     env_conf['environment-config'] = b64encode(
@@ -126,10 +146,10 @@ def return_environment(name):
     env_conf['environment-jenv'] = b64encode(e_content)
     with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
         e_content = e_file.read()
-    env_conf['environment-pubkey'] = b64encode(e_content)
+    env_conf['environment-privkey'] = b64encode(e_content)
     with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
         e_content = e_file.read()
-    env_conf['environment-privkey'] = b64encode(e_content)
+    env_conf['environment-pubkey'] = b64encode(e_content)
     return env_conf
 
 
@@ -144,13 +164,12 @@ def import_environment(env_conf):
     with open('{}/.juju/environments.yaml'.format(HOME), 'w+') as e_file:
         e_content['environments'][name] = conf
         e_file.write(yaml.dump(e_content, default_flow_style=False))
-    with open('{}/.juju/environments/{}.jenv'.format(HOME, name),
-              'w+') as e_file:
+    with open('{}/.juju/environments/{}.jenv'.format(HOME, name), 'wb+') as e_file:
         e_file.write(jenv)
-    with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'w+') as e_file:
-        e_file.write(pubkey)
-    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
+    with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'wb+') as e_file:
         e_file.write(privkey)
+    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'wb+') as e_file:
+        e_file.write(pubkey)
     switch_env(name)
 
 
@@ -161,5 +180,36 @@ def switch_env(name):
                       '-l', USER,
                       '-c', 'juju switch {}'.format(name)], stderr=STDOUT)
     except CalledProcessError as ex:
-        print ex.output
+        print(ex.output)
         raise
+
+
+def add_line_to_file(line, filepath):
+    """appends line to file if not present"""
+    filepath = os.path.realpath(filepath)
+    if not os.path.isdir(os.path.dirname(filepath)):
+        os.makedirs(os.path.dirname(filepath))
+    found = False
+    if os.path.isfile(filepath):
+        with open(filepath, 'r+') as myfile:
+            lst = myfile.readlines()
+        for existingline in lst:
+            if line in existingline:
+                print("line already present")
+                found = True
+    if not found:
+        myfile = open(filepath, 'a+')
+        myfile.write(line+"\n")
+        myfile.close()
+
+
+if __name__ == '__main__':
+    main()
+
+def main():
+    if len(sys.argv) > 2:
+        if sys.argv[1] == "export":
+            print("exporting env {} to {}".format(sys.argv[3], sys.argv[2]))
+            export_environment(sys.argv[2], sys.argv[3])
+            return
+    print("Usage: export <path> <name>")

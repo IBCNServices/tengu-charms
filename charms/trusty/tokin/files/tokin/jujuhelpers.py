@@ -1,4 +1,4 @@
-#pylint: disable=r0201,c0111
+#pylint: disable=r0201,c0111,c0325,c0103
 #
 """ Handles communication to Juju """
 
@@ -66,6 +66,32 @@ class JujuEnvironment(object):
                 return None
             print(ex.output)
             raise
+
+
+    def config_of(self, servicename):
+        """ Return dictionary with output of juju get <servicename>"""
+        try:
+            output = check_output(["juju", "get", "--format=yaml", servicename],
+                                  stderr=STDOUT)
+            return yaml.load(output)
+        except CalledProcessError as ex:
+            if 'ERROR service "{}" not found'.format(servicename) in ex.output:
+                print("Service doesn't exist")
+                return None
+            print(ex.output)
+            raise
+
+
+    def get_services(self, startstring, key, value):
+        services = {}
+        status = self.status
+        for service in status['services'].keys():
+            if service.startswith(startstring):
+                config = self.config_of(service)
+                if config['settings'][key]['value'] == value:
+                    services[service] = status['services'][service]
+        return services
+
 
 
     @property

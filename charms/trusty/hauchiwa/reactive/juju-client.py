@@ -131,7 +131,7 @@ def export_environment(path, name):
 
 
 def return_environment(name):
-    env_conf = {'environment-name':name}
+    env_conf = {'environment-name': str(name)}
     with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
         e_content = yaml.load(e_file)
     env_conf['environment-config'] = b64encode(
@@ -164,12 +164,11 @@ def import_environment(env_conf):
     with open('{}/.juju/environments.yaml'.format(HOME), 'w+') as e_file:
         e_content['environments'][name] = conf
         e_file.write(yaml.dump(e_content, default_flow_style=False))
-    with open('{}/.juju/environments/{}.jenv'.format(HOME, name),
-              'w+') as e_file:
+    with open('{}/.juju/environments/{}.jenv'.format(HOME, name), 'wb+') as e_file:
         e_file.write(jenv)
-    with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'w+') as e_file:
+    with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'wb+') as e_file:
         e_file.write(privkey)
-    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
+    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'wb+') as e_file:
         e_file.write(pubkey)
     switch_env(name)
 

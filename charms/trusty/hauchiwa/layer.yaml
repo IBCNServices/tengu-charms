@@ -1,4 +1,5 @@
 includes:
 - /juju-client
 - interface:http
+- interface:opened-ports
 is: hauchiwa

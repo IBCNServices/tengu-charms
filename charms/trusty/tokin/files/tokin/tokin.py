@@ -25,7 +25,7 @@ def api_hauchiwa_create(instance_id):
                         mimetype='text/plain')
     # get values from request
     s4_cert = str(request.headers.get('emulab-s4-cert'))
-    ssh_keys = request.form.get('ssh-keys', default="")
+    ssh_keys = request.get_json('ssh-keys', default="")
     # Create config file
     hauchiwa_name = 'h-{}'.format(instance_id)
     hauchiwa_cfg = {
@@ -84,10 +84,29 @@ def api_hauchiwa_info(instance_id):
             status=404,
             mimetype='text/plain',
         )
-
-
     resp.headers['location'] = '/hauchiwa/{}'.format(instance_id)
+    return resp
 
+
+@APP.route('/hauchiwa', methods=['GET'])
+def api_hauchiwa():
+    """ Shows the status of the users Hauchiwa instances """
+    # get values from request
+    s4_cert = str(request.headers.get('emulab-s4-cert'))
+    juju = JujuEnvironment(None)
+    services = juju.get_services('h-', 'emulab-s4-cert', s4_cert)
+    lst = {}
+    for service in services.keys():
+        lst[service] = {
+            'status' : services[service]['service-status'],
+            'public-address' : services[service]['units'].values()[0].get('public-address')
+        }
+    resp = Response(
+        json.dumps(lst),
+        status=200,
+        mimetype='application/json',
+    )
+    resp.headers['Access-Control-Allow-Origin']='tengu.intec.ugent.be'
     return resp
 
 

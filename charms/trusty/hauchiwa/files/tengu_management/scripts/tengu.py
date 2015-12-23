@@ -324,7 +324,23 @@ def c_add_machines(name):
     jujuenv = JujuEnvironment(name)
     jujuenv.add_machines(machines)
 
+@click.command(
+    name='export',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name')
+@click.argument('filename')
+def c_export_juju_env(name, filename):
+    """export juju environment to given yaml file """
+    jujuenv = JujuEnvironment(name)
+    environment = {}
+    environment['environment'] = jujuenv.return_environment()
+    with open(filename, 'w+') as o_file:
+        o_file.write(yaml.dump(environment, default_flow_style=False))
+
+
+
 g_juju.add_command(c_add_machines)
+g_juju.add_command(c_export_juju_env)
 
 
 @click.group()

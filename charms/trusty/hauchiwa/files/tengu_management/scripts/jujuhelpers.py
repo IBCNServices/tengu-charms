@@ -1,4 +1,4 @@
-#pylint: disable=r0201,c0111,c0325
+#pylint: disable=r0201,c0111,c0325,c0301
 #
 """ Handles communication to Juju """
 
@@ -9,6 +9,7 @@ from time import sleep
 import yaml
 import json
 import sys
+from base64 import b64encode
 
 
 class JujuEnvironment(object):
@@ -78,6 +79,31 @@ class JujuEnvironment(object):
                 return None
             print(ex.output)
             raise
+
+
+    def config_of(self, servicename):
+        """ Return dictionary with output of juju get <servicename>"""
+        try:
+            output = check_output(["juju", "get", "--format=yaml", servicename],
+                                  stderr=STDOUT)
+            return yaml.load(output)
+        except CalledProcessError as ex:
+            if 'ERROR service "{}" not found'.format(servicename) in ex.output:
+                print("Service doesn't exist")
+                return None
+            print(ex.output)
+            raise
+
+
+    def get_services(self, startstring, key, value):
+        services = []
+        status = self.status
+        for service in status['services'].keys():
+            if service.startswith(startstring):
+                config = self.config_of(service)
+                if config['settings'][key]['value'] == value:
+                    services.append({service :  status['services'][service]})
+        return services
 
 
     @property
@@ -311,3 +337,28 @@ class JujuEnvironment(object):
         except CalledProcessError as ex:
             print ex.output
             raise
+
+
+    def return_environment(self):
+        USER = 'merlijn'
+        HOME = '/home/{}'.format(USER)
+        env_conf = {'environment-name': str(self.name)}
+        with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
+            e_content = yaml.load(e_file)
+        env_conf['environment-config'] = b64encode(
+            yaml.dump(
+                e_content['environments'][self.name],
+                default_flow_style=False
+            )
+        )
+        with open('{}/.juju/environments/{}.jenv'.format(HOME, self.name),
+                  'r') as e_file:
+            e_content = e_file.read()
+        env_conf['environment-jenv'] = b64encode(e_content)
+        with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
+            e_content = e_file.read()
+        env_conf['environment-privkey'] = b64encode(e_content)
+        with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
+            e_content = e_file.read()
+        env_conf['environment-pubkey'] = b64encode(e_content)
+        return env_conf

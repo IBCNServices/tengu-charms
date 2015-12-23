@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# pylint: disable=c0111,c0103
+# pylint: disable=c0111,c0103,c0301
 from os.path import expanduser
 import yaml
 import base64
@@ -27,6 +27,7 @@ HOME = '/home/{}'.format(USER)
 @when('juju.repo.available')
 def downloadbigfiles():
     subprocess.check_call(['su', '-', 'ubuntu', '-c', '{}/scripts/tengu.py downloadbigfiles'.format(TENGU_DIR)])
+    set_state('tengu.repo.available')
 
 @hook('upgrade-charm')
 def upgrade_charm():
@@ -57,12 +58,27 @@ def config_changed():
     content['s4_cert_path'] = S4_CERT_PATH
     with open(expanduser(GLOBAL_CONF_PATH), 'w') as config_file:
         config_file.write(yaml.dump(content, default_flow_style=False))
+    hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
+    set_state('tengu.configured')
+
 
 
 @when('tengu.installed')
 @when_not('rest2jfed.available')
 def set_blocked():
     hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
+
+
+@when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available')
+def create_environment():
+    conf = hookenv.config()
+    bundle = conf.get('bundle')
+    if bundle:
+        bundle_path = tempfile.mkdtemp() + 'bundle.yaml'
+        with open(bundle_path, 'wb+') as bundle_file:
+            bundle_file.write(yaml.dump(base64.b64decode(bundle), default_flow_style=False))
+        if conf['bundle']:
+            subprocess.check_call(['su', '-', 'ubuntu', '-c', '{}/scripts/tengu.py create --bundle {}'.format(TENGU_DIR, bundle_path)])
 
 
 @when('rest2jfed.available')

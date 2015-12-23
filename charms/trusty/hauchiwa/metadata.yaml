@@ -7,4 +7,7 @@ tags:
 requires:
   rest2jfed:
     interface: http
+provides:
+  hauchiwa:
+    interface: opened-ports
 subordinate: false

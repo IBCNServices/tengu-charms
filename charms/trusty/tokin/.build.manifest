@@ -1,20 +1,20 @@
 {
   "layers": [
     "layer:basic", 
-    "layer:juju-client", 
+    "juju-client", 
     "tokin", 
     "build"
   ], 
   "signatures": {
     "reactive/juju-client.py": [
-      "layer:juju-client", 
+      "juju-client", 
       "static", 
-      "385d4a1e0166021f863ef4ef1078a930a35029d0bf761923dfa1d26d8efa9d0e"
+      "ae9ec1e837e65cc7c3ffcefbb9282715a0b3797ae253832691307d6f68f35a6f"
     ], 
     "files/tokin/tokin.py": [
       "tokin", 
       "static", 
-      "5135ec524f0442ff4c6d735dbcf3480fdf25480442450ac2ef08ae9bbe158c23"
+      "425f14b918ec6f72f51b9459eacf4c96a86de99cbad3976acf80117800d04486"
     ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
@@ -42,9 +42,9 @@
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
     "hooks/upgrade-charm": [
-      "layer:juju-client", 
+      "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
     ], 
     "files/tokin/templates/lambda-bundle.yaml": [
       "tokin", 
@@ -117,14 +117,14 @@
       "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
     ], 
     "templates/environments.yaml": [
-      "layer:juju-client", 
+      "juju-client", 
       "static", 
       "ea7a1f93d096d8b7bf4b432d9cb277c6233fc7465b965de2f6108c7ced12b7db"
     ], 
     "files/tokin/jujuhelpers.py": [
       "tokin", 
       "static", 
-      "8e3b7df7ed194e03a9725f4ab7de5b48fd3bd2e9b1645b750e041386f2292154"
+      "34232b64dde0425e34096c16cbe3e144757daed63a11fbf0de69d3dcc6fc5594"
     ], 
     "hooks/leader-elected": [
       "layer:basic", 
@@ -139,12 +139,12 @@
     "reactive/tokin.py": [
       "tokin", 
       "static", 
-      "f17f6f711ccde8ccfbdfc76777ac324b54c654bae2e93ad232d602b8d45cf92b"
+      "834a984be1f45a830d5649521cc94ede1781e9c2c1f58d9295caf80b1d77db99"
     ], 
     "config.yaml": [
-      "layer:juju-client", 
+      "juju-client", 
       "dynamic", 
-      "5048939199730be5773d1f3ef44dd0aab19c1465357629814bd5eb21dc246f58"
+      "cde9e904c05e042925accd6754646267bad3f45f699397833a01f0a9121cfd1c"
     ], 
     "hooks/stop": [
       "layer:basic", 
@@ -172,7 +172,7 @@
       "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
     ], 
     "templates/juju.sh": [
-      "layer:juju-client", 
+      "juju-client", 
       "static", 
       "d571499626bb985cda154bfb21fe076d0937255f8a87fb20654cd13143040e68"
     ], 
@@ -186,20 +186,20 @@
       "static", 
       "4794d8254322d35ef2e24c2155763172904e7305c85e3963717c89622fba0817"
     ], 
-    "files/tokin/bundletools/bundlecreator.py": [
+    "templates/upstart.conf": [
       "tokin", 
       "static", 
-      "f7e67bf97ca341bb71c72768027e34e8d0b14bbb3dda271ea16cf7ab1a175cda"
+      "589789df6346d3f496e440750a2e3117a051e441db8bb20b2aec85131e68badc"
     ], 
     "icon.svg": [
       "tokin", 
       "static", 
       "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
     ], 
-    "templates/upstart.conf": [
+    "files/tokin/bundletools/bundlecreator.py": [
       "tokin", 
       "static", 
-      "589789df6346d3f496e440750a2e3117a051e441db8bb20b2aec85131e68badc"
+      "f7e67bf97ca341bb71c72768027e34e8d0b14bbb3dda271ea16cf7ab1a175cda"
     ], 
     "hooks/start": [
       "layer:basic", 
@@ -214,7 +214,7 @@
     "layer.yaml": [
       "tokin", 
       "dynamic", 
-      "29c25f7c843edc8b75b87f42f2cffb1e49e8e1ddcfbcf7c5efd3d52d973b6ecc"
+      "d619dc43e2fd9da30526d50e0efe7e093a076c8ad8f0c41563d60d762ce571ea"
     ], 
     "hooks/config-changed": [
       "layer:basic", 

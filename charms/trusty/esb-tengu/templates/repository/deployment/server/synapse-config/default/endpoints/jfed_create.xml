@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<endpoint xmlns="http://ws.apache.org/ns/synapse" name="jfed_create">
-   <http statistics="enable"
-         method="post"
-         uri-template="http://localhost:8080/cli/tool/jfed-create?async&amp;slice={uri.var.slice}"/>
-</endpoint>

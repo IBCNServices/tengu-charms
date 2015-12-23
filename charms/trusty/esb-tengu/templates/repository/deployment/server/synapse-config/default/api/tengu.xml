@@ -1,39 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api xmlns="http://ws.apache.org/ns/synapse" name="tengu" context="/tengu">
-   <resource methods="POST GET"
-             url-mapping="/core"
-             inSequence="tengu_create_in_core"
-             outSequence="tengu_create_out"/>
-   <resource methods="POST GET"
-             url-mapping="/hadoop"
-             inSequence="tengu_create_in_hadoop"
-             outSequence="tengu_create_out"/>
-   <resource methods="POST GET"
-             url-mapping="/storm"
-             inSequence="tengu_create_in_storm"
-             outSequence="tengu_create_out"/>
-   <resource methods="POST GET"
-             url-mapping="/machine"
-             inSequence="tengu_create_in_machine"
-             outSequence="tengu_create_out"/>
-   <resource methods="POST"
-             url-mapping="/rawrspec"
-             inSequence="tengu_create_in_rawrspec"
-             outSequence="tengu_create_out"/>
-   <resource methods="GET"
-             uri-template="/{id}"
-             inSequence="tengu_core_get_in"
-             outSequence="tengu_core_get_out"
-             faultSequence="tengu_core_get_fault"/>
-   <resource methods="POST"
-             url-mapping="/open-stack"
-             inSequence="tengu_create_in_open-stack"
-             outSequence="tengu_create_out"/>
-   <resource methods="GET" url-mapping="/user-info" inSequence="tengu_user_info">
-      <outSequence>
-         <header name="Access-Control-Allow-Origin" scope="transport" value="*"/>
-         <property name="HTTP_SC" value="200" scope="axis2"/>
-         <send/>
-      </outSequence>
-   </resource>
+  <resource methods="POST" url-mapping="/hauchiwa">
+    <inSequence>
+      <property name="uri.var.name" value="tester"/>
+      <header name="emulab-s4-cert" value="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHNpZ25lZC1jcmVkZW50aWFsIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTpub05hbWVzcGFjZVNjaGVtYUxvY2F0aW9uPSJodHRwOi8vd3d3LnByb3RvZ2VuaS5uZXQvcmVzb3VyY2VzL2NyZWRlbnRpYWwvY3JlZGVudGlhbC54c2QiIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL3d3dy5wcm90b2dlbmkubmV0L3Jlc291cmNlcy9jcmVkZW50aWFsL2V4dC9wb2xpY3kvMSBodHRwOi8vd3d3LnByb3RvZ2VuaS5uZXQvcmVzb3VyY2VzL2NyZWRlbnRpYWwvZXh0L3BvbGljeS8xL3BvbGljeS54c2QiPgogIDxjcmVkZW50aWFsIHhtbDppZD0iXzAiPgoKCTx0eXBlPmFiYWM8L3R5cGU+Cgk8c2VyaWFsLz4KCTxvd25lcl9naWQvPgoJPHRhcmdldF9naWQvPgoJPHV1aWQvPgoJPGV4cGlyZXM+MjAxNi0wMS0yOVQwOTozMTo1Ni42MzFaPC9leHBpcmVzPgoJPGFiYWM+CgkgICAgPHJ0MD4KCQk8dmVyc2lvbj4xLjE8L3ZlcnNpb24+CgkJPGhlYWQ+CiAgIDxBQkFDcHJpbmNpcGFsPjxrZXlpZD4xYjcwZjg3YjA1ZWMxNjA5MjI4OTc1YzJhNTIyZjA4YjQzYzk4YjU3PC9rZXlpZD48L0FCQUNwcmluY2lwYWw+CiAgIDxyb2xlPnNwZWFrc19mb3JfMWI3MGY4N2IwNWVjMTYwOTIyODk3NWMyYTUyMmYwOGI0M2M5OGI1Nzwvcm9sZT4KPC9oZWFkPgo8dGFpbD4KICAgPEFCQUNwcmluY2lwYWw+PGtleWlkPjE5M2E0NWJiNDI3NDU1MDZjODdhZDE4MmFlZTJmNTAxN2E1NmExY2Y8L2tleWlkPjwvQUJBQ3ByaW5jaXBhbD4KPC90YWlsPgoKCSAgICA8L3J0MD4KCTwvYWJhYz4KCjwvY3JlZGVudGlhbD4KICA8c2lnbmF0dXJlcz4KICA8U2lnbmF0dXJlIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIj48U2lnbmVkSW5mbz48Q2Fub25pY2FsaXphdGlvbk1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyIvPjxTaWduYXR1cmVNZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjcnNhLXNoYTEiLz48UmVmZXJlbmNlIFVSST0iI18wIj48VHJhbnNmb3Jtcz48VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8+PC9UcmFuc2Zvcm1zPjxEaWdlc3RNZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjc2hhMSIvPjxEaWdlc3RWYWx1ZT5DbndOVThPaE9qK3NlTjQ2WlljSUdPaFRvZkk9PC9EaWdlc3RWYWx1ZT48L1JlZmVyZW5jZT48L1NpZ25lZEluZm8+PFNpZ25hdHVyZVZhbHVlPkFuUkI5dHFURWtMa2ZOWUh6R3hRV1EwL21CVzBzNlJ2SlpVVW9MaWZqTDVoSGlQTVNHOGpta0dkYzlMYnVBdzdpb0pSSVFjRlE5b3ZrbmpIa0FvVWl6b3FmcUdsa3RvbDlDRURTMVExYzZVbDd5WUlHMVFEQnBWdHlRQ0c4QmRISy8xQVFYSlpnRVAvWWY5YzZPd25UbVJYWFh4Wi81U2pmdFZubW9hSk12QT08L1NpZ25hdHVyZVZhbHVlPjxLZXlJbmZvPgo8S2V5VmFsdWU+CjxSU0FLZXlWYWx1ZT4KPE1vZHVsdXM+QU11b3o4UERaZEpIVUxhcytrTFRrV1c2Ui80WUp2Tk4vSzRVL1dhRkVJUStiOEtoaUpkVDVYNjRjS0FHY1RqOAp3UWI5eHBjSnBWaWRsL3JlTGIwWkZ3YkFUbTE1QmQ5YzJuZTlSUmVpbUU1bVE3Y1pTV3NPMVIyQVVMMlBVVk1uCkYrTW9aUEgwVzIzWThmZXk5ZGpXVzIxODMxc0tCUGdleDJNaGZZNFZFb2hICjwvTW9kdWx1cz4KPEV4cG9uZW50PkFRQUI8L0V4cG9uZW50Pgo8L1JTQUtleVZhbHVlPjwvS2V5VmFsdWU+CjxYNTA5RGF0YT4KPFg1MDlDZXJ0aWZpY2F0ZT5NSUlFRERDQ0EzV2dBd0lCQWdJREFkWEdNQTBHQ1NxR1NJYjNEUUVCQkFVQU1JRzFNUXN3Q1FZRFZRUUdFd0pDClJURUxNQWtHQTFVRUNCTUNUMVl4RGpBTUJnTlZCQWNUQlVkb1pXNTBNUmd3RmdZRFZRUUtFdzlwVFdsdVpITWcKTFNCcGJHRmlMblF4SGpBY0JnTlZCQXNURlVObGNuUnBabWxqWVhSbElFRjFkR2h2Y21sMGVURWpNQ0VHQTFVRQpBeE1hWW05emN5NTNZV3hzTWk1cGJHRmlkQzVwYldsdVpITXVZbVV4S2pBb0Jna3Foa2lHOXcwQkNRRVdHM1ozCllXeHNMVzl3YzBCaGRHeGhiblJwY3k1MVoyVnVkQzVpWlRBZUZ3MHhOVEE0TVRjeE1EQXdOVE5hRncweE5qQTQKTVRZeE1EQXdOVE5hTUlHeU1Rc3dDUVlEVlFRR0V3SkNSVEVMTUFrR0ExVUVDQk1DVDFZeEdEQVdCZ05WQkFvVApEMmxOYVc1a2N5QXRJR2xzWVdJdWRERWVNQndHQTFVRUN4TVZhVzFwYm1SekxYZGhiR3d5TG0xbGMyVmljbVZqCk1TMHdLd1lEVlFRREV5UTBNamc0Tm1RMFl5MDFNVE5oTFRFeFpUUXRZbVE1Wmkwd01ERTFNVGRpWldOa1l6RXgKTFRBckJna3Foa2lHOXcwQkNRRVdIbTFsYzJWaWNtVmpRSGRoYkd3eUxtbHNZV0owTG1sdGFXNWtjeTVpWlRDQgpuekFOQmdrcWhraUc5dzBCQVFFRkFBT0JqUUF3Z1lrQ2dZRUF5NmpQdzhObDBrZFF0cXo2UXRPUlpicEgvaGdtCjgwMzhyaFQ5Wm9VUWhENXZ3cUdJbDFQbGZyaHdvQVp4T1B6QkJ2M0dsd21sV0oyWCt0NHR2UmtYQnNCT2JYa0YKMzF6YWQ3MUZGNktZVG1aRHR4bEphdzdWSFlCUXZZOVJVeWNYNHloazhmUmJiZGp4OTdMMTJOWmJiWHpmV3dvRQorQjdIWXlGOWpoVVNpRWNDQXdFQUFhT0NBU2t3Z2dFbE1Bd0dBMVVkRXdFQi93UUNNQUF3SFFZRFZSME9CQllFCkZCdHcrSHNGN0JZSklvbDF3cVVpOEl0RHlZdFhNSUdRQmdOVkhSRUVnWWd3Z1lXR05IVnlianB3ZFdKc2FXTnAKWkRwSlJFNHJkMkZzYkRJdWFXeGhZblF1YVcxcGJtUnpMbUpsSzNWelpYSXJiV1Z6WldKeVpXT0JIbTFsYzJWaQpjbVZqUUhkaGJHd3lMbWxzWVdKMExtbHRhVzVrY3k1aVpZWXRkWEp1T25WMWFXUTZOREk0T0Raa05HTXROVEV6CllTMHhNV1UwTFdKa09XWXRNREF4TlRFM1ltVmpaR014TUdNR0NDc0dBUVVGQndFQkJGY3dWVEJUQmhScGc4eVQKZ0tpWXpLakh2YkduZ0lDcXJ0ZUtHNFk3YUhSMGNITTZMeTkzZDNjdWQyRnNiREl1YVd4aFluUXVhVzFwYm1SegpMbUpsT2pFeU16WTVMM0J5YjNSdloyVnVhUzk0Yld4eWNHTXZjMkV3RFFZSktvWklodmNOQVFFRUJRQURnWUVBCkIzb2k2ZjNremM2UnBZdEcyMkQwVjBydFh6RXZuYlE2ckQyU004b0R3YXdyWlhVSjFWL0t1aUN4Q1VoY0FWakUKdms3Zi9ZSTF4VnljWWlPU3NsNDhwN2hKT0NCOHpkTld3VC9TYm0zbU91dGF3d0phVktoUC94YXZQemNNMmJCVwpSWHRYTmVlMVR6bHdLZjVzam9TbTlucW9hZ2F3UnJQYTdrVkJBNS9BK3Y0PQo8L1g1MDlDZXJ0aWZpY2F0ZT4KPC9YNTA5RGF0YT48L0tleUluZm8+PC9TaWduYXR1cmU+PC9zaWduYXR1cmVzPgo8L3NpZ25lZC1jcmVkZW50aWFsPg==" scope="transport"/>
+      <send>
+        <endpoint xmlns="http://ws.apache.org/ns/synapse" name="create_hauchiwa">
+           <http statistics="enable"
+                 method="put"
+                 uri-template="http://192.168.14.154:5000/hauchiwa/{uri.var.name}"/>
+        </endpoint>
+      </send>
+    </inSequence>
+    <outSequence>
+        <header name="Access-Control-Allow-Origin" scope="transport" value="*"/>
+        <property name="HTTP_SC" value="200" scope="axis2"/>
+        <send/>
+     </outSequence>
+  </resource>
 </api>

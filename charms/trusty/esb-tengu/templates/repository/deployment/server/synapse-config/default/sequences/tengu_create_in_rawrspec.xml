@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sequence xmlns="http://ws.apache.org/ns/synapse" name="tengu_create_in_rawrspec">
-   <property name="tool" value="rspec" scope="default" type="STRING"/>
-   <sequence key="tengu_create_in"/>
-</sequence>

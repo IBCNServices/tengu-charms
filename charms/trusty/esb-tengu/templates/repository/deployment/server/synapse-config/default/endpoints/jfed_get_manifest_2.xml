@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<endpoint xmlns="http://ws.apache.org/ns/synapse" name="jfed_get_manifest_2">
-   <http method="get"
-         uri-template="http://localhost:8080/cli/tool/jfed-manifest?slice={uri.var.slice}"/>
-</endpoint>

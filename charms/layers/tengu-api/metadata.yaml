@@ -1,0 +1,8 @@
+name: tengu-api
+summary: tengu-api
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+description: |
+  Tengu-api
+tags:
+  - ops
+subordinate: false

@@ -1,0 +1,179 @@
+{
+  "layers": [
+    "layer:basic", 
+    "tengu-api", 
+    "build"
+  ], 
+  "signatures": {
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "wheelhouse/pyaml-15.8.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "wheelhouse/PyYAML-3.11.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+    ], 
+    "layer.yaml": [
+      "tengu-api", 
+      "dynamic", 
+      "1aea8785a671184b09cca94bd12ab2bb372e578223df17d9fcc7d43976dcba36"
+    ], 
+    "README.md": [
+      "tengu-api", 
+      "static", 
+      "d02bd857a99e9644376c7a9addd2c81c8848c4403ba1835cf62b320c85c9e6ee"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
+    ], 
+    "metadata.yaml": [
+      "tengu-api", 
+      "dynamic", 
+      "133596aacdf34f4f1ca2f0730ff359121af9b1a288c0c23a806082878593d144"
+    ], 
+    "templates/upstart.conf": [
+      "tengu-api", 
+      "static", 
+      "27fdc4fe188567c9080656186e19a044e23de959bb85e24cfe9b0dbc199aa5fa"
+    ], 
+    "copyright": [
+      "layer:basic", 
+      "static", 
+      "1e2afbd75c71affa132ae7ee3327cb29b5e4b9d9705f27dfd03857c326f50c5c"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    "wheelhouse/charmhelpers-0.6.1.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "c41a4cb3dcf6aa35e115addf9fb83a94585a4ff3bddc63148983431af45905f8"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "wheelhouse/charms.reactive-0.3.7.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a23a107a52f6e07c618a7b23c3320ec31d41ba1e382c41f703392079a506048e"
+    ], 
+    "lib/charms/bootstrap.py": [
+      "layer:basic", 
+      "static", 
+      "e18bcb2ebd95131033de5ba38df691f35b889279fc37af1659ed28dfe02c0f7c"
+    ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    "icon.svg": [
+      "tengu-api", 
+      "static", 
+      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+    ], 
+    "reactive/tengu-api.py": [
+      "tengu-api", 
+      "static", 
+      "3134a23f1b72b1b03ea9967882b0abf5e3cc2f80b83660639d32fc7e9cef3fa7"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "files/tengu-api.py": [
+      "tengu-api", 
+      "static", 
+      "95511f1293793f6903dfcfbe3222f66c88bdfb46b0c04ec1f656ca0cdee894f7"
+    ]
+  }
+}

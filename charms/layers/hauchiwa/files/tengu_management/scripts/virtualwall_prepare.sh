@@ -52,12 +52,14 @@ NET_CONFIG=()
 if [[ "$NEW_PUBIPV4" ]]; then
   if [[ ( "$HOSTNAME" == *".wall1.ilabt.iminds.be" ) ]]; then
     PUB_GATEWAY='193.190.127.129'
+    V_IF='28'
   else
     PUB_GATEWAY='193.190.127.193'
+    V_IF='29'
   fi
   NET_CONFIG+=(
-    "vconfig add ${PUB_IF} 29"
-    "ifconfig ${PUB_IF}.29 $NEW_PUBIPV4"
+    "vconfig add ${PUB_IF} ${V_IF}"
+    "ifconfig ${PUB_IF}.${V_IF} $NEW_PUBIPV4"
     "route del default && route add default gw $PUB_GATEWAY"
   )
 fi

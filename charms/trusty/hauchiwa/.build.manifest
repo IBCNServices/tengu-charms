@@ -51,7 +51,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "96d5f597e63dadad11b6e0aefc6d30bf25080142314536aba2f920f877a7aaf5"
+      "bc037dcc5a2baaba5d2ef46d9685b52c352fa6f3620cdcb51efd2d8027695933"
     ], 
     "Makefile": [
       "layer:basic", 

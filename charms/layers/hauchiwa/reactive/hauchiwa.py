@@ -49,8 +49,8 @@ def install():
 def config_changed():
     """Config changed"""
     conf = hookenv.config()
-    with open(S4_CERT_PATH, 'w+') as certfile:
-        certfile.write(str(base64.b64decode(conf['emulab-s4-cert']).decode("utf-8")))
+    with open(S4_CERT_PATH, 'wb+') as certfile:
+        certfile.write(base64.b64decode(conf['emulab-s4-cert']))
         certfile.truncate()
     with open(GLOBAL_CONF_PATH, 'r') as infile:
         content = yaml.load(infile)
@@ -74,11 +74,14 @@ def create_environment():
     conf = hookenv.config()
     bundle = conf.get('bundle')
     if bundle:
-        bundle_path = tempfile.mkdtemp() + 'bundle.yaml'
-        with open(bundle_path, 'wb+') as bundle_file:
-            bundle_file.write(yaml.dump(base64.b64decode(bundle), default_flow_style=False))
-        if conf['bundle']:
-            subprocess.check_call(['su', '-', 'ubuntu', '-c', '{}/scripts/tengu.py create --bundle {}'.format(TENGU_DIR, bundle_path)])
+        bundle_dir = tempfile.mkdtemp()
+        bundle_path = bundle_dir + '/bundle.yaml'
+        with open(bundle_path, 'w+') as bundle_file:
+            bundle = base64.b64decode(bundle).decode('utf8')
+            bundle_file.write(bundle)
+        chownr(bundle_dir, 'ubuntu', 'ubuntu')
+        hostname = subprocess.getoutput(['hostname'])
+        subprocess.check_call(['su', '-', 'ubuntu', '-c', '{}/scripts/tengu.py create --bundle {} {}'.format(TENGU_DIR, bundle_path, hostname[2:])])
 
 
 @when('rest2jfed.available')

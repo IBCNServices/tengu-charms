@@ -231,7 +231,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "912d96ad338502e11303c3fbb50af6796056bf60018d853fda3402c8f469feb3"
+      "29e7b91d90ebda910e8918a9c714458392aa5a46fc8aa24fd36984339163204d"
     ], 
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 

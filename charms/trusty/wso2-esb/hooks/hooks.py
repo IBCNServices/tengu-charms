@@ -105,7 +105,7 @@ def install_kafka_connector():
         os.makedirs(sequence_path)
     templating.render(
         source='postTopic.xml',
-        target='{}/postTopic.xml'.format('/opt/wso2-esb'),
+        target='{}/postTopic.xml'.format('/opt/wso2esb'),
         context={
             'kafka_broker': kafka_hostname,
             'kafka_topic': kafka_topic,
@@ -113,7 +113,7 @@ def install_kafka_connector():
         owner='esbuser',
         group='wso2',
     )
-    shutil.move('/opt/wso2-esb/postTopic.xml', sequence_path + '/postTopic.xml')
+    shutil.move('/opt/wso2esb/postTopic.xml', sequence_path + '/postTopic.xml')
 
     # Copy API
     api_path = "{}/synapse-configs/default/api".format(server_path)
@@ -129,7 +129,10 @@ def install_kafka_connector():
 
 
 def copy_kafka_endpoint_libraries():
-    """ Used for the official wso2 kafka connector """
+    """ Used for the official wso2 kafka connector
+    source: https://docs.wso2.com/display/ESB490/Kafka+Inbound+Protocol
+    https://docs.wso2.com/display/ESBCONNECTORS/Configuring+Kafka+Operation
+    cannot use this untill this issue is resolved: https://github.com/wso2/esb-connectors/issues/481"""
     esb_home = "/opt/wso2esb/wso2esb-{}".format(ESB_VERSION)
     libs = [
         'kafka_2.10-0.8.2.1.jar',

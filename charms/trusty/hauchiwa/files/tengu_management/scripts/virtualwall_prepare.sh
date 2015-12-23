@@ -42,7 +42,6 @@ chmod u+x /get_pubipv4.py
 # Get required values
 ORIG_PUB_IPADDR=$(hostname -i | cut -d ' ' -f 2) # only works if hostname is resolvable
 PUB_IF=$(ifconfig | grep -B1 "inet addr:$ORIG_PUB_IPADDR" | awk '$1!="inet" && $1!="--" {print $1}')
-IP_ADRESSES=$(ifconfig | awk -F "[: ]+" '/inet addr:/ { if ($4 != "127.0.0.1") print $4 }')
 HOSTNAME=$(hostname --fqdn)
 NEW_PUBIPV4=$(/get_pubipv4.py)
 
@@ -53,15 +52,19 @@ NET_CONFIG=()
 if [[ "$NEW_PUBIPV4" ]]; then
   if [[ ( "$HOSTNAME" == *".wall1.ilabt.iminds.be" ) ]]; then
     PUB_GATEWAY='193.190.127.129'
+    V_IF='28'
   else
     PUB_GATEWAY='193.190.127.193'
+    V_IF='29'
   fi
   NET_CONFIG+=(
-    "vconfig add ${PUB_IF} 29"
-    "ifconfig ${PUB_IF}.29 $NEW_PUBIPV4"
+    "vconfig add ${PUB_IF} ${V_IF}"
+    "ifconfig ${PUB_IF}.${V_IF} $NEW_PUBIPV4"
     "route del default && route add default gw $PUB_GATEWAY"
   )
 fi
+
+IP_ADRESSES=$(ifconfig | awk -F "[: ]+" '/inet addr:/ { if ($4 != "127.0.0.1") print $4 }')
 
 # Get Values for route commands
 if [[ "$HOSTNAME" == *".wall1.ilabt.iminds.be" ]]; then

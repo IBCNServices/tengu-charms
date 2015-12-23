@@ -10,9 +10,11 @@ from jujuhelpers import JujuEnvironment
 APP = Flask(__name__)
 DEFAULT_PUBKEYS = 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiF+Y54T4MySG8akVwolplZoo8+uGdWHMQtzNEwbirqW8tutHmH2osYavsWyAuIbJPMH/mEMpvWNRilqXv7aw43YcD2Ie43MiLuEV6xWuC1SwdxxfyQ7Y2e0JEKohl6Xx3lWgHpiR5EZFeJmwHazthJnt94m/mTP7sEweK1m9cbk= thomasvanhove,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2AvnkZTypu/srnyAdjHjk6x+vsre05NOwFIOieu2mcAb4aJZOLHBqEE1pxxWrvPUULFS066xgNgvKwNZOZh+OPlUdFpjY2AqN8CtNnLuQ72EPYjpV69nrtsKaJO+ZYqTnl4uZOZDeSoqK0v6RBuBfb5YcZfqpR/z/turw5yZ1H5Ju5mykhzy5wBtWMXWjnODI309Q//0+0MZTSJIYDJ05mwkM0ma1kNWEpJCw9nAvADqYZdU/8thX2j1f3KFdfupZuDIw+rvX3KgCb1cRYvfr8N165J209lxxkwJQuSVGRZ3wUytC/JkqJB1ZK5FhL9WoKD0yXDxi+5nmAQVpVPgD merlijnsebrechts'
 
+
+
 @APP.route('/')
 def api_root():
-    """ Welcome message """
+    """ Welcome me  ssage """
     return 'Welcome to tokin v0.1'
 
 
@@ -25,7 +27,10 @@ def api_hauchiwa_create(instance_id):
                         mimetype='text/plain')
     # get values from request
     s4_cert = str(request.headers.get('emulab-s4-cert'))
-    ssh_keys = request.get_json('ssh-keys', default="")
+    body = request.get_json()
+    ssh_keys = body.get('ssh-keys', "")
+    bundle = body.get('bundle', "")
+
     # Create config file
     hauchiwa_name = 'h-{}'.format(instance_id)
     hauchiwa_cfg = {
@@ -34,6 +39,7 @@ def api_hauchiwa_create(instance_id):
             'emulab-project-name' : "tengu",
             'charm-repo-source' : "https://github.com/galgalesh/tengu-charms.git",
             'ssh-keys' : str(','.join([DEFAULT_PUBKEYS, ssh_keys])),
+            'bundle' : bundle,
         }
     }
     hauchiwa_cfg_path = tempfile.mkdtemp() + 'hauchiwa-cfg.yaml'
@@ -52,7 +58,7 @@ def api_hauchiwa_create(instance_id):
         mimetype='text/plain',
     )
     resp.headers['location'] = '/hauchiwa/{}'.format(instance_id)
-
+    resp.headers['Access-Control-Allow-Origin'] = 'tengu.intec.ugent.be'
     return resp
 
 
@@ -85,6 +91,7 @@ def api_hauchiwa_info(instance_id):
             mimetype='text/plain',
         )
     resp.headers['location'] = '/hauchiwa/{}'.format(instance_id)
+    resp.headers['Access-Control-Allow-Origin'] = 'tengu.intec.ugent.be'
     return resp
 
 
@@ -106,7 +113,7 @@ def api_hauchiwa():
         status=200,
         mimetype='application/json',
     )
-    resp.headers['Access-Control-Allow-Origin']='tengu.intec.ugent.be'
+    resp.headers['Access-Control-Allow-Origin'] = 'tengu.intec.ugent.be'
     return resp
 
 

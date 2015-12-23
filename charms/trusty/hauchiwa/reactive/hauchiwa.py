@@ -69,8 +69,8 @@ def set_blocked():
     hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
 
 
-@when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available')
-def create_environment():
+@when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available', 'rest2jfed.configured')
+def create_environment(*arg):
     conf = hookenv.config()
     bundle = conf.get('bundle')
     if bundle:

@@ -11,7 +11,10 @@ To add isc-dhcp to your environment:
 
 # Configuration
 
-
+sysctl net.ipv4.conf.all.rp_filter=0
+sysctl net.ipv4.conf.default.rp_filter=0
+sysctl net.ipv4.conf.tun0.rp_filter=0
+sysctl net.ipv4.conf.wlp3s0.rp_filter=0
 
 # Contact Information
 

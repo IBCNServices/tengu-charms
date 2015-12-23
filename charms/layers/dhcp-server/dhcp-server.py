@@ -4,14 +4,20 @@
 import setup # pylint: disable=F0401
 setup.pre_install()
 
+import sys
+import subprocess
+
 from charmhelpers.core import hookenv, templating, host
+from charmhelpers.core.hookenv import Hooks
 from charmhelpers import fetch
+
 from netifaces import AF_INET
 import netifaces
 import netaddr
-import subprocess
 
+HOOKS = Hooks()
 
+@HOOKS.hook('install')
 def install():
     hookenv.log('Installing isc-dhcp')
     fetch.apt_update()
@@ -99,5 +105,11 @@ def get_gateway_if():
         if route['destination'] == '0.0.0.0':
             return route['iface']
 
+
+@HOOKS.hook('config-changed')
+def configure_forwarders():
+
+
+
 if __name__ == "__main__":
-    install()
+    HOOKS.execute(sys.argv)

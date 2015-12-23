@@ -24,6 +24,7 @@ apache-activemq-5.9.0-bin.tar.gz
 server-jre-8u45-linux-x64.tar.gz
 wso2esb-4.8.0.zip
 wso2esb-4.9.0.zip
+kafkaTransport-connector-1.0.0.zip
 
 # Test directory
 test

@@ -4,8 +4,8 @@ maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
 description: |
   isc-dhcp server
 tags:
-  - ops
-subordinate: false
+- ops
 requires:
   opened-ports:
     interface: opened-ports
+subordinate: false

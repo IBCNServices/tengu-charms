@@ -1,0 +1,240 @@
+{
+  "layers": [
+    "layer:basic", 
+    "dhcp-server", 
+    "interface:opened-ports", 
+    "build"
+  ], 
+  "signatures": {
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "templates/dhcpd.conf": [
+      "dhcp-server", 
+      "static", 
+      "b87df41d273065173d0da36a59ac45a94e81d64c408d8a9eee750a718e502757"
+    ], 
+    "wheelhouse/pyaml-15.8.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    ], 
+    "wheelhouse/charms.reactive-0.3.7.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a23a107a52f6e07c618a7b23c3320ec31d41ba1e382c41f703392079a506048e"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    "wheelhouse/charmhelpers-0.6.1.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "c41a4cb3dcf6aa35e115addf9fb83a94585a4ff3bddc63148983431af45905f8"
+    ], 
+    "wheelhouse/netifaces-0.10.4.tar.gz": [
+      "dhcp-server", 
+      "dynamic", 
+      "9656a169cb83da34d732b0eb72b39373d48774aee009a3d1272b7ea2ce109cde"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
+    ], 
+    "hooks/relations/opened-ports/requires.py": [
+      "interface:opened-ports", 
+      "static", 
+      "4d0ff7be8768f044ce67a88bb09c14021354c12b13dd7e180cae77f50dae715d"
+    ], 
+    "hooks/opened-ports-relation-joined": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "LICENSE": [
+      "dhcp-server", 
+      "static", 
+      "edecebcc053c3934e9e222df5a10228818a57e536dc68c549ae7bd9d4a06c911"
+    ], 
+    "copyright": [
+      "layer:basic", 
+      "static", 
+      "1e2afbd75c71affa132ae7ee3327cb29b5e4b9d9705f27dfd03857c326f50c5c"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "hooks/opened-ports-relation-changed": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "hooks/relations/opened-ports/provides.py": [
+      "interface:opened-ports", 
+      "static", 
+      "9b42f345067ad1048f223796d1ad685d8d891adfa3ea7c08d9e4e6326f940fd7"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "lib/charms/bootstrap.py": [
+      "layer:basic", 
+      "static", 
+      "e18bcb2ebd95131033de5ba38df691f35b889279fc37af1659ed28dfe02c0f7c"
+    ], 
+    "icon.svg": [
+      "dhcp-server", 
+      "static", 
+      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "wheelhouse/ipaddress-1.0.15.tar.gz": [
+      "dhcp-server", 
+      "dynamic", 
+      "af6c85cfc9cdb12b861655e6b9f2f59618bf3088cbde858727b2c0a98e9f6636"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "templates/isc-dhcp-server": [
+      "dhcp-server", 
+      "static", 
+      "76f8f9591e23536e59d8a580755dab7595b379147d24d5e9cf9a20f7c794c070"
+    ], 
+    "hooks/relations/opened-ports/interface.yaml": [
+      "interface:opened-ports", 
+      "static", 
+      "51ee931b03fdf4b739492b34cbf6a1be79e7271e82b39db8c18a9d2a2a2fc290"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "reactive/dhcp_server.py": [
+      "dhcp-server", 
+      "static", 
+      "68e33701ffcbb73d421357affbc4222990ce3360a910a94327ab0e91284b63a8"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "dhcp-server", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
+    ], 
+    "wheelhouse/PyYAML-3.11.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+    ], 
+    "hooks/relations/opened-ports/__init__.py": [
+      "interface:opened-ports", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "metadata.yaml": [
+      "dhcp-server", 
+      "dynamic", 
+      "e317425e595fd70d25b2f8aa5546e35fe6b2eb0944baeeeb068d22eeba9d3ba1"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "README.md": [
+      "dhcp-server", 
+      "static", 
+      "ea75a98dfe856eac98260c045963fd63ff0049c8f77a564ab1a50a679341588a"
+    ], 
+    "hooks/opened-ports-relation-broken": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "hooks/opened-ports-relation-departed": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "layer.yaml": [
+      "dhcp-server", 
+      "dynamic", 
+      "e0af8e6a758f0cb3b2ede09e87105536a6e259fa141a1b169cd78ff7b139a7b5"
+    ], 
+    "revision": [
+      "dhcp-server", 
+      "static", 
+      "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ]
+  }
+}

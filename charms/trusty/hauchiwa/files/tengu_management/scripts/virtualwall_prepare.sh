@@ -44,6 +44,7 @@ ORIG_PUB_IPADDR=$(hostname -i | cut -d ' ' -f 2) # only works if hostname is res
 PUB_IF=$(ifconfig | grep -B1 "inet addr:$ORIG_PUB_IPADDR" | awk '$1!="inet" && $1!="--" {print $1}')
 HOSTNAME=$(hostname --fqdn)
 NEW_PUBIPV4=$(/get_pubipv4.py)
+IP_ADRESSES=$(ifconfig | awk -F "[: ]+" '/inet addr:/ { if ($4 != "127.0.0.1") print $4 }')
 
 # Init empty array of network configuration commands
 NET_CONFIG=()
@@ -64,7 +65,6 @@ if [[ "$NEW_PUBIPV4" ]]; then
   )
 fi
 
-IP_ADRESSES=$(ifconfig | awk -F "[: ]+" '/inet addr:/ { if ($4 != "127.0.0.1") print $4 }')
 
 # Get Values for route commands
 if [[ "$HOSTNAME" == *".wall1.ilabt.iminds.be" ]]; then
@@ -97,7 +97,7 @@ fi
 
 
 # if not directly connected to internet, add new NATted default gateway
-if [[ ! ( $IP_ADRESSES == *'193'* ) ]]; then
+if [[ ! ( $IP_ADRESSES == *'193'* ) && ! $NEW_PUBIPV4 ]]; then
   NET_CONFIG+=(
     "route del default gw $IBCN_GATEWAY && route add default gw $PUB_GATEWAY"
   )

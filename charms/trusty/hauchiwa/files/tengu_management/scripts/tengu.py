@@ -11,6 +11,7 @@ import urllib
 import tarfile
 from time import sleep
 import sys
+import json
 
 # non-default pip dependencies
 import yaml
@@ -413,14 +414,20 @@ def c_status(name):
     """Show status of Kotengu with given name
     NAME: name of Kotengu """
     jfed = init_jfed(name, global_conf)
-    status = jfed.get_status()
-    if status == 'READY':
-        okblue("status of jfed slice is READY")
-        info = jfed.get_sliceinfo()
-        okblue("slice Expiration date: {}".format(info['sliceExpiration']))
-        okblue("slice urn date: {}".format(info['sliceUrn']))
-        okblue("user urn date: {}".format(info['userUrn']))
-        okblue("speaksfor?: {}".format(info['usedSpeaksfor']))
+    status = jfed.get_full_status()
+    if status.lstrip().rstrip() != 'DOES_NOT_EXIST':
+        try:
+            statusdict = json.loads(status)
+            okblue("status of jfed slice is {}".format(statusdict['AMs'].values()[0]['amGlobalSliverStatus']))
+            okblue("earliest expiration date of sliver is {}".format(statusdict['earliestSliverExpireDate']))
+        except (yaml.parser.ParserError, ValueError, KeyError) as exc:
+            print("could not parse status from ouptut. output: " + status)
+            raise exc
+        #info = jfed.get_sliceinfo()
+        #okblue("slice Expiration date: {}".format(info['sliceExpiration']))
+        #okblue("slice urn date: {}".format(info['sliceUrn']))
+        #okblue("user urn date: {}".format(info['userUrn']))
+        #okblue("speaksfor?: {}".format(info['usedSpeaksfor']))
     else:
         okwhite("status of jfed slice is {}".format(status))
     if JujuEnvironment.env_exists(name):

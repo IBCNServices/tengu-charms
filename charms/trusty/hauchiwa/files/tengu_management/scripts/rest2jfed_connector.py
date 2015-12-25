@@ -55,6 +55,17 @@ class Rest2jfedConnector(object):
                 response.status_code, response.text, url))
 
 
+    def get_full_status(self):
+        """ Gets status of jfed slice """
+        url = self.status_url
+        response = requests.get(url, params={'extended':'true'}, headers=self.headers)
+        if response.status_code == 200:
+            return response.text
+        raise Exception(
+            "Request failed. Code:{0} Message:{1} Url:{2}".format(
+                response.status_code, response.text, url))
+
+
     def get_manifest(self, manifest_path):
         """ Gets the manifest of jfed slice (if it exists)"""
         url = self.slice_url

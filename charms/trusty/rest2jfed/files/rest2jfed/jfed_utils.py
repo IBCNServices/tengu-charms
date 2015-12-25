@@ -1,11 +1,18 @@
+#pylint:disable=C0325
 """
 Wrapper around jFed_CLI tool
 See http://doc.ilabt.iminds.be/jfed-documentation/cli.html
 """
 import subprocess
 import os
+import json
+
+#Pip dependencies
+import yaml
+
+
 # Own modules
-from output import fail, warn, debug #pylint: disable=f0401
+from output import fail, warn, debug
 
 
 class JFed(object):
@@ -38,26 +45,31 @@ class JFed(object):
             exit(1)
 
 
-    def sliver_status(self, slice_name):
+    def sliver_status(self, slice_name, extended=False):
         """Return status. Possible values:
             DOES_NOT_EXIST
             UNALLOCATED
             READY
-            UNKNOWN"""
+            UNKNOWN
+            FAIL"""
         status_c = ['status']
         output = self.run_command(status_c, slice_name, True)
         print output
         if "does not exist. Cannot continue." in output:
             return "DOES_NOT_EXIST"
-        elif "has status UNALLOCATED" in output:
-            return "UNALLOCATED"
-        elif "has status READY" in output:
-            return "READY"
-        elif "UNKNOWN" in output:
-            return "UNKNOWN"
-        if "does not yet exist" in output:
-            return "DOES_NOT_EXIST"
+        elif "already exists" in output:
+            try:
+                output = output[output.index('{'):]
+                outputdict = yaml.load(output)
+                if extended:
+                    return json.dumps(outputdict)
+                else:
+                    return outputdict['AMs'].values()[0]['amGlobalSliverStatus']
+            except (yaml.parser.ParserError, ValueError) as exc:
+                print("could not parse status from ouptut. output: " + output)
+                raise exc
         else:
+            print("slice status unknown. Output: \n %s" % output)
             raise Exception("slice status unknown. Output: \n %s" % output)
 
 

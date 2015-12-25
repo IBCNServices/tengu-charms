@@ -4,6 +4,7 @@ from flask import Flask, Response, request
 import tempfile
 import base64
 import os
+import json
 # Custom modules
 from jfed_utils import JFed # pylint: disable=F0401
 
@@ -25,7 +26,7 @@ def api_root():
 
 @APP.route('/userinfo', methods=['GET'])
 def api_userinfo():
-    """ Returns the status of the slice """
+    """ Returns the info of the user """
     # Get post values
     cert = request.headers.get('emulab-s4-cert')
     # Create and populate temp dir
@@ -137,6 +138,7 @@ def api_sliver_status(projectname, slicename):
     """ Returns the status of the slice """
     # Get post values
     cert = request.headers.get('emulab-s4-cert')
+    extended = json.loads(request.args.get('extended', default='false'))
     # Create and populate temp dir
     t_dir = tempfile.mkdtemp()
     cert_path = t_dir + '/s4.cert.xml'
@@ -154,7 +156,7 @@ def api_sliver_status(projectname, slicename):
                 properties=PROPERTIES_PATH,
                 java_path=JAVA_PATH)
     # Run command
-    status = jfed.sliver_status(slicename)
+    status = jfed.sliver_status(slicename, extended=extended)
     # Return response or error
     if status:
         resp = Response(status,

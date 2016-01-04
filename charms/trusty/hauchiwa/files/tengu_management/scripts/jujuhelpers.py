@@ -2,14 +2,20 @@
 #
 """ Handles communication to Juju """
 
-from os.path import expanduser
 from subprocess import check_output, STDOUT, CalledProcessError, PIPE, Popen
 from subprocess import check_call
 from time import sleep
-import yaml
 import json
 import sys
-from base64 import b64encode
+from base64 import b64encode, b64decode
+import getpass
+
+# non standard pip dependencies
+import yaml
+
+
+USER = getpass.getuser()
+HOME = '/home/{}'.format(USER)
 
 
 class JujuEnvironment(object):
@@ -109,7 +115,7 @@ class JujuEnvironment(object):
     @property
     def juju_password(self):
         """ Gets the default password from the Juju environment"""
-        file_path = expanduser('~/.juju/environments/%s.jenv' % self.name)
+        file_path = '{}/.juju/environments/{}.jenv'.format(HOME, self.name)
         stream = open(file_path, "r")
         doc = yaml.load(stream)
         password = doc.get('password')
@@ -119,7 +125,7 @@ class JujuEnvironment(object):
     @property
     def bootstrap_user(self):
         """ Gets the bootstrap user from the Juju environment"""
-        file_path = expanduser('~/.juju/environments/%s.jenv' % self.name)
+        file_path = '{}/.juju/environments/{}.jenv'.format(HOME, self.name)
         stream = open(file_path, "r")
         doc = yaml.load(stream)
         password = doc.get('bootstrap-config').get('bootstrap-user')
@@ -249,6 +255,30 @@ class JujuEnvironment(object):
         return name in self.status['services']
 
 
+    def return_environment(self):
+        """ returns exported juju environment"""
+        env_conf = {'environment-name': str(self.name)}
+        with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
+            e_content = yaml.load(e_file)
+        env_conf['environment-config'] = b64encode(
+            yaml.dump(
+                e_content['environments'][self.name],
+                default_flow_style=False
+            )
+        )
+        with open('{}/.juju/environments/{}.jenv'.format(HOME, self.name),
+                  'r') as e_file:
+            e_content = e_file.read()
+        env_conf['environment-jenv'] = b64encode(e_content)
+        with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
+            e_content = e_file.read()
+        env_conf['environment-privkey'] = b64encode(e_content)
+        with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
+            e_content = e_file.read()
+        env_conf['environment-pubkey'] = b64encode(e_content)
+        return env_conf
+
+
     @staticmethod
     def switch_env(name):
         """switch to environment with given name"""
@@ -319,14 +349,14 @@ class JujuEnvironment(object):
         print "adding juju environment %s" % name
         juju_config['bootstrap-host'] = bootstrap_host
         # get original environments config
-        with open(expanduser("~/.juju/environments.yaml"), 'r') as config_file:
+        with open("{}/.juju/environments.yaml".format(HOME), 'r') as config_file:
             config = yaml.load(config_file)
         if config['environments'] == None:
             config['environments'] = dict()
         # add new environment
         config['environments'][name] = juju_config
         # write new environments config
-        with open(expanduser("~/.juju/environments.yaml"), 'w') as config_file:
+        with open("{}/.juju/environments.yaml".format(HOME), 'w') as config_file:
             config_file.write(yaml.dump(config, default_flow_style=False))
         # Bootstrap new environmnent
         try:
@@ -339,26 +369,22 @@ class JujuEnvironment(object):
             raise
 
 
-    def return_environment(self):
-        USER = 'merlijn'
-        HOME = '/home/{}'.format(USER)
-        env_conf = {'environment-name': str(self.name)}
+    @staticmethod
+    def import_environment(env_conf):
+        name = env_conf['environment-name']
+        conf = yaml.load(b64decode(env_conf['environment-config']))
+        jenv = b64decode(env_conf['environment-jenv'])
+        pubkey = b64decode(env_conf['environment-pubkey'])
+        privkey = b64decode(env_conf['environment-privkey'])
         with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
             e_content = yaml.load(e_file)
-        env_conf['environment-config'] = b64encode(
-            yaml.dump(
-                e_content['environments'][self.name],
-                default_flow_style=False
-            )
-        )
-        with open('{}/.juju/environments/{}.jenv'.format(HOME, self.name),
-                  'r') as e_file:
-            e_content = e_file.read()
-        env_conf['environment-jenv'] = b64encode(e_content)
-        with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
-            e_content = e_file.read()
-        env_conf['environment-privkey'] = b64encode(e_content)
-        with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
-            e_content = e_file.read()
-        env_conf['environment-pubkey'] = b64encode(e_content)
-        return env_conf
+        with open('{}/.juju/environments.yaml'.format(HOME), 'w+') as e_file:
+            e_content['environments'][name] = conf
+            e_file.write(yaml.dump(e_content, default_flow_style=False))
+        with open('{}/.juju/environments/{}.jenv'.format(HOME, name), 'w+') as e_file:
+            e_file.write(jenv)
+        with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'w+') as e_file:
+            e_file.write(privkey)
+        with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
+            e_file.write(pubkey)
+        JujuEnvironment.switch_env(name)

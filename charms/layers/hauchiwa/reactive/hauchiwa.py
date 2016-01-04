@@ -58,8 +58,8 @@ def config_changed():
     content['s4_cert_path'] = S4_CERT_PATH
     with open(expanduser(GLOBAL_CONF_PATH), 'w') as config_file:
         config_file.write(yaml.dump(content, default_flow_style=False))
-    hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
     set_state('tengu.configured')
+    chownr(os.path.dirname(GLOBAL_CONF_PATH), 'ubuntu', 'ubuntu')
 
 
 

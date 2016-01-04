@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# pylint: disable=C0111,c0321,c0301
+# pylint: disable=C0111,c0321,c0301,c0325
 #
 """ deploys a tengu env """
 import os
@@ -12,6 +12,7 @@ import tarfile
 from time import sleep
 import sys
 import json
+import base64
 
 # non-default pip dependencies
 import yaml
@@ -436,6 +437,63 @@ def c_status(name):
         okwhite("Juju environment doesn't exist")
 
 @click.command(
+    name='export',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name')
+@click.argument(
+    'path',
+    type=click.Path(writable=True))
+def c_export(name, path):
+    """Export Kotengu with given NAME"""
+    jujuenv = JujuEnvironment(name)
+    config = jujuenv.return_environment()
+    files = {
+        "tengu-env-conf" : env_conf_path(name),
+        "rspec" : rspec_path(name),
+        "manifest" : manifest_path(name),
+        "emulab-s4-cert" : global_conf['s4_cert_path'],
+    }
+    for f_name, f_path in files.iteritems():
+        with open(f_path, 'r') as f_file:
+            config[f_name] = base64.b64encode(f_file.read())
+    config['emulab-project-name'] = global_conf['project_name']
+    export = {
+        str(name) : config
+    }
+    with open(path, 'w+') as outfile:
+        outfile.write(yaml.dump(export))
+
+@click.command(
+    name='import',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument(
+    'path',
+    type=click.Path(exists=True, readable=True))
+def c_import(path):
+    """Import Kotengu from config file"""
+    with open(path, 'r') as stream:
+        export = yaml.load(stream)
+    name = export.keys()[0]
+    config = export.values()[0]
+    if not os.path.isdir(os.path.dirname(env_conf_path(name))):
+        os.makedirs(os.path.dirname(env_conf_path(name)))
+    elif not click.confirm('Warning! Tengu with name {} already configured, are you sure you want to overwrite the config files?'.format(name)):
+        exit()
+    files = {
+        "tengu-env-conf" : env_conf_path(name),
+        "rspec" : rspec_path(name),
+        "manifest" : manifest_path(name),
+        "emulab-s4-cert" : global_conf['s4_cert_path'],
+    }
+    for f_key, f_path in files.iteritems():
+        with open(f_path, 'w+') as f_file:
+            f_file.write(base64.b64decode(config[f_key]))
+    global_conf['project_name'] = config['emulab-project-name']
+    global_conf.save()
+    JujuEnvironment.import_environment(config)
+
+
+@click.command(
     name='userinfo',
     context_settings=CONTEXT_SETTINGS)
 def c_userinfo():
@@ -450,12 +508,16 @@ def c_downloadbigfiles():
     """ Download bigfiles in /opt/tengu-charms repository """
     downloadbigfiles('/opt/tengu-charms')
 
+
+
 g_cli.add_command(c_create)
 g_cli.add_command(c_destroy)
 g_cli.add_command(c_lock)
 g_cli.add_command(c_renew)
 g_cli.add_command(c_status)
 g_cli.add_command(c_userinfo)
+g_cli.add_command(c_export)
+g_cli.add_command(c_import)
 g_cli.add_command(c_downloadbigfiles)
 g_cli.add_command(g_juju)
 

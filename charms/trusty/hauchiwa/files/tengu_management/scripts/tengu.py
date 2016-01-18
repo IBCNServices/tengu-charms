@@ -13,10 +13,14 @@ from time import sleep
 import sys
 import json
 import base64
+import datetime
+from datetime import tzinfo, timedelta, datetime
+
 
 # non-default pip dependencies
 import yaml
 import click
+from dateutil.parser import parse
 
 
 # Own modules
@@ -224,6 +228,7 @@ def get_or_create_ssh_key():
     """ Gets ssh key. Creates one if it doesn't exist yet. """
     ssh_pub_keypath = expanduser("~/.ssh/id_rsa.pub")
     ssh_priv_keypath = expanduser("~/.ssh/id_rsa")
+    authorized_keys = expanduser("~/.ssh/authorized_keys")
     if os.path.isfile(ssh_pub_keypath):
         with open(ssh_pub_keypath, 'r') as pubkeyfile:
             return pubkeyfile.read().rstrip()
@@ -235,6 +240,8 @@ def get_or_create_ssh_key():
         with open(ssh_pub_keypath, 'w+') as pubkeyfile:
             pubkey = key.publickey().exportKey('OpenSSH')
             pubkeyfile.write(pubkey + "\n")
+        with open(authorized_keys, 'a') as auth_keyfile:
+            auth_keyfile.write(pubkey + "\n")
         return pubkey
 
 
@@ -402,7 +409,6 @@ def c_renew(name, hours):
     okwhite('renewing slice {} for {} hours'.format(name, hours))
     jfed = init_jfed(name, global_conf)
     try:
-        #TODO: Really check if renewing slice failed.
         jfed.renew(hours)
     except Exception as ex: #pylint:disable=W0703
         fail('renewing slice failed', ex)
@@ -508,6 +514,48 @@ def c_downloadbigfiles():
     """ Download bigfiles in /opt/tengu-charms repository """
     downloadbigfiles('/opt/tengu-charms')
 
+@click.command(
+
+)
+@click.argument('name')
+@click.argument(
+    'mindays',
+    type=int,
+    default=7)
+def c_renew_if_closer_than(name, mindays):
+    #TODO: clean this up once we switch to python 3
+    # http://stackoverflow.com/a/25662061/1588555
+    ZERO = timedelta(0)#pylint: disable=c0103
+    class UTC(tzinfo):
+        def utcoffset(self, dt):#pylint: disable=w0613
+            return ZERO
+        def tzname(self, dt):#pylint: disable=w0613
+            return "UTC"
+        def dst(self, dt):#pylint: disable=w0613
+            return ZERO
+    utc = UTC()
+
+    jfed = init_jfed(name, global_conf)
+    status = jfed.get_full_status()
+    if status.lstrip().rstrip() != 'DOES_NOT_EXIST':
+        try:
+            statusdict = json.loads(status)
+            earliestexpdate = parse(statusdict['earliestSliverExpireDate'])
+            now = datetime.now(utc)
+            difference = earliestexpdate - now
+            print("sliver expires {}\ntoday is {}\ndifference is {}\nmindays is {}".format(earliestexpdate, now, difference, mindays))
+            if difference.days < mindays:
+                hourstorenew = 800
+                print('renewing slice for {} hours'.format(hourstorenew))
+                c_renew(name, hourstorenew)
+            else:
+                print('not renewing slice')
+        except (yaml.parser.ParserError, ValueError, KeyError) as exc:
+            print("could not parse status from ouptut. output: " + status)
+            raise exc
+    else:
+        fail("experiment {} doesn't exist".format(name))
+
 
 
 g_cli.add_command(c_create)
@@ -519,7 +567,7 @@ g_cli.add_command(c_userinfo)
 g_cli.add_command(c_export)
 g_cli.add_command(c_import)
 g_cli.add_command(c_downloadbigfiles)
+g_cli.add_command(c_renew_if_closer_than)
 g_cli.add_command(g_juju)
-
 if __name__ == '__main__':
     g_cli()

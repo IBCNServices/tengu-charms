@@ -28,10 +28,10 @@
       "static", 
       "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
     ], 
-    "hooks/leader-settings-changed": [
+    "wheelhouse/charms.reactive-0.3.8.tar.gz": [
       "layer:basic", 
-      "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "dynamic", 
+      "3f8722d85f7d489f8414d11fc2a3e8793c68000f7a1bc7b1ad71120e037aebee"
     ], 
     "wheelhouse/pyaml-15.8.2.tar.gz": [
       "layer:basic", 
@@ -51,7 +51,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "746943525a3eb17150710f11ceaf74c2a21464b1892c35986304d5c7bbff3b81"
+      "a251654b3dd5f49cf7dc00607b8d05ae944aec1f59b78d435b1891d7295825e1"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -91,12 +91,12 @@
     "hooks/upgrade-charm": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "b78e405476402d34624c70822d9a60be2f4f85255765f619c0ecfe18f5f934ea"
     ], 
-    "files/tengu_management/scripts/rest2jfed_connector.py": [
-      "hauchiwa", 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
       "static", 
-      "ae24c069a0bd3e460756328c124daf89991cb12fc3ec049ab7995b689e216e74"
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -116,7 +116,7 @@
     "files/tengu_management/templates/bundle.yaml": [
       "hauchiwa", 
       "static", 
-      "92a8e7dbe17a8cd691b30beacb4d850461e5b06f636790935a4915b60d9c6509"
+      "4be70b75ccd0bb90408adc5a4d0f6e11db195613a580217adeed2c26d80cbc65"
     ], 
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
@@ -153,8 +153,8 @@
       "static", 
       "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
     ], 
-    "hooks/rest2jfed-relation-joined": [
-      "interface:http", 
+    "hooks/hauchiwa-relation-joined": [
+      "interface:opened-ports", 
       "dynamic", 
       "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
     ], 
@@ -181,7 +181,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "0e9475f7a52137df0cc25c612eb5a835612581dfd6a0298eff4a99051146f54a"
+      "ecaffbf7a0f9826531ead5ffc7f4bf3904e7a3db16669d95fb687c7c841c1f2c"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -221,7 +221,7 @@
     "lib/charms/bootstrap.py": [
       "layer:basic", 
       "static", 
-      "e18bcb2ebd95131033de5ba38df691f35b889279fc37af1659ed28dfe02c0f7c"
+      "bec7997003dbe44e9bbe85f0df598746c868fe72d1971a99d357bf3512453c70"
     ], 
     "reactive/tengu_charmhelpers/README.md": [
       "hauchiwa", 
@@ -288,6 +288,11 @@
       "dynamic", 
       "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
     ], 
+    "files/tengu_management/scripts/rest2jfed_connector.py": [
+      "hauchiwa", 
+      "static", 
+      "ae24c069a0bd3e460756328c124daf89991cb12fc3ec049ab7995b689e216e74"
+    ], 
     "metadata.yaml": [
       "hauchiwa", 
       "dynamic", 
@@ -318,10 +323,15 @@
       "static", 
       "217a14452aeb713f709764d6ff5401776f2ce9ec740c53c400b772d985624053"
     ], 
-    "wheelhouse/charms.reactive-0.3.7.tar.gz": [
-      "layer:basic", 
+    "hooks/rest2jfed-relation-joined": [
+      "interface:http", 
       "dynamic", 
-      "a23a107a52f6e07c618a7b23c3320ec31d41ba1e382c41f703392079a506048e"
+      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+    ], 
+    "lib/charms/layer.py": [
+      "layer:basic", 
+      "static", 
+      "3accb93272464875583f9b661dc024b4adc67617354bc21d8a7f74284ae4deb4"
     ], 
     "README.md": [
       "hauchiwa", 
@@ -347,11 +357,6 @@
       "hauchiwa", 
       "static", 
       "947131db8edaf76eda7341b5c422d481b3fd2ed585bc80c934633026c4822357"
-    ], 
-    "hooks/hauchiwa-relation-joined": [
-      "interface:opened-ports", 
-      "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
     ], 
     "layer.yaml": [
       "hauchiwa", 

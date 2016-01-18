@@ -5,6 +5,9 @@ machines:
   '1':
     constraints: 'arch=amd64 testbed=wall1'
     series: trusty
+  '2':
+    constraints: 'arch=amd64 testbed=wall1'
+    series: trusty
 services:
   juju-gui:
     charm: cs:trusty/juju-gui

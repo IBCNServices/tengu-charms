@@ -46,3 +46,9 @@ write-topic:
       description: Data to write to topic
   required: [topic, data]
   additionalProperties: false
+stop:
+  description: Stop Kafka
+start:
+  description: Start Kafka
+restart:
+  description: Restart Kafka

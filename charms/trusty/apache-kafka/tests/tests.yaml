@@ -1,0 +1,10 @@
+# Driver for bundletester: https://github.com/juju-solutions/bundletester
+#
+# It may be useful to alter the defaults during manual testing. For example,
+# set 'reset: false' to reuse existing charms instead of redeploying them.
+
+# Allow bootstrap of current env, default: true
+bootstrap: true
+
+# Use juju-deployer to reset env between test, default: true
+reset: true

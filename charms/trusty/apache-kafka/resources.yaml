@@ -1,0 +1,12 @@
+options:
+  output_dir: /home/ubuntu/resources
+resources:
+  pathlib:
+    pypi: path.py>=7.0
+  jujubigdata:
+    pypi: jujubigdata>=4.1.0,<5.0.0
+optional_resources:
+  kafka-x86_64:
+    url: https://git.launchpad.net/bigdata-data/plain/apache/x86_64/kafka_2.10-0.8.2.1.tgz?id=c34a21c939f5fce9ab89b95d65fe2df50e7bbab0
+    hash: 446eab1f5329eb03662926aa1cb0845d
+    hash_type: md5

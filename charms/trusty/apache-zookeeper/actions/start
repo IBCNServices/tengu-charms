@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+#pylint: disable=C0103
+import sys
+import os
+sys.path.insert(1, os.path.realpath('../hooks'))
+
+try:
+    import callbacks
+    from charmhelpers.core import unitdata
+    charm_ready = unitdata.kv().get('charm.active', False)
+except ImportError:
+    charm_ready = False
+
+if not charm_ready:
+    # might not have hookenv.action_fail available yet
+    from subprocess import call
+    call(['action-fail', 'Zookeeper service not yet ready'])
+
+
+zookeeper = callbacks.Zookeeper()
+zookeeper.start()

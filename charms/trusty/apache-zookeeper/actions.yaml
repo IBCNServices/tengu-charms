@@ -1,0 +1,6 @@
+stop:
+  description: Stop Zookeeper
+start:
+  description: Start Zookeeper
+restart:
+  description: Restart Zookeeper

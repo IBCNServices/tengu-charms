@@ -9,8 +9,7 @@ analytic application. Learn more at [flume.apache.org](http://flume.apache.org).
 
 This charm provides a Flume agent designed to ingest messages published to
 a Kafka topic and send them to the `apache-flume-hdfs` agent for storage in
-the shared filesystem (HDFS) of a connected Hadoop cluster. Only messages
-produced after this Charm becomes ready will be ingested. This leverages the
+the shared filesystem (HDFS) of a connected Hadoop cluster. This leverages the
 KafkaSource jar packaged with Flume. Learn more about the
 [Flume Kafka Source](https://flume.apache.org/FlumeUserGuide.html#kafka-source).
 
@@ -80,8 +79,14 @@ HDFS in year-month-day directories here: `/user/flume/flume-kafka/%y-%m-%d`.
 
 ## Test the deployment
 
-To verify this charm is working as intended, SSH to the `flume-hdfs` unit,
-locate an event, and cat it:
+Generate Kafka messages on the `flume-kafka` unit with the producer script:
+
+    juju ssh flume-kafka/0
+    kafka-console-producer.sh --broker-list localhost:9092 --topic <topic_name>
+    <type message, press Enter>
+
+To verify these messages are being stored into HDFS, SSH to the `flume-hdfs`
+unit, locate an event, and cat it:
 
     juju ssh flume-hdfs/0
     hdfs dfs -ls /user/flume/flume-kafka  # <-- find a date

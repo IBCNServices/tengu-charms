@@ -26,7 +26,7 @@ from dateutil.parser import parse
 # Own modules
 from rest2jfed_connector import Rest2jfedConnector # pylint: disable=F0401
 import rspec_utils                                 # pylint: disable=F0401
-from output import okblue, fail, okwhite           # pylint: disable=F0401
+from output import okblue, fail, okwhite, mail     # pylint: disable=F0401
 from config import Config, script_dir, tengu_dir   # pylint: disable=F0401
 from jujuhelpers import JujuEnvironment            # pylint: disable=F0401
 
@@ -187,6 +187,13 @@ def lock_environment(env_name, lock_status):
     env_conf['locked'] = lock_status
     env_conf.save()
 
+#    from crontab import CronTab
+
+#    tab = CronTab()
+#    cron = tab.new(command='/foo/bar')
+#    cron.every_reboot()
+#    tab.write()
+
 
 def env_conf_path(name):
     """ Returns path of environment config of environment with given name"""
@@ -323,7 +330,10 @@ def g_juju():
 @click.command(
     name='add-machines',
     context_settings=CONTEXT_SETTINGS)
-@click.argument('name')
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_add_machines(name):
     """Add machines of jfed experiment to Juju environment
     NAME: name of Kotengu """
@@ -336,7 +346,10 @@ def c_add_machines(name):
 @click.command(
     name='export',
     context_settings=CONTEXT_SETTINGS)
-@click.argument('name')
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
 @click.argument('filename')
 def c_export_juju_env(name, filename):
     """export juju environment to given yaml file """
@@ -379,7 +392,10 @@ def c_create(bundle, name, clean):
 @click.command(
     name='destroy',
     context_settings=CONTEXT_SETTINGS)
-@click.argument('name')
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_destroy(name):
     """Destroys Kotengu with given name
     NAME: name of Kotengu """
@@ -391,7 +407,10 @@ def c_destroy(name):
     name='lock',
     context_settings=CONTEXT_SETTINGS)
 @click.option('--lock/--no-lock', default=False)
-@click.argument('name')
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_lock(name, lock):
     """Lock destructive actions for given Kotengu
     NAME: name of Kotengu """
@@ -400,7 +419,10 @@ def c_lock(name, lock):
 @click.command(
     name='renew',
     context_settings=CONTEXT_SETTINGS)
-@click.argument('name')
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
 @click.argument('hours', type=int, default=800)
 def c_renew(name, hours):
     """ Set expiration date of Kotengu to now + given hours
@@ -416,7 +438,10 @@ def c_renew(name, hours):
 @click.command(
     name='status',
     context_settings=CONTEXT_SETTINGS)
-@click.argument('name')
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_status(name):
     """Show status of Kotengu with given name
     NAME: name of Kotengu """
@@ -445,7 +470,10 @@ def c_status(name):
 @click.command(
     name='export',
     context_settings=CONTEXT_SETTINGS)
-@click.argument('name')
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
 @click.argument(
     'path',
     type=click.Path(writable=True))
@@ -515,9 +543,12 @@ def c_downloadbigfiles():
     downloadbigfiles('/opt/tengu-charms')
 
 @click.command(
-
+    name='c_renew_if_closer_than'
 )
-@click.argument('name')
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
 @click.argument(
     'mindays',
     type=int,
@@ -543,11 +574,18 @@ def c_renew_if_closer_than(name, mindays):
             earliestexpdate = parse(statusdict['earliestSliverExpireDate'])
             now = datetime.now(utc)
             difference = earliestexpdate - now
-            print("sliver expires {}\ntoday is {}\ndifference is {}\nmindays is {}".format(earliestexpdate, now, difference, mindays))
+            status_message = "sliver expires {}\ntoday is {}\ndifference is {}\nmindays is {}".format(earliestexpdate, now, difference, mindays)
+            print(status_message)
             if difference.days < mindays:
                 hourstorenew = 800
                 print('renewing slice for {} hours'.format(hourstorenew))
-                c_renew(name, hourstorenew)
+                jfed = init_jfed(name, global_conf)
+                try:
+                    jfed.renew(hourstorenew)
+                except Exception as ex: #pylint:disable=W0703
+                    mail('renewing slice for {} hours failed. Status: {}'.format(hourstorenew, status_message))
+                    fail('renewing slice failed', ex)
+                print('renewed slice succesfully')
             else:
                 print('not renewing slice')
         except (yaml.parser.ParserError, ValueError, KeyError) as exc:

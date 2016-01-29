@@ -1,5 +1,8 @@
 """Helper module for pretty console output"""
 #pylint: disable=c0111
+import smtplib
+import socket
+
 HEADER = '\033[95m'
 OKBLUE = '\033[94m'
 OKGREEN = '\033[92m'
@@ -29,3 +32,22 @@ def fail(reason, exception=None):
         print str(exception)
     print '{}ERROR: {}{}'.format(FAIL, reason, ENDC)
     exit(1)
+
+def mail(text):
+    FROM = "{}@{}".format('Hauchiwa', socket.gethostname())
+    TO = ["merlijn.sebrechts@gmail.com"] # must be a list
+    SUBJECT = "Warning from {}".format(FROM)
+    TEXT = text
+    # Prepare actual message
+    message = """\
+    From: {}
+    To: {}
+    Subject: {}
+    {}
+    """.format(FROM, ", ".join(TO), SUBJECT, TEXT)
+    # Send the mail
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login('tengu.butler@gmail.com','123your_password')
+    server.sendmail(FROM, TO, message)
+    server.quit()

@@ -1,0 +1,5 @@
+options:
+  port-forwards:
+    type: string
+    description: json object that specifies what ports should be forwarded
+    default: []

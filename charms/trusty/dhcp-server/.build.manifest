@@ -141,10 +141,10 @@
       "static", 
       "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
     ], 
-    "hooks/config-changed": [
-      "layer:basic", 
-      "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    "config.yaml": [
+      "dhcp-server", 
+      "dynamic", 
+      "88bfb83b308e69da896d00762a4a8b8273e6dfcb14699276eaed204fe5719ba7"
     ], 
     "revision": [
       "dhcp-server", 
@@ -154,7 +154,7 @@
     "lib/iptables.py": [
       "dhcp-server", 
       "static", 
-      "9df36392cf5a30f00fcecab2716fc0b1403610b390c81acb5d63e6b6847af8d1"
+      "651af93ee3dee4d8991af41026a126b42f2398d2afb0c379b0c545562df0658d"
     ], 
     "hooks/stop": [
       "layer:basic", 
@@ -184,7 +184,7 @@
     "reactive/dhcp_server.py": [
       "dhcp-server", 
       "static", 
-      "e3b00d8dcce2beca0121f7ca60a0dd5481e32ca814b391971f5e46006fc2481f"
+      "7153c4a771c3d860df118e3155bb50f2b23c3863f92799217530edc261857e01"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "layer:basic", 
@@ -235,6 +235,11 @@
       "dhcp-server", 
       "dynamic", 
       "e0af8e6a758f0cb3b2ede09e87105536a6e259fa141a1b169cd78ff7b139a7b5"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "lib/charms/layer.py": [
       "layer:basic", 

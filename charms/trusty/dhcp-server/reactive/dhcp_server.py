@@ -2,11 +2,7 @@
 # source: https://www.howtoforge.com/nat_iptables
 # pylint: disable=c0111,c0103,c0301
 import subprocess
-
-# modules from Pip dependencies
-from netifaces import AF_INET
-import netifaces
-import netaddr
+import json
 
 from charmhelpers.core import hookenv, templating, host
 from charmhelpers.core.hookenv import config
@@ -14,14 +10,23 @@ from charmhelpers import fetch
 from charms.reactive import hook, when
 from charms.reactive.helpers import data_changed
 
+# modules from Pip dependencies
+from netifaces import AF_INET
+import netifaces
+import netaddr
+
+# Own modules
+from iptables import update_port_forwards
+
+
 @when('opened-ports.available')
 def configure_port_forwards(relation):
     services = relation.opened_ports()
     if not data_changed('opened-ports.services', services):
         return
-    for service in services:
-        for host in service['hosts']:
-            pass
+    # for service in services:
+    #     for host in service['hosts']:
+    #         pass
 
 
 @hook('install')
@@ -115,4 +120,5 @@ def get_gateway_if():
 
 @hook('config-changed')
 def configure_forwarders():
-    pass
+    cfg = json.loads(config()["port-forwards"])
+    update_port_forwards(cfg)

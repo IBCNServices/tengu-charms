@@ -41,7 +41,7 @@
     "hooks/hauchiwa-relation-departed": [
       "interface:opened-ports", 
       "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "wheelhouse/pip-7.1.2.tar.gz": [
       "layer:basic", 
@@ -63,10 +63,15 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
+    "wheelhouse/charmhelpers-0.6.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "521f406d6fa5a60df3341f55516917b871310b5b25343970fdd6f3fa92ef8ceb"
+    ], 
     "hooks/rest2jfed-relation-changed": [
       "interface:http", 
       "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "files/tengu_management/templates/template.rspec": [
       "hauchiwa", 
@@ -83,20 +88,15 @@
       "dynamic", 
       "unchecked"
     ], 
-    "wheelhouse/charmhelpers-0.6.1.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "c41a4cb3dcf6aa35e115addf9fb83a94585a4ff3bddc63148983431af45905f8"
-    ], 
     "hooks/upgrade-charm": [
       "layer:basic", 
       "static", 
-      "b78e405476402d34624c70822d9a60be2f4f85255765f619c0ecfe18f5f934ea"
+      "f49dcf07073e216526c6d82f1cf1b3fe96e858dc4b43b4833d4c4d91cda0aba0"
     ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -156,7 +156,7 @@
     "hooks/hauchiwa-relation-joined": [
       "interface:opened-ports", 
       "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -181,12 +181,12 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "fe72ada984e50c971bad07e5731836caa013d2fc94fe362db5ef14ae2f6049de"
+      "547857ee89451bd3b1a507208556b5421958c91707dd905ddd285178fab597a6"
     ], 
     "hooks/install": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "templates/environments.yaml": [
       "juju-client", 
@@ -216,12 +216,12 @@
     "hooks/leader-elected": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "lib/charms/bootstrap.py": [
       "layer:basic", 
       "static", 
-      "bec7997003dbe44e9bbe85f0df598746c868fe72d1971a99d357bf3512453c70"
+      "d49942539ab5c88ff2ce1385d1f7cee8f14f6becc72ccaf9e38b4bcb683929ab"
     ], 
     "reactive/tengu_charmhelpers/README.md": [
       "hauchiwa", 
@@ -241,12 +241,12 @@
     "hooks/rest2jfed-relation-broken": [
       "interface:http", 
       "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "hooks/stop": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "hooks/relations/opened-ports/interface.yaml": [
       "interface:opened-ports", 
@@ -256,12 +256,12 @@
     "hooks/hauchiwa-relation-broken": [
       "interface:opened-ports", 
       "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "hooks/hook.template": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 
@@ -271,7 +271,7 @@
     "hooks/rest2jfed-relation-departed": [
       "interface:http", 
       "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "actions/deploy-bundle": [
       "hauchiwa", 
@@ -291,7 +291,7 @@
     "files/tengu_management/scripts/rest2jfed_connector.py": [
       "hauchiwa", 
       "static", 
-      "ae24c069a0bd3e460756328c124daf89991cb12fc3ec049ab7995b689e216e74"
+      "0075c5d497953bdf034916955a58dbe1f2d94912f62044d622cf6aeefc780445"
     ], 
     "metadata.yaml": [
       "hauchiwa", 
@@ -311,7 +311,7 @@
     "hooks/update-status": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "templates/juju.sh": [
       "juju-client", 
@@ -326,7 +326,7 @@
     "hooks/rest2jfed-relation-joined": [
       "interface:http", 
       "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "lib/charms/layer.py": [
       "layer:basic", 
@@ -351,7 +351,7 @@
     "hooks/start": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "reactive/tengu_charmhelpers/__init__.py": [
       "hauchiwa", 
@@ -366,7 +366,7 @@
     "hooks/config-changed": [
       "layer:basic", 
       "static", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "files/tengu_management/scripts/virtualwall_prepare.sh": [
       "hauchiwa", 
@@ -376,7 +376,7 @@
     "hooks/hauchiwa-relation-changed": [
       "interface:opened-ports", 
       "dynamic", 
-      "21759be2af2e65c9e29531b293fd77fc1c710468ece35bc1cb4360cdefd997b0"
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
     ], 
     "files/tengu_management/lib/juju_notifyer": [
       "hauchiwa", 

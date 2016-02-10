@@ -53,7 +53,7 @@ def install():
     #     p_no_proxy = proxy_obj['no_proxy']
     #     add_maven_proxy(p_hostname, p_port, p_no_proxy)
     print "extracting and moving required files and folders"
-    mergecopytree(charm_dir() + '/templates/jfedS4', "/opt/jfedS4")
+    mergecopytree(charm_dir() + '/files/jfedS4', "/opt/jfedS4")
     mergecopytree(charm_dir() + '/files/rest2jfed', "/opt/rest2jfed")
     if not os.path.isdir('/opt/java/jre1.8.0_45'):
         tfile = tarfile.open(\

@@ -15,7 +15,8 @@ import json
 import base64
 import datetime
 from datetime import tzinfo, timedelta, datetime
-
+import pprint
+PPRINTER = pprint.PrettyPrinter()
 
 # non-default pip dependencies
 import yaml
@@ -26,7 +27,7 @@ from dateutil.parser import parse
 # Own modules
 from rest2jfed_connector import Rest2jfedConnector # pylint: disable=F0401
 import rspec_utils                                 # pylint: disable=F0401
-from output import okblue, fail, okwhite, mail     # pylint: disable=F0401
+from output import okblue, fail, okwhite, mail, okgreen # pylint: disable=F0401
 from config import Config, script_dir, tengu_dir   # pylint: disable=F0401
 from jujuhelpers import JujuEnvironment            # pylint: disable=F0401
 
@@ -406,15 +407,26 @@ def c_destroy(name):
 @click.command(
     name='lock',
     context_settings=CONTEXT_SETTINGS)
-@click.option('--lock/--no-lock', default=False)
 @click.option(
     '-n', '--name',
     default=JujuEnvironment.current_env(),
     help='Name of Tengu. Defaults to name of current Juju environment.')
-def c_lock(name, lock):
+def c_lock(name):
     """Lock destructive actions for given Kotengu
     NAME: name of Kotengu """
-    lock_environment(name, lock)
+    lock_environment(name, True)
+
+@click.command(
+    name='unlock',
+    context_settings=CONTEXT_SETTINGS)
+@click.option(
+    '-n', '--name',
+    default=JujuEnvironment.current_env(),
+    help='Name of Tengu. Defaults to name of current Juju environment.')
+def c_unlock(name):
+    """Lock destructive actions for given Kotengu
+    NAME: name of Kotengu """
+    lock_environment(name, False)
 
 @click.command(
     name='renew',
@@ -432,6 +444,7 @@ def c_renew(name, hours):
     jfed = init_jfed(name, global_conf)
     try:
         jfed.renew(hours)
+        okgreen('renewed slice succesfully')
     except Exception as ex: #pylint:disable=W0703
         fail('renewing slice failed', ex)
 
@@ -446,22 +459,19 @@ def c_status(name):
     """Show status of Kotengu with given name
     NAME: name of Kotengu """
     jfed = init_jfed(name, global_conf)
-    status = jfed.get_full_status()
-    if status.lstrip().rstrip() != 'DOES_NOT_EXIST':
+    responsedict = jfed.get_full_status()
+    if responsedict['short_status'] == 'READY':
+        statusdict = responsedict['json_output']
         try:
-            statusdict = json.loads(status)
             okblue("status of jfed slice is {}".format(statusdict['AMs'].values()[0]['amGlobalSliverStatus']))
             okblue("earliest expiration date of sliver is {}".format(statusdict['earliestSliverExpireDate']))
         except (yaml.parser.ParserError, ValueError, KeyError) as exc:
-            print("could not parse status from ouptut. output: " + status)
+            print("could not parse status from ouptut. statusdict: ")
+            PPRINTER.pprint(statusdict)
             raise exc
-        #info = jfed.get_sliceinfo()
-        #okblue("slice Expiration date: {}".format(info['sliceExpiration']))
-        #okblue("slice urn date: {}".format(info['sliceUrn']))
-        #okblue("user urn date: {}".format(info['userUrn']))
-        #okblue("speaksfor?: {}".format(info['usedSpeaksfor']))
     else:
-        okwhite("status of jfed slice is {}".format(status))
+        okwhite("status of jfed slice is {}. responsedict: ".format(responsedict['short_status']))
+        PPRINTER.pprint(responsedict)
     if JujuEnvironment.env_exists(name):
         okblue('Juju environment exists')
     else:
@@ -533,7 +543,7 @@ def c_import(path):
 def c_userinfo():
     """ Print info of configured jfed user """
     jfed = init_bare_jfed()
-    okwhite(jfed.get_userinfo())
+    PPRINTER.pprint(jfed.get_userinfo())
 
 @click.command(
     name='downloadbigfiles',
@@ -599,6 +609,7 @@ def c_renew_if_closer_than(name, mindays):
 g_cli.add_command(c_create)
 g_cli.add_command(c_destroy)
 g_cli.add_command(c_lock)
+g_cli.add_command(c_unlock)
 g_cli.add_command(c_renew)
 g_cli.add_command(c_status)
 g_cli.add_command(c_userinfo)

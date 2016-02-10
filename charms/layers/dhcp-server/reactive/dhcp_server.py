@@ -9,6 +9,7 @@ import netifaces
 import netaddr
 
 from charmhelpers.core import hookenv, templating, host
+from charmhelpers.core.hookenv import config
 from charmhelpers import fetch
 from charms.reactive import hook, when
 from charms.reactive.helpers import data_changed
@@ -114,4 +115,12 @@ def get_gateway_if():
 
 @hook('config-changed')
 def configure_forwarders():
-    pass
+    jsonconfig = """[{
+        "public_port": "8080",
+        "private_port": "5000",
+        "private_ip": "192.168.0.152",
+        "protocol": "tcp"
+    }]"""
+
+    cfg = json.loads(config()[""])
+    update_port_forwards(cfg)

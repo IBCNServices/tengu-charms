@@ -9,9 +9,20 @@ import netifaces
 import netaddr
 
 from charmhelpers.core import hookenv, templating, host
+from charmhelpers.core.hookenv import config
 from charmhelpers import fetch
-from charms import reactive
-from charms.reactive import hook
+from charms.reactive import hook, when
+from charms.reactive.helpers import data_changed
+
+@when('opened-ports.available')
+def configure_port_forwards(relation):
+    services = relation.opened_ports()
+    if not data_changed('opened-ports.services', services):
+        return
+    for service in services:
+        for host in service['hosts']:
+            pass
+
 
 @hook('install')
 def install():

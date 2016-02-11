@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # source: https://www.howtoforge.com/nat_iptables
 # pylint: disable=c0111,c0103,c0301
 import subprocess

@@ -13,6 +13,7 @@ from charmhelpers.core import templating, host
 from charmhelpers.core.hookenv import open_port
 from charms.reactive import hook
 
+
 @hook('install')
 def install():
     subprocess.check_call(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click'])
@@ -24,6 +25,7 @@ def install():
     )
     host.service_restart('tengu-api')
     open_port(5000)
+
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):
     """"Recursive copy src to dst, mergecopy directory if dst exists.

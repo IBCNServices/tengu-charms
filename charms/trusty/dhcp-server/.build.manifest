@@ -146,15 +146,10 @@
       "dynamic", 
       "5ab56704a328505a48d29ce4e70347064ef90ea25a7697bd981a4700ef98300e"
     ], 
-    "revision": [
-      "dhcp-server", 
-      "static", 
-      "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
-    ], 
     "lib/iptables.py": [
       "dhcp-server", 
       "static", 
-      "651af93ee3dee4d8991af41026a126b42f2398d2afb0c379b0c545562df0658d"
+      "134cdee4edeb7b21eacee7d408f452a785882c887b26591a7582c38b892e9704"
     ], 
     "hooks/stop": [
       "layer:basic", 
@@ -184,7 +179,7 @@
     "reactive/dhcp_server.py": [
       "dhcp-server", 
       "static", 
-      "7153c4a771c3d860df118e3155bb50f2b23c3863f92799217530edc261857e01"
+      "d146f70c6c8a58f2f45892c5d8e12dc131c728a4bb396b28fd25826877285d6a"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "layer:basic", 
@@ -214,7 +209,7 @@
     "README.md": [
       "dhcp-server", 
       "static", 
-      "ea75a98dfe856eac98260c045963fd63ff0049c8f77a564ab1a50a679341588a"
+      "3c2a0762fd72f7bb47f73e03d9cdfb55052bf0dac8a4a2856819296d8687b06b"
     ], 
     "hooks/opened-ports-relation-broken": [
       "interface:opened-ports", 

@@ -1,19 +1,22 @@
+# python3
 #!/usr/bin/env python
 # pylint: disable=c0111,c0103,c0301
-from os.path import expanduser
-import yaml
 import base64
 import os
+from os.path import expanduser
 import shutil
 import tempfile
 import pwd
 import grp
 import subprocess
 
+# Charm pip dependencies
 from charmhelpers import fetch
 from charmhelpers.core import templating, hookenv, host
 from charms.reactive import hook, when, when_not, set_state, remove_state
 
+# non-standard pip dependencies
+import yaml
 
 TENGU_DIR = '/opt/tengu'
 GLOBAL_CONF_PATH = TENGU_DIR + '/etc/global-conf.yaml'

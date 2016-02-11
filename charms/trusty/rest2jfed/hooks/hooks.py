@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# pylint: disable=c0411
 """ Juju Hooks"""
 import setup
 setup.pre_install()

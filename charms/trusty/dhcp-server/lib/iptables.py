@@ -1,8 +1,7 @@
+#!/usr/bin/python3
 #pylint:disable=c0301, c0325, c0111, c0103
 import subprocess
 import re
-import json
-import pprint
 
 def get_rules(table, chain):
     def extract_comment(line):
@@ -119,9 +118,9 @@ def update_port_forwards(config):
 def prop_equals(prop1, prop2):
     if prop1 == prop2:
         return True
-    elif prop1 == None and prop2 in ['*', '0.0.0.0/0', '--']:
+    elif prop1 is None and prop2 in ['*', '0.0.0.0/0', '--']:
         return True
-    elif prop2 == None and prop1 in ['*', '0.0.0.0/0', '--']:
+    elif prop2 is None and prop1 in ['*', '0.0.0.0/0', '--']:
         return True
     return False
 
@@ -139,16 +138,3 @@ def contains_rule(rule, ruleset):
         if rule_equals(rule, existing_rule):
             return True
     return False
-
-# # table = 'nat' #'filter'.lower()
-# # chain = 'PREROUTING' #'INPUT'.upper()
-# pp = pprint.PrettyPrinter(indent=4)
-# rulss = get_rules('filter', 'FORWARD')
-# pp.pprint(rulss)
-# rulss = get_rules('nat', 'PREROUTING')
-# pp.pprint(rulss)
-# update_port_forwards()
-# rulss = get_rules('filter', 'FORWARD')
-# pp.pprint(rulss)
-# rulss = get_rules('nat', 'PREROUTING')
-# pp.pprint(rulss)

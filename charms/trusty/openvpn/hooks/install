@@ -1,6 +1,7 @@
 #!/bin/bash
 # based on: https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-14-04
 # based on: https://jujucharms.com/openvpn/precise/2
+# based on: http://www.arm-blog.com/setting-up-a-openvpn-server/
 set -e
 
 juju-log "Importing shared variables and functions"

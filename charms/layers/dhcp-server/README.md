@@ -1,21 +1,34 @@
 # Overview
 
-This charm provides [ISC DHCP server](https://www.isc.org/downloads/dhcp/). This charms target platform is Ubuntu Trusty 14.04.
+This Charm configures a server to act as an [ISC dhcp-server](https://www.isc.org/downloads/dhcp/) and a NAT gateway.
 
 # Usage
 
-To add isc-dhcp to your environment:
+To add te gateway to your environment:
 
-    juju deploy isc-dhcp
-
+    juju deploy dhcp-server
 
 # Configuration
 
-sysctl net.ipv4.conf.all.rp_filter=0
-sysctl net.ipv4.conf.default.rp_filter=0
-sysctl net.ipv4.conf.tun0.rp_filter=0
-sysctl net.ipv4.conf.wlp3s0.rp_filter=0
+ -  **port-forwards**: This option takes a list of json objects. Each object represents a requested port forward.
+
+Example configuration:
+
+    dhcp-server:
+      port-forwards: |
+        [{
+          "public_port": "9999",
+          "private_port": "21",
+          "private_ip": "192.168.14.2",
+          "protocol": "tcp"
+        },
+        {
+          "public_port": "5001",
+          "private_port": "5000",
+          "private_ip": "192.168.14.152",
+          "protocol": "tcp"
+        }]
 
 # Contact Information
 
-https://launchpad.net/charms/+source/isc-dhcp
+Maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>

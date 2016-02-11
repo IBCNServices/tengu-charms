@@ -58,25 +58,68 @@ After editing the layers, you can regenerate the layer by running `charm generat
 
 ## Dev environment
 
-I'm using atom with some extentions. Following commands install the correct extentions:
+I'm using Atom on Ubuntu with some extentions. Here's how I installed everything:
 
-    # Pyton linting (code checking)
-    sudo apt-get install pylint
+    # Install Atom:
+    sudo add-apt-repository ppa:webupd8team/atom
+    sudo apt-get update
+    sudo apt-get install atom
+
+    # Install python package manager
+    sudo apt install python-pip python3-pip
+
+    # Pyton linting (code checking) for both python 2 and python 3
+    sudo pip2 install pylint
+    sudo pip3 install pylint
     apm install linter
     apm install linter-pylint
+    mkdir ~/bin
+
+`nano ~/bin/pylint` and add:
+
+    #!/bin/bash
+    if [[ $(head -n 1 "${@: -1}") == *python3* ]]
+    then
+      pylint3 --extension-pkg-whitelist=lxml,netifaces "$@"
+    else
+      pylint2 --extension-pkg-whitelist=lxml,netifaces "$@"
+    fi
+
+
+`nano ~/bin/pylint2` and add:
+
+    #!/usr/bin/python2
+    # EASY-INSTALL-ENTRY-SCRIPT: 'pylint','console_scripts','pylint'
+    __requires__ = 'pylint'
+    import sys
+    from pkg_resources import load_entry_point
+
+    if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('pylint', 'console_scripts', 'pylint')()
+    )
+
+`nano ~/bin/pylint3` and add:
+
+    #!/usr/bin/python3
+    # EASY-INSTALL-ENTRY-SCRIPT: 'pylint','console_scripts','pylint'
+    __requires__ = 'pylint'
+    import sys
+    from pkg_resources import load_entry_point
+
+    if __name__ == '__main__':
+        sys.exit(
+            load_entry_point('pylint', 'console_scripts', 'pylint')()
+        )
+
+and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and log back in to save the changes.
+
+Charm tools: helper toos to Charm.
 
     # Juju Charm tools
     sudo apt-get install charm-tools
 
     sudo apt install python-pip
     pip install charmhelpers
-
-
-As security measure, Python-linting doesn't load c extentions by default. I whitelist the libraries that use c extensions by making the executable script `pylint.sh`:
-
-    pylint --extension-pkg-whitelist=lxml,netifaces "$@"
-
-and setting this script as "Pylint Executable" in the `linter-pylint` module.
-
 
 When running `juju debug-hooks`, you enter a tmux session. The default tmux bindings on Ubuntu are a bit strange. ctrl-a is the default command. To enable sane mouse scrolling set `set-window-option -g mode-mouse on` in `~/.tmux.conf` of the server.

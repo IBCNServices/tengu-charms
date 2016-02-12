@@ -1,0 +1,353 @@
+{
+  "layers": [
+    "layer:apt", 
+    "layer:basic", 
+    "layer:openjdk", 
+    "rest2jfed", 
+    "interface:java", 
+    "interface:http", 
+    "build"
+  ], 
+  "signatures": {
+    "hooks/java-relation-joined": [
+      "interface:java", 
+      "dynamic", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "hooks/rest2jfed-relation-broken": [
+      "interface:http", 
+      "dynamic", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "reactive/rest2jfed.py": [
+      "rest2jfed", 
+      "static", 
+      "be3f98cd28673455ddd8d784aa976c8d5fbd7f831d7a0469d7506554dd47fee1"
+    ], 
+    "wheelhouse/charms.reactive-0.3.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "3f8722d85f7d489f8414d11fc2a3e8793c68000f7a1bc7b1ad71120e037aebee"
+    ], 
+    "files/rest2jfed/node.rspec": [
+      "rest2jfed", 
+      "static", 
+      "b6dea63bd5f134f6acf5e0321f13180ed3023d22b30707989e7a2ccd5cb4fd62"
+    ], 
+    "wheelhouse/pyaml-15.8.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
+    ], 
+    "files/jfedS4/tengu_base64.sh": [
+      "rest2jfed", 
+      "static", 
+      "1ddf5ab65ffb0b4a5abbf555f6a3068599530e6da7b2fa2faf2f9aad7f6f6a7c"
+    ], 
+    "Makefile": [
+      "layer:openjdk", 
+      "static", 
+      "0eeb861047caf16ea7e61dffd904f29bf162dc78fd04307be0a376cfac52fad5"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "wheelhouse/charmhelpers-0.6.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "521f406d6fa5a60df3341f55516917b871310b5b25343970fdd6f3fa92ef8ceb"
+    ], 
+    "hooks/rest2jfed-relation-changed": [
+      "interface:http", 
+      "dynamic", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "f49dcf07073e216526c6d82f1cf1b3fe96e858dc4b43b4833d4c4d91cda0aba0"
+    ], 
+    "hooks/relations/java/interface.yaml": [
+      "interface:java", 
+      "static", 
+      "483a0485f8fc110629f4cc10fffa9fc5fc6a7d8e9fec0816c6980603b3266c88"
+    ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "files/jfedS4/context_tengujfed_wall2.properties": [
+      "rest2jfed", 
+      "static", 
+      "6b7d4643f51c9eabdbb17b8560864196133ff4e56d5a1ba92b9b05c8d9acaca9"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "hooks/relations/http/__init__.py": [
+      "interface:http", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/java/provides.py": [
+      "interface:java", 
+      "static", 
+      "f6364ab4c1b22b5b581bd9c40e1985d82ac7a3c3c26c32b76d858cd6032daa6a"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
+    ], 
+    "wheelhouse/PyYAML-3.11.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+    ], 
+    "LICENSE": [
+      "rest2jfed", 
+      "static", 
+      "a8c11d90deb0bb3f2a0ffa562037406d5a9a2bcf801daa4b4ba34dcb2cba71e9"
+    ], 
+    "copyright": [
+      "layer:openjdk", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "hooks/relations/http/README.md": [
+      "interface:http", 
+      "static", 
+      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
+    ], 
+    "hooks/relations/java/copyright": [
+      "interface:java", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    "files/jfedS4/jfed_cli.source": [
+      "rest2jfed", 
+      "static", 
+      "c4dfd8bbb26fc361f5dcaaf82b8ba1c6ff8844867d0a3650cb674c71eb6e8c0a"
+    ], 
+    "files/rest2jfed/jfed_utils.py": [
+      "rest2jfed", 
+      "static", 
+      "6102ae67f7093df1d836330471a81e0b66e16c49717c951e7601148fd93e35ec"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "hooks/java-relation-broken": [
+      "interface:java", 
+      "dynamic", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "lib/charms/bootstrap.py": [
+      "layer:basic", 
+      "static", 
+      "d49942539ab5c88ff2ce1385d1f7cee8f14f6becc72ccaf9e38b4bcb683929ab"
+    ], 
+    "icon.svg": [
+      "rest2jfed", 
+      "static", 
+      "26cce82898bcdc327af36286ed8d6e0a22fc2cb37ea7c015e14a4d2d14494106"
+    ], 
+    "hooks/java-relation-departed": [
+      "interface:java", 
+      "dynamic", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "files/rest2jfed/rest2jfed.py": [
+      "rest2jfed", 
+      "static", 
+      "239e399532e94302ed47d0d7cc24db379a4737e2282fbdaf30b517280fb11a9d"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "reactive/apt.py": [
+      "layer:apt", 
+      "static", 
+      "d47770a6a44c723082a6a7a658679e15b73f0f2280d4662bc80c2935823dc20a"
+    ], 
+    "hooks/relations/http/interface.yaml": [
+      "interface:http", 
+      "static", 
+      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "tests/01-deploy.py": [
+      "layer:openjdk", 
+      "static", 
+      "950fb77a531ca5c954b416436f19b633446e4e6673346ede29ebbb207636d85d"
+    ], 
+    "tests/tests.yaml": [
+      "layer:openjdk", 
+      "static", 
+      "99f5125dcc0f877fca31e1f655573a476206a05cd61cfde2691385f2671d069f"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "files/rest2jfed/output.py": [
+      "rest2jfed", 
+      "static", 
+      "ba444718fb20f6d1fa179032f4b869874e333c06934065fe7b756b505ca58a9d"
+    ], 
+    "metadata.yaml": [
+      "rest2jfed", 
+      "dynamic", 
+      "260b6c4539d14d7e1f1a4181ffcf4affd351515820d3158f4787ff134ea1bbd9"
+    ], 
+    "hooks/java-relation-changed": [
+      "interface:java", 
+      "dynamic", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "hooks/rest2jfed-relation-departed": [
+      "interface:http", 
+      "dynamic", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "lib/charms/__init__.py": [
+      "layer:apt", 
+      "static", 
+      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
+    ], 
+    "hooks/rest2jfed-relation-joined": [
+      "interface:http", 
+      "dynamic", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "hooks/relations/java/__init__.py": [
+      "interface:java", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "README.md": [
+      "rest2jfed", 
+      "static", 
+      "3e96090081c0fb7b3858a22278b15e77976a278634645037d4def04c1d30588e"
+    ], 
+    "hooks/relations/http/provides.py": [
+      "interface:http", 
+      "static", 
+      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
+    ], 
+    "hooks/relations/http/requires.py": [
+      "interface:http", 
+      "static", 
+      "d915d35a35ae17b9891630027e2d0a6a82381c5be08e5b2af2d76d04ca425d32"
+    ], 
+    "templates/upstart.conf": [
+      "rest2jfed", 
+      "static", 
+      "668add11badab20596f41c0d1e1f0da51b0209ad2b17d8e2bb0346930a49ff3a"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+    ], 
+    "hooks/relations/java/README.md": [
+      "interface:java", 
+      "static", 
+      "d8bdd132abb116a52fcb1db548d3c75e2a5ec3cdd873742c89be212030bc566f"
+    ], 
+    "layer.yaml": [
+      "rest2jfed", 
+      "dynamic", 
+      "2d9089ff1aa8e0e66109ef2033d897c908f6f885a277d4cc0085e53cdbc5248c"
+    ], 
+    "config.yaml": [
+      "rest2jfed", 
+      "dynamic", 
+      "54754430aa21c40cb88be517888c0cfeae738c7a3a06c995f82560c90d6c3361"
+    ], 
+    "hooks/relations/java/requires.py": [
+      "interface:java", 
+      "static", 
+      "fa2eca6fb016bf3e5073ed88790179f1f82b0eb5daa20f7dbe4c759fca697d12"
+    ], 
+    "lib/charms/layer.py": [
+      "layer:basic", 
+      "static", 
+      "3accb93272464875583f9b661dc024b4adc67617354bc21d8a7f74284ae4deb4"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ], 
+    "lib/charms/apt.py": [
+      "layer:apt", 
+      "static", 
+      "99e23b5feb97c31a488e97a54044ad36d57490713aa37a8ce66bce4148f921e4"
+    ], 
+    "reactive/openjdk.sh": [
+      "layer:openjdk", 
+      "static", 
+      "4abc22e8cf2f58853358c4cf9c7f05e04fe7649f076b91aba93054e7cd9acf88"
+    ]
+  }
+}

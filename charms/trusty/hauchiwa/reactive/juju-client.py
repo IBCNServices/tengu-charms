@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # pylint: disable=C0111,C0103,c0325
 import os
-import sys
 from os.path import expanduser
+import sys
 import subprocess
+from subprocess import CalledProcessError, check_output, STDOUT
 import pwd
 import grp
-import yaml
 from base64 import b64decode, b64encode
-from subprocess import CalledProcessError, check_output, STDOUT
+
+import yaml
 
 from charmhelpers import fetch
 from charmhelpers.core import hookenv

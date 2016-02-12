@@ -39,6 +39,12 @@ class Config(dict):
                 config_file.write(yaml.dump(dict(self.iteritems())))
 
 
+    @property
+    def dir(self):
+        """ Returns the directory where the config is located"""
+        return os.path.dirname(self.config_path)
+
+
 def get_absolute_path(path):
     """ If path is absolute, give back path.
     If path is relative, give back absolute path from script_dir """

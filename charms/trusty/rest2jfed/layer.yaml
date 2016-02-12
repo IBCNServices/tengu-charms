@@ -1,0 +1,5 @@
+includes:
+- layer:apt
+- layer:openjdk
+- interface:http
+is: rest2jfed

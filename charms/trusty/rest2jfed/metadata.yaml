@@ -1,13 +1,14 @@
 name: rest2jfed
 summary: Installs the rest2jfed server
 maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
-description: |
-  <Multi-line description here>
+description: ""
 tags:
-  # Replace "misc" with one or more whitelisted tags from this list:
-  # https://jujucharms.com/docs/stable/authors-charm-metadata
-  - big_data
-subordinate: false
+- big_data
+requires:
+  java:
+    interface: java
+    scope: container
 provides:
   rest2jfed:
     interface: http
+subordinate: false

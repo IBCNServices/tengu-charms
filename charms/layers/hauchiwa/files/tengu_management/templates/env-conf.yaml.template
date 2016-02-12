@@ -1,7 +1,9 @@
 # Options that will be written to ~/.juju/environments.yaml before bootstrapping
 # You can include all the options that ~/.juju/environments.yaml supports here.
-juju_env_conf:
+juju-env-conf:
     type: 'manual'
     default-series: trusty
     authorized-keys-path: ~/.ssh/authorized_keys
     ssl-hostname-verification: False
+    bootstrap-user: jujuuser
+locked: True

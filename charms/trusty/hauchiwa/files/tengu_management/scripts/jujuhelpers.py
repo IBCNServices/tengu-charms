@@ -149,17 +149,6 @@ class JujuEnvironment(object):
                 raise Exception('error while adding machines')
 
 
-    def deploy_gui(self): # pylint: disable=R0201
-        """ Deploys juju-gui to node 0 """
-        try:
-            # TODO: We don't need to wait for this to finish
-            check_output(['juju', 'deploy', 'juju-gui', '--to', '0'],
-                         stderr=STDOUT)
-        except CalledProcessError as ex:
-            print ex.output
-            raise
-
-
     def deploy_lxc_networking(self):
         self.deploy("local:dhcp-server", "dhcp-server", to='0')
         self.deploy("local:lxc-networking", "lxc-networking", to='1')
@@ -335,12 +324,12 @@ class JujuEnvironment(object):
             for machine in range(2, len(machines)):
                 check_call(['juju', 'add-unit', 'lxc-networking', '--to', str(machine)])
         check_output(['juju', 'deploy', 'local:openvpn', '--to', '0'])
-        environment.deploy_gui()
         sys.stdout.write('waiting until lxc-networking charm is ready\n')
         while(not environment.get_status('lxc-networking') or not ('Ready' in environment.get_status('lxc-networking')['message'])):
             sleep(10)
             sys.stdout.write('.')
             sys.stdout.flush()
+        return environment
 
     @staticmethod
     def _create_env(name, bootstrap_host, juju_config):
@@ -351,7 +340,7 @@ class JujuEnvironment(object):
         # get original environments config
         with open("{}/.juju/environments.yaml".format(HOME), 'r') as config_file:
             config = yaml.load(config_file)
-        if config['environments'] == None:
+        if config['environments'] is None:
             config['environments'] = dict()
         # add new environment
         config['environments'][name] = juju_config

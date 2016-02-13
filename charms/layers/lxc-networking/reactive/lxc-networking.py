@@ -12,7 +12,7 @@ from charms.reactive import hook, set_state, remove_state
 
 BRIDGECONFIG = """# Managed by Juju lxc-networking <
 auto lxcbr0
-iface lxcbr0 inet dhcp
+iface lxcbr0 inet static
     bridge_ifaces {interface}
     bridge_ports {interface}
     address {address}

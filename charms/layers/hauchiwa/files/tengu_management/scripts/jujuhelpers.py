@@ -2,7 +2,7 @@
 #
 """ Handles communication to Juju """
 
-from subprocess import check_output, STDOUT, CalledProcessError, PIPE, Popen
+from subprocess import check_output, STDOUT, CalledProcessError, Popen
 from subprocess import check_call
 from time import sleep
 import json
@@ -18,47 +18,81 @@ USER = getpass.getuser()
 HOME = '/home/{}'.format(USER)
 
 
-class JujuEnvironment(object):
-    """ handles an existing Juju environment """
-    def __init__(self, _name):
-        if _name:
-            self.name = _name
-            self.switch_env(self.name)
-        else:
-            self.name = self.current_env()
+class Service(object):
+    def __init__(self, name, env):
+        self.env = env
+        self.name = name
 
+    @property
+    def exists(self):
+        return self.status is not None
 
-    def get_machine_id(self, fqdn):
-        """ gets machine id from machine fqdn """
-        import re
-        machine_regex = re.compile('^ +"([0-9]+)":$')
-        dns_regex = re.compile('^ +dns-name: +' + fqdn + '$')
-        #TODO: Use status property
-        cmd = Popen('juju status', shell=True, stdout=PIPE)
-        for line in cmd.stdout:
-            mid = machine_regex.match(line)
-            dns = dns_regex.match(line)
-            if mid != None:
-                current_machine = mid.group(1)
-            elif dns != None:
-                return current_machine
-        print "machine not found"
-
-
-    def get_ip(self, name):
-        """ gets ip from service name """
-        pass
-        #status = self.status
-
-    def get_status(self, name):
-        """ Return status of service """
-        info = self.status['services'].get(name)
+    @property
+    def status(self):
+        """ Return status of service can be either None or following dict:
+        {
+            'service-status': '...',
+            'message': '...',
+        }"""
+        info = self.env.status['services'].get(self.name)
         if not info:
             return info
         return {
             'service-status' : info['service-status']['current'],
             'message' : info['service-status'].get('message'),
         }
+
+    @property
+    def config(self):
+        """ Return dictionary with configuration of deployed service"""
+        output = self.env.do('get', self.name, format='yaml')
+        return yaml.load(output)
+
+    def wait_until(self, status):
+        """ Wait until service contains status in its message """
+        sys.stdout.write('waiting until {} service is {}\n'.format(self.name, status))
+        while(True):
+            if (self.status and self.status['message'] and (status in self.status['message'])):
+                break
+            sleep(5)
+            sys.stdout.write('.')
+            sys.stdout.flush()
+
+
+class JujuEnvironment(object):
+    """ handles an existing Juju environment """
+    def __init__(self, _name=None):
+        if _name:
+            self.name = _name
+            JujuEnvironment.switch_env(self.name)
+        else:
+            self.name = self.current_env()
+
+
+    def do(self, action, *args, **kwargs): #pylint: disable=c0103
+        args += ('-e', self.name)
+        return JujuEnvironment.juju_do(action, *args, **kwargs)
+
+
+    @staticmethod
+    def juju_do(action, *args, **kwargs):
+        command = ['juju', action]
+        # Add all the arguments to the command
+        command.extend(args)
+        # Ad all the keyword arguments to the command
+        for key, value in kwargs.iteritems():
+            command.extend(['--{}'.format(key), value])
+        # convert all elements in command to string
+        command = [str(i) for i in command]
+        try:
+            output = check_output(command, stderr=STDOUT)
+            return output
+        except CalledProcessError as ex:
+            if 'missing namespace, config not prepared' in ex.output:
+                print("Environment doesn't exist")
+            print(ex.output)
+            raise
+
 
     @property
     def machines(self):
@@ -75,45 +109,23 @@ class JujuEnvironment(object):
     @property
     def status(self):
         """ Return dictionary with output of juju status """
-        try:
-            output = check_output(["juju", "status", "--format=json"],
-                                  stderr=STDOUT)
-            return json.loads(output)
-        except CalledProcessError as ex:
-            if 'missing namespace, config not prepared' in ex.output:
-                print("Environment doesn't exist")
-                return None
-            print(ex.output)
-            raise
-
-
-    def config_of(self, servicename):
-        """ Return dictionary with output of juju get <servicename>"""
-        try:
-            output = check_output(["juju", "get", "--format=yaml", servicename],
-                                  stderr=STDOUT)
-            return yaml.load(output)
-        except CalledProcessError as ex:
-            if 'ERROR service "{}" not found'.format(servicename) in ex.output:
-                print("Service doesn't exist")
-                return None
-            print(ex.output)
-            raise
+        output = self.do('status', format='json')
+        return json.loads(output)
 
 
     def get_services(self, startstring, key, value):
         services = []
         status = self.status
-        for service in status['services'].keys():
-            if service.startswith(startstring):
-                config = self.config_of(service)
+        for service_name in status['services'].keys():
+            if service_name.startswith(startstring):
+                config = Service(service_name, self).config
                 if config['settings'][key]['value'] == value:
-                    services.append({service :  status['services'][service]})
+                    services.append({service_name:  status['services'][service_name]})
         return services
 
 
     @property
-    def juju_password(self):
+    def password(self):
         """ Gets the default password from the Juju environment"""
         file_path = '{}/.juju/environments/{}.jenv'.format(HOME, self.name)
         stream = open(file_path, "r")
@@ -149,70 +161,24 @@ class JujuEnvironment(object):
                 raise Exception('error while adding machines')
 
 
-    def deploy_lxc_networking(self):
-        self.deploy("local:dhcp-server", "dhcp-server", to='0')
-        self.deploy("local:lxc-networking", "lxc-networking", to='1')
-        for machine in self.machines:
-            if machine != '1' and machine != '0':
-                self.add_unit('lxc-networking', to=machine)
-
-
-    def deploy(self, charm, name, config_path=None, to=None): #pylint: disable=c0103
+    def deploy(self, charm, name, **options):
         """ Deploy <charm> as <name> with config in <config_path> """
-        c_action = ['juju', 'deploy']
-        c_charm = [charm, name]
-        c_config = []
-        c_to = []
-        if config_path:
-            c_config = ['--config', config_path]
-        if to:
-            c_to = ['--to', to]
-        command = c_action + c_charm + c_config + c_to
-        try:
-            check_output(command, stderr=STDOUT)
-        except CalledProcessError as ex:
-            print ex.output
-            raise
+        self.do('deploy', charm, name, **options)
+        return Service(name, self)
 
 
-    def add_unit(self, name, to=None): #pylint: disable=c0103
+    def add_unit(self, name, **options):
         """ Add unit to existing Charm"""
-        c_action = ['juju', 'add-unit', name]
-        c_to = []
-        if to:
-            c_to = ['--to', to]
-        command = c_action + c_to
-        try:
-            check_output(command, stderr=STDOUT)
-        except CalledProcessError as ex:
-            print ex.output
-            raise
+        self.do('add-unit', name, **options)
 
 
-    def deploy_bundle(self, bundle_path):
+    def deploy_bundle(self, bundle_path, **options):
         """ Deploy Juju bundle """
-        c_action = ['juju', 'deployer']
-        c_bundle = ['-c', bundle_path]
-        command = c_action + c_bundle
-        try:
-            check_output(command, stderr=STDOUT)
-        except CalledProcessError as ex:
-            print ex.output
-            raise
+        self.do('deployer', '-c', bundle_path, options)
 
 
-    def action_do(self, unit, action, **kwargs):
-        c_action = ['juju', 'action', 'do', str(unit), str(action)]
-        c_params = []
-        for key, value in kwargs.iteritems():
-            c_params.append("{}={}".format(key, value))
-        command = c_action + c_params
-        try:
-            print str(command)
-            return check_output(command, stderr=STDOUT)
-        except CalledProcessError as ex:
-            print ex.output
-            raise
+    def action_do(self, unit, action, **options):
+        self.do('action do', unit, action, **options)
 
 
     def destroy_service(self, name):
@@ -230,18 +196,7 @@ class JujuEnvironment(object):
 
     def add_relation(self, charm1, charm2):
         """ add relation between two charms """
-        c_action = ['juju', 'add-relation']
-        c_relations = [charm1, charm2]
-        command = c_action + c_relations
-        try:
-            check_output(command, stderr=STDOUT)
-        except CalledProcessError as ex:
-            print ex.output
-            raise
-
-
-    def charm_exists(self, name):
-        return name in self.status['services']
+        self.do('add-relation', charm1, charm2)
 
 
     def return_environment(self):
@@ -270,34 +225,21 @@ class JujuEnvironment(object):
 
     @staticmethod
     def switch_env(name):
-        """switch to environment with given name"""
-        try:
-            check_output(['juju', 'switch', str(name)], stderr=STDOUT)
-        except CalledProcessError as ex:
-            print ex.output
-            raise
+        """switch active juju environment to self"""
+        JujuEnvironment.juju_do('switch', name)
 
 
     @staticmethod
     def env_exists(name):
         """Checks if Juju env with given name exists."""
-        try:
-            envs = check_output(['juju', 'switch', '--list'],
-                                stderr=STDOUT).split()
-        except CalledProcessError as ex:
-            print ex.output
-            raise
+        envs = JujuEnvironment.juju_do('switch', '--list').split()
         return name in envs
 
 
     @staticmethod
     def current_env():
         """ Returns the current active Juju environment """
-        try:
-            return check_output(['juju', 'switch'], stderr=STDOUT).rstrip()
-        except CalledProcessError as ex:
-            print ex.output
-            raise
+        return JujuEnvironment.juju_do('switch').rstrip()
 
 
     @staticmethod
@@ -309,27 +251,20 @@ class JujuEnvironment(object):
         # is too fast for juju
         sleep(5)
         environment = JujuEnvironment(name)
-        sleep(5)
         environment.add_machines(machines)
-        check_output(['juju', 'deploy', 'local:dhcp-server', '--to', '0'])
-        #TODO: see if we really need to wait here.
-        sys.stdout.write('waiting until dhcp-server charm is ready\n')
-        while(not environment.get_status('dhcp-server') or not ('Ready' in environment.get_status('dhcp-server')['message'])):
-            sleep(10)
-            sys.stdout.write('.')
-            sys.stdout.flush()
-        if machines:
-            sys.stdout.write('\n')
-            check_call(['juju', 'deploy', 'local:lxc-networking', '--to', '1'])
-            for machine in range(2, len(machines)):
-                check_call(['juju', 'add-unit', 'lxc-networking', '--to', str(machine)])
-        check_output(['juju', 'deploy', 'local:openvpn', '--to', '0'])
-        sys.stdout.write('waiting until lxc-networking charm is ready\n')
-        while(not environment.get_status('lxc-networking') or not ('Ready' in environment.get_status('lxc-networking')['message'])):
-            sleep(10)
-            sys.stdout.write('.')
-            sys.stdout.flush()
+        environment.deploy('local:openvpn', 'openvpn', to='0')
         return environment
+
+
+    def deploy_lxc_networking(self):
+        lxc_networking = self.deploy("local:lxc-networking", "lxc-networking", to='0')
+        for machine in self.machines:
+            if machine != '0':
+                self.add_unit('lxc-networking', to=machine)
+        lxc_networking.wait_until('Ready')
+        dhcp_server = self.deploy("local:dhcp-server", "dhcp-server", to='0')
+        dhcp_server.wait_until('Ready')
+
 
     @staticmethod
     def _create_env(name, bootstrap_host, juju_config):

@@ -50,15 +50,15 @@
       "dynamic", 
       "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
     ], 
+    "reactive/lxc-networking.py": [
+      "lxc-networking", 
+      "static", 
+      "496e472b02bc9d85dd359ca3c8f07a31dcfcf1ef91de47ca5696961327d254d3"
+    ], 
     "hooks/update-status": [
       "layer:basic", 
       "static", 
       "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
-    ], 
-    "hooks/lxc-networking.py": [
-      "lxc-networking", 
-      "static", 
-      "496e472b02bc9d85dd359ca3c8f07a31dcfcf1ef91de47ca5696961327d254d3"
     ], 
     ".build.manifest": [
       "build", 

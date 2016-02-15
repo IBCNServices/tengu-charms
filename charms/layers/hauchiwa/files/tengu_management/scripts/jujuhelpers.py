@@ -252,6 +252,7 @@ class JujuEnvironment(object):
         sleep(5)
         environment = JujuEnvironment(name)
         environment.add_machines(machines)
+        environment.deploy_lxc_networking()
         environment.deploy('local:openvpn', 'openvpn', to='0')
         return environment
 

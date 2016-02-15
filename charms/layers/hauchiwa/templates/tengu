@@ -1,1 +1,1 @@
-/opt/tengu/scripts/tengu.py "$@"
+{{tengu_dir}}/scripts/tengu.py "$@"

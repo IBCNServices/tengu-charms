@@ -29,6 +29,7 @@ SSH_DIR = HOME + '/.ssh'
 
 
 @when('juju.repo.available')
+@when_not('tengu.repo.available')
 def downloadbigfiles():
     subprocess.check_call(['su', '-', USER, '-c', '{}/scripts/tengu.py downloadbigfiles'.format(TENGU_DIR)])
     set_state('tengu.repo.available')
@@ -87,7 +88,6 @@ def get_or_create_ssh_key(keysdir, user, group):
             auth_keyfile.write(pubkey + "\n")
         return pubkey
     chownr(keysdir, user, group)
-
 
 
 @when('tengu.installed')
@@ -159,13 +159,16 @@ def install_tengu():
         source='tengu',
         target='/usr/bin/tengu',
         perms=493,
-        context={}
+        context={'tengu_dir' : TENGU_DIR}
     )
     chownr(TENGU_DIR, USER, USER)
     templating.render(
         source='upstart.conf',
         target='/etc/init/h_api.conf',
-        context={}
+        context={
+            'tengu_dir': TENGU_DIR,
+            'user': USER
+        }
     )
 
     # get the name of this service from the unit name

@@ -28,6 +28,7 @@ def install():
     interface = None
     address = None
     netmask = None
+    found = False
     for interface in netifaces.interfaces():
         af_inet = netifaces.ifaddresses(interface).get(AF_INET)
         if af_inet and af_inet[0].get('addr'):

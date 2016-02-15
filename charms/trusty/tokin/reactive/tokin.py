@@ -15,6 +15,13 @@ from charms.reactive import hookenv
 from charms.reactive.decorators import when_file_changed
 
 
+@hook('upgrade-charm')
+def upgrade_charm():
+    """Upgrade Charm"""
+    hookenv.log('Updating Tokin')
+    install_tokin()
+
+
 @when('juju.installed')
 @when_not('tokin.installed')
 def install():
@@ -24,7 +31,6 @@ def install():
 
 
 def install_tokin():
-
     hookenv.status_set('maintenance', 'Installing tokin')
     packages = ['python-pip']
     fetch.apt_install(fetch.filter_installed_packages(packages))

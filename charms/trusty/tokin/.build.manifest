@@ -9,7 +9,7 @@
     "reactive/juju-client.py": [
       "juju-client", 
       "static", 
-      "ae9ec1e837e65cc7c3ffcefbb9282715a0b3797ae253832691307d6f68f35a6f"
+      "99d188a5c1c94d3ca8354e2518dc4a1bc937c2f45ed00c8ed084eac594bccd5c"
     ], 
     "files/tokin/tokin.py": [
       "tokin", 
@@ -49,7 +49,7 @@
     "hooks/upgrade-charm": [
       "layer:basic", 
       "static", 
-      "f49dcf07073e216526c6d82f1cf1b3fe96e858dc4b43b4833d4c4d91cda0aba0"
+      "8ec1eed8b7f0c0d4509f12dcc902761797eed96589e8310d6a01f8f9ced96b8d"
     ], 
     "files/tokin/templates/lambda-bundle.yaml": [
       "tokin", 
@@ -69,12 +69,17 @@
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -119,7 +124,7 @@
     "hooks/install": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "templates/environments.yaml": [
       "juju-client", 
@@ -134,32 +139,32 @@
     "hooks/leader-elected": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
-    ], 
-    "lib/charms/bootstrap.py": [
-      "layer:basic", 
-      "static", 
-      "d49942539ab5c88ff2ce1385d1f7cee8f14f6becc72ccaf9e38b4bcb683929ab"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "reactive/tokin.py": [
       "tokin", 
       "static", 
-      "1cb444de0b1bf1828f8dc03e28771ca0f649661d1781d25f60226e6dcc839405"
+      "23ac312d2e9477322b4d2ca33208685ebd19ac442a4f6bb7a7c20b6fa03cfcef"
     ], 
     "config.yaml": [
       "juju-client", 
       "dynamic", 
       "cde9e904c05e042925accd6754646267bad3f45f699397833a01f0a9121cfd1c"
     ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
     "hooks/stop": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
-    "hooks/hook.template": [
+    "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "72619e7c7bf2f61c42df8f174e53bdb490ee29c2bef025513818e459612dcb97"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
@@ -174,7 +179,7 @@
     "hooks/update-status": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "templates/juju.sh": [
       "juju-client", 
@@ -186,25 +191,25 @@
       "static", 
       "4794d8254322d35ef2e24c2155763172904e7305c85e3963717c89622fba0817"
     ], 
-    "templates/upstart.conf": [
+    "files/tokin/bundletools/bundlecreator.py": [
       "tokin", 
       "static", 
-      "589789df6346d3f496e440750a2e3117a051e441db8bb20b2aec85131e68badc"
+      "f7e67bf97ca341bb71c72768027e34e8d0b14bbb3dda271ea16cf7ab1a175cda"
     ], 
     "icon.svg": [
       "tokin", 
       "static", 
       "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
     ], 
-    "files/tokin/bundletools/bundlecreator.py": [
+    "templates/upstart.conf": [
       "tokin", 
       "static", 
-      "f7e67bf97ca341bb71c72768027e34e8d0b14bbb3dda271ea16cf7ab1a175cda"
+      "589789df6346d3f496e440750a2e3117a051e441db8bb20b2aec85131e68badc"
     ], 
     "hooks/start": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 
@@ -219,12 +224,7 @@
     "hooks/config-changed": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
-    ], 
-    "lib/charms/layer.py": [
-      "layer:basic", 
-      "static", 
-      "3accb93272464875583f9b661dc024b4adc67617354bc21d8a7f74284ae4deb4"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "files/tokin/bcolors.py": [
       "tokin", 

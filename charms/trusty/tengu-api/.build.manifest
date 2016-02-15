@@ -8,17 +8,17 @@
     "hooks/stop": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "wheelhouse/charms.reactive-0.3.8.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "3f8722d85f7d489f8414d11fc2a3e8793c68000f7a1bc7b1ad71120e037aebee"
     ], 
-    "hooks/hook.template": [
+    "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "72619e7c7bf2f61c42df8f174e53bdb490ee29c2bef025513818e459612dcb97"
     ], 
     "wheelhouse/pyaml-15.8.2.tar.gz": [
       "layer:basic", 
@@ -28,7 +28,7 @@
     "hooks/start": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "wheelhouse/pip-7.1.2.tar.gz": [
       "layer:basic", 
@@ -53,7 +53,7 @@
     "hooks/update-status": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -63,12 +63,12 @@
     "hooks/upgrade-charm": [
       "layer:basic", 
       "static", 
-      "f49dcf07073e216526c6d82f1cf1b3fe96e858dc4b43b4833d4c4d91cda0aba0"
+      "8ec1eed8b7f0c0d4509f12dcc902761797eed96589e8310d6a01f8f9ced96b8d"
     ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "layer:basic", 
@@ -79,6 +79,11 @@
       "tengu-api", 
       "static", 
       "29ff57f194c642c2462cb2bc2087df7afe44c42472f1bbab6cea48e61cb438d1"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -103,7 +108,7 @@
     "reactive/tengu-api.py": [
       "tengu-api", 
       "static", 
-      "25d328c47f3bf754752a2f4bec7ecc7345bcf728af851262febebb55d27dc20e"
+      "74fe130ddc260629fa9917ffd164ecdbe18ddca24e3d7a1953c5eac1c7c1ddbc"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -128,7 +133,7 @@
     "hooks/install": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "wheelhouse/MarkupSafe-0.23.tar.gz": [
       "layer:basic", 
@@ -140,25 +145,20 @@
       "dynamic", 
       "1aea8785a671184b09cca94bd12ab2bb372e578223df17d9fcc7d43976dcba36"
     ], 
-    ".build.manifest": [
-      "build", 
-      "dynamic", 
-      "unchecked"
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
     "hooks/leader-elected": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
     ], 
-    "lib/charms/bootstrap.py": [
-      "layer:basic", 
-      "static", 
-      "d49942539ab5c88ff2ce1385d1f7cee8f14f6becc72ccaf9e38b4bcb683929ab"
-    ], 
-    "lib/charms/layer.py": [
-      "layer:basic", 
-      "static", 
-      "3accb93272464875583f9b661dc024b4adc67617354bc21d8a7f74284ae4deb4"
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
     ], 
     "icon.svg": [
       "tengu-api", 
@@ -175,10 +175,10 @@
       "dynamic", 
       "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
     ], 
-    "hooks/config-changed": [
+    "lib/charms/layer/__init__.py": [
       "layer:basic", 
       "static", 
-      "1b506bdd15fb3f5028618c22ef2ca5048cd17ce39456dbaad8993ec8c1431f9f"
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
     ]
   }
 }

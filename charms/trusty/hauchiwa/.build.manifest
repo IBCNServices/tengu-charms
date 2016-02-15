@@ -46,7 +46,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "4f1d03cfd82e9644ed33e3049e69cd65d0bbff5954b9fa0a2a9a46101f2b6108"
+      "ce348bd5a0f4ec84f2fa4696ae6fc155e2c9aaff657531e8563749f575819337"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -116,7 +116,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "d37948c232c2f19cbeb65286512b79386ac277b2a0500ae2f9d0c54321e8351a"
+      "d69a49828f14a7a85b2d763f8a7f5ec693bf83c2929f173953679a61c94f3721"
     ], 
     "icon.svg": [
       "hauchiwa", 
@@ -181,7 +181,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "26cef4600ab65244f864b644302a4f4e3813429a141301f6e7018f63f947da04"
+      "203132382a65cced55174c40ca08eaf66bd0c2b2aab70d992278691ce3e16479"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -206,7 +206,7 @@
     "templates/tengu": [
       "hauchiwa", 
       "static", 
-      "bd7aba11eaef2c9542405312b916a4ea0d9ebfe76495bdbed85e8acbf6a3ff40"
+      "516aa707d57cc9b2ee6c6676bb0329c9180b25a8ba3630effedc124d3d35a8bc"
     ], 
     "hooks/relations/opened-ports/__init__.py": [
       "interface:opened-ports", 
@@ -346,7 +346,7 @@
     "templates/upstart.conf": [
       "hauchiwa", 
       "static", 
-      "771e43b99994e3b29b696df73c2e9892536b667e3a0804e35dbb91da185f3a5f"
+      "07a83b03bf60e4808d98d35d1db3b0433c3c11d57aa25aec6eae83f4110fb42f"
     ], 
     "hooks/start": [
       "layer:basic", 

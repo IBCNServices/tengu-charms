@@ -413,8 +413,8 @@ def c_userinfo():
     name='downloadbigfiles',
     context_settings=CONTEXT_SETTINGS)
 def c_downloadbigfiles():
-    """ Download bigfiles in /opt/tengu-charms repository """
-    downloadbigfiles('/opt/tengu-charms')
+    """ Download bigfiles in $JUJU_REPOSITORY """
+    downloadbigfiles(os.environ['JUJU_REPOSITORY'])
 
 # @click.command(
 #     name='c_renew_if_closer_than'

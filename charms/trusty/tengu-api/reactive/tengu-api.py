@@ -11,11 +11,41 @@ import grp
 
 from charmhelpers.core import templating, host
 from charmhelpers.core.hookenv import open_port
-from charms.reactive import hook
+from charms.reactive import set_state
+from charms.reactive.decorators import when_file_changed
+from charms.reactive import when, when_not, hook
 
 
-@hook('install')
+
+@hook('upgrade-charm')
+def upgrade():
+    install()
+
+
+@when_not('tengu-api.installed')
 def install():
+    install_tengu_api()
+    set_state('tengu-api.installed')
+
+
+@when('tengu-api.installed')
+@when_not('tengu-api.started')
+def start():
+    host.service_start('tengu-api')
+    set_state('tengu-api.started')
+
+
+# Service will restart even if files change outside of Juju.
+# `update-status` hook will run periodically checking the hash of those files.
+@when_file_changed(
+    '/etc/init/tengu-api.conf',
+    '/opt/tengu-api/tengu_api.py')
+@when('tengu-api.started')
+def restart():
+    host.service_restart('tengu-api')
+
+
+def install_tengu_api():
     subprocess.check_call(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click'])
     mergecopytree('files/tengu-api', '/opt/tengu-api', symlinks=True)
     templating.render(
@@ -23,7 +53,6 @@ def install():
         target='/etc/init/tengu-api.conf',
         context={}
     )
-    host.service_restart('tengu-api')
     open_port(5000)
 
 

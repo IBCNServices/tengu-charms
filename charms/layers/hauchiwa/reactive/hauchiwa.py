@@ -205,7 +205,7 @@ def get_or_create_ssh_key(keysdir, user, group):
     ssh_priv_keypath = expanduser("{}/id_rsa".format(keysdir))
     authorized_keys = expanduser("{}/authorized_keys".format(keysdir))
     if not os.path.isfile(ssh_pub_keypath):
-        subprocess.check_call(['ssh-keygen', '-t', 'rsa', '-N', '""', '-f', ssh_priv_keypath])
+        subprocess.check_call(['ssh-keygen', '-t', 'rsa', '-N', '', '-f', ssh_priv_keypath])
         with open(ssh_pub_keypath, 'r') as pubkeyfile:
             pubkey = pubkeyfile.read().rstrip()
         with open(authorized_keys, 'a') as auth_keyfile:

@@ -74,6 +74,7 @@ def edit_rule(rule, action):
         command += ['-m', 'comment', '--comment', rule['comment']]
     if rule['target'] == 'DNAT':
         command += ['--to-destination', '{}'.format(rule['to'])]
+    command = [str(i) for i in command]
     print('DEBUG: COMMAND="""{}"""'.format('" "'.join(command)))
     output = subprocess.check_output(command, universal_newlines=True)
     print('DEBUG: OUTPUT="""{}"""'.format('" "'.join(output)))
@@ -116,7 +117,7 @@ def update_port_forwards(config):
                 delete_rule(rule)
 
 def prop_equals(prop1, prop2):
-    if prop1 == prop2:
+    if str(prop1) == str(prop2):
         return True
     elif prop1 is None and prop2 in ['*', '0.0.0.0/0', '--']:
         return True

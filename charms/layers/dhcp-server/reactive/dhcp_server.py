@@ -7,8 +7,8 @@ import json
 from charmhelpers.core import hookenv, templating, host
 from charmhelpers.core.hookenv import config
 from charmhelpers import fetch
-from charms.reactive import hook, when
-from charms.reactive.helpers import data_changed
+from charms.reactive import hook, when, when_not, when_all, set_state
+#from charms.reactive.helpers import data_changed
 
 # modules from Pip dependencies
 from netifaces import AF_INET
@@ -19,11 +19,24 @@ import netaddr
 from iptables import update_port_forwards
 
 
-@when('opened-ports.available')
+@when_all('opened-ports.available', 'dhcp-server.installed')
 def configure_port_forwards(relation):
-    services = relation.opened_ports()
-    if not data_changed('opened-ports.services', services):
-        return
+    services = relation.opened_ports
+#    if data_changed('opened-ports.services', services):
+    cfg = json.loads(config()["port-forwards"])
+    services.extend(cfg)
+    update_port_forwards(services)
+
+
+
+
+@when_not('opened-ports.available')
+@when('dhcp-server.installed')
+def configure_forwarders():
+    cfg = json.loads(config()["port-forwards"])
+    update_port_forwards(cfg)
+
+
     # for service in services:
     #     for host in service['hosts']:
     #         pass
@@ -81,6 +94,7 @@ def install():
         subprocess.check_output(['iptables', '--table', 'nat', '--append', 'POSTROUTING', '--out-interface', pub_if, '-j', 'MASQUERADE'])
     subprocess.check_output(['iptables', '--append', 'FORWARD', '--in-interface', private_if, '-j', 'ACCEPT'])
     hookenv.status_set('active', 'Ready')
+    set_state('dhcp-server.installed')
 
 
 def get_dns():
@@ -116,9 +130,3 @@ def get_gateway_if():
     for route in routes:
         if route['destination'] == '0.0.0.0':
             return route['iface']
-
-
-@hook('config-changed')
-def configure_forwarders():
-    cfg = json.loads(config()["port-forwards"])
-    update_port_forwards(cfg)

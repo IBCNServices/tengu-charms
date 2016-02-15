@@ -11,5 +11,5 @@ machines:
 services:
   juju-gui:
     charm: cs:trusty/juju-gui
-    to: 0
+    to: lxc:0
 series: trusty

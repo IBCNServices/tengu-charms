@@ -41,7 +41,7 @@
     "hooks/relations/opened-ports/requires.py": [
       "interface:opened-ports", 
       "static", 
-      "4d0ff7be8768f044ce67a88bb09c14021354c12b13dd7e180cae77f50dae715d"
+      "fdbbdaead3ff41ea9182a4807f23215492417620043f7b5be88e68dbdee68dc4"
     ], 
     "reactive/hauchiwa.py": [
       "hauchiwa", 
@@ -226,7 +226,7 @@
     "files/tengu_management/templates/bundle.yaml": [
       "hauchiwa", 
       "static", 
-      "dba3724d043379c439f1e699ff9ca0730ade10aa82b03bf128ac4f487a82647f"
+      "11b2f57ac5d5c2e6963803872d07aad1b57cc745053e7a4c2045891266ee6851"
     ], 
     "config.yaml": [
       "hauchiwa", 
@@ -331,7 +331,7 @@
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 
       "static", 
-      "9b42f345067ad1048f223796d1ad685d8d891adfa3ea7c08d9e4e6326f940fd7"
+      "413fc32528657f170204a02f87e46a13ee2e00ce1fd7a7c2e84c466d253afd57"
     ], 
     "README.md": [
       "hauchiwa", 

@@ -9,7 +9,7 @@ import tempfile
 import pwd
 import grp
 import subprocess
-from Crypto.PublicKey import RSA
+
 
 # Charm pip dependencies
 from charmhelpers import fetch
@@ -18,6 +18,7 @@ from charms.reactive import hook, when, when_not, set_state, remove_state
 
 # non-standard pip dependencies
 import yaml
+
 
 TENGU_DIR = '/opt/tengu'
 GLOBAL_CONF_PATH = TENGU_DIR + '/etc/global-conf.yaml'
@@ -66,28 +67,6 @@ def config_changed():
         config_file.write(yaml.dump(content, default_flow_style=False))
     set_state('tengu.configured')
     chownr(os.path.dirname(GLOBAL_CONF_PATH), USER, USER)
-
-
-def get_or_create_ssh_key(keysdir, user, group):
-    """ Gets ssh public key. Creates one if it doesn't exist yet. """
-    ssh_pub_keypath = expanduser("{}/id_rsa.pub".format(keysdir))
-    ssh_priv_keypath = expanduser("{}/id_rsa".format(keysdir))
-    authorized_keys = expanduser("{}/authorized_keys".format(keysdir))
-    if os.path.isfile(ssh_pub_keypath):
-        with open(ssh_pub_keypath, 'r') as pubkeyfile:
-            return pubkeyfile.read().rstrip()
-    else:
-        key = RSA.generate(2048)
-        with open(ssh_priv_keypath, 'w+') as privkeyfile:
-            privkeyfile.write(key.exportKey())
-        os.chmod(ssh_priv_keypath, 0o600)
-        with open(ssh_pub_keypath, 'w+') as pubkeyfile:
-            pubkey = key.publickey().exportKey('OpenSSH')
-            pubkeyfile.write(pubkey + "\n")
-        with open(authorized_keys, 'a') as auth_keyfile:
-            auth_keyfile.write(pubkey + "\n")
-        return pubkey
-    chownr(keysdir, user, group)
 
 
 @when('tengu.installed')
@@ -218,3 +197,19 @@ def chownr(path, owner, group, follow_links=True):
             broken_symlink = os.path.lexists(full) and not os.path.exists(full)
             if not broken_symlink:
                 chown(full, uid, gid)
+
+
+def get_or_create_ssh_key(keysdir, user, group):
+    """ Gets ssh public key. Creates one if it doesn't exist yet. """
+    ssh_pub_keypath = expanduser("{}/id_rsa.pub".format(keysdir))
+    ssh_priv_keypath = expanduser("{}/id_rsa".format(keysdir))
+    authorized_keys = expanduser("{}/authorized_keys".format(keysdir))
+    if not os.path.isfile(ssh_pub_keypath):
+        subprocess.check_call(['ssh-keygen', '-t', 'rsa', '-N', '""', '-f', ssh_priv_keypath])
+        with open(ssh_pub_keypath, 'r') as pubkeyfile:
+            pubkey = pubkeyfile.read().rstrip()
+        with open(authorized_keys, 'a') as auth_keyfile:
+            auth_keyfile.write(pubkey + "\n")
+        chownr(keysdir, user, group)
+    with open(ssh_pub_keypath, 'r') as pubkeyfile:
+        return pubkeyfile.read().rstrip()

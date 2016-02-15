@@ -2,12 +2,12 @@
 # to explain the different config options.
 
 # Location of emulab certificate used to connect to fed4fire testbed
-key-path: {{key-path}}
+key-path: {{key_path}}
 # Password to decrypt emulab certificate. Leave empty if none.
 password: changeme
 
 # Location of emulab speaks-for certificate used to connect to fed4fire testbed
-s4-cert-path: {{s4-cert-path}}
+s4-cert-path: {{s4_cert_path}}
 # hostname of rest2jfed server
 rest2jfed-hostname: rest2jfed.test
 # port of rest2jfed server
@@ -15,7 +15,3 @@ rest2jfed-port: 5000
 
 # Default project to create experiments in
 project-name: emulabproject
-
-# Path where the default .rspec is. Either give a relative path starting from
-# the scripts directory or give an absolute path.
-default-rspec-path: ../templates/juju-tengu.rspec

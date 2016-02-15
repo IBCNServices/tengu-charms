@@ -66,19 +66,15 @@ class JfedSlice(object):
 
     def create(self):
         print('Creating jfed slice and slivers, this might take a while...')
-        try:
-            jfed = self.init_jfed()
-            jfed.create(self.rspec_path, self.manifest_path)
-        except Exception:
-            raise Exception('Creation of JFed experiment failed')
+        jfed = self.init_jfed()
+        jfed.create(self.rspec_path, self.manifest_path)
+
 
     def renew(self, hours):
         print('Renewing jfed slice and slivers...')
-        try:
-            jfed.renew(hours)
-            print('renewed slice and slivers succesfully')
-        except Exception:
-            raise Exception('Renewing Slice failed')
+        jfed = self.init_jfed()
+        jfed.renew(hours)
+        print('renewed slice and slivers succesfully')
 
 
     def destroy(self):

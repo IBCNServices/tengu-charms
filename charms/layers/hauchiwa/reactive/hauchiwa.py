@@ -14,6 +14,7 @@ import subprocess
 # Charm pip dependencies
 from charmhelpers import fetch
 from charmhelpers.core import templating, hookenv, host
+from charmhelpers.core.hookenv import open_port
 from charms.reactive import hook, when, when_not, set_state, remove_state
 
 # non-standard pip dependencies
@@ -27,6 +28,11 @@ S4_CERT_PATH = TENGU_DIR + '/etc/s4_cert.pem.xml'
 USER = 'ubuntu'
 HOME = '/home/{}'.format(USER)
 SSH_DIR = HOME + '/.ssh'
+
+
+@when('hauchiwa.available')
+def configure_port_forward(port_forward):
+    port_forward.configure()
 
 
 @when('juju.repo.available')
@@ -49,6 +55,7 @@ def install():
     hookenv.log('Installing tengu-instance-admin')
     install_tengu()
     set_state('tengu.installed')
+    open_port('22')
 
 
 @hook('config-changed')
@@ -158,6 +165,7 @@ def install_tengu():
     with open('/etc/hosts', 'a') as hosts_file:
         hosts_file.write('127.0.0.1 {}\n'.format(service_name))
     host.service_restart('h_api')
+    open_port('5000')
 
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):

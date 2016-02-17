@@ -30,7 +30,9 @@ Tengu uses Juju at its core. Juju is used to
 
 ## Bigfiles
 
-This repository doesn't contain big files like binaries and tarballs. Those need to be downloaded seperately. Each big file hase a corresponding source file named `<bigfileLocation>/<bigfileName>.source`. This file can have two formats:
+This git repository doesn't contain big files like binaries and tarballs. You have to download these binaries before you can deploy Charms from this repository. The `tengu downloadbigfiles` tool downloads the binaries and puts them in the correct folder. This tool is installed by default on a Hauchiwa and is run once during installation.
+
+If you add a `<filename>.source` file in a folder, `tengu downloadbigfiles` will download the source to that folder as `<filename>`. The `<filename>.source` file either specifies a url or a download command. The `<filename>.source` file can optionally specify that the downloaded file should be extracted. This is the format:
 
     <url>         # url to download resource from
     [<action>]    # action to execute after download. Currently only 'extract' is supported
@@ -40,7 +42,7 @@ or
     command: <download command>     # command to execute in order to download resource
     [<action>]                      # action to execute after download. Currently only 'extract' is supported
 
-The second format can be used when you need to add custom cookies and headers to the download request. This is for example needed when downloading oracle java.
+The second format can be used when you need to add custom cookies and headers to the download request. This is for example needed when downloading oracle java [as used in the rest2jfed charm](https://github.com/galgalesh/tengu-charms/blob/390256d7eafa86a7b50bb46c4c6b5f22ff4739cc/charms/trusty/rest2jfed/files/server-jre-8u45-linux-x64.tar.gz.source).
 
 
 ## Layers

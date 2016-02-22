@@ -94,6 +94,31 @@ class JujuEnvironment(object):
             raise
 
 
+    def docall(self, action, *args, **kwargs): #pylint: disable=c0103
+        args += ('-e', self.name)
+        return JujuEnvironment.juju_docall(action, *args, **kwargs)
+
+
+    @staticmethod
+    def juju_docall(action, *args, **kwargs):
+        command = ['juju', action]
+        # Add all the arguments to the command
+        command.extend(args)
+        # Ad all the keyword arguments to the command
+        for key, value in kwargs.iteritems():
+            command.extend(['--{}'.format(key), value])
+        # convert all elements in command to string
+        command = [str(i) for i in command]
+        try:
+            output = check_output(command, stderr=STDOUT)
+            return output
+        except CalledProcessError as ex:
+            if 'missing namespace, config not prepared' in ex.output:
+                print("Environment doesn't exist")
+            print(ex.output)
+            raise
+
+
     @property
     def machines(self):
         """ Return machines"""
@@ -174,7 +199,7 @@ class JujuEnvironment(object):
 
     def deploy_bundle(self, bundle_path, **options):
         """ Deploy Juju bundle """
-        self.do('deployer', '-c', bundle_path, **options)
+        self.docall('deployer', '-c', bundle_path, **options)
 
 
     def action_do(self, unit, action, **options):

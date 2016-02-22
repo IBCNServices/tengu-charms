@@ -1,7 +1,7 @@
 name: wetty
-summary: 'Installs the snappass server. see: https://github.com/pinterest/snappass'
+summary: 'Installs wetty server'
 maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
-description: 'Installs the snappass server. see: https://github.com/pinterest/snappass'
+description: 'Installs wetty server'
 tags:
   - identity
   - security

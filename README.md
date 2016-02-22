@@ -30,7 +30,7 @@ Tengu uses Juju at its core. Juju is used to
 
 ## Bigfiles
 
-This git repository doesn't contain big files like binaries and tarballs. You have to download these binaries before you can deploy Charms from this repository. The `tengu downloadbigfiles` tool downloads the binaries and puts them in the correct folder. This tool is installed by default on a Hauchiwa and is run once during installation.
+This git repository doesn't contain big files like binaries and tarballs. You have to download these binaries before you can deploy Charms from this repository. The `tengu downloadbigfiles` tool downloads the binaries and puts them in the correct folder. **This tool is installed by default on a Hauchiwa and is run once during installation.**
 
 If you add a `<filename>.source` file in a folder, `tengu downloadbigfiles` will download the source to that folder as `<filename>`. The `<filename>.source` file either specifies a url or a download command. The `<filename>.source` file can optionally specify that the downloaded file should be extracted. This is the format:
 

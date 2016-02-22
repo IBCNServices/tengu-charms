@@ -174,7 +174,7 @@ class JujuEnvironment(object):
 
     def deploy_bundle(self, bundle_path, **options):
         """ Deploy Juju bundle """
-        self.do('deployer', '-c', bundle_path, options)
+        self.do('deployer', '-c', bundle_path, **options)
 
 
     def action_do(self, unit, action, **options):

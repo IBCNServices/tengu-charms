@@ -116,7 +116,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "d69a49828f14a7a85b2d763f8a7f5ec693bf83c2929f173953679a61c94f3721"
+      "e8826983af1305f3702697656ce4e28f71696dd5a554e49349c8233b9b632400"
     ], 
     "icon.svg": [
       "hauchiwa", 
@@ -181,7 +181,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "203132382a65cced55174c40ca08eaf66bd0c2b2aab70d992278691ce3e16479"
+      "2c0f0240169feb327e325ad642378378069372939e8fbb77f1acefcce489f99f"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -316,7 +316,7 @@
     "templates/juju.sh": [
       "juju-client", 
       "static", 
-      "f0ea54073f77f56a6875026ac06ea24b70a5dfa5c514dd3a748b570fabd1c5f1"
+      "5a584e40d8181b891f8b5662810355c6999b64705257eb4115800c2aef095c2a"
     ], 
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 

@@ -253,6 +253,23 @@ def c_create(bundle, name, create_machines):
     juju_env = create_juju(env_conf, provider_env)
     juju_env.deploy_bundle(bundle)
 
+
+@click.command(
+    name='deploy',
+    context_settings=CONTEXT_SETTINGS)
+@click.option(
+    '--bundle',
+    type=click.Path(exists=True, readable=True),
+    default='/opt/tengu/templates/bundle.yaml',
+    help='path to bundle that contains machines to create and services to deploy')
+@click.argument('name')
+def c_deploy(bundle, name):
+    """Create a Tengu with given name. Skips slice creation if it already exists.
+    NAME: name of Tengu """
+    juju_env = JujuEnvironment(name)
+    juju_env.deploy_bundle(bundle)
+
+
 @click.command(
     name='destroy',
     context_settings=CONTEXT_SETTINGS)
@@ -471,6 +488,7 @@ def c_downloadbigfiles():
 
 
 g_cli.add_command(c_create)
+g_cli.add_command(c_deploy)
 g_cli.add_command(c_destroy)
 g_cli.add_command(c_lock)
 g_cli.add_command(c_unlock)

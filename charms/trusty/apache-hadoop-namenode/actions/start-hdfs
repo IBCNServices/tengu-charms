@@ -1,0 +1,4 @@
+#!/bin/bash
+. /etc/environment
+cd ${HADOOP_HOME}/sbin
+su hdfs -c "./start-dfs.sh"

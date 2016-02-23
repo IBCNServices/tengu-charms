@@ -1,5 +1,38 @@
 includes:
-- layer:bigdata
-- interface:hadoop-plugin
-- interface:spark-plugin
+- layer:hadoop-client
+- interface:spark
+- interface:benchmark
+options:
+  hadoop-client:
+    packages:
+    - ipython
+    - libgfortran3
+    - scala
+    dirs:
+      spark:
+        path: /usr/lib/spark
+      spark_conf:
+        path: /etc/spark/conf
+      spark_logs:
+        path: /var/log/spark
+        owner: ubuntu
+        group: hadoop
+      spark_work:
+        path: /var/lib/spark/work
+        owner: ubuntu
+        group: hadoop
+    ports:
+      spark-history:
+        port: 18080
+        exposed_on: spark
+      spark-webui:
+        port: 8080
+        exposed_on: spark
+    groups: []
+    users: {}
+  apache-spark: {}
+  basic:
+    use_venv: false
+    packages: []
+    include_system_packages: false
 is: apache-spark

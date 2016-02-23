@@ -1,0 +1,52 @@
+#!/bin/bash
+set -ex
+BASE_DIR=`action-get basedir`/`hostname -s`
+OPTIONS=''
+
+MAPS=`action-get maps`
+REDUCES=`action-get reduces`
+BLOCKSIZE=`action-get blocksize`
+BYTES=`action-get bytes`
+NUMFILES=`action-get numfiles`
+REPFACTOR=`action-get repfactor`
+
+OPTIONS="${OPTIONS} -maps ${MAPS}"
+OPTIONS="${OPTIONS} -reduces ${REDUCES}"
+OPTIONS="${OPTIONS} -blockSize ${BLOCKSIZE}"
+OPTIONS="${OPTIONS} -bytesToWrite ${BYTES}"
+OPTIONS="${OPTIONS} -numberOfFiles ${NUMFILES}"
+OPTIONS="${OPTIONS} -replicationFactorPerFile ${REPFACTOR}"
+OPTIONS="${OPTIONS} -baseDir ${BASE_DIR}"
+
+# create dir to store results
+RUN=`date +%s`
+RESULT_DIR=/opt/nnbench-results
+RESULT_LOG=${RESULT_DIR}/${RUN}.log
+mkdir -p ${RESULT_DIR}
+chown -R ubuntu:ubuntu ${RESULT_DIR}
+
+# clean out any previous data (must be run as ubuntu)
+su ubuntu << EOF
+if hadoop fs -stat ${BASE_DIR} &> /dev/null; then
+    hadoop fs -rm -r -skipTrash ${BASE_DIR} || true
+fi
+EOF
+
+benchmark-start
+START=`date +%s`
+# NB: Escaped vars in the block below (e.g., \${HADOOP_HOME}) come from
+# /etc/environment while non-escaped vars (e.g., ${IN_DIR}) are parameterized
+# from this outer scope
+su ubuntu << EOF
+. /etc/environment
+echo 'running benchmark'
+cd /tmp/ 
+hadoop jar \${HADOOP_HOME}/share/hadoop/mapreduce/hadoop-*test*.jar nnbench -operation create_write -readFileAfterOpen true $OPTIONS &> ${RESULT_LOG} 
+EOF
+STOP=`date +%s`
+benchmark-finish
+
+`cat ${RESULT_LOG} | $CHARM_DIR/actions/parseNNBench.py`
+
+DURATION=`expr $STOP - $START`
+benchmark-composite "${DURATION}" 'secs' 'asc'

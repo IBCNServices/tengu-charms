@@ -7,11 +7,9 @@ description: |
   Learn more at http://spark.apache.org.
 tags: [bigdata, hadoop, apache]
 provides:
-  spark:
-    interface: spark
   hadoop:
     interface: hadoop-plugin
-    scope: container
-  spark-plugin:
-    interface: spark-plugin
-    scope: container
+  benchmark:
+    interface: benchmark
+  client:
+    interface: spark

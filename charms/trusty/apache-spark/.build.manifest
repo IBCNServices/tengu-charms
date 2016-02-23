@@ -1,47 +1,293 @@
 {
   "layers": [
     "layer:basic", 
-    "layer:bigdata", 
+    "layer:hadoop-client", 
     "apache-spark", 
     "interface:hadoop-plugin", 
-    "interface:spark-plugin", 
+    "interface:spark", 
+    "interface:benchmark", 
     "build"
   ], 
   "signatures": {
-    "wheelhouse/charmhelpers-0.5.2-py2-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "7ac31ba6db34665a76ffcaeb62200c0af270712a71a30bb2bb67a7f6c606eff3"
+    "hooks/relations/hadoop-plugin/interface.yaml": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "328c379dc80f10a5f2f5e8c5d5c586f2d4409b95be81e3d5b68a91d5095b6281"
     ], 
     "actions/stop-spark-job-history-server": [
       "apache-spark", 
       "static", 
       "4b3d1193b0d276485c3970b24a0f7c0bbe0ba56db7b5fc9e9fe677e1a5d6a1fe"
     ], 
-    "hooks/relations/hadoop-plugin/interface.yaml": [
-      "interface:hadoop-plugin", 
-      "static", 
-      "328c379dc80f10a5f2f5e8c5d5c586f2d4409b95be81e3d5b68a91d5095b6281"
-    ], 
-    "Makefile": [
+    "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "LICENSE": [
+      "layer:hadoop-client", 
+      "static", 
+      "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    ], 
+    "hooks/client-relation-broken": [
+      "interface:spark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "hooks/relations/spark-plugin/LICENSE": [
-      "interface:spark-plugin", 
+    "hooks/relations/hadoop-plugin/README.md": [
+      "interface:hadoop-plugin", 
       "static", 
-      "016dafe80b49ecf1b154f59677fc61870dba7c3d711d554e4a20b7c1c5d3334c"
+      "6c487353f0a4e43dceea6d2893325c245ff572256f3ac3a09f3ad08648f19c54"
     ], 
     "hooks/relations/hadoop-plugin/copyright": [
       "interface:hadoop-plugin", 
       "static", 
       "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "actions/svm": [
+      "apache-spark", 
+      "static", 
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
+    ], 
+    "hooks/benchmark-relation-departed": [
+      "interface:benchmark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "actions.yaml": [
+      "apache-spark", 
+      "static", 
+      "94598e9160a8f1c5f978648fc2a43692ed33a243f5cfe5554e1c210930459535"
+    ], 
+    "hooks/hadoop-relation-broken": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "resources.yaml": [
+      "apache-spark", 
+      "dynamic", 
+      "70d27c1533abbb0b0e525862d46948338b94ee2c209818f3011b9de68d18cd44"
+    ], 
+    "copyright": [
+      "apache-spark", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "actions/trianglecount": [
+      "apache-spark", 
+      "static", 
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "hooks/benchmark-relation-broken": [
+      "interface:benchmark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "actions/matrixfactorization": [
+      "apache-spark", 
+      "static", 
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "apache-spark", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "wheelhouse/PyYAML-3.11.tar.gz": [
+      "apache-spark", 
+      "dynamic", 
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+    ], 
+    "hooks/relations/spark/README.md": [
+      "interface:spark", 
+      "static", 
+      "49a279980efbfdeea70059c4cfd6534e28945519fd2fc13aa7af47efb9c75cb9"
+    ], 
+    "actions/logisticregression": [
+      "apache-spark", 
+      "static", 
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
+    ], 
+    "icon.svg": [
+      "apache-spark", 
+      "static", 
+      "9fe9b2e676d81935d9b27d4fb22fd18b5127192c6a93b10c56a76682cd8d3f93"
+    ], 
+    "config.yaml": [
+      "apache-spark", 
+      "dynamic", 
+      "b2bebc5030111bcfaced13db9bb4b9faa5c8b2ff15252fc728bc08f162600b07"
+    ], 
+    "LAYER-README.md": [
+      "apache-spark", 
+      "static", 
+      "63d77e9cfca2d9af88424719237d4d6fc2620370f8d9216aaa190391ee89400a"
+    ], 
+    "hooks/relations/benchmark/interface.yaml": [
+      "interface:benchmark", 
+      "static", 
+      "8185f3462262bcb1024758cca6a34d83f6a48a2caeadb00088500012a99b3528"
+    ], 
+    "hooks/relations/spark/interface.yaml": [
+      "interface:spark", 
+      "static", 
+      "02a05826247e534381ef98ed17e9b067f64216a7512f9cadf8c1dba55d1e17b1"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "apache-spark", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/hadoop-plugin/__init__.py": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/hadoop-relation-joined": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "reactive/hadoop_client.py": [
+      "layer:hadoop-client", 
+      "static", 
+      "1916e2d0e497fce93b68be3da7867ac38e31a03bf562755977290dc20a50a738"
+    ], 
+    "hooks/client-relation-changed": [
+      "interface:spark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/spark/copyright": [
+      "interface:spark", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "hooks/benchmark-relation-joined": [
+      "interface:benchmark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/benchmark/README.md": [
+      "interface:benchmark", 
+      "static", 
+      "71a7c13ac574d179f1c785a02e9ded217ecee0e2e9644d7ff6195336b2cc6fc4"
+    ], 
+    "README.md": [
+      "apache-spark", 
+      "static", 
+      "3666692dd695a218300adc7d2d825d063519fa9bbed5ff708ee950fef17fdf22"
+    ], 
+    "hooks/relations/benchmark/__init__.py": [
+      "interface:benchmark", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/benchmark/copyright": [
+      "interface:benchmark", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "lib/charms/spark.py": [
+      "apache-spark", 
+      "static", 
+      "05168b78baf95f0a741a56c0ef3422247bb187a41aa0ca6d51b6352469ff2ffb"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/jujubigdata-6.1.2.tar.gz": [
+      "layer:hadoop-client", 
+      "dynamic", 
+      "add48d061bf857c329f1ab3b6477923e1011245caa4d8791da0a02b5f82c8586"
+    ], 
+    "hooks/client-relation-departed": [
+      "interface:spark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "lib/charms/hadoop.py": [
+      "layer:hadoop-client", 
+      "static", 
+      "bd3ce23d7b86aec29759914ed3c5783592c1c38a140ca28464eea16a4a564cfc"
+    ], 
+    "wheelhouse/charms.benchmark-1.0.5.tar.gz": [
+      "apache-spark", 
+      "dynamic", 
+      "f82a6651b2d6083540e2e6d44d93bf9f9aa0dafd98122f09ce3459bed0b19627"
+    ], 
+    "reactive/spark.py": [
+      "apache-spark", 
+      "static", 
+      "c12a85d3c4c5cea6b82992ef9165b2549d144598a6a2cea91ad54e4f53ffdbcc"
+    ], 
+    "wheelhouse/charms.reactive-0.3.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "3f8722d85f7d489f8414d11fc2a3e8793c68000f7a1bc7b1ad71120e037aebee"
+    ], 
+    "wheelhouse/pyaml-15.8.2.tar.gz": [
+      "layer:hadoop-client", 
+      "dynamic", 
+      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
+    ], 
+    "actions/streaming": [
+      "apache-spark", 
+      "static", 
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
+    ], 
+    "wheelhouse/charmhelpers-0.6.2.tar.gz": [
+      "apache-spark", 
+      "dynamic", 
+      "521f406d6fa5a60df3341f55516917b871310b5b25343970fdd6f3fa92ef8ceb"
     ], 
     ".build.manifest": [
       "build", 
@@ -53,35 +299,30 @@
       "static", 
       "79c56e725532f6d8532806a22ef695f1cc12a62689fe62ab9016bccdec49e576"
     ], 
-    "hooks/spark-plugin-relation-broken": [
-      "interface:spark-plugin", 
-      "dynamic", 
-      "76f43a288bedf29f4d4466c8337ee6c5d91899800654a5a256a9629c0e654667"
+    "actions/pagerank": [
+      "apache-spark", 
+      "static", 
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
-    "wheelhouse/jujuresources-0.3.1-py2-none-any.whl": [
-      "layer:bigdata", 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "apache-spark", 
       "dynamic", 
-      "867a1de1bbd09e218b942bf2a1bee99dbbad0933c7d204e0f4b7f0178a19bfe3"
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "actions.yaml": [
+    "actions/sparkbench": [
       "apache-spark", 
       "static", 
-      "a6efa4d87ee6fc3a71e9985ad32ef4c1c91e7a292e20dfee1c3bd41433c3305f"
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
     ], 
-    "hooks/hadoop-relation-broken": [
-      "interface:hadoop-plugin", 
+    "wheelhouse/path.py-8.1.2.tar.gz": [
+      "layer:hadoop-client", 
       "dynamic", 
-      "c85f148d5cfa5b1964ea65fc3f3ab12e9814b5c74aef635958a901ebfca89705"
-    ], 
-    "resources.yaml": [
-      "apache-spark", 
-      "static", 
-      "69e60be9dae6c9eda2870cd4aa3ffec46aa87852da0b8772b495a0b997860e2a"
+      "ada95d117c4559abe64080961daf5badda68561afdd34c278f8ca20f2fa466d2"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -91,217 +332,132 @@
     "metadata.yaml": [
       "apache-spark", 
       "dynamic", 
-      "1ed67956c1e75e2554797ee84f2539ece0644eca96c3bf7742112b50bdc283de"
+      "fc6f37a3eec36d00b1d5cd3103c3bcbe0c823a933a4c6bbedb71a0d7e39d7b3b"
     ], 
     "actions/restart-spark-job-history-server": [
       "apache-spark", 
       "static", 
       "82cad88d194c2c5e5abcd3a5c5ce00153a240d40b3ae58c53ad9c67799ec021b"
     ], 
-    "copyright": [
-      "apache-spark", 
+    "hooks/relations/benchmark/requires.py": [
+      "interface:benchmark", 
       "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+      "a126934de46ce9074d4d75a2183aafa9df5dfdcb4ebbc2c685793f33f53e099f"
     ], 
-    "wheelhouse/Tempita-0.5.2-py2-none-any.whl": [
-      "layer:basic", 
+    "hooks/benchmark-relation-changed": [
+      "interface:benchmark", 
       "dynamic", 
-      "f2045be162d1d55c4d1aea7393e9af9059b84517c4e76bf01260c99ccdf4cc77"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "dist.yaml": [
-      "apache-spark", 
-      "static", 
-      "4ac353d3f4f8aad94fd1eadc13cab08c3615491b69c8a94bf05178eacd97ee15"
-    ], 
-    "hooks/relations/hadoop-plugin/__init__.py": [
-      "interface:hadoop-plugin", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "wheelhouse/Jinja2-2.8-py2.py3-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "13cd9b109f37471a5097798f6520c1b0a5b57e0d03948cd5991cfb5f9c60df95"
-    ], 
-    ".gitignore": [
-      "layer:basic", 
-      "static", 
-      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
-    ], 
-    "hooks/relations/spark-plugin/provides.py": [
-      "interface:spark-plugin", 
-      "static", 
-      "2e6a66b2faafd180940f4e87c08171c87b16fa94f44b079b8e95acb9e629d63d"
-    ], 
-    "hooks/install": [
-      "layer:basic", 
-      "static", 
-      "5f1bf2a89d26e56e57f56456d1390c55803c5f33c0c65f414692555c508283ea"
-    ], 
-    "wheelhouse/charms.reactive-0.3.6-py2-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "c5afcc6800d8c3f01b9202f00864c3d9a1e2060101273961f8658eb6a4c11924"
-    ], 
-    "hooks/hadoop-relation-joined": [
-      "interface:hadoop-plugin", 
-      "dynamic", 
-      "c85f148d5cfa5b1964ea65fc3f3ab12e9814b5c74aef635958a901ebfca89705"
-    ], 
-    "hooks/hadoop-relation-departed": [
-      "interface:hadoop-plugin", 
-      "dynamic", 
-      "c85f148d5cfa5b1964ea65fc3f3ab12e9814b5c74aef635958a901ebfca89705"
-    ], 
-    "icon.svg": [
-      "apache-spark", 
-      "static", 
-      "9fe9b2e676d81935d9b27d4fb22fd18b5127192c6a93b10c56a76682cd8d3f93"
-    ], 
-    "config.yaml": [
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
       "apache-spark", 
       "dynamic", 
-      "6b4df61d6036501308611156c3ef0c600961289bb44812b3d97cbd032599e435"
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
     ], 
-    "hooks/hadoop-relation-changed": [
-      "interface:hadoop-plugin", 
-      "dynamic", 
-      "c85f148d5cfa5b1964ea65fc3f3ab12e9814b5c74aef635958a901ebfca89705"
-    ], 
-    "hooks/stop": [
-      "layer:basic", 
-      "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
-    ], 
-    "scripts/sparkpi.sh": [
+    "actions/svdplusplus": [
       "apache-spark", 
       "static", 
-      "8039e058e33c6a2b7dbe4e6fef20bdc760f4d63492598fccb0cbc49966db197b"
-    ], 
-    "hooks/relations/hadoop-plugin/README.md": [
-      "interface:hadoop-plugin", 
-      "static", 
-      "6c487353f0a4e43dceea6d2893325c245ff572256f3ac3a09f3ad08648f19c54"
-    ], 
-    "wheelhouse/MarkupSafe-0.23-cp27-none-linux_x86_64.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "e135b8dc01195cd33efde81e4341719cc388ca8b5cb163c5b339a6aec0d2b39c"
-    ], 
-    "wheelhouse/pyaml-15.8.2-py2-none-any.whl": [
-      "layer:bigdata", 
-      "dynamic", 
-      "031b5c4b661cdaf0eb90048478bf91c9aed99509864cee3113061490f596dd00"
-    ], 
-    "hooks/spark-plugin-relation-joined": [
-      "interface:spark-plugin", 
-      "dynamic", 
-      "76f43a288bedf29f4d4466c8337ee6c5d91899800654a5a256a9629c0e654667"
-    ], 
-    "hooks/spark-plugin-relation-changed": [
-      "interface:spark-plugin", 
-      "dynamic", 
-      "76f43a288bedf29f4d4466c8337ee6c5d91899800654a5a256a9629c0e654667"
-    ], 
-    "wheelhouse/netaddr-0.7.18-py2-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "3d2a9155cd4af0590458d1db547070b6d550fb2da52ff10a0589a78bd77eb930"
-    ], 
-    "lib/charms/__init__.py": [
-      "apache-spark", 
-      "static", 
-      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
-    ], 
-    "hooks/relations/spark-plugin/interface.yaml": [
-      "interface:spark-plugin", 
-      "static", 
-      "9fe6d8ab294227cccac5aef3a601e4d6a9f0d8691b34ff1dd35fca35f41b9fb5"
-    ], 
-    "wheelhouse/six-1.10.0-py2.py3-none-any.whl": [
-      "layer:basic", 
-      "dynamic", 
-      "8f495def8f35a54fdccc90484a9c000545fd888ca4f2269fb0c45f7eb27c31a7"
-    ], 
-    "README.md": [
-      "layer:basic", 
-      "static", 
-      "6dfdfa3f3dda300eba642ebed55ebb88c6f4ca58e448bb38aaeacc7934e790cf"
-    ], 
-    "hooks/relations/spark-plugin/requires.py": [
-      "interface:spark-plugin", 
-      "static", 
-      "9c4321482f4eb04da49767c8db752ea6f2dcf3c016e0eb8662f40189dfbcc506"
-    ], 
-    "hooks/relations/spark-plugin/__init__.py": [
-      "interface:spark-plugin", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "wheelhouse/pip-7.1.2-py2.py3-none-any.whl": [
-      "layer:bigdata", 
-      "dynamic", 
-      "1ddc7d891e8aaf376ab9c57b0c54166448db4562a900bc01643984c7c1505c16"
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
     ], 
     "hooks/relations/hadoop-plugin/requires.py": [
       "interface:hadoop-plugin", 
       "static", 
       "1308bd2e1bd423e3ca8b0dbd932d672dc449a27161f997551490f21a832cecfd"
     ], 
-    "lib/charms/spark.py": [
+    "hooks/hadoop-relation-departed": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/client-relation-joined": [
+      "interface:spark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "hooks/hadoop-relation-changed": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "scripts/sparkpi.sh": [
       "apache-spark", 
       "static", 
-      "ddcf0488ed7dc15b0289748c972bc79bae0a05b68be009ba5d3b4eb8e6f34420"
+      "46bd9380a0de0d9411fd0a1c26196bee1d4551c5113a1b2672725fd1b2b17b7d"
     ], 
-    "wheelhouse/PyYAML-3.11-cp27-none-linux_x86_64.whl": [
-      "layer:bigdata", 
-      "dynamic", 
-      "bbbeab9fecda82978ecbf31e140e4dfe33d45a6549c2b68c623b8927193eb7b2"
+    "lib/charms/layer/basic.py": [
+      "layer:basic", 
+      "static", 
+      "dffc5976e96afa5f1d73140b4ca6affee229507b96a2a9ef5d859a2d255febd8"
+    ], 
+    "hooks/relations/benchmark/provides.py": [
+      "interface:benchmark", 
+      "static", 
+      "62f6f853d39469c7e9aa38fa151327b44185bcf5ffb89db6a7fe22adfb4f437f"
+    ], 
+    "actions/sparkpi": [
+      "apache-spark", 
+      "static", 
+      "91849f23146861577cefa36f4f5d666817cdb13ebdd13d2d75fb61ae6d8c7c9b"
+    ], 
+    "actions/sql": [
+      "apache-spark", 
+      "static", 
+      "25b7fc383e57414afc80ecdec98e895658fbcba52ca5ec14a05acc6047a7021c"
+    ], 
+    "lib/charms/__init__.py": [
+      "apache-spark", 
+      "static", 
+      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
+    ], 
+    "hooks/relations/spark/provides.py": [
+      "interface:spark", 
+      "static", 
+      "cff26e5f3e5e6f40ec6f72ab6dfd76e9c68def1b2dfc0a23ef03baa9a2dbdc8f"
+    ], 
+    "hooks/relations/spark/__init__.py": [
+      "interface:spark", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
     "hooks/start": [
       "layer:basic", 
       "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "reactive/bigdata.py": [
-      "layer:bigdata", 
+    "hooks/relations/spark/requires.py": [
+      "interface:spark", 
       "static", 
-      "6ae3cc406804ce3ef2b42a75b6cb9609babbcba943fd727eb6e4981cf1ed21d4"
+      "e36dfafd356fd57d1550fb5dfe1fc7f1a989a1fb6768e6746a9ea98a8057235f"
+    ], 
+    "wheelhouse/jujuresources-0.3.3.tar.gz": [
+      "layer:hadoop-client", 
+      "dynamic", 
+      "c9d7332b2ee4b6148a1b54db3f14dfcf03e5b7a90fc8f61cda207feb5bbca4a3"
     ], 
     "layer.yaml": [
       "apache-spark", 
       "dynamic", 
-      "1be1c1bbae598ed13f52842c25e17babb5c55a88790b60702aaa839dc6a22471"
+      "14d8827c74e163cb336e68feb58dc0335967c548691b1ee7b76eba787f51364b"
     ], 
-    "hooks/config-changed": [
-      "layer:basic", 
-      "static", 
-      "e3341fbab061efd2040de288e97715d7d3c0f2e3dfdd84a2d1e35fc43cec48d9"
-    ], 
-    "hooks/spark-plugin-relation-departed": [
-      "interface:spark-plugin", 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "apache-spark", 
       "dynamic", 
-      "76f43a288bedf29f4d4466c8337ee6c5d91899800654a5a256a9629c0e654667"
-    ], 
-    "hooks/relations/spark-plugin/README.md": [
-      "interface:spark-plugin", 
-      "static", 
-      "875dce0e99707525fd7cb06b8691ff5d783ef8e115ebd47164885edb2e40c905"
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
     ], 
     "hooks/relations/hadoop-plugin/provides.py": [
       "interface:hadoop-plugin", 
       "static", 
       "db24ba8942ea38892be39a33b79fc2a80ccbf34452b9f59ff5f312734e518938"
-    ], 
-    "requirements.txt": [
-      "layer:basic", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
-    ], 
-    "reactive/spark.py": [
-      "apache-spark", 
-      "static", 
-      "7a8b0b90b427635d0840ccff2bf5778ff7630d5818216c18c42653b71e3acbf0"
     ]
   }
 }

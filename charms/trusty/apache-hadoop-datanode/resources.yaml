@@ -1,0 +1,44 @@
+options:
+  output_dir: /home/ubuntu/resources
+resources:
+  java-installer:
+    # This points to a script which manages installing Java.
+    # If replaced with an alternate implementation, it must output *only* two
+    # lines containing the JAVA_HOME path, and the Java version, respectively,
+    # on stdout.  Upon error, it must exit with a non-zero exit code.
+    url: https://s3.amazonaws.com/jujubigdata/common/noarch/java-installer-a4d52ba0.sh
+    hash: a4d52ba0eac9dc949baf28ac5235402bdb2b5bd92f239d75b6959ace8a25da6c
+    hash_type: sha256
+optional_resources:
+  hadoop-aarch64:
+    url: https://git.launchpad.net/bigdata-data/plain/apache/aarch64/hadoop-2.4.1.tar.gz?id=c34a21c939f5fce9ab89b95d65fe2df50e7bbab0
+    hash: 03ad135835bfe413f85fe176259237a8
+    hash_type: md5
+  hadoop-lzo-ppc64le:
+    url: https://s3.amazonaws.com/jujubigdata/apache/ppc64le/hadoop-lzo-0.4.20-SNAPSHOT-ppc64le-c470848e.tgz
+    hash: c470848eaedf2558a06c2e07ce6ac2a612c5e7a64c16707d47954da2a387573c
+    hash_type: sha256
+  hadoop-ppc64le:
+    url: https://s3.amazonaws.com/jujubigdata/apache/ppc64le/hadoop-2.7.1-ppc64le-204bb45f.tar.gz
+    hash: 204bb45faa901826356a452c7735542f863fd5476f42c26e5bc1608cece55e6a
+    hash_type: sha256
+  hadoop-2.7.1-ppc64le:
+    url: https://s3.amazonaws.com/jujubigdata/apache/ppc64le/hadoop-2.7.1-ppc64le-204bb45f.tar.gz
+    hash: 204bb45faa901826356a452c7735542f863fd5476f42c26e5bc1608cece55e6a
+    hash_type: sha256
+  hadoop-lzo-x86_64:
+    url: https://s3.amazonaws.com/jujubigdata/apache/x86_64/hadoop-lzo-0.4.20-SNAPSHOT-x86_64-98421de6.tgz
+    hash: 98421de6bea220c1531b50403de7b4d6e49955e9104d7cf15d943fe2ba45e295
+    hash_type: sha256
+  hadoop-x86_64:
+    url: https://s3.amazonaws.com/jujubigdata/apache/x86_64/hadoop-2.4.1-a790d39.tar.gz
+    hash: a790d39baba3a597bd226042496764e0520c2336eedb28a1a3d5c48572d3b672
+    hash_type: sha256
+  hadoop-2.4.1-x86_64:
+    url: https://s3.amazonaws.com/jujubigdata/apache/x86_64/hadoop-2.4.1-a790d39.tar.gz
+    hash: a790d39baba3a597bd226042496764e0520c2336eedb28a1a3d5c48572d3b672
+    hash_type: sha256
+  hadoop-2.7.1-x86_64:
+    url: https://s3.amazonaws.com/jujubigdata/apache/x86_64/hadoop-2.7.1-x86_64-991dc34e.tar.gz
+    hash: 991dc34ea42a80b236ca46ff5d207107bcc844174df0441777248fdb6d8c9aa0
+    hash_type: sha256

@@ -1,0 +1,15 @@
+includes:
+- layer:hadoop-base
+- interface:dfs-slave
+options:
+  hadoop-base:
+    ports:
+      dn_webapp_http:
+        port: 50075
+        exposed_on: datanode
+  apache-hadoop-datanode: {}
+  basic:
+    use_venv: false
+    packages: []
+    include_system_packages: false
+is: apache-hadoop-datanode

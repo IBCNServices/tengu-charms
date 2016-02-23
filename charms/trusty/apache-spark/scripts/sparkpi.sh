@@ -1,9 +1,6 @@
 #!/bin/bash
+set -eu
 
-echo "Running SparkPi in yarn-cluster mode"
-spark-submit --class org.apache.spark.examples.SparkPi --master yarn-cluster /usr/lib/spark/lib/spark-examples*.jar 10
-echo ""
-
-echo "Running SparkPi in yarn-client mode"
-spark-submit --class org.apache.spark.examples.SparkPi --master yarn-client /usr/lib/spark/lib/spark-examples*.jar 10
+echo "Running SparkPi in ${MASTER} mode"
+spark-submit --master ${MASTER} --class org.apache.spark.examples.SparkPi /usr/lib/spark/lib/spark-examples-*.jar 10
 echo ""

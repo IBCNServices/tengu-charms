@@ -51,7 +51,7 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
+      "7a5fc48d899d719eb6140652d23dec05a21a634c5591c9bcc9f4a255a3ac2c64"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -63,10 +63,10 @@
       "dynamic", 
       "521f406d6fa5a60df3341f55516917b871310b5b25343970fdd6f3fa92ef8ceb"
     ], 
-    "hooks/rest2jfed-relation-changed": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    "tests/00-setup": [
+      "hauchiwa", 
+      "static", 
+      "2e37eb4028cf69e6313dd2f64bae3919c81cc450a32420b73136663e36161c8f"
     ], 
     "files/tengu_management/README.md": [
       "hauchiwa", 
@@ -218,10 +218,10 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "templates/global-conf.yaml": [
+    "tests/01-simple": [
       "hauchiwa", 
       "static", 
-      "34cf8e92d3f8aa0f036a30f1dea810492ec006df9e99e87ddd7ef890b3322892"
+      "aa074643af0946a6cc3e20ab157efe2a4db77260116b507f559143e5e2819d25"
     ], 
     "files/tengu_management/templates/bundle.yaml": [
       "hauchiwa", 
@@ -246,6 +246,11 @@
     "hooks/stop": [
       "layer:basic", 
       "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/rest2jfed-relation-changed": [
+      "interface:http", 
+      "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "hooks/relations/opened-ports/interface.yaml": [
@@ -278,6 +283,11 @@
       "static", 
       "686da8711b71bc05333df93962bc517e9b57e8235baa6b3f88ed7267ebe27759"
     ], 
+    "tests/tests.yaml": [
+      "hauchiwa", 
+      "static", 
+      "d54a0eddc8bfa402e56ad5f4bd1bd93043c57382059cfc4cce8c4e5be95a7093"
+    ], 
     "files/tengu_management/scripts/get_pubipv4.py": [
       "hauchiwa", 
       "static", 
@@ -307,6 +317,11 @@
       "hauchiwa", 
       "static", 
       "a7f3866f46c078f03d0dc1edc0ac80763a01863197dd092adba0806f27bbfd51"
+    ], 
+    "templates/global-conf.yaml": [
+      "hauchiwa", 
+      "static", 
+      "34cf8e92d3f8aa0f036a30f1dea810492ec006df9e99e87ddd7ef890b3322892"
     ], 
     "hooks/update-status": [
       "layer:basic", 

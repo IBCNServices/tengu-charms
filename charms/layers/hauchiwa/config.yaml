@@ -11,3 +11,7 @@ options:
     type: string
     default:
     description: bundle to deploy after setup
+  user:
+    type: string
+    default: ubuntu
+    description: user to install the tools for

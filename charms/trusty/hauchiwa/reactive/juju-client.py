@@ -68,7 +68,7 @@ def install_packages():
     hookenv.status_set('maintenance', 'Installing packages')
     fetch.add_source('ppa:juju/stable')
     fetch.apt_update()
-    packages = ['juju', 'juju-core', 'juju-deployer', 'git', 'python-yaml', 'python-jujuclient']
+    packages = ['juju', 'juju-core', 'juju-deployer', 'git', 'python-yaml', 'python-jujuclient', 'charm-tools']
     fetch.apt_install(fetch.filter_installed_packages(packages))
 
 

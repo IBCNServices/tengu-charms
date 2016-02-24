@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 # pylint: disable=c0111,c0103
 import amulet
-d = amulet.Deployment()
+d = amulet.Deployment(series='trusty')
 d.add('hauchiwa')
-d.add('rest2jfed')
-d.relate('hauchiwa', 'rest2jfed')
+d.add('rest2jfed', charm="local:trusty/rest2jfed")
+d.relate('hauchiwa:rest2jfed', 'rest2jfed:rest2jfed')
 try:
     # Create the deployment described above, give us 900 seconds to do it
     d.setup(timeout=900)
@@ -19,5 +19,5 @@ except:
     # will automatically "FAIL" the test.
     raise
 # Shorten the names a little to make working with unit data easier
-hauchiwa_unit = d.sentry['wordpress'][0]
+hauchiwa_unit = d.sentry['hauchiwa'][0]
 rest2jfed_unit = d.sentry['rest2jfed'][0]

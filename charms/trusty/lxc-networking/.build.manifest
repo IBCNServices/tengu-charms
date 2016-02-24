@@ -8,7 +8,7 @@
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/charms.reactive-0.3.8.tar.gz": [
       "layer:basic", 
@@ -18,7 +18,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "72619e7c7bf2f61c42df8f174e53bdb490ee29c2bef025513818e459612dcb97"
+      "dffc5976e96afa5f1d73140b4ca6affee229507b96a2a9ef5d859a2d255febd8"
     ], 
     "wheelhouse/pyaml-15.8.2.tar.gz": [
       "layer:basic", 
@@ -28,7 +28,7 @@
     "hooks/stop": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/pip-7.1.2.tar.gz": [
       "layer:basic", 
@@ -38,7 +38,7 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
+      "7a5fc48d899d719eb6140652d23dec05a21a634c5591c9bcc9f4a255a3ac2c64"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -53,12 +53,12 @@
     "reactive/lxc-networking.py": [
       "lxc-networking", 
       "static", 
-      "6a268ebcc35bb2eaa9f130c6d5307ed7320ee8f913d8c657f5c3ff383a035928"
+      "20b9a502869b445bcaaca965a51ea26c2468f55cdc11a9299180bfd113f24430"
     ], 
     "hooks/update-status": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     ".build.manifest": [
       "build", 
@@ -73,7 +73,7 @@
     "hooks/upgrade-charm": [
       "layer:basic", 
       "static", 
-      "8ec1eed8b7f0c0d4509f12dcc902761797eed96589e8310d6a01f8f9ced96b8d"
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
     "wheelhouse/ipaddress-1.0.16.tar.gz": [
       "lxc-networking", 
@@ -88,12 +88,12 @@
     "README.md": [
       "lxc-networking", 
       "static", 
-      "73542809e45750ac2e0541a7f2ece863be152350690054fd340005dd018e65b5"
+      "ade844ee6c786a872cae3ec0261658ac02410b4c02915a6ed920c3c775bd50d4"
     ], 
     "hooks/hook.template": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -108,7 +108,7 @@
     "hooks/start": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "LICENSE": [
       "lxc-networking", 
@@ -148,7 +148,7 @@
     "hooks/install": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/MarkupSafe-0.23.tar.gz": [
       "layer:basic", 
@@ -168,12 +168,12 @@
     "hooks/config-changed": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "hooks/leader-elected": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "layer.yaml": [
       "lxc-networking", 

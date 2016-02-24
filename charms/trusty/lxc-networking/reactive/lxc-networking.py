@@ -7,7 +7,7 @@ import netaddr
 
 # Charm pip dependencies
 from charmhelpers.core import hookenv
-from charms.reactive import hook, set_state, remove_state
+from charms.reactive import when_not, set_state, remove_state
 
 
 BRIDGECONFIG = """# Managed by Juju lxc-networking <
@@ -20,7 +20,7 @@ iface lxcbr0 inet static
 # Managed by Juju lxc-networking >"""
 
 
-@hook('config-changed')
+@when_not('lxc-networking.active')
 def install():
     config = hookenv.config()
     net_addr = config['network']
@@ -41,6 +41,7 @@ def install():
         hookenv.status_set(
             'blocked',
             'Cannot find interface that is connected to network {}.'.format(network))
+
     bridgeconfig = BRIDGECONFIG.format(
         interface=interface,
         address=address,

@@ -14,7 +14,7 @@ import subprocess
 # Charm pip dependencies
 from charmhelpers import fetch
 from charmhelpers.core import templating, hookenv, host
-from charmhelpers.core.hookenv import open_port
+from charmhelpers.core.hookenv import open_port, config
 from charms.reactive import hook, when, when_not, set_state, remove_state
 
 # non-standard pip dependencies
@@ -25,8 +25,8 @@ TENGU_DIR = '/opt/tengu'
 GLOBAL_CONF_PATH = TENGU_DIR + '/etc/global-conf.yaml'
 KEY_PATH = TENGU_DIR + '/etc/jfed_cert.crt'
 S4_CERT_PATH = TENGU_DIR + '/etc/s4_cert.pem.xml'
-USER = 'ubuntu'
-HOME = '/home/{}'.format(USER)
+USER = config()['user']
+HOME = expanduser('~{}'.format(USER))
 SSH_DIR = HOME + '/.ssh'
 
 
@@ -70,7 +70,7 @@ def config_changed():
     content['project-name'] = str(conf['emulab-project-name'])
     content['s4-cert-path'] = S4_CERT_PATH
     content['pubkey'] = get_or_create_ssh_key(SSH_DIR, USER, USER)
-    with open(expanduser(GLOBAL_CONF_PATH), 'w') as config_file:
+    with open(GLOBAL_CONF_PATH, 'w') as config_file:
         config_file.write(yaml.dump(content, default_flow_style=False))
     set_state('tengu.configured')
     chownr(os.path.dirname(GLOBAL_CONF_PATH), USER, USER)
@@ -106,7 +106,7 @@ def setup_rest2jfed(rest2jfed):
         content = yaml.load(infile)
     content['rest2jfed-hostname'] = str(hostname)
     content['rest2jfed-port'] = str(port)
-    with open(expanduser(GLOBAL_CONF_PATH), 'w') as config_file:
+    with open(GLOBAL_CONF_PATH, 'w') as config_file:
         config_file.write(yaml.dump(content, default_flow_style=False))
     set_state('rest2jfed.configured')
     hookenv.status_set('active', 'Ready')
@@ -209,9 +209,9 @@ def chownr(path, owner, group, follow_links=True):
 
 def get_or_create_ssh_key(keysdir, user, group):
     """ Gets ssh public key. Creates one if it doesn't exist yet. """
-    ssh_pub_keypath = expanduser("{}/id_rsa.pub".format(keysdir))
-    ssh_priv_keypath = expanduser("{}/id_rsa".format(keysdir))
-    authorized_keys = expanduser("{}/authorized_keys".format(keysdir))
+    ssh_pub_keypath = "{}/id_rsa.pub".format(keysdir)
+    ssh_priv_keypath = "{}/id_rsa".format(keysdir)
+    authorized_keys = "{}/authorized_keys".format(keysdir)
     if not os.path.isfile(ssh_pub_keypath):
         subprocess.check_call(['ssh-keygen', '-t', 'rsa', '-N', '', '-f', ssh_priv_keypath])
         with open(ssh_pub_keypath, 'r') as pubkeyfile:

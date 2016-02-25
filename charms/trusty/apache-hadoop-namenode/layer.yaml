@@ -1,6 +1,0 @@
-includes:
-- layer:hadoop-base
-- interface:dfs
-- interface:dfs-slave
-- interface:benchmark
-is: apache-hadoop-namenode

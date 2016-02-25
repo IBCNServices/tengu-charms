@@ -37,12 +37,14 @@ class OpenedPortsRequires(RelationBase):
                     }
                     port_forwards.append(port_forward)
                     conv.set_local('port-forwards', port_forwards)
+                    conv.set_remote('port-forwards', json.dumps(port_forwards))
             conv.set_state('{relation_name}.available')
         # ping remote to rerun if requested
-        if self.get_remote('pingpong', '') != '':
-            self.set_remote('pingpong', self.get_remote('pingpong'))
+        if conv.get_remote('pingpong', '') != '':
+            conv.set_remote('pingpong', self.get_remote('pingpong'))
         else:
-            self.set_remote('pingpong', '')
+            conv.set_remote('pingpong', '')
+
 
     @hook('{requires:opened-ports}-relation-{departed,broken}')
     def broken(self):
@@ -63,3 +65,9 @@ class OpenedPortsRequires(RelationBase):
             port_forwards = conv.get_local('port-forwards', [])
             services.extend(port_forwards)
         return services
+
+
+    def set_ready(self):
+        """ send a notice to the related charms that the port forwarding has been applied """
+        for conv in self.conversations():
+            conv.set_remote('ready', conv.get_remote('opened-ports', '[]'))

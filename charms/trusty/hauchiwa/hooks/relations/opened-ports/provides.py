@@ -43,9 +43,16 @@ class OpenedPortsProvides(RelationBase):
                         "port": port,
                         "protocol": protocol,
                     })
+        jsonop = json.dumps(opened_ports)
         self.set_remote(
-            'opened-ports', json.dumps(opened_ports),
+            'opened-ports', jsonop,
         )
+        if self.get_remote('opened-ports', '') == jsonop:
+            self.set_state('{relation_name}.ready')
+
+
+    def forwards(self):
+        return json.loads(self.get_remote('opened-ports', '[]'))
 
 
     def update(self):

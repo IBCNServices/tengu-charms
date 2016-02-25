@@ -22,12 +22,9 @@ from iptables import update_port_forwards
 @when_all('opened-ports.available', 'dhcp-server.installed')
 def configure_port_forwards(relation):
     services = relation.opened_ports
-#    if data_changed('opened-ports.services', services):
     cfg = json.loads(config()["port-forwards"])
     services.extend(cfg)
     update_port_forwards(services)
-
-
 
 
 @when_not('opened-ports.available')
@@ -37,19 +34,14 @@ def configure_forwarders():
     update_port_forwards(cfg)
 
 
-    # for service in services:
-    #     for host in service['hosts']:
-    #         pass
-
-
 @hook('install')
 def install():
     hookenv.log('Installing isc-dhcp')
     fetch.apt_update()
     fetch.apt_install(fetch.filter_installed_packages(['isc-dhcp-server']))
     hookenv.log('Configuring isc-dhcp')
-    private_network = netaddr.IPNetwork('192.168.14.0/24')
-    private_dhcp_range = '192.168.14.150 192.168.14.253'
+    private_network = netaddr.IPNetwork(config()["private-network"])
+    private_dhcp_range = config()["dhcp-range"]
     dns = ", ".join(get_dns())
     private_if = None
     public_ifs = []

@@ -1,4 +1,12 @@
 options:
+  private-network:
+    type: string
+    description: Network the dhcp-server should broadcast to.
+    default: '192.168.14.0/24'
+  range:
+    type: string
+    description: Range that dhcp-server should distribute.
+    default: '192.168.14.50 192.168.14.253'
   port-forwards:
     type: string
     description: |

@@ -11,7 +11,7 @@
     "reactive/juju-client.py": [
       "juju-client", 
       "static", 
-      "ece16b07f24e6415bdd5ca312667e30cfbdf421658f9eba16876122a0d76ffa6"
+      "7b7087adb6d84971062bb79e397078a1182ce3113bf939c8dd6437a6b873d57a"
     ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
@@ -121,7 +121,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "53df86b7acdfcc6a4bf9e6e224e0e3aad4c2520f1dc3e3e8ddf0e3d74ae3bc96"
+      "c665fa2ce08c8a07105c0a6ffaede71e33589d330db570666227cb33b30a0cc4"
     ], 
     "files/tengu_management/scripts/jfed_provider/__init__.py": [
       "hauchiwa", 

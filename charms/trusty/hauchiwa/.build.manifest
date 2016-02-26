@@ -31,7 +31,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "a61ae054359869e9a4c9999a5ecf306276708125603e0de3c04c1badfd724fa0"
+      "990844172b93fc333c27f80ab44a25b74c1a1af6ed5e68a537c66c7331735663"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -198,11 +198,6 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "hooks/hauchiwa-relation-changed": [
-      "interface:opened-ports", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
     "files/tengu_management/lib/juju_notifyer": [
       "hauchiwa", 
       "static", 
@@ -228,11 +223,6 @@
       "dynamic", 
       "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
     ], 
-    "hooks/hauchiwa-relation-departed": [
-      "interface:opened-ports", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
     "wheelhouse/pip-7.1.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
@@ -253,6 +243,11 @@
       "static", 
       "a7f3866f46c078f03d0dc1edc0ac80763a01863197dd092adba0806f27bbfd51"
     ], 
+    "hooks/hauchiwa-port-forward-relation-joined": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
     ".build.manifest": [
       "build", 
       "dynamic", 
@@ -262,11 +257,6 @@
       "layer:basic", 
       "static", 
       "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
-    ], 
-    "hooks/hauchiwa-relation-broken": [
-      "interface:opened-ports", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -333,6 +323,11 @@
       "static", 
       "34cf8e92d3f8aa0f036a30f1dea810492ec006df9e99e87ddd7ef890b3322892"
     ], 
+    "hooks/hauchiwa-port-forward-relation-changed": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
       "static", 
@@ -381,22 +376,22 @@
     "metadata.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "6fefe0d393d4cb244238c7242b1990b60149f4f0b99a08ee643519e21c92f71a"
+      "605dee8dcb1c6237ded78e6fa0599d29f2060777191d1bc7938867e7ff61ea3e"
     ], 
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
       "static", 
       "a244ee6f7f7047b2c38d32ed84b57fa42e41807965dd1237b5db46dbfd1b4d96"
     ], 
-    "hooks/hauchiwa-relation-joined": [
-      "interface:opened-ports", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
     "templates/tengu": [
       "hauchiwa", 
       "static", 
       "516aa707d57cc9b2ee6c6676bb0329c9180b25a8ba3630effedc124d3d35a8bc"
+    ], 
+    "hooks/hauchiwa-port-forward-relation-departed": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "templates/upstart.conf": [
       "hauchiwa", 
@@ -417,6 +412,11 @@
       "hauchiwa", 
       "static", 
       "947131db8edaf76eda7341b5c422d481b3fd2ed585bc80c934633026c4822357"
+    ], 
+    "hooks/hauchiwa-port-forward-relation-broken": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "layer:basic", 

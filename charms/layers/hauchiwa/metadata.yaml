@@ -9,5 +9,5 @@ requires:
   rest2jfed:
     interface: http
 provides:
-  hauchiwa:
+  hauchiwa-port-forward:
     interface: opened-ports

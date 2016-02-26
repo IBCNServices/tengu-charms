@@ -149,7 +149,7 @@
     "config.yaml": [
       "dhcp-server", 
       "dynamic", 
-      "2d2d159d9b03fae311d19b913f2323c3310634830cfd377d4fdbcbcd4485eea8"
+      "ec294bb915abdfeac4f655dd4312f4ff95ca6b2dd99c0b0d479efcd490267bef"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
@@ -189,7 +189,7 @@
     "reactive/dhcp_server.py": [
       "dhcp-server", 
       "static", 
-      "ce9f008368464aa4d5c258004df55e8ef54e3a78e903c07f94f4887479d2ad7d"
+      "51e2b4ef5defa763a8db2072e435bfc754834a92640f45ebec0f21df5f56eb79"
     ], 
     "hooks/relations/opened-ports/__init__.py": [
       "interface:opened-ports", 

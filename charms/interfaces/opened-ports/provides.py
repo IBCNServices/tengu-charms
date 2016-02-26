@@ -14,8 +14,6 @@ class OpenedPortsProvides(RelationBase):
     def changed(self):
         self.set_state('{relation_name}.available')
         self.configure()
-        # clear ping so we don't get an endless loop
-        self.set_remote('pingpong', '')
 
 
     @hook('{provides:opened-ports}-relation-{departed,broken}')
@@ -55,12 +53,7 @@ class OpenedPortsProvides(RelationBase):
         else:
             self.remove_state('{relation_name}.ready')
 
+
     @property
     def forwards(self):
         return json.loads(self.get_remote('port-forwards', '[]'))
-
-
-    def update(self):
-        # Request a ping, remote will return ping causing the relation to run again, causing a configure
-        # This is needed because opened-ports only get shown in `opened-ports` after the hook runs
-        self.set_remote('pingpong', self.get_remote('pingpong', '') + 'ping')

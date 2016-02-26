@@ -18,15 +18,17 @@ import netaddr
 # Own modules
 from iptables import update_port_forwards
 
-
+# Forward ports from config and relations
 @when_all('opened-ports.available', 'dhcp-server.installed')
 def configure_port_forwards(relation):
     services = relation.opened_ports
     cfg = json.loads(config()["port-forwards"])
     services.extend(cfg)
     update_port_forwards(services)
+    services = relation.set_ready()
 
 
+# Only forward ports from config
 @when_not('opened-ports.available')
 @when('dhcp-server.installed')
 def configure_forwarders():

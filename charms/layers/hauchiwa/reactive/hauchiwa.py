@@ -9,6 +9,7 @@ import tempfile
 import pwd
 import grp
 import subprocess
+import re
 
 
 # Charm pip dependencies
@@ -38,8 +39,11 @@ def conf_pf(port_forward):
 @when('hauchiwa-port-forward.ready')
 def show_pf(port_forward):
     state, msg = hookenv.status_get()
+    msg = re.sub(r' pf:".*"', '', msg)
+    msg +=  ' pf:"'
     for forward in port_forward.forwards:
-        msg += '{}:{} -> {}; '.format(forward['public_ip'], forward['public_port'], forward['private_port'])
+        msg += '{}:{}->{} '.format(forward['public_ip'], forward['public_port'], forward['private_port'])
+    msg += '"'
     hookenv.status_set(state, msg)
 
 

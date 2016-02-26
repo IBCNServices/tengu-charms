@@ -30,9 +30,13 @@ HOME = expanduser('~{}'.format(USER))
 SSH_DIR = HOME + '/.ssh'
 
 
+@when('hauchiwa-port-forward.available')
+def conf_pf(port_forward):
+    port_forward.configure()
+
+
 @when('hauchiwa-port-forward.ready')
 def show_pf(port_forward):
-    port_forward.configure()
     state, msg = hookenv.status_get()
     for forward in port_forward.forwards:
         msg += '{}:{} -> {}; '.format(forward['public_ip'], forward['public_port'], forward['private_port'])

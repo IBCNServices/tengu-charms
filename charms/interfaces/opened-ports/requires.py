@@ -44,7 +44,6 @@ class OpenedPortsRequires(RelationBase):
                     }
                     port_forwards.append(port_forward)
                     conv.set_local('port-forwards', port_forwards)
-                    conv.set_remote('port-forwards', json.dumps(port_forwards))
             conv.set_state('{relation_name}.available')
 
 
@@ -72,4 +71,4 @@ class OpenedPortsRequires(RelationBase):
     def set_ready(self):
         """ send a notice to the related charms that the port forwarding has been applied """
         for conv in self.conversations():
-            conv.set_remote('ready', conv.get_remote('opened-ports', '[]'))
+            conv.set_remote('port-forwards', json.dumps(conv.get_local('port-forwards', [])))

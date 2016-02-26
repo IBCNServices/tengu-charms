@@ -35,11 +35,21 @@ def configure_port_forward(port_forward):
     port_forward.configure()
 
 
+@when('hauchiwa.ready')
+def show_pf(port_forward):
+    port_forward.configure()
+    state, msg = hookenv.status_get()
+    for forward in port_forward.forwards:
+        msg += '{}:{} -> {}; '.format(forward['public_ip'], forward['public_port'], forward['private_port'])
+    hookenv.status_set(state, msg)
+
+
 @when('juju.repo.available')
 @when_not('tengu.repo.available')
 def downloadbigfiles():
     subprocess.check_call(['su', '-', USER, '-c', '{}/scripts/tengu.py downloadbigfiles'.format(TENGU_DIR)])
     set_state('tengu.repo.available')
+
 
 @hook('upgrade-charm')
 def upgrade_charm():

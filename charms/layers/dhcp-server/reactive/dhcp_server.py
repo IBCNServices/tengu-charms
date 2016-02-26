@@ -40,7 +40,7 @@ def install():
     fetch.apt_update()
     fetch.apt_install(fetch.filter_installed_packages(['isc-dhcp-server']))
     hookenv.log('Configuring isc-dhcp')
-    private_network = netaddr.IPNetwork(config()["private-network"])
+    private_network = netaddr.IPNetwork(config()["dhcp-network"])
     private_dhcp_range = config()["dhcp-range"]
     dns = ", ".join(get_dns())
     private_if = None

@@ -47,12 +47,17 @@ class OpenedPortsProvides(RelationBase):
         self.set_remote(
             'opened-ports', jsonop,
         )
-        if self.get_remote('opened-ports', '') == jsonop:
+        port_forwards = json.loads(self.get_remote('port-forwards', '[]'))
+        f_port_set = set(i['private_port'] for i in port_forwards)
+        o_ports_set = set(i['port'] for i in opened_ports)
+        if f_port_set == o_ports_set:
             self.set_state('{relation_name}.ready')
+        else:
+            self.remove_state('{relation_name}.ready')
 
-
+    @property
     def forwards(self):
-        return json.loads(self.get_remote('opened-ports', '[]'))
+        return json.loads(self.get_remote('port-forwards', '[]'))
 
 
     def update(self):

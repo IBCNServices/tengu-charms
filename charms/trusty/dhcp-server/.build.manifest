@@ -189,7 +189,7 @@
     "reactive/dhcp_server.py": [
       "dhcp-server", 
       "static", 
-      "a41a4d28377c63556081f1b425f919cf4dc9c52873d1e1246880722b381ab3e5"
+      "ba7dffcdc9509d10766c02f6d5c7e8de81cd89d80b1a4c052c7a60b03c504fd4"
     ], 
     "hooks/relations/opened-ports/__init__.py": [
       "interface:opened-ports", 
@@ -214,7 +214,7 @@
     "README.md": [
       "dhcp-server", 
       "static", 
-      "3c2a0762fd72f7bb47f73e03d9cdfb55052bf0dac8a4a2856819296d8687b06b"
+      "2cf78cbd1843c889fbe2c0b522a18958274d7e7c721486d983e4ec12aef9b17c"
     ], 
     "hooks/opened-ports-relation-broken": [
       "interface:opened-ports", 

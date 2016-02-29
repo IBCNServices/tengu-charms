@@ -117,7 +117,7 @@ def get_dns():
 
 def get_routes():
     """ Returns the routes as an array with dicts for each route """
-    output = subprocess.check_output(['route', '-n'])
+    output = subprocess.check_output(['route', '-n'], universal_newlines=True)
     output = output.split('\n', 1)[-1]
     soutput = output.split('\n', 1)
     [header, table] = soutput[0:2]

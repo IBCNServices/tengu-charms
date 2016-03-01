@@ -37,6 +37,7 @@ HOOKS = Hooks()
 @HOOKS.hook('install')
 def install():
     # needed because of weird error
+    fix_hostname_resolv()
     subprocess.check_call(['sudo', 'apt-get', 'update'])
     install_chef_zero()
     configure_chef_zero()
@@ -156,10 +157,37 @@ def esb_is_online():
     }
     try:
         response = requests.post(url, data=soap_message, headers=headers, verify=False)
+        print('connection succesfull!')
         return response.status_code == 200
-    except requests.exceptions.ConnectionError:
-        pass
+    except requests.exceptions.ConnectionError as connerror:
+        print(connerror.message)
     return False
+
+
+def fix_hostname_resolv():
+    import socket
+    hostname = socket.gethostname()
+    # Make hostname resolvable
+    add_line_to_file('127.0.0.1 {}\n'.format(hostname), '/etc/hosts')
+
+
+def add_line_to_file(line, filepath):
+    """appends line to file if not present"""
+    filepath = os.path.realpath(filepath)
+    if not os.path.isdir(os.path.dirname(filepath)):
+        os.makedirs(os.path.dirname(filepath))
+    found = False
+    if os.path.isfile(filepath):
+        with open(filepath, 'r+') as myfile:
+            lst = myfile.readlines()
+        for existingline in lst:
+            if line in existingline:
+                print("line already present")
+                found = True
+    if not found:
+        myfile = open(filepath, 'a+')
+        myfile.write(line+"\n")
+        myfile.close()
 
 
 if __name__ == "__main__":

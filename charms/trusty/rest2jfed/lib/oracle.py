@@ -31,11 +31,11 @@ def installoracle():
         subprocess.check_output(['update-alternatives', '--install', '/usr/bin/javac', 'javac', '{}/bin/javac'.format(destdir), '2000'])
         # set env vars
         env_vars = [
-            'export J2SDKDIR={}'.format(destdir),
-            'export J2REDIR={}/jre'.format(destdir),
-            'export PATH=$PATH:{0}/bin:{0}/db/bin:{0}/jre/bin'.format(destdir),
-            'export JAVA_HOME={}'.format(destdir),
-            'export DERBY_HOME={}/db'.format(destdir),
+            'J2SDKDIR={}'.format(destdir),
+            'J2REDIR={}/jre'.format(destdir),
+            'PATH=$PATH:{0}/bin:{0}/db/bin:{0}/jre/bin'.format(destdir),
+            'JAVA_HOME={}'.format(destdir),
+            'DERBY_HOME={}/db'.format(destdir),
         ]
         for line in env_vars:
             add_line_to_file(line, '/etc/environment')

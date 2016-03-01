@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # pylint: disable=c0111,c0103,c0301
 import subprocess
 import os
@@ -25,7 +25,7 @@ def upgrade_charm():
 @when('java.installed')
 @when_not('apt.installed.python-pip','rest2jfed.installed')
 def pre_install():
-    hookenv.log("WOLOLO Pre-install")
+    hookenv.log("Pre-install")
     charms.apt.queue_install(['python-pip'])
 
 @when('java.installed','apt.installed.python-pip')

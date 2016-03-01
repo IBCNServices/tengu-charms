@@ -4,10 +4,6 @@ maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
 description: ""
 tags:
 - big_data
-requires:
-  java:
-    interface: java
-    scope: container
 provides:
   rest2jfed:
     interface: http

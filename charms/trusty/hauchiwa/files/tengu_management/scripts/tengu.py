@@ -33,6 +33,7 @@ DEFAULT_ENV_CONF = realpath(script_dir() + "/../templates/env-conf.yaml.template
 ENV_CONF_NAME = "env-conf.yaml"
 PPRINTER = pprint.PrettyPrinter()
 PROVIDER = jfed_provider.JfedProvider(global_conf)
+DEFAULT_ENV = JujuEnvironment.current_env()
 
 
 def init_environment_config(env_name):
@@ -184,7 +185,7 @@ def g_juju():
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
-    default=JujuEnvironment.current_env(),
+    default=DEFAULT_ENV,
     help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_add_machines(name):
     """Add machines of jfed experiment to Juju environment
@@ -201,7 +202,7 @@ def c_add_machines(name):
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
-    default=JujuEnvironment.current_env(),
+    default=DEFAULT_ENV,
     help='Name of Tengu. Defaults to name of current Juju environment.')
 @click.argument('filename')
 def c_export_juju_env(name, filename):
@@ -275,7 +276,7 @@ def c_deploy(bundle, name):
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
-    default=JujuEnvironment.current_env(),
+    default=DEFAULT_ENV,
     help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_destroy(name):
     """Destroys Tengu with given name
@@ -291,7 +292,7 @@ def c_destroy(name):
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
-    default=JujuEnvironment.current_env(),
+    default=DEFAULT_ENV,
     help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_lock(name):
     """Lock destructive actions for given Tengu
@@ -303,7 +304,7 @@ def c_lock(name):
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
-    default=JujuEnvironment.current_env(),
+    default=DEFAULT_ENV,
     help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_unlock(name):
     """Lock destructive actions for given Tengu
@@ -315,7 +316,7 @@ def c_unlock(name):
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
-    default=JujuEnvironment.current_env(),
+    default=DEFAULT_ENV,
     help='Name of Tengu. Defaults to name of current Juju environment.')
 @click.argument('hours', type=int, default=800)
 def c_renew(name, hours):
@@ -334,7 +335,7 @@ def c_renew(name, hours):
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
-    default=JujuEnvironment.current_env(),
+    default=DEFAULT_ENV,
     help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_status(name):
     """Show status of Tengu with given name
@@ -364,7 +365,7 @@ def c_status(name):
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
-    default=JujuEnvironment.current_env(),
+    default=DEFAULT_ENV,
     help='Name of Tengu. Defaults to name of current Juju environment.')
 @click.argument(
     'path',
@@ -438,7 +439,7 @@ def c_downloadbigfiles():
 # )
 # @click.option(
 #     '-n', '--name',
-#     default=JujuEnvironment.current_env(),
+#     default=DEFAULT_ENV,
 #     help='Name of Tengu. Defaults to name of current Juju environment.')
 # @click.argument(
 #     'mindays',

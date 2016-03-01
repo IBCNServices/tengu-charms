@@ -1,4 +1,0 @@
-name: livy
-summary: Interface to livy, a spark rest jobtracker.
-version: 1
-repo: https://github.com/galgalesh/tengu-charms

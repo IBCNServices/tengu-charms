@@ -9,7 +9,7 @@
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "templates/dhcpd.conf": [
       "dhcp-server", 
@@ -29,7 +29,7 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "f91213a68bc5edce9ebe0615b70cc908ea45466c2e205fb6cfe9c35d9c3fde4b"
+      "7a5fc48d899d719eb6140652d23dec05a21a634c5591c9bcc9f4a255a3ac2c64"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -54,7 +54,7 @@
     "hooks/upgrade-charm": [
       "layer:basic", 
       "static", 
-      "8ec1eed8b7f0c0d4509f12dcc902761797eed96589e8310d6a01f8f9ced96b8d"
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
     "wheelhouse/charms.reactive-0.3.8.tar.gz": [
       "layer:basic", 
@@ -69,7 +69,7 @@
     "hooks/hook.template": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -84,7 +84,7 @@
     "hooks/opened-ports-relation-joined": [
       "interface:opened-ports", 
       "dynamic", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "LICENSE": [
       "dhcp-server", 
@@ -114,12 +114,12 @@
     "hooks/opened-ports-relation-changed": [
       "interface:opened-ports", 
       "dynamic", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "hooks/install": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/MarkupSafe-0.23.tar.gz": [
       "layer:basic", 
@@ -129,12 +129,12 @@
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 
       "static", 
-      "9b42f345067ad1048f223796d1ad685d8d891adfa3ea7c08d9e4e6326f940fd7"
+      "1f2c5e952046f7288e160cfdfc1b088e31bc97e9a1b139f03baf854460ec968f"
     ], 
     "hooks/leader-elected": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "layer.yaml": [
       "dhcp-server", 
@@ -149,7 +149,7 @@
     "config.yaml": [
       "dhcp-server", 
       "dynamic", 
-      "bce3587ef3151c864c4986f70e0c06a645e1361ecdf322528dae02d4b3877dbf"
+      "ec294bb915abdfeac4f655dd4312f4ff95ca6b2dd99c0b0d479efcd490267bef"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
@@ -164,7 +164,7 @@
     "hooks/stop": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "templates/isc-dhcp-server": [
       "dhcp-server", 
@@ -184,12 +184,12 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "72619e7c7bf2f61c42df8f174e53bdb490ee29c2bef025513818e459612dcb97"
+      "dffc5976e96afa5f1d73140b4ca6affee229507b96a2a9ef5d859a2d255febd8"
     ], 
     "reactive/dhcp_server.py": [
       "dhcp-server", 
       "static", 
-      "2b05eb5f4243b3934e999e218c940d40848ab5d230cc4f89765837cbfb116b83"
+      "e34b5e9992af0260d697f02b20819c8144d43e489ef31bf033462a99143b12ab"
     ], 
     "hooks/relations/opened-ports/__init__.py": [
       "interface:opened-ports", 
@@ -204,32 +204,37 @@
     "hooks/relations/opened-ports/requires.py": [
       "interface:opened-ports", 
       "static", 
-      "4d0ff7be8768f044ce67a88bb09c14021354c12b13dd7e180cae77f50dae715d"
+      "f5de481e1b4270fa3f54b628aed5a71bb1a55dc8124b2df9c45deb37535bf20f"
     ], 
     "hooks/update-status": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "README.md": [
       "dhcp-server", 
       "static", 
-      "3c2a0762fd72f7bb47f73e03d9cdfb55052bf0dac8a4a2856819296d8687b06b"
+      "2cf78cbd1843c889fbe2c0b522a18958274d7e7c721486d983e4ec12aef9b17c"
     ], 
     "hooks/opened-ports-relation-broken": [
       "interface:opened-ports", 
       "dynamic", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "hooks/start": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "hooks/opened-ports-relation-departed": [
       "interface:opened-ports", 
       "dynamic", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/opened-ports/README.md": [
+      "interface:opened-ports", 
+      "static", 
+      "5b3ff664bf7953b7523f4e37a8f6c3870ebaefd5a265c0f1037141269f1d28d1"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "layer:basic", 
@@ -239,7 +244,7 @@
     "hooks/config-changed": [
       "layer:basic", 
       "static", 
-      "e5138d13492aa9a90379e8fce4a85c612481e7bc27a49958edbbfcaaf06f03a6"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 

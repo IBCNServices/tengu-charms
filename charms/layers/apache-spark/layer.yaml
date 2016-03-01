@@ -1,1 +1,0 @@
-includes: ['layer:bigdata', 'interface:hadoop-plugin', 'interface:spark-plugin']

@@ -1,1 +1,0 @@
-includes: ['layer:bigdata', 'layer:basic', 'interface:spark-plugin', 'interface:livy']

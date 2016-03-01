@@ -13,18 +13,20 @@ import yaml
 
 from charmhelpers import fetch
 from charmhelpers.core import hookenv
+
 from charmhelpers.core import templating
 
 from charms import reactive
 from charms.reactive import hook
 
-USER = 'ubuntu'
-HOME = '/home/{}'.format(USER)
+USER = hookenv.config()['user']
+HOME = expanduser('~{}'.format(USER))
 
 
 @hook('install')
 def install():
     install_packages()
+    install_juju_plugins()
     if not os.path.isfile("{}/.juju/environments.yaml".format(HOME)):
         configure_environments()
     reactive.set_state('juju.installed')
@@ -67,16 +69,42 @@ def install_packages():
     hookenv.status_set('maintenance', 'Installing packages')
     fetch.add_source('ppa:juju/stable')
     fetch.apt_update()
-    packages = ['juju', 'juju-core', 'juju-deployer', 'git', 'python-yaml']
+    packages = ['juju', 'juju-core', 'juju-deployer',
+                'git', 'python-yaml', 'python-jujuclient', 'charm-tools']
     fetch.apt_install(fetch.filter_installed_packages(packages))
 
+
+def install_juju_plugins():
+    plugins_path = '/opt/juju-plugins'
+    if not os.path.isdir(plugins_path):
+        subprocess.check_call(['git', 'clone', 'https://github.com/juju/plugins.git', plugins_path])
+    templating.render(
+        source='juju-plugins.sh',
+        target='/etc/profile.d/juju-plugins.sh',
+        context={
+            'juju_plugins': plugins_path,
+        }
+    )
+    templating.render(
+        source='dhc-init.sh',
+        target='{}/dhc-init.sh'.format(HOME),
+        context={},
+    )
+    templating.render(
+        source='debug-hooks-rc.yaml',
+        target='{}/.juju/debug-hooks-rc.yaml'.format(HOME),
+        context={},
+    )
 
 def get_and_configure_charm_repo(git_url):
     hookenv.status_set('maintenance', 'Configuring Charm Repo')
     repo_name = git_url.rstrip('.git').split('/')[-1]
     repo_path = '/opt/{}'.format(repo_name)
     if not os.path.isdir(repo_path):
-        subprocess.check_call(['git', 'clone', git_url], cwd='/opt/')
+        subprocess.check_call([
+            'git', 'clone', git_url,
+            '-o', 'upstream'   # remote 'upstream' will point to supplied given repo
+        ], cwd='/opt/')
         templating.render(
             source='juju.sh',
             target='/etc/profile.d/juju.sh',
@@ -90,6 +118,7 @@ def get_and_configure_charm_repo(git_url):
 
 def configure_environments():
     hookenv.status_set('maintenance', 'Initializing environment')
+    chownr('{}/.juju'.format(HOME), USER, USER)
     check_output(['su',
                   '-l', USER,
                   '-c', 'juju generate-config'], stderr=STDOUT)

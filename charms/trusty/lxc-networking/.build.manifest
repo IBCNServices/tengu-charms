@@ -53,7 +53,7 @@
     "reactive/lxc-networking.py": [
       "lxc-networking", 
       "static", 
-      "20b9a502869b445bcaaca965a51ea26c2468f55cdc11a9299180bfd113f24430"
+      "365fc5064978c53fbf6c3aa573257e00e6a64c09570ea93ba1754057125eebff"
     ], 
     "hooks/update-status": [
       "layer:basic", 

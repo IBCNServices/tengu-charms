@@ -40,7 +40,7 @@ def conf_pf(port_forward):
 def show_pf(port_forward):
     state, msg = hookenv.status_get()
     msg = re.sub(r' pf:".*"', '', msg)
-    msg +=  ' pf:"'
+    msg += ' pf:"'
     for forward in port_forward.forwards:
         msg += '{}:{}->{} '.format(forward['public_ip'], forward['public_port'], forward['private_port'])
     msg += '"'
@@ -96,7 +96,7 @@ def set_blocked():
 
 
 @when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available', 'rest2jfed.configured')
-def create_environment(*arg):
+def create_environment(*arg): #pylint:disable=w0613
     conf = hookenv.config()
     bundle = conf.get('bundle')
     if bundle:

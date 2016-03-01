@@ -24,10 +24,10 @@ def installoracle():
         filesdir = '{}/files/'.format(charm_dir())
         extractdir = '{}/{}'.format(filesdir, dirname)
         destdir = "/opt/java/{}".format(dirname)
-        tfile.extractall()
+        tfile.extractall(filesdir)
         mergecopytree(extractdir, destdir)
         # Set defaults
-        subprocess.check_output(['update-alternatives', '--install', '{}/jre/bin/java'.format(destdir), '2000'])
+        subprocess.check_output(['update-alternatives', '--install', '/usr/bin/java', 'java', '{}/jre/bin/java'.format(destdir), '2000'])
         subprocess.check_output(['update-alternatives', '--install', '/usr/bin/javac', 'javac', '{}/bin/javac'.format(destdir), '2000'])
         # set env vars
         env_vars = [

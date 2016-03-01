@@ -16,7 +16,7 @@
     "reactive/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "e7fdd32c7ad09c0a814013c5b593d84df4f6070d05e013670312371528d0b781"
+      "a7e68659df48f73a4796c33c8d54ed54d04e0d09850ef4b60b27910382c1081d"
     ], 
     "wheelhouse/charms.reactive-0.3.8.tar.gz": [
       "layer:basic", 
@@ -221,7 +221,7 @@
     "lib/oracle.py": [
       "java", 
       "static", 
-      "539045c400f7e8b0f8ab6a1f91778826078b2166c1370700ce561b4d073a99d9"
+      "0de14bd9cc0b8633b8ba2a51d0acdb51319060d8e15015f67e8f435945eb280a"
     ], 
     "files/rest2jfed/output.py": [
       "rest2jfed", 

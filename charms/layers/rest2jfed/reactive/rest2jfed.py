@@ -9,7 +9,7 @@ from charmhelpers.core import hookenv
 from charmhelpers.core.hookenv import charm_dir, open_port, relation_set
 from charms.reactive import hook, when, when_not, set_state
 
-import charms.apt
+import charms.apt #pylint: disable=e0611,e0401
 
 @hook('upgrade-charm')
 def upgrade_charm():
@@ -23,19 +23,19 @@ def upgrade_charm():
     install()
 
 @when('java.installed')
-@when_not('apt.installed.python-pip','rest2jfed.installed')
+@when_not('apt.installed.python-pip', 'rest2jfed.installed')
 def pre_install():
     hookenv.log("Pre-install")
-    charms.apt.queue_install(['python-pip'])
+    charms.apt.queue_install(['python-pip'])#pylint: disable=e1101
 
-@when('java.installed','apt.installed.python-pip')
+@when('java.installed', 'apt.installed.python-pip')
 @when_not('rest2jfed.installed')
 def install():
     """Install REST2JFed"""
     try:
         # update needed because of weird error
         hookenv.log("Installing dependencies")
-        subprocess.check_output(['sudo', 'apt-get', 'update'])
+        subprocess.check_output(['apt-get', 'update'])
         subprocess.check_output(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil'])
     except subprocess.CalledProcessError as exception:
         hookenv.log(exception.output)
@@ -50,7 +50,7 @@ def install():
         upstart_file = upstart_file.write(upstart_template)
     hookenv.log("Starting rest2jfed service")
     try:
-        subprocess.check_output(['sudo', 'service', 'rest2jfed', 'start'])
+        subprocess.check_output(['service', 'rest2jfed', 'start'])
     except subprocess.CalledProcessError as exception:
         hookenv.log(exception.output)
         exit(1)
@@ -65,7 +65,7 @@ def config_changed():
     with open('/opt/jfedS4/tengujfed.pass', 'w+') as pass_file:
         pass_file.write(conf['emulab-cert-pass'])
         pass_file.truncate()
-    with open('/opt/jfedS4/tengujfed.pem', 'w+') as pemfile:
+    with open('/opt/jfedS4/tengujfed.pem', 'wb+') as pemfile:
         pemfile.write(base64.b64decode(conf['emulab-cert']))
         pemfile.truncate()
 

@@ -1,5 +1,6 @@
 #python3 pylint:disable=c0111
 import json
+import socket
 
 from charmhelpers.core import unitdata
 
@@ -22,6 +23,11 @@ class OpenedPortsRequires(RelationBase):
             # it is part of the set of available units
             opened_ports = json.loads(conv.get_remote('opened-ports'))
             port_forwards = conv.get_local('port-forwards', [])
+            # Get public ip address
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            sock.connect(("google.com", 80))
+            public_address = sock.getsockname()[0]
+            sock.close()
             for portproto in opened_ports:
                 if not any(
                         (pf['private_port'] == portproto['port']) and
@@ -32,17 +38,14 @@ class OpenedPortsRequires(RelationBase):
                     port_forward = {
                         "public_port": free_port,
                         "private_port": portproto['port'],
+                        "public_ip": public_address,
                         "private_ip": conv.get_remote('private-address'),
                         "protocol": portproto['protocol'],
                     }
                     port_forwards.append(port_forward)
                     conv.set_local('port-forwards', port_forwards)
             conv.set_state('{relation_name}.available')
-        # ping remote to rerun if requested
-        if self.get_remote('pingpong', '') != '':
-            self.set_remote('pingpong', self.get_remote('pingpong'))
-        else:
-            self.set_remote('pingpong', '')
+
 
     @hook('{requires:opened-ports}-relation-{departed,broken}')
     def broken(self):
@@ -63,3 +66,9 @@ class OpenedPortsRequires(RelationBase):
             port_forwards = conv.get_local('port-forwards', [])
             services.extend(port_forwards)
         return services
+
+
+    def set_ready(self):
+        """ send a notice to the related charms that the port forwarding has been applied """
+        for conv in self.conversations():
+            conv.set_remote('port-forwards', json.dumps(conv.get_local('port-forwards', [])))

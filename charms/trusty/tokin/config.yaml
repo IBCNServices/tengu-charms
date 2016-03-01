@@ -28,3 +28,7 @@ options:
     description: a comma-seperated list of public ssh keys to add to the default (admin)
       user. The keys must be in the authorized-keys format. "ssh-rsa <key> <comment>".
     default:
+  user:
+    type: string
+    default: ubuntu
+    description: user to install the tools for

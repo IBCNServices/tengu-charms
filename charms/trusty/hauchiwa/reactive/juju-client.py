@@ -13,13 +13,14 @@ import yaml
 
 from charmhelpers import fetch
 from charmhelpers.core import hookenv
+
 from charmhelpers.core import templating
 
 from charms import reactive
 from charms.reactive import hook
 
-USER = 'ubuntu'
-HOME = '/home/{}'.format(USER)
+USER = hookenv.config()['user']
+HOME = expanduser('~{}'.format(USER))
 
 
 @hook('install')
@@ -68,7 +69,8 @@ def install_packages():
     hookenv.status_set('maintenance', 'Installing packages')
     fetch.add_source('ppa:juju/stable')
     fetch.apt_update()
-    packages = ['juju', 'juju-core', 'juju-deployer', 'git', 'python-yaml', 'python-jujuclient', 'charm-tools']
+    packages = ['juju', 'juju-core', 'juju-deployer',
+                'git', 'python-yaml', 'python-jujuclient', 'charm-tools']
     fetch.apt_install(fetch.filter_installed_packages(packages))
 
 

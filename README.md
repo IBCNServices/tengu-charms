@@ -125,3 +125,13 @@ Charm tools: helper toos to Charm.
     pip install charmhelpers
 
 When running `juju debug-hooks`, you enter a tmux session. The default tmux bindings on Ubuntu are a bit strange. ctrl-a is the default command. To enable sane mouse scrolling set `set-window-option -g mode-mouse on` in `~/.tmux.conf` of the server.
+
+## Handy commands
+
+pull PR from github
+
+    git pull origin pull/$PR_NUM/head
+
+prettyprint json output
+
+    | python -m json.tool

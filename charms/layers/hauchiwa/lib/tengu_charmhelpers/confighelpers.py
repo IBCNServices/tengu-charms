@@ -2,8 +2,6 @@
 #pylint: disable=C0325,c0111
 import os
 import shutil
-import tarfile
-import urllib
 
 def add_line_to_file(line, filepath):
     """appends line to file if not present"""
@@ -83,35 +81,3 @@ def get_proxy():
     proxy = os.environ.get('http_proxy')
     no_proxy = os.environ.get('no_proxy')
     return {'proxy':proxy, 'no_proxy':no_proxy}
-
-def downloadbigfiles(path):
-    """Downloads url from .source files it finds in path"""
-    # The top argument for walk
-    topdir = os.path.realpath(path)
-    print("downloading sources in %s " % topdir)
-    # The extension to search for
-    exten = '.source'
-    for dirpath, dirnames, files in os.walk(topdir):
-        for name in files:
-            if name.lower().endswith(exten):
-                source = os.path.join(dirpath, name)
-                file_to_download = source[:-len(exten)]
-                print('%s' % file_to_download)
-
-                if not os.path.isfile(file_to_download):
-                    with open(source, "r") as myfile:
-                        url = myfile.readline().rstrip()
-                        command = myfile.readline().rstrip()
-                    print('\t DOWNLOADING FROM: %s' % url)
-                    urlopener = urllib.URLopener()
-                    urlopener.retrieve(url, file_to_download)
-                    if command == "extract":
-                        print('\t EXTRACTING: %s' % file_to_download)
-                        tfile = tarfile.open(file_to_download, 'r')
-                        # Important to note that the following extraction is
-                        # UNSAFE since .tar.gz archive could contain
-                        # relative path like ../../ and overwrite other dirs
-                        tfile.extractall(os.path.dirname(file_to_download))
-                else:
-                    print('\t OK')
-                print()

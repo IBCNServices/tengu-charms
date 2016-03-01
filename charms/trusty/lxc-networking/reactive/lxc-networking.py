@@ -41,6 +41,7 @@ def install():
         hookenv.status_set(
             'blocked',
             'Cannot find interface that is connected to network {}.'.format(network))
+        return
 
     bridgeconfig = BRIDGECONFIG.format(
         interface=interface,

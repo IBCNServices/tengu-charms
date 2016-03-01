@@ -11,8 +11,8 @@ To setup a test environment::
 
     juju bootstrap
     juju deploy zookeeper
-    juju deploy storm storm-master
-    juju deploy storm storm-worker
+    juju deploy local:storm storm-master
+    juju deploy local:storm storm-worker
     juju add-relation storm-master zookeeper
     juju add-relation storm-worker zookeeper
     juju add-relation storm-master:master storm-worker:worker

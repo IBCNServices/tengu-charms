@@ -6,7 +6,7 @@ import shutil
 import base64
 
 from charmhelpers.core import hookenv
-from charmhelpers.core.hookenv import charm_dir, open_port, relation_set
+from charmhelpers.core.hookenv import charm_dir, open_port, relation_set, status_set
 from charms.reactive import hook, when, when_not, set_state
 
 import charms.apt #pylint: disable=e0611,e0401
@@ -55,6 +55,7 @@ def install():
         hookenv.log(exception.output)
         exit(1)
     open_port(5000)
+    status_set('active', 'rest2jfed ready')
     set_state('rest2jfed.installed')
 
 @hook('config-changed')

@@ -16,7 +16,7 @@
     "reactive/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "a7e68659df48f73a4796c33c8d54ed54d04e0d09850ef4b60b27910382c1081d"
+      "0c7f9bcdca7db36ad879bdfc4289533906a282108f285232bd8544675da92bcd"
     ], 
     "wheelhouse/charms.reactive-0.3.8.tar.gz": [
       "layer:basic", 

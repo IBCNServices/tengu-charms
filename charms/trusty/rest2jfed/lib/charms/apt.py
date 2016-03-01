@@ -106,10 +106,11 @@ def install_queued():
 
     Removes the apt.queued_installs state and sets the apt.installed state.
 
-    On failure, sets the unit's workload state to 'blocked'.
+    On failure, sets the unit's workload state to 'blocked' and returns
+    False. Package installs remain queued.
 
-    Sets the apt.installed.{packagename} state for each installed package.
-    Failed package installs remain queued.
+    On success, sets the apt.installed.{packagename} state for each
+    installed package and returns True.
     '''
     store = unitdata.kv()
     queue = sorted((options, package)
@@ -128,12 +129,13 @@ def install_queued():
             status_set('blocked',
                        'Unable to install packages {}'
                        .format(','.join(packages)))
-            return  # Without setting reactive state.
+            return False # Without setting reactive state.
 
     for package in installed:
         reactive.set_state('apt.installed.{}'.format(package))
 
     reactive.remove_state('apt.queued_installs')
+    return True
 
 
 def ensure_package_status():

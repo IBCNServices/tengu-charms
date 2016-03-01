@@ -1,0 +1,20 @@
+options:
+  install-type:
+    type: string
+    default: "jre"
+    description: |
+      Type of install to perform. Valid options are 'jre' or 'full'. The
+      default is 'jre', which will install the Java Runtime Environment
+      (JRE). Setting this to 'full' will install the Java Development
+      Kit (JDK) in addition to the JRE.
+  java-major:
+    type: string
+    default: "7"
+    description: |
+      Major version of Java. Defaults to 7.
+  java-flavor:
+    type: string
+    default: "openjdk"
+    description: |
+      Flavor of Java to install. Possible options right now are 'openjdk'
+      and 'oracle'. Default value is 'openjdk'

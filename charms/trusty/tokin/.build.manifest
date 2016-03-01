@@ -149,7 +149,7 @@
     "reactive/tokin.py": [
       "tokin", 
       "static", 
-      "23ac312d2e9477322b4d2ca33208685ebd19ac442a4f6bb7a7c20b6fa03cfcef"
+      "f5b6c9eaa03c08cf6b897f991647390e8061fc9316b4bbd2061eb87d547c7e35"
     ], 
     "config.yaml": [
       "juju-client", 

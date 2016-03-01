@@ -3,8 +3,6 @@
 import subprocess
 import os
 import shutil
-import re
-from tempfile import NamedTemporaryFile
 
 from charmhelpers import fetch
 from charmhelpers.core import templating, host
@@ -28,6 +26,7 @@ def install():
     set_hostname('tokin')
     install_tokin()
     set_state('tokin.installed')
+    set_state('tokin.ready')           # Actually, we should wait for Juju repo and stuff
 
 
 def install_tokin():
@@ -51,7 +50,7 @@ def install_tokin():
 def start():
     host.service_start('tokin')
     set_state('tokin.started')
-    hookenv.status_set('Ready', 'Tokin ready')
+    hookenv.status_set('active', 'Tokin ready')
 
 
 # Service will restart even if files change outside of Juju.
@@ -97,20 +96,23 @@ def set_hostname(hostname):
     # set service_name as hostname
     subprocess.check_call(['hostnamectl', 'set-hostname', hostname])
     # Make hostname resolvable
-    id = '# Managed by Juju set_hostname'
-    remove_matches('/etc/hosts', id)
-    with open('/etc/hosts', 'a') as hosts_file:
-        hosts_file.write('127.0.0.1 {} {}\n'.format(hostname, id))
+    add_line_to_file('127.0.0.1 {}\n'.format(hostname), '/etc/hosts')
 
 
-def remove_matches(filename, pattern):
-    encoding = 'utf-8'
-    matched = re.compile(pattern).search
-    with open(filename, encoding=encoding) as input_file:
-        with NamedTemporaryFile(mode='w', encoding=encoding,
-                                dir=os.path.dirname(filename)) as outfile:
-            for line in input_file:
-                if not matched(line):
-                    print(line, end='', file=outfile)
-            outfile.delete = False # don't delete it on closing
-    os.replace(outfile.name, input_file.name)
+def add_line_to_file(line, filepath):
+    """appends line to file if not present"""
+    filepath = os.path.realpath(filepath)
+    if not os.path.isdir(os.path.dirname(filepath)):
+        os.makedirs(os.path.dirname(filepath))
+    found = False
+    if os.path.isfile(filepath):
+        with open(filepath, 'r+') as myfile:
+            lst = myfile.readlines()
+        for existingline in lst:
+            if line in existingline:
+                print("line already present")
+                found = True
+    if not found:
+        myfile = open(filepath, 'a+')
+        myfile.write(line+"\n")
+        myfile.close()

@@ -101,7 +101,10 @@ def get_and_configure_charm_repo(git_url):
     repo_name = git_url.rstrip('.git').split('/')[-1]
     repo_path = '/opt/{}'.format(repo_name)
     if not os.path.isdir(repo_path):
-        subprocess.check_call(['git', 'clone', git_url], cwd='/opt/')
+        subprocess.check_call([
+            'git', 'clone', git_url,
+            '-o', 'upstream'   # remote 'upstream' will point to supplied given repo
+        ], cwd='/opt/')
         templating.render(
             source='juju.sh',
             target='/etc/profile.d/juju.sh',

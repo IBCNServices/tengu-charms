@@ -1,9 +1,7 @@
 #!/bin/bash
-# Decodes and writes bundle to temp file
-# Deploys bundle
-# Removes tempfile
+# Creates default tengu environment
 if [ "$(id -u)" == "0" ]; then
-   exec su ubuntu "$0"
+   exec su `config-get user` "$0"
 fi
 name=$(action-get name)
 tengu create $name

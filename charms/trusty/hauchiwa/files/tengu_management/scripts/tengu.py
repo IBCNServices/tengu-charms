@@ -247,6 +247,7 @@ def c_create(bundle, name, create_machines):
     env_conf = init_environment_config(name)
     with open(bundle, 'r') as bundle_file:
         bundledict = yaml.load(bundle_file)
+    downloadbigfiles(os.environ['JUJU_REPOSITORY'])
     if create_machines:
         provider_env = PROVIDER.create_from_bundle(env_conf, bundledict)
     else:
@@ -267,6 +268,7 @@ def c_create(bundle, name, create_machines):
 def c_deploy(bundle, name):
     """Create a Tengu with given name. Skips slice creation if it already exists.
     NAME: name of Tengu """
+    downloadbigfiles(os.environ['JUJU_REPOSITORY'])
     juju_env = JujuEnvironment(name)
     juju_env.deploy_bundle(bundle)
 
@@ -383,7 +385,7 @@ def c_export(name, path):
     for f_name, f_path in files.iteritems():
         with open(f_path, 'r') as f_file:
             config[f_name] = base64.b64encode(f_file.read())
-    config['emulab-project-name'] = global_conf['project_name']
+    config['emulab-project-name'] = global_conf['project-name']
     export = {
         str(name) : config
     }

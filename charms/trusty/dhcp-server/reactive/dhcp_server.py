@@ -36,6 +36,11 @@ def configure_forwarders():
     update_port_forwards(cfg)
 
 
+@hook('upgrade-charm')
+def upgrade_charm():
+    install()
+
+
 @hook('install')
 def install():
     hookenv.log('Installing isc-dhcp')
@@ -87,7 +92,7 @@ def install():
         context={
             'subnet': dhcp_network.ip,
             'netmask': dhcp_netmask,
-            'routers': gateway_ip,                  # This is either the host itself or the host's gateway
+            'routers': [gateway_ip],                  # This is either the host itself or the host's gateway
             'broadcast_address': dhcp_broadcast,
             'domain_name_servers': dns,             # We just use the host's DNS settings
             'dhcp_range': dhcp_range,
@@ -137,4 +142,4 @@ def get_gateway():
     routes = get_routes()
     for route in routes:
         if route['destination'] == '0.0.0.0':
-            return (route['iface'], route['destination'])
+            return (route['iface'], route['gateway'])

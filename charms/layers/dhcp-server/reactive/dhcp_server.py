@@ -92,7 +92,7 @@ def install():
         context={
             'subnet': dhcp_network.ip,
             'netmask': dhcp_netmask,
-            'routers': [gateway_ip],                  # This is either the host itself or the host's gateway
+            'routers': gateway_ip,                  # This is either the host itself or the host's gateway
             'broadcast_address': dhcp_broadcast,
             'domain_name_servers': dns,             # We just use the host's DNS settings
             'dhcp_range': dhcp_range,

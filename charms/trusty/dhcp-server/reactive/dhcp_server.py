@@ -98,7 +98,7 @@ def install():
             'dhcp_range': dhcp_range,
         }
     )
-    host.service_restart('isc-dhcp-server')
+    host.service_restart('isc-dhcp-server')      #TODO: We should crash if start failed
     hookenv.status_set('active', 'Ready')
     set_state('dhcp-server.installed')
 

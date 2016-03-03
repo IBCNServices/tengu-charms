@@ -3,6 +3,20 @@
 import subprocess
 import re
 
+import netifaces
+from netifaces import AF_INET
+
+
+def get_ips():
+    ips = []
+    for interface in netifaces.interfaces():
+        af_inet = netifaces.ifaddresses(interface).get(AF_INET)
+        if af_inet:
+            for link in netifaces.ifaddresses(interface)[netifaces.AF_INET]:
+                ips.append(link['addr'])
+    return ips
+
+
 def get_rules(table, chain):
     def extract_comment(line):
         start = '/* '
@@ -87,27 +101,31 @@ def update_port_forwards(config):
         "private_ip": "<private_ip>",
         "protocol": "<tcp/udp>"
     }]"""
+    ips = get_ips()
     ruleset = []
     for p_forward in config:
-        accept_rule = {
-            'dpt' : p_forward['public_port'],
-            'target' : 'ACCEPT',
-            'protocol' : p_forward['protocol'],
-            'comment' : 'managed by juju port forward',
-            'table' : 'filter',
-            'chain' : 'FORWARD'
-        }
-        ruleset.append(accept_rule)
-        forward_rule = {
-            'dpt' : p_forward['public_port'],
-            'target' : 'DNAT',
-            'to' : '{}:{}'.format(p_forward['private_ip'], p_forward['private_port']),
-            'protocol' : p_forward['protocol'],
-            'comment' : 'managed by juju port forward',
-            'table' : 'nat',
-            'chain' : 'PREROUTING'
-        }
-        ruleset.append(forward_rule)
+        for ip in ips:
+            accept_rule = {
+                'dpt' : p_forward['public_port'],
+                'd_ip' : ip,
+                'target' : 'ACCEPT',
+                'protocol' : p_forward['protocol'],
+                'comment' : 'managed by juju port forward',
+                'table' : 'filter',
+                'chain' : 'FORWARD'
+            }
+            ruleset.append(accept_rule)
+            forward_rule = {
+                'dpt' : p_forward['public_port'],
+                'd_ip' : ip,
+                'target' : 'DNAT',
+                'to' : '{}:{}'.format(p_forward['private_ip'], p_forward['private_port']),
+                'protocol' : p_forward['protocol'],
+                'comment' : 'managed by juju port forward',
+                'table' : 'nat',
+                'chain' : 'PREROUTING'
+            }
+            ruleset.append(forward_rule)
     for rule in ruleset:
         if not rule_exists(rule):
             append_rule(rule)

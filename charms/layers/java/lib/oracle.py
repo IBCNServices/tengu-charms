@@ -38,7 +38,7 @@ def installoracle():
             'DERBY_HOME={}/db'.format(destdir),
         ]
         for line in env_vars:
-            add_line_to_file(line, '/etc/environment')
+            add_line_to_file(line, '/etc/profile.d/oraclejdk.sh')
 
 
 #import charms.apt #pylint: disable=E1101

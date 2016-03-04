@@ -37,19 +37,22 @@ class SSHEnv(object):
         print('Renew unnecessary in SSH environment...')
 
     def destroy(self):
+        # TODO remove juju installation on SSH nodes
         print('Nothing to destroy in SSH environment...')
 
     @property
     def machines(self):
         try:
-            return get_machines_from_bundle(self.bundle_path)
+            return get_machines_from_bundle(yaml.load(self.bundle_path))
         except IOError:
             raise ProviderException('Bundle not found')
 
     @property
     def status(self):
-        # TODO implement status ping check
-        return 'TODO status'
+        machines_list = self.machines();
+        for machine in machines_list:
+            print('something')
+        return 'All nodes available'
 
 
 def get_machines_from_bundle(bundle):
@@ -60,6 +63,8 @@ def get_machines_from_bundle(bundle):
     for m_id in range(len(machines)):
         if not machines.get(str(m_id)): raise Exception(
             'machine {} not found while number of machines is {}.'.format(m_id, len(machines)))
-        if m_id == 0:
-            machines_list.append(machines[str(m_id)].get('host'))
+        constraints = machines[str(m_id)].get('constraints').split()
+        for constraint in constraints:
+            if constraint.startswith('host='):
+                machines_list.append(constraint.split('=')[1])
     return machines_list

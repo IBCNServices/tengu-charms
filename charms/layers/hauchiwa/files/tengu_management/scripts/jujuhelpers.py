@@ -50,13 +50,14 @@ class Service(object):
 
     def wait_until(self, status):
         """ Wait until service contains status in its message """
-        sys.stdout.write('waiting until {} service is {}\n'.format(self.name, status))
+        sys.stdout.write('waiting until {} service is {} '.format(self.name, status))
         while(True):
-            if (self.status and self.status['message'] and (status.tolower() in self.status['message'].tolower())):
+            if (self.status and self.status['message'] and (status.lower() in self.status['message'].lower())):
                 break
             sleep(5)
             sys.stdout.write('.')
             sys.stdout.flush()
+        sys.stdout.write('{} is {}!\n'.format(self.name, status))
 
 
 class JujuEnvironment(object):

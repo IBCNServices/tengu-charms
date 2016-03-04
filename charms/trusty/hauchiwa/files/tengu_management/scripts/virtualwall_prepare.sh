@@ -108,8 +108,8 @@ if [[ $IP_ADRESSES == *'10.2.'* || $IP_ADRESSES == *'172.16.'* ]]; then
   NET_CONFIG+=(
     "route add -net $OTHER_TYPE_IP netmask $OTHER_TYPE_NETMASK gw $IBCN_GATEWAY"
     "route add -net 157.193.135.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"
-    "route add -net 157.193.214.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"
-    "route add -net 157.193.215.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"
+#    "route add -net 157.193.214.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"  # Apparently, these break connections to intec servers
+#    "route add -net 157.193.215.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"  # Apparently, these break connections to intec servers
     "route add -net 192.168.126.0 netmask 255.255.255.0 gw $IBCN_GATEWAY"
     "route add -net $OTHER_WALL netmask 255.255.240.0 gw $IBCN_GATEWAY"
   )

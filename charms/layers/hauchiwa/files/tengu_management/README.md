@@ -24,3 +24,8 @@ After installation, the management functions are available using the `tengu` com
       status            Show status of Tengu with given name NAME:...
       unlock            Lock destructive actions for given Tengu...
       userinfo          Print info of configured jfed user
+
+
+# OpenVPN config
+
+After creating a Tengu, this tool automatically installs an OpenVPN server to machine `0`. You can get the client configuration to connect to the VPN by running `juju scp openvpn/0:~/client1.tgz .` on your Hauchiwa.

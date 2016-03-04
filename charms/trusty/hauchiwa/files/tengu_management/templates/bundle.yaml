@@ -1,12 +1,12 @@
 machines:
   '0':
-    constraints: 'arch=amd64 testbed=wall2'
+    constraints: 'arch=amd64 testbed=wall1'
     series: trusty
   '1':
-    constraints: 'arch=amd64 testbed=wall2'
+    constraints: 'arch=amd64 testbed=wall1'
     series: trusty
   '2':
-    constraints: 'arch=amd64 testbed=wall2'
+    constraints: 'arch=amd64 testbed=wall1'
     series: trusty
 services:
   juju-gui:

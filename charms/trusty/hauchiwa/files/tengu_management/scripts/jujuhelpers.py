@@ -52,7 +52,7 @@ class Service(object):
         """ Wait until service contains status in its message """
         sys.stdout.write('waiting until {} service is {}\n'.format(self.name, status))
         while(True):
-            if (self.status and self.status['message'] and (status in self.status['message'])):
+            if (self.status and self.status['message'] and (status.tolower() in self.status['message'].tolower())):
                 break
             sleep(5)
             sys.stdout.write('.')

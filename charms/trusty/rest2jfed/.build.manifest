@@ -16,7 +16,7 @@
     "reactive/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "f2a4358d10bc944c03a94d9bf4ecf7574e1eafc75683fd48d8fa822c2ff61726"
+      "ce872df60c45cca12d39c89e89b5fe6adb190445346bfe8d378c6079f7b5fc60"
     ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
@@ -221,7 +221,7 @@
     "lib/oracle.py": [
       "java", 
       "static", 
-      "92f87533d492f575d0369ea2b2bf70b5bd6f731df0309bf006a7c64845956515"
+      "eeb3bf0ad5da864f1dd052bd39eee2f2a4a533c52afe46778ffa3451db8f464e"
     ], 
     "files/rest2jfed/output.py": [
       "rest2jfed", 

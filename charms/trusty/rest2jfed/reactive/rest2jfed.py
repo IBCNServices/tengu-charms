@@ -55,7 +55,7 @@ def install():
         hookenv.log(exception.output)
         exit(1)
     open_port(5000)
-    status_set('active', 'rest2jfed ready')
+    status_set('active', 'Ready')
     set_state('rest2jfed.installed')
 
 @hook('config-changed')

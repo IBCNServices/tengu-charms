@@ -30,6 +30,7 @@ class SSHEnv(object):
         self.env_conf = env_conf
 
     def create(self, bundle):
+        print('Creating Tengu SSH environment...')
         with open("{}/bundle.yaml".format(self.env_conf.dir), 'w') as outfile:
             outfile.write(yaml.dump(bundle, default_flow_style=True))
 
@@ -38,7 +39,7 @@ class SSHEnv(object):
 
     def destroy(self):
         # TODO remove juju installation on SSH nodes
-        print('Nothing to destroy in SSH environment...')
+        print('Removing Juju environment from nodes...')
 
     @property
     def machines(self):
@@ -51,8 +52,8 @@ class SSHEnv(object):
     def status(self):
         machines_list = self.machines();
         for machine in machines_list:
-            print('something')
-        return 'All nodes available'
+            print('')
+        return 'TODO Status'
 
 
 def get_machines_from_bundle(bundle):

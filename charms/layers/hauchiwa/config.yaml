@@ -5,7 +5,7 @@ options:
     description: "Emulab speaksfor certificate (BASE64 encoded)"
   emulab-project-name:
     type: string
-    default: "This is the default project value. Please change me before use."
+    default: "tengu"
     description: "Password of the emulab certificate"
   bundle:
     type: string

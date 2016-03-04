@@ -3,6 +3,9 @@
 #
 """ deploys a tengu env on a general ssh reachable cluster"""
 import yaml
+import subprocess
+
+from config import script_dir
 
 
 class ProviderException(Exception):
@@ -31,8 +34,15 @@ class SSHEnv(object):
 
     def create(self, bundle):
         print('Creating Tengu SSH environment...')
+        bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']
         with open("{}/bundle.yaml".format(self.env_conf.dir), 'w') as outfile:
             outfile.write(yaml.dump(bundle, default_flow_style=True))
+        machine_list = self.machines
+        for m in machine_list:
+            subprocess.call(["scp", '-o', 'StrictHostKeyChecking=no', "%s/ssh_provider/ssh_prepare.sh" % script_dir(),
+                             '{}@{}:~/ssh_prepare.sh'.format(bootstrap_user, m)])
+            subprocess.call(
+                ["ssh", '-o', 'StrictHostKeyChecking=no', '{}@{}'.format(bootstrap_user, m), "~/ssh_prepare.sh"])
 
     def renew(self, hours):
         print('Renew unnecessary in SSH environment...')
@@ -44,7 +54,9 @@ class SSHEnv(object):
     @property
     def machines(self):
         try:
-            return get_machines_from_bundle(yaml.load(self.bundle_path))
+            with open(self.bundle_path, 'r') as bundle_file:
+                bundle = yaml.load(bundle_file)
+            return get_machines_from_bundle(bundle)
         except IOError:
             raise ProviderException('Bundle not found')
 

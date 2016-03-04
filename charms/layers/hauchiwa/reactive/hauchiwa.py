@@ -1,5 +1,5 @@
 # python3
-#!/usr/bin/env python
+# !/usr/bin/env python
 # pylint: disable=c0111,c0103,c0301
 import base64
 import os
@@ -11,7 +11,6 @@ import grp
 import subprocess
 import re
 
-
 # Charm pip dependencies
 from charmhelpers import fetch
 from charmhelpers.core import templating, hookenv, host
@@ -20,7 +19,6 @@ from charms.reactive import hook, when, when_not, set_state, remove_state
 
 # non-standard pip dependencies
 import yaml
-
 
 TENGU_DIR = '/opt/tengu'
 GLOBAL_CONF_PATH = TENGU_DIR + '/etc/global-conf.yaml'
@@ -92,13 +90,16 @@ def config_changed():
 @when('tengu.installed')
 @when_not('rest2jfed.available')
 def set_blocked():
-    # hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
-    print('')
+    conf = hookenv.config()
+    if conf['hauchiwa-flavor'] == 'rest2jfed':
+        hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
+    else:
+        set_state('hauchiwa.provider.configured')
 
 
-# @when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available', 'rest2jfed.configured')
-@when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available')
-def create_environment(*arg): #pylint:disable=w0613
+@when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available',
+      'hauchiwa.provider.configured')
+def create_environment(*arg):  # pylint:disable=w0613
     conf = hookenv.config()
     bundle = conf.get('bundle')
     if bundle:
@@ -109,7 +110,10 @@ def create_environment(*arg): #pylint:disable=w0613
             bundle_file.write(bundle)
         chownr(bundle_dir, USER, USER)
         hostname = subprocess.getoutput(['hostname'])
-        subprocess.check_call(['su', '-', USER, '-c', '{}/scripts/tengu.py create --bundle {} {}'.format(TENGU_DIR, bundle_path, hostname[2:])])
+        subprocess.check_call(['su', '-', USER, '-c',
+                               '{}/scripts/tengu.py create --bundle {} {}'.format(TENGU_DIR, bundle_path,
+                                                                                  hostname[2:])])
+    hookenv.status_set('active', 'Ready')
 
 
 @when('rest2jfed.available')
@@ -124,7 +128,7 @@ def setup_rest2jfed(rest2jfed):
     with open(GLOBAL_CONF_PATH, 'w') as config_file:
         config_file.write(yaml.dump(content, default_flow_style=False))
     set_state('rest2jfed.configured')
-    hookenv.status_set('active', 'Ready')
+    set_state('hauchiwa.provider.configured')
 
 
 @when('rest2jfed.configured')
@@ -160,7 +164,7 @@ def install_tengu():
         source='tengu',
         target='/usr/bin/tengu',
         perms=493,
-        context={'tengu_dir' : TENGU_DIR}
+        context={'tengu_dir': TENGU_DIR}
     )
     chownr(TENGU_DIR, USER, USER)
     templating.render(

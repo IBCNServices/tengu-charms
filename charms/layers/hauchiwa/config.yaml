@@ -15,3 +15,11 @@ options:
     type: string
     default: ubuntu
     description: user to install the tools for
+  hauchiwa-flavor:
+    type: string
+    default: ssh
+    description: flavor of the installed hauchiwa
+  charm-repo-source:
+    type: string
+    description: Git url where charm repo resides. Expects charm repo in <repo_root>/charms.
+    default: "http://github.com/tvanhove/tengu-charms.git"

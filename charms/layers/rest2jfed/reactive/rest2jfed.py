@@ -16,7 +16,7 @@ def upgrade_charm():
     """Upgrade Charm"""
     hookenv.log("Upgrading REST2JFed Charm")
     try:
-        subprocess.check_output(['sudo', 'service', 'rest2jfed', 'stop'])
+        subprocess.check_output(['service', 'rest2jfed', 'stop'])
     except subprocess.CalledProcessError as exception:
         hookenv.log(exception.output)
         # we do not need to exit here

@@ -16,12 +16,12 @@
     "reactive/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "0c7f9bcdca7db36ad879bdfc4289533906a282108f285232bd8544675da92bcd"
+      "f2a4358d10bc944c03a94d9bf4ecf7574e1eafc75683fd48d8fa822c2ff61726"
     ], 
-    "wheelhouse/charms.reactive-0.3.8.tar.gz": [
+    "hooks/leader-settings-changed": [
       "layer:basic", 
-      "dynamic", 
-      "3f8722d85f7d489f8414d11fc2a3e8793c68000f7a1bc7b1ad71120e037aebee"
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "files/rest2jfed/node.rspec": [
       "rest2jfed", 
@@ -83,9 +83,9 @@
       "static", 
       "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
-    "hooks/leader-settings-changed": [
-      "layer:basic", 
-      "static", 
+    "hooks/rest2jfed-relation-departed": [
+      "interface:http", 
+      "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
@@ -168,6 +168,11 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
+    "layer.yaml": [
+      "rest2jfed", 
+      "dynamic", 
+      "9f8b726d93c244ee444e3cd62c3a0481f3e44987e9f4524bb5858adecbd267f6"
+    ], 
     "icon.svg": [
       "rest2jfed", 
       "static", 
@@ -207,11 +212,6 @@
       "layer:basic", 
       "static", 
       "dffc5976e96afa5f1d73140b4ca6affee229507b96a2a9ef5d859a2d255febd8"
-    ], 
-    "hooks/rest2jfed-relation-departed": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
@@ -278,10 +278,10 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "layer.yaml": [
-      "rest2jfed", 
+    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
+      "layer:basic", 
       "dynamic", 
-      "9f8b726d93c244ee444e3cd62c3a0481f3e44987e9f4524bb5858adecbd267f6"
+      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
     ], 
     "config.yaml": [
       "rest2jfed", 

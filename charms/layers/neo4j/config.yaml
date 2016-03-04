@@ -1,0 +1,29 @@
+options:
+  install_sources:
+    type: string
+    description: The repository to install Debian packages from.
+    default: deb http://debian.neo4j.org/repo stable/
+  install_keys:
+    type: string
+    description: The key for the Debian package repository.
+    default: "01182252"
+  port:
+    type: int
+    default: 7474
+    description: "The port that the browser runs on."
+  cache-memory:
+    type: int
+    default: 512
+    description: "Size of Neo4j's native-memory cache in megabytes."
+  heap-memory:
+    type: int
+    default: 512
+    description: "Size of Neo4j's heap in megabytes."
+  keep-logical-logs:
+    type: int
+    default: 100
+    description: "Retention policy for logical logs in megabytes."
+  auth:
+    type: string
+    default: "neo4j/neo4j"
+    description: "Authentication, set to none to disable authentication or neo4j/<password> to override the default."

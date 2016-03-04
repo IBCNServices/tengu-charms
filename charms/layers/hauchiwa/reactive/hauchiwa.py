@@ -92,10 +92,11 @@ def config_changed():
 @when('tengu.installed')
 @when_not('rest2jfed.available')
 def set_blocked():
-    hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
+    # hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
 
 
-@when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available', 'rest2jfed.configured')
+# @when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available', 'rest2jfed.configured')
+@when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available')
 def create_environment(*arg): #pylint:disable=w0613
     conf = hookenv.config()
     bundle = conf.get('bundle')

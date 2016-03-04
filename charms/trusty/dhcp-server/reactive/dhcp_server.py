@@ -100,7 +100,7 @@ def install():
         }
     )
     host.service_restart('isc-dhcp-server')      #TODO: We should crash if start failed
-    hookenv.status_set('active', 'Ready ({})'.format(get_pub_ip))
+    hookenv.status_set('active', 'Ready ({})'.format(get_pub_ip()))
     set_state('dhcp-server.installed')
 
 

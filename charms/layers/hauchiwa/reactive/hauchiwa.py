@@ -93,6 +93,7 @@ def config_changed():
 @when_not('rest2jfed.available')
 def set_blocked():
     # hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
+    print('')
 
 
 # @when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available', 'rest2jfed.configured')

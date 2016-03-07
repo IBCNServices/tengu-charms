@@ -40,10 +40,6 @@ An example could be:
 The memory requirements of several components can be specified in
 megabytes: nimbus, ui, supervisor and worker.
 
-Also the default ports can be changed for nimbus, ui, zookeeper and drpc.
-These processes run as a non-priviledged user hence the port needs to be
-higher than 1024.
-
 Finally each worker node can have multiple workers running on it.
 The startingworkerport defines the port of the first worker, e.g. 6700.
 The numberofworkers defines how many workers are started up on each worker
@@ -57,3 +53,17 @@ a distributed file system would have to synchronize /mnt/storm between different
 peers and if the master died, a zookeeper master selection process would have to
 select a new master and all workers would have to change their nimbus server
 reference to point to the new master and restart.
+
+# Commands (execute on nimbus)
+
+Deploy storm topology
+
+    /opt/storm/latest/bin/storm jar <path.to.Main> <args>
+
+Kill storm topology
+
+    /opt/storm/apache-storm-0.9.3/bin/storm kill <topology-name>
+
+Storm logs:
+
+    /opt/storm/latest/logs

@@ -421,7 +421,7 @@
     "templates/juju-plugins.sh": [
       "juju-client", 
       "static", 
-      "bd8e2f97da6c5311277ade273e6e485558d8179fb040b3e1f274a0a4b648e25f"
+      "bc26155481d176b1cf1a2f70bad264de0571ab35d2ddb4d1027264db53757aa7"
     ], 
     "actions/export-tengu": [
       "hauchiwa", 

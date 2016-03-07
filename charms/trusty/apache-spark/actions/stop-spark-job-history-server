@@ -1,0 +1,4 @@
+#!/bin/bash
+. /etc/environment
+cd ${SPARK_HOME}/sbin
+su ubuntu -c "./stop-history-server.sh"

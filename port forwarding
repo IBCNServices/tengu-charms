@@ -106,3 +106,11 @@ export DEST_PORT=22
 export PROTOCOL=tcp
 sudo iptables -I FORWARD -p $PROTOCOL -d $DEST_IP --dport $PUB_PORT -j ACCEPT
 sudo iptables -t nat -A PREROUTING -p $PROTOCOL --dport $PUB_PORT -j DNAT --to-destination $DEST_IP:$DEST_PORT
+
+
+export PUB_PORT=2225
+export DEST_IP=192.168.14.195
+export DEST_PORT=22
+export PROTOCOL=tcp
+sudo iptables -I FORWARD -p $PROTOCOL -d $DEST_IP --dport $PUB_PORT -j ACCEPT
+sudo iptables -t nat -A PREROUTING -p $PROTOCOL --dport $PUB_PORT -j DNAT --to-destination $DEST_IP:$DEST_PORT

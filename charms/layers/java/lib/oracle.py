@@ -5,6 +5,7 @@ import shutil
 import tarfile
 import subprocess
 
+from jujubigdata import utils
 from charmhelpers.core import hookenv
 from charmhelpers.core.hookenv import charm_dir
 
@@ -15,7 +16,8 @@ def installoracle():
     java_minor = '73'
     tarname = 'server-jre-{}u{}-linux-x64.tar.gz'.format(java_major, java_minor)
     dirname = 'jdk1.{}.0_{}'.format(java_major, java_minor)
-    if not os.path.isdir('/opt/java/jre1.8.0_45'):
+    destdir = "/opt/java/{}".format(dirname)
+    if not os.path.isdir(destdir):
         tfile = tarfile.open(
             '{}/files/{}'.format(charm_dir(), tarname), 'r')
         # Important to note that the following extraction is
@@ -23,22 +25,25 @@ def installoracle():
         # relative path like ../../ and overwrite other dirs
         filesdir = '{}/files/'.format(charm_dir())
         extractdir = '{}/{}'.format(filesdir, dirname)
-        destdir = "/opt/java/{}".format(dirname)
         tfile.extractall(filesdir)
         mergecopytree(extractdir, destdir)
         # Set defaults
         subprocess.check_output(['update-alternatives', '--install', '/usr/bin/java', 'java', '{}/jre/bin/java'.format(destdir), '2000'])
         subprocess.check_output(['update-alternatives', '--install', '/usr/bin/javac', 'javac', '{}/bin/javac'.format(destdir), '2000'])
         # set env vars
-        env_vars = [
-            'J2SDKDIR={}'.format(destdir),
-            'J2REDIR={}/jre'.format(destdir),
-            'PATH=$PATH:{0}/bin:{0}/db/bin:{0}/jre/bin'.format(destdir),
-            'JAVA_HOME={}'.format(destdir),
-            'DERBY_HOME={}/db'.format(destdir),
-        ]
-        for line in env_vars:
-            add_line_to_file(line, '/etc/profile.d/oraclejdk.sh')
+        with utils.environment_edit_in_place('/etc/environment') as env:
+            # ensure that correct java is used
+            env['JAVA_HOME'] = destdir
+            env['J2SDKDIR'] = destdir
+            env['J2REDIR'] = '{}/jre'.format(destdir)
+            env['DERBY_HOME'] = '{}/db'.format(destdir)
+            if destdir not in env['PATH']:
+                env['PATH'] = ':'.join([
+                    '{}/bin'.format(env['JAVA_HOME']),
+                    '{}/bin'.format(env['J2REDIR']),
+                    '{}/bin'.format(env['DERBY_HOME']),
+                    env['PATH'],
+                ])
 
 
 #import charms.apt #pylint: disable=E1101
@@ -56,7 +61,7 @@ def installoracle():
 #     # subprocess.check_output(['echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections'])
 #     # subprocess.check_output(['echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections'])
 #     charms.apt.queue_install(['oracle-java%s-installer' % java_major])#pylint: disable=E1101
-#     # TODO remove when reactive fixed
+#     # remove when reactive fixed
 #     charms.apt.install_queued()#pylint: disable=E1101
 #     return 'oracle-java%s-installer' % java_major
 #

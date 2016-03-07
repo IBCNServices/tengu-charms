@@ -298,6 +298,7 @@ class JujuEnvironment(object):
         """ Add new Juju environment with name = name
         and bootstrap this environment """
         print "adding juju environment %s" % name
+        name = str(name)
         juju_config['bootstrap-host'] = bootstrap_host
         # get original environments config
         with open("{}/.juju/environments.yaml".format(HOME), 'r') as config_file:

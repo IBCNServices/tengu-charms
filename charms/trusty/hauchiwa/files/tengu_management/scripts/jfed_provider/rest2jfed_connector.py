@@ -1,11 +1,25 @@
 """ Module for connecting to the rest2jfed server """
+#pylint: disable=c0301
 import base64
-import requests
 import json
-#import pprint
-#PPRINTER = pprint.PrettyPrinter()
+
+from pygments import highlight, lexers, formatters
+import requests
 
 from output import fail # pylint: disable=F0401
+
+
+class Rest2jfedException(Exception):
+    """ Exception that prettyprints json text """
+    def __init__(self, url, status_code, text):
+        # Call the base class constructor with the parameters it needs
+        try:
+            formatted_json = json.dumps(json.loads(text), indent=4)
+            colorful_json = highlight(unicode(formatted_json, 'UTF-8'), lexers.JsonLexer(), formatters.TerminalFormatter()) # pylint: disable=E1101
+            text = colorful_json
+        except ValueError:
+            pass
+        super(Rest2jfedException, self).__init__("Call to {} failed with code {}. Response:\n{}".format(url, status_code, text))
 
 
 class Rest2jfedConnector(object):
@@ -28,9 +42,7 @@ class Rest2jfedConnector(object):
         response = requests.get(url, headers=self.headers)
         if response.status_code == 200:
             return json.loads(response.content)
-        raise Exception(
-            "Call to {2} failed with code {0} and message:\n{1}".format(
-                response.status_code, response.text, url))
+        raise Rest2jfedException(url, response.status_code, response.text)
 
 
     def get_sliceinfo(self):
@@ -39,9 +51,7 @@ class Rest2jfedConnector(object):
         response = requests.get(url, headers=self.headers)
         if response.status_code == 200:
             return json.loads(response.content)
-        raise Exception(
-            "Call to {2} failed with code {0} and message:\n{1}".format(
-                response.status_code, response.text, url))
+        raise Rest2jfedException(url, response.status_code, response.text)
 
 
     def get_status(self):
@@ -50,9 +60,7 @@ class Rest2jfedConnector(object):
         response = requests.get(url, headers=self.headers)
         if response.status_code == 200:
             return json.loads(response.content)
-        raise Exception(
-            "Call to {2} failed with code {0} and message:\n{1}".format(
-                response.status_code, response.text, url))
+        raise Rest2jfedException(url, response.status_code, response.text)
 
 
     def get_full_status(self):
@@ -64,9 +72,7 @@ class Rest2jfedConnector(object):
             headers=self.headers)
         if response.status_code == 200:
             return json.loads(response.content)
-        raise Exception(
-            "Call to {2} failed with code {0} and message:\n{1}".format(
-                response.status_code, response.text, url))
+        raise Rest2jfedException(url, response.status_code, response.text)
 
 
     def get_manifest(self, manifest_path):
@@ -77,9 +83,7 @@ class Rest2jfedConnector(object):
             with open(manifest_path, 'r+') as manifest_file:
                 manifest_file.write(response.content)
             return
-        raise Exception(
-            "Call to {2} failed with code {0} and message:\n{1}".format(
-                response.status_code, response.text, url))
+        raise Rest2jfedException(url, response.status_code, response.text)
 
 
     def exp_exists(self):
@@ -88,9 +92,7 @@ class Rest2jfedConnector(object):
         response = requests.get(url, headers=self.headers)
         if response.status_code == 200:
             return json.loads(response.content)
-        raise Exception(
-            "Call to {2} failed with code {0} and message:\n{1}".format(
-                response.status_code, response.text, url))
+        raise Rest2jfedException(url, response.status_code, response.text)
 
 
     def create(self, rspec_path, manifest_path):
@@ -104,9 +106,7 @@ class Rest2jfedConnector(object):
             with open(manifest_path, 'w+') as manifest_file:
                 manifest_file.write(response.content)
             return
-        raise Exception(
-            "Call to {2} failed with code {0} and message:\n{1}".format(
-                response.status_code, response.text, url))
+        raise Rest2jfedException(url, response.status_code, response.text)
 
 
     def renew(self, exp_time):
@@ -117,9 +117,7 @@ class Rest2jfedConnector(object):
                                  headers=self.headers)
         if response.status_code == 200:
             return json.loads(response.content)
-        raise Exception(
-            "Call to {2} failed with code {0} and message:\n{1}".format(
-                response.status_code, response.text, url))
+        raise Rest2jfedException(url, response.status_code, response.text)
 
 
     def delete(self):

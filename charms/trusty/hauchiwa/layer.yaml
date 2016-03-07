@@ -1,5 +1,13 @@
-includes:
-- /juju-client
-- interface:http
-- interface:opened-ports
-is: hauchiwa
+"options":
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+  "hauchiwa": {}
+  "juju-client": {}
+"includes":
+- "layer:basic"
+- "/juju-client"
+- "interface:http"
+- "interface:opened-ports"
+"is": "hauchiwa"

@@ -1,13 +1,13 @@
-name: hauchiwa
-summary: This Charm sets up a Tengu hauchiwa.
-maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
-description: ""
-tags:
-- big_data
-requires:
-  rest2jfed:
-    interface: http
-provides:
-  hauchiwa-port-forward:
-    interface: opened-ports
-subordinate: false
+"name": "hauchiwa"
+"summary": "This Charm sets up a Tengu hauchiwa."
+"maintainer": "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
+"description": ""
+"tags":
+- "big_data"
+"requires":
+  "rest2jfed":
+    "interface": "http"
+"provides":
+  "hauchiwa-port-forward":
+    "interface": "opened-ports"
+"subordinate": !!bool "false"

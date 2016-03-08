@@ -6,6 +6,7 @@ import shutil
 
 from charmhelpers import fetch
 from charmhelpers.core import templating, host
+from charmhelpers.core.hookenv import open_port
 
 from charms.reactive import set_state
 from charms.reactive import when, when_not, hook
@@ -50,6 +51,7 @@ def install_tokin():
 def start():
     host.service_start('tokin')
     set_state('tokin.started')
+    open_port('5000')
     hookenv.status_set('active', 'Tokin ready')
 
 

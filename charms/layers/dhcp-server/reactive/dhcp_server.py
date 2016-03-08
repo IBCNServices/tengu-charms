@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 # source: https://www.howtoforge.com/nat_iptables
 # pylint: disable=c0111,c0103,c0301
-import subprocess
 import json
+import socket
+import subprocess
 
 from charmhelpers.core import hookenv, templating, host
 from charmhelpers.core.hookenv import config
@@ -34,6 +35,11 @@ def configure_port_forwards(relation):
 def configure_forwarders():
     cfg = json.loads(config()["port-forwards"])
     update_port_forwards(cfg)
+
+
+@hook('upgrade-charm')
+def upgrade_charm():
+    install()
 
 
 @hook('install')
@@ -93,8 +99,8 @@ def install():
             'dhcp_range': dhcp_range,
         }
     )
-    host.service_restart('isc-dhcp-server')
-    hookenv.status_set('active', 'Ready')
+    host.service_restart('isc-dhcp-server')      #TODO: We should crash if start failed
+    hookenv.status_set('active', 'Ready ({})'.format(get_pub_ip()))
     set_state('dhcp-server.installed')
 
 
@@ -137,4 +143,11 @@ def get_gateway():
     routes = get_routes()
     for route in routes:
         if route['destination'] == '0.0.0.0':
-            return (route['iface'], route['destination'])
+            return (route['iface'], route['gateway'])
+
+def get_pub_ip():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.connect(("google.com", 80))
+    public_address = sock.getsockname()[0]
+    sock.close()
+    return public_address

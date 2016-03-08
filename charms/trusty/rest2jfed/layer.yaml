@@ -1,5 +1,14 @@
-includes:
-- layer:apt
-- /java
-- interface:http
-is: rest2jfed
+"options":
+  "java": {}
+  "rest2jfed": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "layer:apt"
+- "layer:apt"
+- "/java"
+- "interface:http"
+"is": "rest2jfed"

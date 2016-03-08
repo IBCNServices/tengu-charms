@@ -136,10 +136,18 @@ def get_data_from_bundle(bundle):
         if m_id == 0:
             constraints = machines[str(m_id)].get('constraints').split()
             for constraint in constraints:
-                if constraint.startswith('testbed='):
-                    testbed = constraint.split('=')[1]
-                elif constraint.startswith('pubipv4=') and constraint.split('=')[1].lower() == 'true':
+                try:
+                    key, value = constraint.split('=', 1)
+                except ValueError as valueerr:
+                    print('cannot decode constraint: {}'.format(constraint))
+                    print(valueerr.message)
+                    continue
+                if key == 'testbed':
+                    testbed = value
+                elif key == 'pubipv4' and value.lower() == 'true':
                     pub_ipv4 = True
+                elif key not in ['arch']:
+                    print('WARNING: constraint {} unknown'.format(constraint))
             if not testbed: raise Exception("machine {} doesn't specify testbed.".format(m_id))
     return {
         'nrnodes' : len(machines),

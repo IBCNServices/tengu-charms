@@ -67,7 +67,9 @@ def api_slice_create(projectname, slicename):
                 properties=PROPERTIES_PATH)
     # If we already have a manifest, check if experiment exists. If so, exit.
     # If not so, backup previous dir and create new experiment.
-    if os.path.isdir(slice_dir) and os.path.isfile(manifest_path):
+    if not os.path.isdir(slice_dir):
+        os.makedirs(slice_dir)
+    if os.path.isfile(manifest_path):
         slice_exists = jfed.slice_exists(slicename, manifest_path)
         if slice_exists:
             resp = Response("Cannot modify existing slice",
@@ -76,7 +78,6 @@ def api_slice_create(projectname, slicename):
             return resp
         else:
             shutil.move(slice_dir, '{}.bak{}'.format(slice_dir, time.time()))
-    os.makedirs(slice_dir)
     # Run command
     try:
         jfed.create_slice(slicename, rspec_path, manifest_path)

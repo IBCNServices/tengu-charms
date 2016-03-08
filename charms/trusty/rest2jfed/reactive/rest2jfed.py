@@ -16,7 +16,7 @@ def upgrade_charm():
     """Upgrade Charm"""
     hookenv.log("Upgrading REST2JFed Charm")
     try:
-        subprocess.check_output(['sudo', 'service', 'rest2jfed', 'stop'])
+        subprocess.check_output(['service', 'rest2jfed', 'stop'])
     except subprocess.CalledProcessError as exception:
         hookenv.log(exception.output)
         # we do not need to exit here
@@ -55,7 +55,7 @@ def install():
         hookenv.log(exception.output)
         exit(1)
     open_port(5000)
-    status_set('active', 'rest2jfed ready')
+    status_set('active', 'Ready')
     set_state('rest2jfed.installed')
 
 @hook('config-changed')
@@ -70,14 +70,9 @@ def config_changed():
         pemfile.write(base64.b64decode(conf['emulab-cert']))
         pemfile.truncate()
 
-@hook('rest2jfed-relation-changed')
-def rest2jfed_relation_changed():
-    """ Sets hostname and port on relation """
-    hookenv.log('Reconfiguring REST2JFed relation')
-    host = hookenv.unit_public_ip()
-    port = '5000'
-    relation_set(host=host)
-    relation_set(port=port)
+@when('rest2jfed.available')
+def configure_rest2jfed_relation(relation):
+    relation.configure(port='5000')
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):
     """"Recursive copy src to dst, mergecopy directory if dst exists.

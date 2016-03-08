@@ -60,7 +60,7 @@ class JFed(object):
     def check_vars(self):
         """ Checks if all the variables of the class instance are good; if files exist and such. """
         paths = [
-            self.java_path,
+            #self.java_path, # will not work if java is in path. Could fix this using distutils.spawn.find_executable('java')
             self.jfed_cli_path,
         ]
         for var in paths:
@@ -140,7 +140,8 @@ class JFed(object):
         odict = self.run_command(delete_c, slice_name=slice_name, rspec_path=rspec_path)
         exit_err = odict['is_exit_code_error']
         if exit_err:
-            raise JfedError('Delete failed', odict)
+            if odict.get('error') != 'DOES_NOT_EXIST':
+                raise JfedError('Delete failed', odict)
         return odict
 
 
@@ -339,6 +340,6 @@ def parse_output(output, is_exit_code_error):
             output = output.lstrip('"').rstrip().rstrip('"')
             outdict['json_output'] = json.loads(output)
         except ValueError:
-            raise ValueError('Cannot convert output to json: {}'.format(output))
+            outdict['NOT_PARSED'] = output
     print "DEBUG: outdict = {}".format(outdict)
     return outdict

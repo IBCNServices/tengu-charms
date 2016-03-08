@@ -135,3 +135,8 @@ pull PR from github
 prettyprint json output
 
     | python -m json.tool
+
+grep and get text around match
+
+    cat log | grep -A10 <searchterm> # Next 10 lines
+    cat log | grep -B10 <searchterm> # Previous 10 lines

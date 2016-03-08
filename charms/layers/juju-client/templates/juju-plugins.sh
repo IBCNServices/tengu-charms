@@ -1,1 +1,1 @@
-export PATH=$PATH:$HOME/.juju-pluginsPATH=$PATH:{{juju_plugins}}
+export PATH=$PATH:{{juju_plugins}}

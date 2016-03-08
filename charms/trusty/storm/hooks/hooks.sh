@@ -18,7 +18,7 @@ configure_hosts () {
 }
 
 install_base_packages () {
-	juju-log "Installing storm..."
+	  juju-log "Installing storm..."
 		juju-log "installing python charm helpers"
 		apt-get install -y python-pip python-yaml
 		pip install charmhelpers
@@ -62,11 +62,11 @@ open_ports () {
 	juju-log "Configuring ports for service unit roles"
 	case $role in
 		master)
-			open-port `config-get nimbusport` # Nimbus Server
-			open-port `config-get uiport` # UI
+			#open-port `config-get nimbusport` # Nimbus Server
+			open-port `config-get uiport` # Only user accessible ports should be opened.
 			;;
 		worker)
-			open-port `config-get drpcport` # DRPC
+			#open-port `config-get drpcport` # DRPC
 			;;
 	esac
 }
@@ -275,6 +275,27 @@ resolve_role () {
 	echo $role
 }
 
+give_hostname () {
+	relation-set hostname=`hostname`
+}
+
+add_line_to_file () {
+	# Add line to file if not already present
+	LINE=$1
+	FILE=$2
+	grep -q "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+}
+
+add_hostname () {
+	HOSTNAME=`relation-get hostname`
+	if [ $? -eq 0 ]; then
+		IP=`relation-get private-address`
+		add_line_to_file "$IP $HOSTNAME\n" "/etc/hosts"
+	fi
+}
+
+
+
 COMMAND=`basename $0`
 role="`resolve_role`"
 
@@ -285,9 +306,10 @@ case $COMMAND in
 		configure_storm_base
 		;;
 	worker-relation-joined)
-		# do nothing
+		give_hostname
 		;;
 	master-relation-changed)
+	  add_hostname
 		ready=`relation-get ready`
 		if [ -z "$ready" ]
 		then
@@ -313,6 +335,7 @@ case $COMMAND in
 		stop_storm
 		;;
 	master-relation-joined)
+	  give_hostname
 		case $role in
 			unconfigured)
 				juju-log "Configuring this unit as a master"
@@ -339,6 +362,7 @@ case $COMMAND in
 		esac
 		;;
 	worker-relation-changed)
+  	add_hostname
 		ready=`relation-get ready`
 		if [ -z "$ready" ]
 		then
@@ -370,15 +394,17 @@ case $COMMAND in
 		fi
 		;;
 	coworker-relation-joined|coworker-relation-broken|worker-relation-departed)
+	  give_hostname
 		update_coworkers
 		restart_storm
 		;;
 	coworker-relation-changed)
-	# Don't do anything
+	  add_hostname
+	  # Don't do anything
 		;;
 	worker-relation-broken|worker-relation-departed)
 		# No master - always shutdown
-	#purge_worker
+  	#purge_worker
 		#stop_storm
 		;;
 	config-changed)

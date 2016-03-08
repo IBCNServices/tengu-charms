@@ -139,7 +139,7 @@ def remove_rest2jfed():
 
 def install_tengu():
     """ Installs tengu management tools """
-    packages = ['python-pip']
+    packages = ['python-pip', 'tree']
     fetch.apt_install(fetch.filter_installed_packages(packages))
     subprocess.check_output(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil'])
     # Install Tengu. Existing /etc files don't get overwritten.

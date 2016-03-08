@@ -16,10 +16,10 @@
       "static", 
       "59192a82aa13721399bcf0d0f798b4e53a80d9ecea88a95202a18c789a4f6603"
     ], 
-    "wheelhouse/charms.reactive-0.3.8.tar.gz": [
+    "hooks/leader-settings-changed": [
       "layer:basic", 
-      "dynamic", 
-      "3f8722d85f7d489f8414d11fc2a3e8793c68000f7a1bc7b1ad71120e037aebee"
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/pyaml-15.8.2.tar.gz": [
       "layer:basic", 
@@ -65,11 +65,6 @@
       "tokin", 
       "static", 
       "947131db8edaf76eda7341b5c422d481b3fd2ed585bc80c934633026c4822357"
-    ], 
-    "hooks/leader-settings-changed": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -146,10 +141,15 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
+    "layer.yaml": [
+      "tokin", 
+      "dynamic", 
+      "d619dc43e2fd9da30526d50e0efe7e093a076c8ad8f0c41563d60d762ce571ea"
+    ], 
     "reactive/tokin.py": [
       "tokin", 
       "static", 
-      "f5b6c9eaa03c08cf6b897f991647390e8061fc9316b4bbd2061eb87d547c7e35"
+      "975b8e23fa540615f815f65a57c2f5c525129446b7512e75b7d927adac7e8355"
     ], 
     "config.yaml": [
       "juju-client", 
@@ -231,10 +231,10 @@
       "static", 
       "636f399b0484b9833681fe3ff8be36189f330adac010bfefa4afa32c7ccfd9a8"
     ], 
-    "layer.yaml": [
-      "tokin", 
+    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
+      "layer:basic", 
       "dynamic", 
-      "d619dc43e2fd9da30526d50e0efe7e093a076c8ad8f0c41563d60d762ce571ea"
+      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
     ], 
     "hooks/config-changed": [
       "layer:basic", 

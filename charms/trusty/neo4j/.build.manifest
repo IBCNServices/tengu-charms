@@ -1,0 +1,296 @@
+{
+  "layers": [
+    "layer:basic", 
+    "layer:openjdk", 
+    "neo4j", 
+    "interface:java", 
+    "build"
+  ], 
+  "signatures": {
+    "tests/10-deploy": [
+      "neo4j", 
+      "static", 
+      "9ad4d15d2a7a6120cfc421754ece434ceb6e111d18ff4ba08b227ba30c8bd4d7"
+    ], 
+    "hooks/java-relation-joined": [
+      "interface:java", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/java/provides.py": [
+      "interface:java", 
+      "static", 
+      "f6364ab4c1b22b5b581bd9c40e1985d82ac7a3c3c26c32b76d858cd6032daa6a"
+    ], 
+    "wheelhouse/pyaml-15.8.2.tar.gz": [
+      "neo4j", 
+      "dynamic", 
+      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
+    ], 
+    "wheelhouse/jujuresources-0.4.0.tar.gz": [
+      "neo4j", 
+      "dynamic", 
+      "dbade544066885c2db48d18eca4512c89ca5c38c81ff8bd5b8ff228166dedb72"
+    ], 
+    "Makefile": [
+      "layer:openjdk", 
+      "static", 
+      "0eeb861047caf16ea7e61dffd904f29bf162dc78fd04307be0a376cfac52fad5"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "wheelhouse/charmhelpers-0.6.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "521f406d6fa5a60df3341f55516917b871310b5b25343970fdd6f3fa92ef8ceb"
+    ], 
+    "tests/00-setup": [
+      "neo4j", 
+      "static", 
+      "111c079b81d260bbcd716dcf41672372a4cf4aaa14154b6c3055deeedae37a06"
+    ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    "COPYING": [
+      "neo4j", 
+      "static", 
+      "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
+    ], 
+    "unit_tests/test_actions.py": [
+      "neo4j", 
+      "static", 
+      "912c8ffec91e48e9436a1ab3e765380714e292242e604ad05f7c026c7f0e83e8"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/path.py-8.1.2.tar.gz": [
+      "neo4j", 
+      "dynamic", 
+      "ada95d117c4559abe64080961daf5badda68561afdd34c278f8ca20f2fa466d2"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
+    ], 
+    "metadata.yaml": [
+      "neo4j", 
+      "dynamic", 
+      "d3410d80e1787597e31a7b1b4b159eb37afb131e50ada83ade703c55626152c8"
+    ], 
+    "LICENSE": [
+      "layer:openjdk", 
+      "static", 
+      "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+    ], 
+    "copyright": [
+      "layer:openjdk", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "hooks/relations/java/copyright": [
+      "interface:java", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    ".gitignore": [
+      "neo4j", 
+      "static", 
+      "e20078e656bd38867e2c4bb54c94461fd4dae9664ebc74a629dfc06291bcb03f"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/java-relation-broken": [
+      "interface:java", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "layer.yaml": [
+      "neo4j", 
+      "dynamic", 
+      "ba882d70e1681c13c47cf4700a1ed31b2b0113ba8940a1ffbc28cb8dddc12eff"
+    ], 
+    "icon.svg": [
+      "neo4j", 
+      "static", 
+      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+    ], 
+    "hooks/java-relation-departed": [
+      "interface:java", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "config.yaml": [
+      "neo4j", 
+      "dynamic", 
+      "fe4fca13044025161b1a7274d2fd7cb39dabf7bbc80908aa313f1594e392fc0d"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/java/interface.yaml": [
+      "interface:java", 
+      "static", 
+      "483a0485f8fc110629f4cc10fffa9fc5fc6a7d8e9fec0816c6980603b3266c88"
+    ], 
+    "lib/charms/layer/basic.py": [
+      "layer:basic", 
+      "static", 
+      "dffc5976e96afa5f1d73140b4ca6affee229507b96a2a9ef5d859a2d255febd8"
+    ], 
+    "wheelhouse/jujubigdata-6.1.3.tar.gz": [
+      "neo4j", 
+      "dynamic", 
+      "869d3384291a60ef3808a87b21083c0d0b51d0544082f823d600f63830ea7578"
+    ], 
+    "tests/01-deploy.py": [
+      "layer:openjdk", 
+      "static", 
+      "ee92d29786f54bd4129f48791902ec7f77ff3ea1af553d06fcaa4c276340b574"
+    ], 
+    "tests/tests.yaml": [
+      "layer:openjdk", 
+      "static", 
+      "99f5125dcc0f877fca31e1f655573a476206a05cd61cfde2691385f2671d069f"
+    ], 
+    "reactive/neo4j.py": [
+      "neo4j", 
+      "static", 
+      "7d4ae01f78c7f46780248dabe54402fd634be2b2d74815b260b9fa6ef919a5a5"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/java/requires.py": [
+      "interface:java", 
+      "static", 
+      "fa2eca6fb016bf3e5073ed88790179f1f82b0eb5daa20f7dbe4c759fca697d12"
+    ], 
+    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/java/__init__.py": [
+      "interface:java", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "README.md": [
+      "neo4j", 
+      "static", 
+      "abfe5b72a14d734c20e42599513f7e49bb0d0ff8974c6f42d7e4bd4c96a0625d"
+    ], 
+    "templates/upstart.conf": [
+      "neo4j", 
+      "static", 
+      "e4eff7d99b4d158dcb3a23db163e04874aab6e2efcfdc031d93eeb83e65244cc"
+    ], 
+    "Vagrantfile": [
+      "neo4j", 
+      "static", 
+      "04174863022c77ef42184125c9d6a96120607497065ed0f0d2214296b1eac045"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/java/README.md": [
+      "interface:java", 
+      "static", 
+      "e05a50e7c53988780b496ecd876e752ad61440bf1effc333e9ffdabc19fecdd3"
+    ], 
+    "wheelhouse/PyYAML-3.11.tar.gz": [
+      "neo4j", 
+      "dynamic", 
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/java-relation-changed": [
+      "interface:java", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "neo4j", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ], 
+    "reactive/openjdk.sh": [
+      "layer:openjdk", 
+      "static", 
+      "00133e969e7765a12cd0fc55afc2d4d486140341e286f2a6db82fef70f72f986"
+    ]
+  }
+}

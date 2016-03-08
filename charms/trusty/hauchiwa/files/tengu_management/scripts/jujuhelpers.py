@@ -50,13 +50,14 @@ class Service(object):
 
     def wait_until(self, status):
         """ Wait until service contains status in its message """
-        sys.stdout.write('waiting until {} service is {}\n'.format(self.name, status))
+        sys.stdout.write('waiting until {} service is {} '.format(self.name, status))
         while(True):
-            if (self.status and self.status['message'] and (status in self.status['message'])):
+            if (self.status and self.status['message'] and (status.lower() in self.status['message'].lower())):
                 break
             sleep(5)
             sys.stdout.write('.')
             sys.stdout.flush()
+        sys.stdout.write('{} is {}!\n'.format(self.name, status))
 
 
 class JujuEnvironment(object):
@@ -297,6 +298,7 @@ class JujuEnvironment(object):
         """ Add new Juju environment with name = name
         and bootstrap this environment """
         print "adding juju environment %s" % name
+        name = str(name)
         juju_config['bootstrap-host'] = bootstrap_host
         # get original environments config
         with open("{}/.juju/environments.yaml".format(HOME), 'r') as config_file:

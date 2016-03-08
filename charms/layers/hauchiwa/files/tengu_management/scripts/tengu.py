@@ -29,7 +29,7 @@ import jfed_provider
 import ssh_provider
 
 
-global_conf = Config("", realpath(script_dir() + "/../etc/global-conf.yaml")) # pylint: disable=c0103
+global_conf = Config(realpath(script_dir() + "/../etc/global-conf.yaml")) # pylint: disable=c0103
 DEFAULT_ENV_CONF = realpath(script_dir() + "/../templates/env-conf.yaml.template")
 ENV_CONF_NAME = "env-conf.yaml"
 PPRINTER = pprint.PrettyPrinter()
@@ -41,7 +41,7 @@ DEFAULT_ENV = JujuEnvironment.current_env()
 def init_environment_config(env_name):
     """ Inits environment config.
         Does not override environment config if it exists """
-    config = Config(DEFAULT_ENV_CONF, env_conf_path(env_name))
+    config = Config(env_conf_path(env_name), default_path=DEFAULT_ENV_CONF)
     config['env-name'] = env_name
     config.save()
     return config
@@ -140,39 +140,44 @@ def downloadbigfiles(path):
     """Downloads url from .source files it finds in path"""
     # The top argument for walk
     topdir = os.path.realpath(path)
-    okwhite("downloading sources in %s " % topdir)
+    okwhite("downloading bigfiles in %s " % topdir)
     # The extension to search for
     exten = '.source'
+    # Walk through the directories
     for dirpath, dirnames, files in os.walk(topdir): #pylint:disable=w0612
+        # for all files in current directory
         for name in files:
+            # If file is source file
             if name.lower().endswith(exten):
-                source = os.path.join(dirpath, name)
-                file_to_download = source[:-len(exten)]
-                okwhite('%s' % file_to_download)
-
-                if not os.path.isfile(file_to_download):
-                    with open(source, "r") as myfile:
-                        url = myfile.readline().rstrip()
-                        command = myfile.readline().rstrip()
-                    if url.startswith('command: '):
-                        command = url.lstrip('command: ')
+                source_path = os.path.join(dirpath, name)
+                dest_path = source_path[:-len(exten)]
+                # If file to download doesn't exist
+                if not os.path.isfile(dest_path):
+                    okwhite('{}'.format(dest_path))
+                    with open(source_path, "r") as source_file:
+                        first_line = source_file.readline().rstrip()
+                        action = source_file.readline().rstrip()
+                    # If source file contains download command
+                    if first_line.startswith('command: '):
+                        command = first_line.lstrip('command: ')
                         subprocess.check_output(
                             [command], shell=True, cwd=dirpath
                         )
+                    # if source file contains url
                     else:
+                        url = first_line
                         okwhite('\t DOWNLOADING FROM: %s' % url)
                         urlopener = urllib.URLopener()
-                        urlopener.retrieve(url, file_to_download)
-                        if command == "extract":
-                            okwhite('\t EXTRACTING: %s' % file_to_download)
-                            tfile = tarfile.open(file_to_download, 'r')
-                            # Important to note that the following extraction is
-                            # UNSAFE since .tar.gz archive could contain
-                            # relative path like ../../ and overwrite other dirs
-                            tfile.extractall(os.path.dirname(file_to_download))
-                else:
-                    okwhite('\t OK')
-                okwhite('')
+                        urlopener.retrieve(url, dest_path)
+                    # if source file contains extract action
+                    if action == "extract":
+                        okwhite('\t EXTRACTING: %s' % dest_path)
+                        tfile = tarfile.open(dest_path, 'r')
+                        # Important to note that the following extraction is
+                        # UNSAFE since .tar.gz archive could contain
+                        # relative path like ../../ and overwrite other dirs
+                        tfile.extractall(os.path.dirname(dest_path))
+    okwhite("downloading bigfiles complete")
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -350,14 +355,14 @@ def c_status(name):
     if responsedict['short_status'] == 'READY':
         statusdict = responsedict['json_output']
         try:
-            okblue("status of jfed slice is {}".format(statusdict['AMs'].values()[0]['amGlobalSliverStatus']))
-            okblue("earliest expiration date of sliver is {}".format(statusdict['earliestSliverExpireDate']))
+            okblue("Status of experiment is {}".format(statusdict['AMs'].values()[0]['amGlobalSliverStatus']))
+            okblue("Experiment will expire at {}".format(statusdict['earliestSliverExpireDate']))
         except (yaml.parser.ParserError, ValueError, KeyError) as exc:
             print("could not parse status from ouptut. statusdict: ")
             PPRINTER.pprint(statusdict)
             raise exc
     else:
-        okwhite("status of jfed slice is {}. responsedict: ".format(responsedict['short_status']))
+        okwhite("Status of jfed slice is {}. responsedict: ".format(responsedict['short_status']))
         PPRINTER.pprint(responsedict)
     if JujuEnvironment.env_exists(name):
         okblue('Juju environment exists')

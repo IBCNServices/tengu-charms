@@ -26,13 +26,15 @@ from output import okblue, fail, okwhite
 from config import Config, script_dir, tengu_dir
 from jujuhelpers import JujuEnvironment
 import jfed_provider
+import ssh_provider
 
 
 global_conf = Config(realpath(script_dir() + "/../etc/global-conf.yaml")) # pylint: disable=c0103
 DEFAULT_ENV_CONF = realpath(script_dir() + "/../templates/env-conf.yaml.template")
 ENV_CONF_NAME = "env-conf.yaml"
 PPRINTER = pprint.PrettyPrinter()
-PROVIDER = jfed_provider.JfedProvider(global_conf)
+#PROVIDER = jfed_provider.JfedProvider(global_conf)
+PROVIDER = ssh_provider.SSHProvider(global_conf)
 DEFAULT_ENV = JujuEnvironment.current_env()
 
 

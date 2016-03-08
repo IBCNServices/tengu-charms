@@ -56,10 +56,10 @@ def config_changed():
 
 def add_key(key):
     """add ssh public key in authorized-keys format"""
-    add_line_to_file(key, '/home/ubuntu/.ssh/authorized_keys')
+    add_line_to_file(key, '{}/.ssh/authorized_keys'.format(HOME))
     try:
         subprocess.check_call([
-            'su', 'ubuntu', '-c',
+            'su', USER, '-c',
             'juju authorized-keys add {}'.format(key)])
     except subprocess.CalledProcessError as err:
         print("failed to add key to environment: {}".format(err))
@@ -67,6 +67,7 @@ def add_key(key):
 
 def install_packages():
     hookenv.status_set('maintenance', 'Installing packages')
+    fetch.apt_install(fetch.filter_installed_packages(['software-properties-common']))
     fetch.add_source('ppa:juju/stable')
     fetch.apt_update()
     packages = ['juju', 'juju-core', 'juju-deployer',
@@ -95,6 +96,7 @@ def install_juju_plugins():
         target='{}/.juju/debug-hooks-rc.yaml'.format(HOME),
         context={},
     )
+
 
 def get_and_configure_charm_repo(git_url):
     hookenv.status_set('maintenance', 'Configuring Charm Repo')

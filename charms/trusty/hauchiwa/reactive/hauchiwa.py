@@ -222,6 +222,8 @@ def chownr(path, owner, group, follow_links=True):
 
 def get_or_create_ssh_key(keysdir, user, group):
     """ Gets ssh public key. Creates one if it doesn't exist yet. """
+    if not os.path.isdir(keysdir):
+        os.makedirs(keysdir)
     ssh_pub_keypath = "{}/id_rsa.pub".format(keysdir)
     ssh_priv_keypath = "{}/id_rsa".format(keysdir)
     authorized_keys = "{}/authorized_keys".format(keysdir)

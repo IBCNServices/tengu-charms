@@ -11,7 +11,7 @@
     "reactive/juju-client.py": [
       "juju-client", 
       "static", 
-      "605f8fc6dc972d5d5e3f228d8ff8d0223da504d55dd3802992f542ac04cf2450"
+      "74cb2570639201bea2e3c8ee9d3b06e4f7264c1ef1f15b2f2a2e4b6fd42f641d"
     ], 
     "files/tengu_management/scripts/ssh_provider/provider.py": [
       "hauchiwa", 
@@ -36,7 +36,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "93de3a5bd1248261950769ad760db85728ea2c627fd36bfd3a9779e2f70f37ad"
+      "689f8a0724c440632d305c3cc1e67173ab66a833f1e87aa1cbc77aa198925b6c"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 

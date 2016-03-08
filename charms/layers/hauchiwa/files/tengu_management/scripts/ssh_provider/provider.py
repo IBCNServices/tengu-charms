@@ -32,6 +32,10 @@ class SSHEnv(object):
         self.global_conf = global_conf
         self.env_conf = env_conf
 
+        self.files ={
+            "bundle": self.bundle_path
+        }
+
     def create(self, bundle):
         print('Creating Tengu SSH environment...')
         bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']

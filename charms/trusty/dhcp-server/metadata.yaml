@@ -1,11 +1,11 @@
-name: dhcp-server
-summary: isc-dhcp server
-maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
-description: |
+"name": "dhcp-server"
+"summary": "isc-dhcp server"
+"maintainer": "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
+"description": |
   isc-dhcp server
-tags:
-- ops
-requires:
-  opened-ports:
-    interface: opened-ports
-subordinate: false
+"tags":
+- "ops"
+"requires":
+  "opened-ports":
+    "interface": "opened-ports"
+"subordinate": !!bool "false"

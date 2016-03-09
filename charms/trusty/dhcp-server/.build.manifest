@@ -29,7 +29,7 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "7a5fc48d899d719eb6140652d23dec05a21a634c5591c9bcc9f4a255a3ac2c64"
+      "7da3233debdf65dfa36c2c92e48b6956ab1bd97b04e8056ba7c2acf568a65c47"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -139,7 +139,7 @@
     "layer.yaml": [
       "dhcp-server", 
       "dynamic", 
-      "e0af8e6a758f0cb3b2ede09e87105536a6e259fa141a1b169cd78ff7b139a7b5"
+      "e05cfe8d593fcb5b75e61f10c57f9394ad14ca030ea96b8816efc0b31eb4f35a"
     ], 
     "icon.svg": [
       "dhcp-server", 
@@ -149,7 +149,7 @@
     "config.yaml": [
       "dhcp-server", 
       "dynamic", 
-      "ec294bb915abdfeac4f655dd4312f4ff95ca6b2dd99c0b0d479efcd490267bef"
+      "ad1205243c8e4bfc943c0415d28e74c44012f5817994990c9660f36783fb81bd"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
@@ -159,7 +159,7 @@
     "lib/iptables.py": [
       "dhcp-server", 
       "static", 
-      "7573825744fb17717cdff77d425fdc65129695fcf153cffac2c60652f5609efa"
+      "77203b65a71d450d5f22d2f49e649ad1778c8f07a12980f8d12c2ddea8f2d539"
     ], 
     "hooks/stop": [
       "layer:basic", 
@@ -184,7 +184,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "dffc5976e96afa5f1d73140b4ca6affee229507b96a2a9ef5d859a2d255febd8"
+      "78efd0cb72fcbb9779d4f9a849257e3edcec1b7b373206e9f168429da44eaf52"
     ], 
     "reactive/dhcp_server.py": [
       "dhcp-server", 
@@ -204,7 +204,7 @@
     "metadata.yaml": [
       "dhcp-server", 
       "dynamic", 
-      "e317425e595fd70d25b2f8aa5546e35fe6b2eb0944baeeeb068d22eeba9d3ba1"
+      "6c22aa31f0c6a146f0943f56c21e7766efb7cb1087fe128dd2f4337a7885d4b7"
     ], 
     "hooks/update-status": [
       "layer:basic", 

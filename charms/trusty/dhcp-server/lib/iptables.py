@@ -60,7 +60,8 @@ def get_rules(table, chain):
         # The rest of the line is a list of key-value items seperated by ':'
         for item in line[10:]:
             item = item.split(':', 1)
-            rules[-1][item[0]] = item[1]
+            if len(item) == 2:
+                rules[-1][item[0]] = item[1]
     return rules
 
 

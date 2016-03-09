@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # source: https://www.howtoforge.com/nat_iptables
 # pylint: disable=c0111,c0103,c0301
+import os
 import json
 import socket
 import subprocess
@@ -8,7 +9,7 @@ import subprocess
 from charmhelpers.core import hookenv, templating, host
 from charmhelpers.core.hookenv import config
 from charmhelpers import fetch
-from charms.reactive import hook, when, when_not, when_all, set_state
+from charms.reactive import hook, when, when_not, when_all, set_state, when_any, remove_state
 #from charms.reactive.helpers import data_changed
 
 # modules from Pip dependencies
@@ -17,7 +18,7 @@ import netifaces
 import netaddr
 
 # Own modules
-from iptables import update_port_forwards
+from iptables import update_port_forwards, configure_nat_gateway
 
 # Forward ports from config and relations
 @when_all('opened-ports.available', 'dhcp-server.installed')
@@ -37,6 +38,8 @@ def configure_forwarders():
     update_port_forwards(cfg)
 
 
+
+
 @hook('upgrade-charm')
 def upgrade_charm():
     install()
@@ -46,7 +49,19 @@ def upgrade_charm():
 def install():
     hookenv.log('Installing isc-dhcp')
     fetch.apt_update()
-    fetch.apt_install(fetch.filter_installed_packages(['isc-dhcp-server']))
+    fetch.apt_install(fetch.filter_installed_packages(
+        ['isc-dhcp-server', 'iptables-persistent']
+    ))
+    set_state('dhcp-server.installed')
+
+
+@when_any(
+    'config.changed.dhcp-network',
+    'config.changed.dhcp-range',
+    'config.changed.dhcp-network'
+)
+@when('dhcp-server.installed')
+def configure():
     hookenv.log('Configuring isc-dhcp')
     dhcp_network = netaddr.IPNetwork(config()["dhcp-network"])
     dhcp_range = config()["dhcp-range"]
@@ -79,7 +94,7 @@ def install():
     if gateway_if != dhcp_if:
         print('Default gateway is not on dhcp network, configuring host as gateway.')
         gateway_ip = dhcp_addr
-        configure_as_gateway(dhcp_if, public_ifs)
+        configure_nat_gateway(dhcp_if, public_ifs)
     templating.render(
         source='isc-dhcp-server',
         target='/etc/default/isc-dhcp-server',
@@ -99,15 +114,18 @@ def install():
             'dhcp_range': dhcp_range,
         }
     )
-    host.service_restart('isc-dhcp-server')      #TODO: We should crash if start failed
-    hookenv.status_set('active', 'Ready ({})'.format(get_pub_ip()))
-    set_state('dhcp-server.installed')
-
-
-def configure_as_gateway(dhcp_if, public_ifs):
-    for pub_if in public_ifs:
-        subprocess.check_output(['iptables', '--table', 'nat', '--append', 'POSTROUTING', '--out-interface', pub_if, '-j', 'MASQUERADE'])
-    subprocess.check_output(['iptables', '--append', 'FORWARD', '--in-interface', dhcp_if, '-j', 'ACCEPT'])
+    host.service_stop('isc-dhcp-server')
+    success = host.service_start('isc-dhcp-server')
+    if not success:
+        message = "starting isc-dhcp-server failed. Please Check Charm configuration."
+        if os.path.exists('/var/log/upstart/isc-dhcp-server.log'):
+            with open('/var/log/upstart/isc-dhcp-server.log', 'r') as logfile:
+                message += "Log: {}".format(logfile)
+        hookenv.status_set('blocked', message)
+        remove_state('dhcp-server.started')
+    else:
+        hookenv.status_set('active', 'Ready ({})'.format(get_pub_ip()))
+        set_state('dhcp-server.started')
 
 
 def get_dns():
@@ -144,6 +162,7 @@ def get_gateway():
     for route in routes:
         if route['destination'] == '0.0.0.0':
             return (route['iface'], route['gateway'])
+
 
 def get_pub_ip():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

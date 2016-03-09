@@ -6,6 +6,69 @@ import re
 import netifaces
 from netifaces import AF_INET
 
+###############################################################################
+#
+# PUBLIC METHODS
+#
+###############################################################################
+
+def update_port_forwards(config):
+    """[{
+        "public_port": "<public-port>",
+        "private_port": "<private_port>",
+        "private_ip": "<private_ip>",
+        "protocol": "<tcp/udp>"
+    }]"""
+    ips = get_ips()
+    ruleset = []
+    for p_forward in config:
+        for ip in ips:
+            accept_rule = {
+                'dpt' : p_forward['public_port'],
+                'd_ip' : ip,
+                'target' : 'ACCEPT',
+                'protocol' : p_forward['protocol'],
+                'comment' : 'managed by juju port forward',
+                'table' : 'filter',
+                'chain' : 'FORWARD'
+            }
+            ruleset.append(accept_rule)
+            forward_rule = {
+                'dpt' : p_forward['public_port'],
+                'd_ip' : ip,
+                'target' : 'DNAT',
+                'to' : '{}:{}'.format(p_forward['private_ip'], p_forward['private_port']),
+                'protocol' : p_forward['protocol'],
+                'comment' : 'managed by juju port forward',
+                'table' : 'nat',
+                'chain' : 'PREROUTING'
+            }
+            ruleset.append(forward_rule)
+    for rule in ruleset:
+        if not rule_exists(rule):
+            append_rule(rule)
+    for rule in get_rules('nat', 'PREROUTING') + get_rules('filter', 'FORWARD'):
+        if rule.get('comment') == 'managed by juju port forward':
+            if not contains_rule(rule, ruleset):
+                delete_rule(rule)
+    subprocess.check_call(['invoke-rc.d', 'iptables-persistent', 'save'])
+
+
+def configure_nat_gateway(dhcp_if, public_ifs):
+    # TODO: Remove old gateway iptables rules
+    for pub_if in public_ifs:
+        subprocess.check_call(['iptables', '--table', 'nat', '--append', 'POSTROUTING', '--out-interface', pub_if, '-j', 'MASQUERADE'])
+    subprocess.check_call(['iptables', '--append', 'FORWARD', '--in-interface', dhcp_if, '-j', 'ACCEPT'])
+    subprocess.check_call(['iptables', '--append', 'FORWARD', '--in-interface', dhcp_if, '-j', 'ACCEPT'])
+    subprocess.check_call(['invoke-rc.d', 'iptables-persistent', 'save'])
+
+
+###############################################################################
+#
+# INTERNAL METHODS
+#
+###############################################################################
+
 
 def get_ips():
     ips = []
@@ -94,46 +157,6 @@ def edit_rule(rule, action):
     output = subprocess.check_output(command, universal_newlines=True)
     print('DEBUG: OUTPUT="""{}"""'.format('" "'.join(output)))
 
-
-def update_port_forwards(config):
-    """[{
-        "public_port": "<public-port>",
-        "private_port": "<private_port>",
-        "private_ip": "<private_ip>",
-        "protocol": "<tcp/udp>"
-    }]"""
-    ips = get_ips()
-    ruleset = []
-    for p_forward in config:
-        for ip in ips:
-            accept_rule = {
-                'dpt' : p_forward['public_port'],
-                'd_ip' : ip,
-                'target' : 'ACCEPT',
-                'protocol' : p_forward['protocol'],
-                'comment' : 'managed by juju port forward',
-                'table' : 'filter',
-                'chain' : 'FORWARD'
-            }
-            ruleset.append(accept_rule)
-            forward_rule = {
-                'dpt' : p_forward['public_port'],
-                'd_ip' : ip,
-                'target' : 'DNAT',
-                'to' : '{}:{}'.format(p_forward['private_ip'], p_forward['private_port']),
-                'protocol' : p_forward['protocol'],
-                'comment' : 'managed by juju port forward',
-                'table' : 'nat',
-                'chain' : 'PREROUTING'
-            }
-            ruleset.append(forward_rule)
-    for rule in ruleset:
-        if not rule_exists(rule):
-            append_rule(rule)
-    for rule in get_rules('nat', 'PREROUTING') + get_rules('filter', 'FORWARD'):
-        if rule.get('comment') == 'managed by juju port forward':
-            if not contains_rule(rule, ruleset):
-                delete_rule(rule)
 
 def prop_equals(prop1, prop2):
     if str(prop1) == str(prop2):

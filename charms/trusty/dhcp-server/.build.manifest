@@ -6,6 +6,11 @@
     "build"
   ], 
   "signatures": {
+    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
+    ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
@@ -36,11 +41,6 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "wheelhouse/charmhelpers-0.6.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "521f406d6fa5a60df3341f55516917b871310b5b25343970fdd6f3fa92ef8ceb"
-    ], 
     ".build.manifest": [
       "build", 
       "dynamic", 
@@ -56,30 +56,25 @@
       "static", 
       "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
-    "wheelhouse/PyYAML-3.11.tar.gz": [
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
     "hooks/hook.template": [
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "hooks/relations/opened-ports/requires.py": [
-      "interface:opened-ports", 
-      "static", 
-      "c643f9798cfd43a2319e8c5be3aa802974f899534ae5758fd076ca6f4cb53c22"
-    ], 
     "tox.ini": [
       "layer:basic", 
       "static", 
       "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
     ], 
-    "wheelhouse/Tempita-0.5.2.tar.gz": [
-      "layer:basic", 
+    "metadata.yaml": [
+      "dhcp-server", 
       "dynamic", 
-      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+      "6c22aa31f0c6a146f0943f56c21e7766efb7cb1087fe128dd2f4337a7885d4b7"
     ], 
     "hooks/opened-ports-relation-joined": [
       "interface:opened-ports", 
@@ -159,7 +154,7 @@
     "lib/iptables.py": [
       "dhcp-server", 
       "static", 
-      "c1a9883f6d1f3bc63d9a3a388e3c0196bd6284805a3374df31f1cade0c3df938"
+      "11b7e928408cce3cca908252ef3d3738da3011858516afc3bf9bc5196032f7b7"
     ], 
     "hooks/stop": [
       "layer:basic", 
@@ -184,32 +179,37 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "78efd0cb72fcbb9779d4f9a849257e3edcec1b7b373206e9f168429da44eaf52"
+      "551d557a026c77e7cc832847e7a9699cbd8c48a6e8ef384fa1775b0f13158ab3"
     ], 
     "reactive/dhcp_server.py": [
       "dhcp-server", 
       "static", 
-      "dd0a821d71884daf6f7fca4c5ee3372b67d3c8e0f712af149d9828bdb9775af2"
+      "b83aa2079c01a604e8ba4b151372cbad9e6aba9168dfec3366e45264d0e9787f"
     ], 
     "hooks/relations/opened-ports/__init__.py": [
       "interface:opened-ports", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "wheelhouse/Jinja2-2.8.tar.gz": [
+    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
     ], 
-    "metadata.yaml": [
-      "dhcp-server", 
-      "dynamic", 
-      "6c22aa31f0c6a146f0943f56c21e7766efb7cb1087fe128dd2f4337a7885d4b7"
+    "hooks/relations/opened-ports/requires.py": [
+      "interface:opened-ports", 
+      "static", 
+      "c643f9798cfd43a2319e8c5be3aa802974f899534ae5758fd076ca6f4cb53c22"
     ], 
     "hooks/update-status": [
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
     ], 
     "README.md": [
       "dhcp-server", 
@@ -236,10 +236,10 @@
       "static", 
       "5b3ff664bf7953b7523f4e37a8f6c3870ebaefd5a265c0f1037141269f1d28d1"
     ], 
-    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
+    "wheelhouse/PyYAML-3.11.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
     ], 
     "hooks/config-changed": [
       "layer:basic", 

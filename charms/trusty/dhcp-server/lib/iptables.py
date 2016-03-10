@@ -19,48 +19,56 @@ def update_port_forwards(config):
         "private_ip": "<private_ip>",
         "protocol": "<tcp/udp>"
     }]"""
+    comment = 'managed by juju port forward'
     ips = get_ips()
     ruleset = []
     for p_forward in config:
         for ip in ips:
             accept_rule = {
-                'dpt' : p_forward['public_port'],
-                'd_ip' : ip,
-                'target' : 'ACCEPT',
+                'dport' : p_forward['public_port'],
+                'destination' : ip,
+                'jump' : 'ACCEPT',
                 'protocol' : p_forward['protocol'],
-                'comment' : 'managed by juju port forward',
                 'table' : 'filter',
                 'chain' : 'FORWARD'
             }
             ruleset.append(accept_rule)
             forward_rule = {
-                'dpt' : p_forward['public_port'],
-                'd_ip' : ip,
-                'target' : 'DNAT',
-                'to' : '{}:{}'.format(p_forward['private_ip'], p_forward['private_port']),
+                'dport' : p_forward['public_port'],
+                'destination' : ip,
+                'jump' : 'DNAT',
+                'to-destination' : '{}:{}'.format(p_forward['private_ip'], p_forward['private_port']),
                 'protocol' : p_forward['protocol'],
-                'comment' : 'managed by juju port forward',
                 'table' : 'nat',
                 'chain' : 'PREROUTING'
             }
             ruleset.append(forward_rule)
-    for rule in ruleset:
-        if not rule_exists(rule):
-            append_rule(rule)
-    for rule in get_rules('nat', 'PREROUTING') + get_rules('filter', 'FORWARD'):
-        if rule.get('comment') == 'managed by juju port forward':
-            if not contains_rule(rule, ruleset):
-                delete_rule(rule)
-    subprocess.check_call(['invoke-rc.d', 'iptables-persistent', 'save'])
+    update_rules(ruleset, comment)
 
 
 def configure_nat_gateway(dhcp_if, public_ifs):
-    # TODO: Remove old gateway iptables rules
+    comment = 'managed by juju nat gateway'
+    ruleset = []
     for pub_if in public_ifs:
-        subprocess.check_call(['iptables', '--table', 'nat', '--append', 'POSTROUTING', '--out-interface', pub_if, '-j', 'MASQUERADE'])
-    subprocess.check_call(['iptables', '--append', 'FORWARD', '--in-interface', dhcp_if, '-j', 'ACCEPT'])
-    subprocess.check_call(['iptables', '--append', 'FORWARD', '--in-interface', dhcp_if, '-j', 'ACCEPT'])
-    subprocess.check_call(['invoke-rc.d', 'iptables-persistent', 'save'])
+        ruleset.append({
+            'table' : 'nat',
+            'chain' : 'POSTROUTING',
+            'out-interface' : pub_if,
+            'jump' : 'MASQUERADE',
+        })
+    ruleset.append({
+        'table' : 'filter',
+        'chain' : 'FORWARD',
+        'in-interface' : dhcp_if,
+        'jump' : 'ACCEPT',
+    })
+    update_rules(ruleset, comment)
+
+
+def remove_nat_gateway_config():
+    comment = 'managed by juju nat gateway'
+    ruleset = []
+    update_rules(ruleset, comment)
 
 
 ###############################################################################
@@ -68,6 +76,43 @@ def configure_nat_gateway(dhcp_if, public_ifs):
 # INTERNAL METHODS
 #
 ###############################################################################
+
+def update_rules(ruleset, comment):
+    """
+        Update iptables rules to match 'ruleset':
+
+        - All rules from ruleset that are not present in iptables will be added to iptables.
+        - All existing rules from iptables that have matching 'comment' but are not in ruleset will be removed from iptables
+        - Ruleset gets persisted so all rules will be active after reboot
+    """
+    rules_changed = False
+    # Add all rules that don't exist yet
+    for rule in ruleset:
+        rule['comment'] = comment
+        if not rule_exists(rule):
+            rules_changed = True
+            append_rule(rule)
+    # Get all existing rules
+    tables_chain_pairs = (
+        ('filter', 'INPUT'),
+        ('filter', 'FORWARD'),
+        ('filter', 'OUTPUT'),
+        ('nat', 'PREROUTING'),
+        ('nat', 'POSTROUTING'),
+        ('nat', 'OUTPUT'),
+    )
+    existing_rules = []
+    for table, chain in tables_chain_pairs:
+        existing_rules.extend(get_rules(table, chain))
+    # Remove existing rules that aren't in the ruleset
+    for existing_rule in existing_rules:
+        if existing_rule.get('comment') == comment:
+            if not contains_rule(existing_rule, ruleset):
+                rules_changed = True
+                delete_rule(existing_rule)
+    # persist rules if they changed
+    if rules_changed:
+        subprocess.check_call(['invoke-rc.d', 'iptables-persistent', 'save'])
 
 
 def get_ips():
@@ -102,31 +147,25 @@ def get_rules(table, chain):
         line = line.split()
         rule = {
             'comment' : comment,
-            'target' : line[2],
+            'jump' : line[2],
             'protocol' : line[3],
             #'opt' : line[4], # -- Means no options
-            'd_ip' : line[8], # destination ip
+            'in-interface' : line[5],
+            'out-interface' : line[6],
+            'source' : line[7], # destination ip
+            'destination' : line[8], # destination ip
             #'proto2' : line[9], # no idea what this does
             'table' : table,
             'chain' : chain,
         }
-        in_if = line[5]
-        out_if = line[6]
-        source = line[7]
-        if in_if != '*':
-            rule['in_if'] = in_if, # Interface the packet comes in
-        if out_if != '*':
-            rule['out_if'] = out_if, # interface to send the packet to, * means any/no interface
-        if source != '0.0.0.0/0':
-            rule['source'] = source, # source ip, 0.0.0.0/0 means anywhere
-        rules.append(rule)
         # The rest of the line is a list of key-value items seperated by ':'
+        # not-key-value items will be ignored
         for item in line[10:]:
             item = item.split(':', 1)
             if len(item) == 2:
-                rules[-1][item[0]] = item[1]
+                rule[item[0]] = item[1]
+        rules.append(standardize_rule(rule))
     return rules
-
 
 def append_rule(rule):
     edit_rule(rule, '-A')
@@ -135,43 +174,39 @@ def delete_rule(rule):
     edit_rule(rule, '-D')
 
 def edit_rule(rule, action):
-    rule['target'] = rule['target'].upper()
-    table = rule['table'].lower()
-    chain = rule['chain'].upper()
+    rule = standardize_rule(rule)
     command = [
-        'iptables', '-t', table, action, chain,
-        '-j', rule['target'],
-        '-p', rule['protocol']]
-    if rule.get('in_if'):
-        command += ['-i', rule['in_if']]
-    if rule.get('d_ip'):
-        command += ['-d', rule['d_ip']]
-    if rule.get('dpt'):
-        command += ['--dport', rule['dpt']]
+        'iptables', '-t', rule['table'], action, rule['chain']]
+    known_options = ['jump', 'protocol', 'in-interface', 'out-interface', 'source', 'destination', 'dport', 'to-destination']
+    for option in known_options:
+        if rule.get(option):
+            command += ['--{}'.format(option), rule[option]]
     if rule.get('comment'):
         command += ['-m', 'comment', '--comment', rule['comment']]
-    if rule['target'] == 'DNAT':
-        command += ['--to-destination', '{}'.format(rule['to'])]
-    command = [str(i) for i in command]
     print('DEBUG: COMMAND="""{}"""'.format('" "'.join(command)))
     output = subprocess.check_output(command, universal_newlines=True)
     print('DEBUG: OUTPUT="""{}"""'.format('" "'.join(output)))
 
-
-def prop_equals(prop1, prop2):
-    if str(prop1) == str(prop2):
-        return True
-    elif prop1 is None and prop2 in ['*', '0.0.0.0/0', '--']:
-        return True
-    elif prop2 is None and prop1 in ['*', '0.0.0.0/0', '--']:
-        return True
-    return False
-
-def rule_equals(rule1, rule2):
-    for key in rule1.keys():
-        if not prop_equals(rule1[key], rule2.get(key)):
-            return False
-    return True
+def standardize_rule(rule):
+    rule['jump'] = rule['jump'].upper()
+    rule['table'] = rule['table'].lower()
+    rule['chain'] = rule['chain'].upper()
+    clean_rule = {}
+    key_translations = {
+        'to' : 'to-destination',
+        'dpt' : 'dport',
+    }
+    for key, value in rule.items():
+        # These values are equal to no value, so just skip them
+        if value in ['*', '0.0.0.0/0', '--']:
+            continue
+        # Translate keys to standardized name
+        key = key_translations.get(key, key)
+        # Ensure values are string
+        value = str(value)
+        # Add to clean rule
+        clean_rule[key] = value
+    return clean_rule
 
 def rule_exists(rule):
     return contains_rule(rule, get_rules(rule['table'], rule['chain']))
@@ -181,3 +216,9 @@ def contains_rule(rule, ruleset):
         if rule_equals(rule, existing_rule):
             return True
     return False
+
+def rule_equals(rule1, rule2):
+    for key in rule1.keys():
+        if not rule1[key] == rule2.get(key, None):
+            return False
+    return True

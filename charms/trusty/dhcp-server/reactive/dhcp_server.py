@@ -18,7 +18,7 @@ import netifaces
 import netaddr
 
 # Own modules
-from iptables import update_port_forwards, configure_nat_gateway
+from iptables import update_port_forwards, configure_nat_gateway, remove_nat_gateway_config
 
 # Forward ports from config and relations
 @when_all('opened-ports.available', 'dhcp-server.installed')
@@ -92,9 +92,12 @@ def configure():
     # then configure the host as NATted gateway. Else, use host's gateway for dhcp clients.
     gateway_if, gateway_ip = get_gateway()
     if gateway_if != dhcp_if:
-        print('Default gateway is not on dhcp network, configuring host as gateway.')
+        print('Default gateway is NOT on dhcp network, configuring host as gateway.')
         gateway_ip = dhcp_addr
         configure_nat_gateway(dhcp_if, public_ifs)
+    else:
+        print('Default gateway is on dhcp network')
+        remove_nat_gateway_config()
     templating.render(
         source='isc-dhcp-server',
         target='/etc/default/isc-dhcp-server',

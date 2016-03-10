@@ -11,12 +11,17 @@
     "files/rest2jfed/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "a3b38a81d56f808232cc5f036b2512a958713ee8242e533d844838e26d55a58c"
+      "d2adf99b35c424a407273b9f538508d0654e137de7467ec8be36272330601c69"
+    ], 
+    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
     ], 
     "reactive/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "fdca692d2524910fec4b102f21a7654b562fc792c11c36e204fb66544435b885"
+      "0b767048191ac19314fa13b72707749bec3b99f0e85744de782377235e3261b4"
     ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
@@ -46,17 +51,12 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "7a5fc48d899d719eb6140652d23dec05a21a634c5591c9bcc9f4a255a3ac2c64"
+      "dfe40efa4adcb1139ad707486e00c37e79c6addd052681509cc85fbe21f4874c"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
-    ], 
-    "wheelhouse/charmhelpers-0.6.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "521f406d6fa5a60df3341f55516917b871310b5b25343970fdd6f3fa92ef8ceb"
     ], 
     "files/jfedS4/context_tengujfed_wall2.properties": [
       "rest2jfed", 
@@ -88,10 +88,10 @@
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/PyYAML-3.11.tar.gz": [
-      "java", 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
       "dynamic", 
-      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
     "hooks/relations/http/__init__.py": [
       "interface:http", 
@@ -113,10 +113,10 @@
       "static", 
       "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
     ], 
-    "wheelhouse/Tempita-0.5.2.tar.gz": [
-      "layer:basic", 
+    "metadata.yaml": [
+      "rest2jfed", 
       "dynamic", 
-      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+      "23f77e58a453bff1522857d943cf6cb3cbac336954b73bc96833aa1ccab04acc"
     ], 
     "LICENSE": [
       "rest2jfed", 
@@ -142,11 +142,6 @@
       "layer:basic", 
       "dynamic", 
       "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
-    ], 
-    "reactive/java.py": [
-      "java", 
-      "static", 
-      "455e271075553ce771fafaf3201b67180f5663a11b9d34f14d12d9158347ac2c"
     ], 
     ".gitignore": [
       "layer:basic", 
@@ -221,7 +216,12 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "dffc5976e96afa5f1d73140b4ca6affee229507b96a2a9ef5d859a2d255febd8"
+      "78efd0cb72fcbb9779d4f9a849257e3edcec1b7b373206e9f168429da44eaf52"
+    ], 
+    "wheelhouse/PyYAML-3.11.tar.gz": [
+      "java", 
+      "dynamic", 
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -238,10 +238,10 @@
       "static", 
       "ba444718fb20f6d1fa179032f4b869874e333c06934065fe7b756b505ca58a9d"
     ], 
-    "metadata.yaml": [
-      "rest2jfed", 
-      "dynamic", 
-      "23f77e58a453bff1522857d943cf6cb3cbac336954b73bc96833aa1ccab04acc"
+    "reactive/java.py": [
+      "java", 
+      "static", 
+      "455e271075553ce771fafaf3201b67180f5663a11b9d34f14d12d9158347ac2c"
     ], 
     "hooks/rest2jfed-relation-changed": [
       "interface:http", 

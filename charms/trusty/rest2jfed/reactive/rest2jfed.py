@@ -32,6 +32,7 @@ def pre_install():
 @when_not('rest2jfed.installed')
 def install():
     """Install REST2JFed"""
+    subprocess.check_call(['hostnamectl', 'set-hostname', 'rest2jfed'])
     try:
         # update needed because of weird error
         hookenv.log("Installing dependencies")

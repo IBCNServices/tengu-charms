@@ -121,8 +121,11 @@ class JfedSlice(object):
 
 
 def count_machines(bundle_path):
-    with open(bundle_path, 'r') as bundle_file:
-        bundle = yaml.load(bundle_file)
+    try:
+        with open(bundle_path, 'r') as bundle_file:
+            bundle = yaml.load(bundle_file)
+    except yaml.YAMLError as yamlerror:
+        raise click.ClickException('Parsing bundle \033[91mfailed\033[0m: {}'.format(str(yamlerror)))
     return len(bundle['machines'])
 
 

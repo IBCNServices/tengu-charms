@@ -252,8 +252,11 @@ def c_create(bundle, name, create_machines):
 #    if clean:
 #        destroy_juju_environment(name)
     env_conf = init_environment_config(name)
-    with open(bundle, 'r') as bundle_file:
-        bundledict = yaml.load(bundle_file)
+    try:
+        with open(bundle, 'r') as bundle_file:
+            bundledict = yaml.load(bundle_file)
+    except yaml.YAMLError as yamlerror:
+        raise click.ClickException('Parsing bundle \033[91mfailed\033[0m: {}'.format(str(yamlerror)))
     downloadbigfiles(os.environ['JUJU_REPOSITORY'])
     if create_machines:
         provider_env = PROVIDER.create_from_bundle(env_conf, bundledict)

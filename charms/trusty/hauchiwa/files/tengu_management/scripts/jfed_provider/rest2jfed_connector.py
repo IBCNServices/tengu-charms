@@ -2,6 +2,7 @@
 #pylint: disable=c0301
 import base64
 import json
+import click
 
 from pygments import highlight, lexers, formatters
 import requests
@@ -9,7 +10,7 @@ import requests
 from output import fail # pylint: disable=F0401
 
 
-class Rest2jfedException(Exception):
+class Rest2jfedException(click.ClickException):
     """ Exception that prettyprints json text """
     def __init__(self, url, status_code, text):
         # Call the base class constructor with the parameters it needs
@@ -19,7 +20,7 @@ class Rest2jfedException(Exception):
             text = colorful_json
         except ValueError:
             pass
-        super(Rest2jfedException, self).__init__("Call to {} failed with code {}. Response:\n{}".format(url, status_code, text))
+        super(Rest2jfedException, self).__init__("Call to {} \033[91mfailed\033[0m with code {}. Response:\n{}".format(url, status_code, text))
 
 
 class Rest2jfedConnector(object):

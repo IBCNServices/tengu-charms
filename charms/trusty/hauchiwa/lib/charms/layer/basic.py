@@ -23,7 +23,7 @@ def bootstrap_charm_deps():
         return
     # bootstrap wheelhouse
     if os.path.exists('wheelhouse'):
-        apt_install(['python3-pip', 'python3-yaml'])
+        apt_install(['python3-pip', 'python3-setuptools', 'python3-yaml'])
         from charms import layer
         cfg = layer.options('basic')
         # include packages defined in layer.yaml
@@ -40,15 +40,20 @@ def bootstrap_charm_deps():
             pip = vpip
         else:
             pip = 'pip3'
-            # save a copy of system pip to prevent `pip3 install -U pip` from changing it
+            # save a copy of system pip to prevent `pip3 install -U pip`
+            # from changing it
             if os.path.exists('/usr/bin/pip'):
                 shutil.copy2('/usr/bin/pip', '/usr/bin/pip.save')
-        # need newer pip, to fix spurious Double Requirement error https://github.com/pypa/pip/issues/56
-        check_call([pip, 'install', '-U', '--no-index', '-f', 'wheelhouse', 'pip'])
+        # need newer pip, to fix spurious Double Requirement error:
+        # https://github.com/pypa/pip/issues/56
+        check_call([pip, 'install', '-U', '--no-index', '-f', 'wheelhouse',
+                    'pip'])
         # install the rest of the wheelhouse deps
-        check_call([pip, 'install', '-U', '--no-index', '-f', 'wheelhouse'] + glob('wheelhouse/*'))
+        check_call([pip, 'install', '-U', '--no-index', '-f', 'wheelhouse'] +
+                   glob('wheelhouse/*'))
         if not cfg.get('use_venv'):
-            # restore system pip to prevent `pip3 install -U pip` from changing it
+            # restore system pip to prevent `pip3 install -U pip`
+            # from changing it
             if os.path.exists('/usr/bin/pip.save'):
                 shutil.copy2('/usr/bin/pip.save', '/usr/bin/pip')
                 os.remove('/usr/bin/pip.save')

@@ -2,7 +2,7 @@
   "charm-repo-source":
     "type": "string"
     "description": "Git url where charm repo resides. Expects charm repo in <repo_root>/charms."
-    "default": !!null ""
+    "default": "http://github.com/tvanhove/tengu-charms.git"
   "environment-name":
     "type": "string"
     "description": "Name of the environment to configure"
@@ -39,9 +39,13 @@
     "description": "Emulab speaksfor certificate (BASE64 encoded)"
   "emulab-project-name":
     "type": "string"
-    "default": "This is the default project value. Please change me before use."
+    "default": "tengu"
     "description": "Password of the emulab certificate"
   "bundle":
     "type": "string"
     "default": !!null ""
     "description": "bundle to deploy after setup"
+  "hauchiwa-flavor":
+    "type": "string"
+    "default": "ssh"
+    "description": "flavor of the installed hauchiwa"

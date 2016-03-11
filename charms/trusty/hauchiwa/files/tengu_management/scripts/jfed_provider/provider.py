@@ -6,6 +6,7 @@ from os.path import expanduser
 
 # non-default pip dependencies
 import yaml
+import click
 
 # Own modules
 from rest2jfed_connector import Rest2jfedConnector
@@ -13,7 +14,7 @@ import rspec_utils
 
 TENGU_DIR = expanduser("~/.tengu")
 
-class ProviderException(Exception):
+class ProviderException(click.ClickException):
     pass
 
 
@@ -127,12 +128,12 @@ def count_machines(bundle_path):
 
 def get_data_from_bundle(bundle):
     machines = bundle.get('machines')
-    if not machines: raise Exception('Could not find machines item in bundle.')
-    if not len(machines) > 0: raise Exception('There has to be at least 1 machine specified')
+    if not machines: raise ProviderException('Parsing bundle \033[91mfailed\033[0m: Could not find "machines" item in bundle.')
+    if not len(machines) > 0: raise ProviderException('Parsing bundle \033[91mfailed\033[0m: There has to be at least 1 machine specified')
     testbed = None
     pub_ipv4 = False
     for m_id in range(len(machines)):
-        if not machines.get(str(m_id)): raise Exception('machine {} not found while number of machines is {}.'.format(m_id, len(machines)))
+        if not machines.get(str(m_id)): raise ProviderException('Parsing bundle \033[91mfailed\033[0m: machine {} not found while number of machines is {}.'.format(m_id, len(machines)))
         if m_id == 0:
             constraints = machines[str(m_id)].get('constraints').split()
             for constraint in constraints:
@@ -148,7 +149,7 @@ def get_data_from_bundle(bundle):
                     pub_ipv4 = True
                 elif key not in ['arch']:
                     print('WARNING: constraint {} unknown'.format(constraint))
-            if not testbed: raise Exception("machine {} doesn't specify testbed.".format(m_id))
+            if not testbed: raise ProviderException("Parsing bundle \033[91mfailed\033[0m: machine {} doesn't specify testbed.".format(m_id))
     return {
         'nrnodes' : len(machines),
         'testbed' : testbed,

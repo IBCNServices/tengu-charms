@@ -303,11 +303,6 @@
       "dynamic", 
       "ff193d01fb39662ec76280957e950eb6f8ba3f8826ae52fb21b90d68fd7152c1"
     ], 
-    "files/rest2jfed/test.py": [
-      "rest2jfed", 
-      "static", 
-      "9bd64ec464557e4d54b6660d40227a4936c0298e06769335520a547c7f3f8552"
-    ], 
     "hooks/relations/http/provides.py": [
       "interface:http", 
       "static", 

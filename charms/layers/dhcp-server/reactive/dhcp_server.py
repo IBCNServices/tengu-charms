@@ -38,14 +38,13 @@ def configure_forwarders():
     update_port_forwards(cfg)
 
 
-
-
 @hook('upgrade-charm')
 def upgrade_charm():
     install()
+    configure()
 
 
-@hook('install')
+@when_not('dhcp-server.installed')
 def install():
     hookenv.log('Installing isc-dhcp')
     fetch.apt_update()

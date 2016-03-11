@@ -198,7 +198,7 @@ def standardize_rule(rule):
     }
     for key, value in rule.items():
         # These values are equal to no value, so just skip them
-        if value in ['*', '0.0.0.0/0', '--']:
+        if value in ['*', '0.0.0.0/0', '--', 'all']:
             continue
         # Translate keys to standardized name
         key = key_translations.get(key, key)

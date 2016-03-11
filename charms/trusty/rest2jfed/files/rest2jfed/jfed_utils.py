@@ -214,6 +214,10 @@ def parse_output(output, is_exit_code_error):
         #    general
         ############################################################################
         {
+            'label': 'json_object',
+            'regex': r'"{[.\n]*}"',
+        },
+        {
             'label': 's4cred',
             'regex': r'^Using speaksFor credential for user "([^"]*)".*$',
         },
@@ -234,7 +238,7 @@ def parse_output(output, is_exit_code_error):
         },
         {
             'label': 'large_error',
-            'regex': r'^(Error [^:^\n]+): ',
+            'regex': r'^(.+): ',
         },
         ############################################################################
         #    slice and sliver creates
@@ -305,6 +309,12 @@ def parse_output(output, is_exit_code_error):
     outdict = {
         'is_exit_code_error': is_exit_code_error,
     }
+    match = re.search(r'"({.*})"', output, flags=re.DOTALL)
+    if match:
+        json_object = match.group(1).lstrip()
+        output = re.sub(r'"({.*})"', '', output, flags=re.DOTALL)
+    else:
+        json_object = ''
     for extractor in extractors:
         regexstr = extractor['regex']
         label = extractor['label']
@@ -332,14 +342,14 @@ def parse_output(output, is_exit_code_error):
                 pass
             else:
                 break
-    # Sanitize output
-    output = output.lstrip().lstrip('"').rstrip().rstrip('"')
-    # Only thing left should be json object. Can be empty, Error or result.
+    #Put everything else in not_parsed
+    outdict['NOT_PARSED'] = output.rstrip()
+    # Sanitize json object
     if output != '':
         try:
-            output = output.lstrip('"').rstrip().rstrip('"')
-            outdict['json_output'] = json.loads(output)
-        except ValueError:
-            outdict['NOT_PARSED'] = output
+            outdict['json_output'] = json.loads(json_object)
+        except ValueError as valueerr:
+            print(valueerr.message)
+            print(json_object)
     print "DEBUG: outdict = {}".format(outdict)
     return outdict

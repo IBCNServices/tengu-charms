@@ -151,7 +151,7 @@
     "files/rest2jfed/jfed_utils.py": [
       "rest2jfed", 
       "static", 
-      "ab5bc990adfdd33818a9913e0a23a6e88cd18def9704633c9a0e387e010a0973"
+      "46fb4ef10dc9d7464261468fef96c4c3769c14711f8dbf4396a1c83d570183b6"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -216,7 +216,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "78efd0cb72fcbb9779d4f9a849257e3edcec1b7b373206e9f168429da44eaf52"
+      "551d557a026c77e7cc832847e7a9699cbd8c48a6e8ef384fa1775b0f13158ab3"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "java", 
@@ -302,6 +302,11 @@
       "rest2jfed", 
       "dynamic", 
       "ff193d01fb39662ec76280957e950eb6f8ba3f8826ae52fb21b90d68fd7152c1"
+    ], 
+    "files/rest2jfed/test.py": [
+      "rest2jfed", 
+      "static", 
+      "9bd64ec464557e4d54b6660d40227a4936c0298e06769335520a547c7f3f8552"
     ], 
     "hooks/relations/http/provides.py": [
       "interface:http", 

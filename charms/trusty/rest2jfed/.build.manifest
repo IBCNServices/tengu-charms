@@ -18,10 +18,10 @@
       "dynamic", 
       "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
     ], 
-    "reactive/rest2jfed.py": [
-      "rest2jfed", 
-      "static", 
-      "0b767048191ac19314fa13b72707749bec3b99f0e85744de782377235e3261b4"
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
     ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
@@ -51,7 +51,7 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "dfe40efa4adcb1139ad707486e00c37e79c6addd052681509cc85fbe21f4874c"
+      "868f3fc0a3c3ebfceb1252010f4171c4f0cfe7a5e6945efe9e654a10f9b83ab9"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
@@ -123,10 +123,10 @@
       "static", 
       "a8c11d90deb0bb3f2a0ffa562037406d5a9a2bcf801daa4b4ba34dcb2cba71e9"
     ], 
-    "wheelhouse/jujubigdata-6.1.3.tar.gz": [
+    "copyright": [
       "java", 
-      "dynamic", 
-      "869d3384291a60ef3808a87b21083c0d0b51d0544082f823d600f63830ea7578"
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -138,10 +138,10 @@
       "static", 
       "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
     ], 
-    "wheelhouse/netaddr-0.7.18.tar.gz": [
-      "layer:basic", 
+    "wheelhouse/jujubigdata-6.4.1.tar.gz": [
+      "java", 
       "dynamic", 
-      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+      "d27a8558a7c39f003699e84feee68ff05d077ff65ff73875f6d71291f54c3be3"
     ], 
     ".gitignore": [
       "layer:basic", 
@@ -151,7 +151,7 @@
     "files/rest2jfed/jfed_utils.py": [
       "rest2jfed", 
       "static", 
-      "46fb4ef10dc9d7464261468fef96c4c3769c14711f8dbf4396a1c83d570183b6"
+      "b88942b9b629f5b0468a21fd67a05c86bf1024b19ab056f512e8b0b1a2c4d9df"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -216,7 +216,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "551d557a026c77e7cc832847e7a9699cbd8c48a6e8ef384fa1775b0f13158ab3"
+      "b0ff0f09a283c000a64e5da05acd550725d7bedd332b57372d6cd5157adf3901"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "java", 
@@ -273,20 +273,15 @@
       "static", 
       "3e96090081c0fb7b3858a22278b15e77976a278634645037d4def04c1d30588e"
     ], 
-    "templates/upstart.conf": [
-      "rest2jfed", 
-      "static", 
-      "93a8e9393288ca2624e4cb2b2deef7fc969dc56714767e40ecadc60486134bdb"
-    ], 
     "hooks/relations/http/requires.py": [
       "interface:http", 
       "static", 
       "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
     ], 
-    "copyright": [
-      "java", 
+    "templates/upstart.conf": [
+      "rest2jfed", 
       "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+      "93a8e9393288ca2624e4cb2b2deef7fc969dc56714767e40ecadc60486134bdb"
     ], 
     "hooks/start": [
       "layer:basic", 
@@ -302,6 +297,11 @@
       "rest2jfed", 
       "dynamic", 
       "ff193d01fb39662ec76280957e950eb6f8ba3f8826ae52fb21b90d68fd7152c1"
+    ], 
+    "reactive/rest2jfed.py": [
+      "rest2jfed", 
+      "static", 
+      "0b767048191ac19314fa13b72707749bec3b99f0e85744de782377235e3261b4"
     ], 
     "hooks/relations/http/provides.py": [
       "interface:http", 

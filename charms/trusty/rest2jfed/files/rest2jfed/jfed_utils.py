@@ -214,10 +214,6 @@ def parse_output(output, is_exit_code_error):
         #    general
         ############################################################################
         {
-            'label': 'json_object',
-            'regex': r'"{[.\n]*}"',
-        },
-        {
             'label': 's4cred',
             'regex': r'^Using speaksFor credential for user "([^"]*)".*$',
         },
@@ -309,10 +305,10 @@ def parse_output(output, is_exit_code_error):
     outdict = {
         'is_exit_code_error': is_exit_code_error,
     }
-    match = re.search(r'"({.*})"', output, flags=re.DOTALL)
+    match = re.search(r'"?({.*})"?', output, flags=re.DOTALL)
     if match:
         json_object = match.group(1).lstrip()
-        output = re.sub(r'"({.*})"', '', output, flags=re.DOTALL)
+        output = re.sub(r'"?({.*})"?', '', output, flags=re.DOTALL)
     else:
         json_object = ''
     for extractor in extractors:

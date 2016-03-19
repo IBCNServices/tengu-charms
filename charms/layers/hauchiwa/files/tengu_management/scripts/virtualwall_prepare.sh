@@ -136,82 +136,70 @@ eval $SEDCOMMAND
 if [[ "$HOSTNAME" == *"-vm"* ]]; then
   echo "hostname: "$HOSTNAME"; Node is a VM, will not expand root partition"
 else
-  echo "Will resize root partition"
-  ROOTDEV=$(lsblk --raw | grep / | tr -s ' ' | cut -d ' ' -f 1)
-  SWAPDEV=$(lsblk --raw | grep 'SWAP' | tr -s ' ' | cut -d ' ' -f 1)
-  FREE_SIZE=$(lsblk --raw | grep 'sda4' |  tr -s ' ' | cut -d ' ' -f 4 | cut -d '.' -f 1 | cut -d ',' -f 1)
-  START_ROOT=$(cat /sys/class/block/$ROOTDEV/start)
+  echo "Will reformat disk sda"
+  DEV='sda'
+  ROOT_DEV=$(lsblk --raw | grep / | tr -s ' ' | cut -d ' ' -f 1)
+  ROOT_PART_NUM=$(echo $ROOT_DEV | sed "s/sda//")
+  ROOT_STARTBLOCK=$(cat /sys/class/block/$ROOT_DEV/start)
+
+  SWAP_DEV=$(lsblk --raw | grep 'SWAP' | tr -s ' ' | cut -d ' ' -f 1)
+  SWAP_PART_NUM=$(echo $SWAP_DEV | sed "s/sda//")
+
+  SECTORS=$(fdisk /dev/sda -l | grep sectors | head -n 1 | rev |  cut -d ' ' -f 2 | rev)
+  SECTOR_SIZE=$(fdisk /dev/sda -l | grep "Sector size (logical/physical)" | cut -d ' ' -f 4)
+  LAST_SECTOR=$(fdisk /dev/sda -l | grep /dev/ |  tail -n 1 | tr -s ' ' | cut -d ' ' -f 3)
+  UNALLOCATED_SIZE=$(( ( $SECTORS - $LAST_SECTOR ) * $SECTOR_SIZE / 1073741824 )) # unallocated size in GB
+  echo "$SECTORS total, last sector is $LAST_SECTOR Unallocated size is $UNALLOCATED_SIZE"
+
+  RAM_SIZE=$(( $(free -m | grep Mem: | tr -s ' ' | cut -d ' ' -f 2) / 1024 ))  # RAM size in GB
+
+  PARTITIONS=( $(eval echo {$ROOT_PART_NUM..4}) )  # Only partitions >= root part num can be used
+  DEFAULT=0
+  ALL_SIZE=0
+  DEL_PART_COMMAND=''
+  for PART_NUM in "${PARTITIONS[@]}"; do
+    PART_SIZE=$(lsblk --raw | grep "$DEV$PART_NUM" | tr -s ' ' | cut -d ' ' -f 4 | cut -d '.' -f 1 | cut -d ',' -f 1 | sed "s/G$//")
+    ALL_SIZE=$(( $ALL_SIZE + ${PART_SIZE:-DEFAULT} ))
+    DEL_PART_COMMAND+=$'\nd\n'$PART_NUM
+    echo "Partition number $PART_NUM has size $PART_SIZE so total size up to this point is $ALL_SIZE"
+  done
+#  UNALLOCATED_SIZE=$(sudo parted /dev/sda unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}' | sed "s/GB$//" | cut -d ',' -f 1 | cut -d '.' -f 1)
+  ALL_SIZE=$(( ALL_SIZE + ${UNALLOCATED_SIZE:-DEFAULT} ))
+  echo "Unallocated space has size $UNALLOCATED_SIZE so total size is $ALL_SIZE"
+
+  SWAP_NEW_SIZE="$(( $RAM_SIZE * 2 ))"            # Swap size is RAM * 2 (in GB)
+  ROOT_NEW_SIZE=$(( $ALL_SIZE - $SWAP_NEW_SIZE )) # Everything that is lefs is root size (in GB)
+
+  echo "DEV=$DEV ROOTDEV=$ROOT_DEV ROOT_STARTBLOCK=$ROOT_STARTBLOCK SWAP_DEV=$SWAP_DEV"
+  echo "Resizing root to ${ROOT_NEW_SIZE}GB and swap to ${SWAP_NEW_SIZE}GB"
+
   #We have two known cases:
-  if [[ $ROOTDEV == "sda2" && $SWAPDEV == 'sda3' ]]; then
-    echo 'assuming this is an MBRv2 image since root device $ROOTDEV = sda2 (Ubuntu 12.04 images)'
-    fdisk /dev/sda << EOF
-    d
-    2
-    d
-    3
-    d
-    4
-    n
-    p
-    2
-    $START_ROOT
-    +${FREE_SIZE}GB
-    n
-    p
-    3
+  fdisk /dev/sda << EOF
+  $DEL_PART_COMMAND
+  n
+  p
+  $ROOT_PART_NUM
+  $ROOT_STARTBLOCK
+  +${ROOT_NEW_SIZE}G
+  n
+  p
+  $SWAP_PART_NUM
 
-    +12GB
-    t
-    2
-    83
-    t
-    3
-    82
-    a
-    2
-    w
+  +${SWAP_NEW_SIZE}G
+  t
+  $ROOT_PART_NUM
+  83
+  t
+  $SWAP_PART_NUM
+  82
+  a
+  $ROOT_PART_NUM
+  w
 EOF
-    echo "$SCRIPTPATH resize $ROOTDEV" | tee -a /etc/rc.local
-    touch /var/log/tengu-expansion-done
-    sleep 10
-    reboot
-  elif [[ ( $ROOTDEV == "sda1" ) && ( $START_ROOT == '2048' ) && ( $SWAPDEV == 'sda3' ) && "$FREE_SIZE" ]]; then
-    echo 'assuming this is an MBRv3 image since root device $ROOTDEV = sda1 (Ubuntu 14.04 images)'
-    fdisk /dev/sda << EOF
-    d
-    1
-    d
-    2
-    d
-    3
-    d
-    n
-    p
-    1
-    $START_ROOT
-    +${FREE_SIZE}GB
-    n
-    p
-    3
-
-    +12GB
-    t
-    1
-    83
-    t
-    3
-    82
-    a
-    1
-    w
-EOF
-    echo "$SCRIPTPATH resize $ROOTDEV" | tee -a /etc/rc.local
-    touch /var/log/tengu-expansion-done
-    sleep 10
-    reboot
-  else
-    echo "I don't recognize this partion layout. rootdev=$ROOTDEV, start_root=$START_ROOT, swapdev=$SWAPDEV, freesize=$FREE_SIZE"
-  fi
+  echo "$SCRIPTPATH resize $ROOT_DEV" | tee -a /etc/rc.local
+  touch /var/log/tengu-expansion-done
+  sleep 10
+  reboot
 fi
 
 touch /var/log/tengu-expansion-done

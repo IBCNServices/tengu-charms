@@ -251,7 +251,7 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "dfe40efa4adcb1139ad707486e00c37e79c6addd052681509cc85fbe21f4874c"
+      "868f3fc0a3c3ebfceb1252010f4171c4f0cfe7a5e6945efe9e654a10f9b83ab9"
     ], 
     "files/tengu_management/scripts/config.py": [
       "hauchiwa", 
@@ -366,7 +366,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "551d557a026c77e7cc832847e7a9699cbd8c48a6e8ef384fa1775b0f13158ab3"
+      "b0ff0f09a283c000a64e5da05acd550725d7bedd332b57372d6cd5157adf3901"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 
@@ -446,7 +446,7 @@
     "files/tengu_management/scripts/virtualwall_prepare.sh": [
       "hauchiwa", 
       "static", 
-      "0642015e60a1838575e70c2db42743455abe1df2441ac49c5984b2cd654cea2e"
+      "705fdc21f672590bbbb6afe926d24acce081a757ffdcca19825d4e51048374c9"
     ], 
     "templates/dhc-init.sh": [
       "juju-client", 

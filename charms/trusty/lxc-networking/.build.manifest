@@ -5,27 +5,32 @@
     "build"
   ], 
   "signatures": {
-    "hooks/leader-settings-changed": [
+    "hooks/stop": [
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/charms.reactive-0.3.8.tar.gz": [
+    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "3f8722d85f7d489f8414d11fc2a3e8793c68000f7a1bc7b1ad71120e037aebee"
+      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
+    ], 
+    "wheelhouse/ipaddress-1.0.16.tar.gz": [
+      "lxc-networking", 
+      "dynamic", 
+      "5a3182b322a706525c46282ca6f064d27a02cffbd449f9f47416f1dc96aa71b0"
     ], 
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "dffc5976e96afa5f1d73140b4ca6affee229507b96a2a9ef5d859a2d255febd8"
+      "b0ff0f09a283c000a64e5da05acd550725d7bedd332b57372d6cd5157adf3901"
     ], 
     "wheelhouse/pyaml-15.8.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
     ], 
-    "hooks/stop": [
+    "hooks/start": [
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
@@ -38,22 +43,22 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "7a5fc48d899d719eb6140652d23dec05a21a634c5591c9bcc9f4a255a3ac2c64"
+      "868f3fc0a3c3ebfceb1252010f4171c4f0cfe7a5e6945efe9e654a10f9b83ab9"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "wheelhouse/Jinja2-2.8.tar.gz": [
+    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
     ], 
     "reactive/lxc-networking.py": [
       "lxc-networking", 
       "static", 
-      "365fc5064978c53fbf6c3aa573257e00e6a64c09570ea93ba1754057125eebff"
+      "b3907fbb9c9994e19b56b06d4da7e7185ce8bdf69b6d9de5baba70da03da2220"
     ], 
     "hooks/update-status": [
       "layer:basic", 
@@ -75,10 +80,15 @@
       "static", 
       "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
-    "wheelhouse/ipaddress-1.0.16.tar.gz": [
-      "lxc-networking", 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
       "dynamic", 
-      "5a3182b322a706525c46282ca6f064d27a02cffbd449f9f47416f1dc96aa71b0"
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -103,12 +113,7 @@
     "metadata.yaml": [
       "lxc-networking", 
       "dynamic", 
-      "d76d6881f8cf33bb57e9d41e0f58ff3174a4f686abe1f2b1099c8c577c041520"
-    ], 
-    "hooks/start": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+      "2cdc0fbdc7dcb6895c80aeb4529b6a3387a045f30559e100ca68c41b944f9d08"
     ], 
     "LICENSE": [
       "lxc-networking", 
@@ -135,11 +140,6 @@
       "dynamic", 
       "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
     ], 
-    "wheelhouse/charmhelpers-0.6.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "521f406d6fa5a60df3341f55516917b871310b5b25343970fdd6f3fa92ef8ceb"
-    ], 
     ".gitignore": [
       "layer:basic", 
       "static", 
@@ -158,7 +158,7 @@
     "config.yaml": [
       "lxc-networking", 
       "dynamic", 
-      "a37be8401d0ac0cba67d9d588fc8873e5bd6b8244a303cfa9ff6a046410ee3b1"
+      "320e777968a996f3a19c8acaba62b5714da7aaae974d2e73605642cf4d38f768"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "layer:basic", 
@@ -178,7 +178,7 @@
     "layer.yaml": [
       "lxc-networking", 
       "dynamic", 
-      "c705974c43b5451b357cc1d73a25cf2d19b348603e601bb9de9ed0945fa10476"
+      "6b05b1df66c6154fce50ddd35007169806a8ec06fe731f0c8cc29bd31948b16f"
     ], 
     "icon.svg": [
       "lxc-networking", 

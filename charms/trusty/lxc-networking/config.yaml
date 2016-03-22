@@ -1,5 +1,5 @@
-options:
-  network:
-    type: string
-    description: Network to bridge lxc containers to
-    default: 192.168.14.0/24
+"options":
+  "network":
+    "type": "string"
+    "description": "Network to bridge lxc containers to"
+    "default": "192.168.14.0/24"

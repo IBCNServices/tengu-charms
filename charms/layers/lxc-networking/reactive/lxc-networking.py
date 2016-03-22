@@ -17,7 +17,8 @@ iface lxcbr0 inet static
     bridge_ports {interface}
     address {address}
     netmask {netmask}
-# Managed by Juju lxc-networking >"""
+# Managed by Juju lxc-networking >
+"""
 
 
 @when_not('lxc-networking.active')

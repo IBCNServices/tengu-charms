@@ -130,6 +130,13 @@ SEDCOMMAND="${SEDCOMMAND}' /etc/network/interfaces"
 echo "DEBUG: $SEDCOMMAND"
 eval $SEDCOMMAND
 
+# Persist control interface
+# /usr/local/etc/emulab/findcnet tries to guess what the control interface is by doing a dhcp-discover. The first interface that receives a dhcp response is the control interface. This fails when the private network also has a dhcp server (as is the case in an installed Tengu).
+# During first boot, the private dhcp-server is not yet installed. so geni-get will find the correct interface. We persist this interface in the findcnet script. We use the mac address and get the interface from the mac address because interface names may change after reboot.
+CONTROL_MAC=$(geni-get control_mac | sed -e 's/\([0-9A-Fa-f]\{2\}\)/\1:/g' -e 's/\(.*\):$/\1/')
+sed -i "/# Find a list of candidate interface/i \
+\ \ \ \ _iflist=\$(ifconfig -a | grep $CONTROL_MAC | cut -f1 -d ' ')" /usr/local/etc/emulab/findcnet
+sed -ri '/# Find a list of candidate interfaces/,+3d' /usr/local/etc/emulab/findcnet
 
 
 # root expansion

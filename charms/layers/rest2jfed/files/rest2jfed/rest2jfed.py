@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 #pylint:disable=C0301
 """ REST server that calls the jfed_cli tool """
-from flask import Flask, Response, request
 import tempfile
 import base64
 import os
 import json
 import time
 import shutil
+
+from flask import Flask, Response, request
+
 # Custom modules
 from jfed_utils import JFed, JfedError, NotExistError
 
@@ -131,6 +133,44 @@ def api_slice_destroy(projectname, slicename):
                         status=500,
                         mimetype='application/json')
         return resp
+
+
+@APP.route('/projects/<projectname>/slices/<slicename>/reload', methods=['POST'])
+def api_slice_reload(projectname, slicename):
+    """ Creates new jfed slice using s4 certificate"""
+    # Get post values
+    cert = request.headers.get('emulab-s4-cert')
+    # Create and populate temp dir
+    t_dir = tempfile.mkdtemp()
+    cert_path = t_dir + '/s4.cert.xml'
+    with open(cert_path, 'w+') as cert_f:
+        cert_f.write(base64.b64decode(cert))
+    slice_dir = ARCHIVE_PATH+"/projects/{0}/slices/{1}".format(projectname,
+                                                               slicename)
+    manifest_path = slice_dir + '/manifest.mrspec'
+    if not os.path.isfile(manifest_path):
+        manifest_path = DEFAULT_RSPEC_PATH
+    jfed = JFed(projectname,
+                s4cert=cert_path,
+                properties=PROPERTIES_PATH)
+    # Run command
+    status = jfed.get_slice_status(slicename, manifest_path)
+    output = {}
+    output['status'] = status
+    output['reload'] = {}
+    slivers = status['json_output']['AMs'].values()[0]['details']
+    for sliver in slivers:
+        poa_response = jfed.poa(slicename, sliver['urn'], 'ReloadOS', rspec_path=manifest_path)
+        output['reload'][sliver['urn']] = poa_response
+        error = poa_response.get('large_error')
+        if error and not poa_response['json_response']['output'].contains("Nothing here by that name"):
+            resp = Response(json.dumps(output),
+                            status=500,
+                            mimetype='application/json')
+    resp = Response(json.dumps(output),
+                    status=200,
+                    mimetype='application/json')
+    return resp
 
 
 @APP.route('/projects/<projectname>/slices/<slicename>/status', methods=['GET'])

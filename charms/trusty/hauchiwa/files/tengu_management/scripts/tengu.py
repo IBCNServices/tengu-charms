@@ -26,7 +26,7 @@ from output import okblue, fail, okwhite
 from config import Config, script_dir, tengu_dir
 from jujuhelpers import JujuEnvironment
 import jfed_provider
-import ssh_provider
+#import ssh_provider
 
 
 global_conf = Config(realpath(script_dir() + "/../etc/global-conf.yaml")) # pylint: disable=c0103
@@ -340,6 +340,22 @@ def c_renew(name, hours):
     env = PROVIDER.get(env_conf)
     env.renew(hours)
 
+
+@click.command(
+    name='reload',
+    context_settings=CONTEXT_SETTINGS)
+@click.option(
+    '-n', '--name',
+    default=DEFAULT_ENV,
+    help='Name of Tengu. Defaults to name of current Juju environment.')
+def c_reload(name):
+    """ Reload the Tengu machines. This will completely wipe the machines.
+    NAME: name of Tengu
+    """
+    okwhite('reloading all slivers in slice {}'.format(name))
+    env_conf = init_environment_config(name)
+    env = PROVIDER.get(env_conf)
+    env.reload()
 
 
 @click.command(

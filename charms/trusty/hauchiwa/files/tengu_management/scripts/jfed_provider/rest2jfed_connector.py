@@ -121,6 +121,14 @@ class Rest2jfedConnector(object):
         raise Rest2jfedException(url, response.status_code, response.text)
 
 
+    def reload(self):
+        """ Reloads jfed slice """
+        url = self.reload_url
+        response = requests.post(url, headers=self.headers)
+        if response.status_code == 200:
+            return json.loads(response.content)
+        raise Rest2jfedException(url, response.status_code, response.text)
+
     def delete(self):
         """ Deletes jfed slice """
         if self.locked:
@@ -163,6 +171,12 @@ class Rest2jfedConnector(object):
     def exists_url(self):
         """ rest url for slice exists """
         return '{0}/exists'.format(self.slice_url)
+
+
+    @property
+    def reload_url(self):
+        """ rest url for slice reload """
+        return '{0}/reload'.format(self.slice_url)
 
 
     @property

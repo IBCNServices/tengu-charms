@@ -11,7 +11,7 @@
     "files/rest2jfed/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "d2adf99b35c424a407273b9f538508d0654e137de7467ec8be36272330601c69"
+      "33dc1b601cf2bb0f1b252ff2c99d371b7e33e4116f6581bc4ae763faa8e284cc"
     ], 
     "wheelhouse/charmhelpers-0.7.0.tar.gz": [
       "layer:basic", 
@@ -37,6 +37,11 @@
       "java", 
       "dynamic", 
       "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    ], 
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
+      "static", 
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
     ], 
     "wheelhouse/pip-7.1.2.tar.gz": [
       "layer:basic", 
@@ -151,7 +156,7 @@
     "files/rest2jfed/jfed_utils.py": [
       "rest2jfed", 
       "static", 
-      "b88942b9b629f5b0468a21fd67a05c86bf1024b19ab056f512e8b0b1a2c4d9df"
+      "624cf363fec6097ed008536cd7e4ec9ba0b0d8576003a84bb78d9b02473a7273"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -216,7 +221,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "b0ff0f09a283c000a64e5da05acd550725d7bedd332b57372d6cd5157adf3901"
+      "9bb722e622264ce618f1ddcdd0d3d138e0d5be554539e70cc7b15591b0f79b9f"
     ], 
     "wheelhouse/PyYAML-3.11.tar.gz": [
       "java", 

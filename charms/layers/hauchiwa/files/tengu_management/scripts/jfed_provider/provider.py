@@ -5,8 +5,8 @@
 from os.path import expanduser
 
 # non-default pip dependencies
-import yaml
 import click
+import yaml
 
 # Own modules
 from rest2jfed_connector import Rest2jfedConnector
@@ -76,6 +76,13 @@ class JfedSlice(object):
         jfed = self.init_jfed()
         jfed.renew(hours)
         print('renewed slice and slivers succesfully')
+
+
+    def reload(self):
+        print('Reloading jfed slivers...')
+        jfed = self.init_jfed()
+        jfed.reload()
+        print('renewed reloaded succesfully')
 
 
     def destroy(self):

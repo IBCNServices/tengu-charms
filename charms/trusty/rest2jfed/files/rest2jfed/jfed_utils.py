@@ -90,7 +90,7 @@ class JFed(object):
             FAIL"""
         status_c = ['status']
         odict = self.run_command(status_c, slice_name=slice_name, rspec_path=rspec_path)
-        if odict['existsbefore'] == False:
+        if not odict['existsbefore']:
             status = 'DOES_NOT_EXIST'
         else:
             value = odict['json_output']['AMs'].itervalues().next()
@@ -154,6 +154,17 @@ class JFed(object):
         req_renews = odict.get('requested_sliver_renews', 0)
         successfull_renews = odict.get('successfull_sliver_renews', -1)
         if exit_err or req_renews != successfull_renews:
+            raise JfedError('Renew failed', odict)
+        return odict
+
+
+    def poa(self, slice_name, sliver_urn, action, rspec_path=None):
+        """Runs the specified action on the sliver
+        Supported actions are: ReloadOS, Restart, ConsoleUrl"""
+        poa_c = ['poa', '--action', str(action), '--target-sliver', str(sliver_urn)]
+        odict = self.run_command(poa_c, slice_name=slice_name, rspec_path=rspec_path)
+        exit_err = odict['is_exit_code_error']
+        if exit_err:
             raise JfedError('Renew failed', odict)
         return odict
 
@@ -301,16 +312,38 @@ def parse_output(output, is_exit_code_error):
             'regex': r'^Slivers at +(urn:[^ ]+) has been unregistered.$',
             'multiple': True,
         },
+        ############################################################################
+        #    Operation actions (poa)
+        ############################################################################
+        {
+            'label': 'executed_oa_on',
+            'regex': r'^Executing PerformOperationalAction command on +(urn:[^ ]+)...$',
+            'multiple': True,
+        },
+        {
+            'label': 'completed_oa_call',
+            'regex': r'^PerformOperationalAction call (completed).$',
+            'multiple': True,
+        },
     ]
     outdict = {
         'is_exit_code_error': is_exit_code_error,
     }
-    match = re.search(r'"?({.*})"?', output, flags=re.DOTALL)
+    # First we extract the 'request is' because otherwise, the json extracting regex would bork
+    request_regex=r'Request was: "([.*])"'
+    match = re.search(request_regex, output, flags=re.DOTALL)
+    request_obj_str = ''
     if match:
-        json_object = match.group(1).lstrip()
-        output = re.sub(r'"?({.*})"?', '', output, flags=re.DOTALL)
-    else:
-        json_object = ''
+        request_obj_string = match.group(1).lstrip()
+        output = re.sub(request_regex, '', output, flags=re.DOTALL)
+    # Then we extract the json before all other regexes because we don't want other regexes to search the json.
+    json_regex=r'"?({.*})"?'
+    match = re.search(json_regex, output, flags=re.DOTALL)
+    json_object_str = ''
+    if match:
+        json_object_str = match.group(1).lstrip()
+        output = re.sub(json_regex, '', output, flags=re.DOTALL)
+    # Then we extract all extractors
     for extractor in extractors:
         regexstr = extractor['regex']
         label = extractor['label']
@@ -341,11 +374,17 @@ def parse_output(output, is_exit_code_error):
     #Put everything else in not_parsed
     outdict['NOT_PARSED'] = output.rstrip()
     # Sanitize json object
-    if output != '':
+    if json_object_str != '':
         try:
-            outdict['json_output'] = json.loads(json_object)
+            outdict['json_output'] = json.loads(json_object_str)
         except ValueError as valueerr:
-            print(valueerr.message)
-            print(json_object)
+            print("DEBUG: json output parsing failed: {}".format(valueerr.message))
+            print("DEBUG: json_object_string: {}".format(json_object_str))
+    if request_obj_str != '':
+        try:
+            outdict['request_object'] = json.loads(request_obj_str)
+        except ValueError as valueerr:
+            print("DEBUG: request output parsing failed: {}".format(valueerr.message))
+            print("DEBUG: request_object_string: {}".format(request_obj_str))
     print "DEBUG: outdict = {}".format(outdict)
     return outdict

@@ -91,7 +91,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "b1bff3084d87c760f13cfc39d69340e4c71602829de055078cccb40e83624c79"
+      "bc724f8b8fd400814f0297c20882efd9c842a0c7908239b1f0a9fcc875d704af"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -243,6 +243,11 @@
       "dynamic", 
       "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
     ], 
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
+      "static", 
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
+    ], 
     "wheelhouse/pip-7.1.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
@@ -291,7 +296,7 @@
     "files/tengu_management/scripts/jfed_provider/rest2jfed_connector.py": [
       "hauchiwa", 
       "static", 
-      "d1930e0f22a31806ebfc41739d885a7987c5c80af15e5362bcf0862e28195125"
+      "2f573a7137605f4888ba4b0a9d6b5a713af77e5840354dd58e51728e76506c0f"
     ], 
     "files/tengu_management/templates/bundle.yaml": [
       "hauchiwa", 
@@ -366,7 +371,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "b0ff0f09a283c000a64e5da05acd550725d7bedd332b57372d6cd5157adf3901"
+      "9bb722e622264ce618f1ddcdd0d3d138e0d5be554539e70cc7b15591b0f79b9f"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 
@@ -406,7 +411,7 @@
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "6197d2bad9e734c34f960d9ea31412ea13feeb387192ca2970ec271e608b55d9"
+      "00eed196c0b2f7b631764e67df59b38f578168af17e0dc15f0389ba29cc72137"
     ], 
     "templates/tengu": [
       "hauchiwa", 

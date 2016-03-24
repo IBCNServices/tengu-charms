@@ -11,7 +11,7 @@
     "files/rest2jfed/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "92f56a7c91d4eb9f53c04fef1b4efecf322f6eec674051c35363d10efd8c69be"
+      "8f0dae438b3be4428d88bd9e26e987913672542ced5cb0242812489c6fc951b0"
     ], 
     "wheelhouse/charmhelpers-0.7.0.tar.gz": [
       "layer:basic", 

@@ -163,7 +163,7 @@ def api_slice_reload(projectname, slicename):
         poa_response = jfed.poa(slicename, sliver['urn'], 'ReloadOS', rspec_path=manifest_path)
         output['reload'][sliver['urn']] = poa_response
         error = poa_response.get('large_error')
-        if error and not poa_response['json_response']['output'].contains("Nothing here by that name"):
+        if error and not poa_response['json_output']['output'].contains("Nothing here by that name"):
             resp = Response(json.dumps(output),
                             status=500,
                             mimetype='application/json')

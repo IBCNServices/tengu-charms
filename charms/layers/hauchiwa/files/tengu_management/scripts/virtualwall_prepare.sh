@@ -159,7 +159,7 @@ else
   UNALL_SIZE_BEFORE_ROOT=$( bc <<< "a=$TEMP; b=1073741824; if ( a%b ) a/b+1 else a/b" )
   echo "Sector size is $SECTOR_SIZE, start of root is $ROOT_STARTBLOCK, ceil(Unallocated size before root) is ${UNALL_SIZE_BEFORE_ROOT}GB"
   DISK_SIZE=$( fdisk -l /dev/sda | grep 'Disk /dev/sda:' | cut -d ' ' -f 3 | cut -d '.' -f 1 | cut -d ',' -f 1 )
-  USABLE_SIZE=$(( $DISK_SIZE - $UNALL_SIZE_BEFORE_ROOT - 10 ))
+  USABLE_SIZE=$(( $DISK_SIZE - $UNALL_SIZE_BEFORE_ROOT))
   echo "Disk size is ${DISK_SIZE}GB. Total usable size is ${USABLE_SIZE}GB"
 
   RAM_SIZE=$(( $(free -m | grep Mem: | tr -s ' ' | cut -d ' ' -f 2) / 1024 ))  # RAM size in GB
@@ -173,7 +173,8 @@ else
   done
 
   SWAP_NEW_SIZE="$(( $RAM_SIZE * 2 ))"            # Swap size is RAM * 2 (in GB)
-  ROOT_NEW_SIZE=$(( $USABLE_SIZE - $SWAP_NEW_SIZE )) # Everything that is lefs is root size (in GB)
+  ROOT_NEW_SIZE=$(( $USABLE_SIZE - $SWAP_NEW_SIZE - 10 )) # -10 because fdisk allocates more than asked. This isn't an exact science.
+  # Swap size will not be explicitly specified. Swap takes up all the remaining space on the disk. This will be more than SWAP_NEW_SIZE on small disks and less than SWAP_NEW_SIZE on large disks.
 
   echo "DEV=$DEV ROOTDEV=$ROOT_DEV ROOT_STARTBLOCK=$ROOT_STARTBLOCK SWAP_DEV=$SWAP_DEV"
   echo "Resizing root to ${ROOT_NEW_SIZE}GB and swap to ${SWAP_NEW_SIZE}GB"
@@ -189,7 +190,7 @@ else
   p
   $SWAP_PART_NUM
 
-  
+
   t
   $ROOT_PART_NUM
   83

@@ -152,11 +152,15 @@ else
   SWAP_DEV=$(lsblk --raw | grep 'SWAP' | tr -s ' ' | cut -d ' ' -f 1)
   SWAP_PART_NUM=$(echo $SWAP_DEV | sed "s/sda//")
 
-  SECTORS=$(fdisk /dev/sda -l | grep sectors | head -n 1 | rev |  cut -d ' ' -f 2 | rev)
+  #SECTORS=$(fdisk /dev/sda -l | grep sectors | head -n 1 | rev |  cut -d ' ' -f 2 | rev)
   SECTOR_SIZE=$(fdisk /dev/sda -l | grep "Sector size (logical/physical)" | cut -d ' ' -f 4)
-  LAST_SECTOR=$(fdisk /dev/sda -l | grep /dev/ |  tail -n 1 | tr -s ' ' | cut -d ' ' -f 3)
-  UNALLOCATED_SIZE=$(( ( $SECTORS - $LAST_SECTOR ) * $SECTOR_SIZE / 1073741824 )) # unallocated size in GB
-  echo "$SECTORS total, last sector is $LAST_SECTOR Unallocated size is $UNALLOCATED_SIZE"
+  #LAST_SECTOR=$(fdisk /dev/sda -l | grep /dev/ |  tail -n 1 | tr -s ' ' | cut -d ' ' -f 3)
+  TEMP=$(( $ROOT_STARTBLOCK * $SECTOR_SIZE ))
+  UNALL_SIZE_BEFORE_ROOT=$( bc <<< "a=$TEMP; b=1073741824; if ( a%b ) a/b+1 else a/b" )
+  echo "Sector size is $SECTOR_SIZE, start of root is $ROOT_STARTBLOCK, ceil(Unallocated size before root) is ${UNALL_SIZE_BEFORE_ROOT}GB"
+  DISK_SIZE=$( fdisk -l /dev/sda | grep 'Disk /dev/sda:' | cut -d ' ' -f 3 | cut -d '.' -f 1 | cut -d ',' -f 1 )
+  USABLE_SIZE=$(( $DISK_SIZE - $UNALL_SIZE_BEFORE_ROOT ))
+  echo "Disk size is ${DISK_SIZE}GB. Total usable size is ${USABLE_SIZE}GB"
 
   RAM_SIZE=$(( $(free -m | grep Mem: | tr -s ' ' | cut -d ' ' -f 2) / 1024 ))  # RAM size in GB
 
@@ -165,17 +169,12 @@ else
   ALL_SIZE=0
   DEL_PART_COMMAND=''
   for PART_NUM in "${PARTITIONS[@]}"; do
-    PART_SIZE=$(lsblk --raw | grep "$DEV$PART_NUM" | tr -s ' ' | cut -d ' ' -f 4 | cut -d '.' -f 1 | cut -d ',' -f 1 | sed "s/G$//")
-    ALL_SIZE=$(( $ALL_SIZE + ${PART_SIZE:-DEFAULT} ))
     DEL_PART_COMMAND+=$'\nd\n'$PART_NUM
     echo "Partition number $PART_NUM has size $PART_SIZE so total size up to this point is $ALL_SIZE"
   done
-#  UNALLOCATED_SIZE=$(sudo parted /dev/sda unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}' | sed "s/GB$//" | cut -d ',' -f 1 | cut -d '.' -f 1)
-  ALL_SIZE=$(( ALL_SIZE + ${UNALLOCATED_SIZE:-DEFAULT} ))
-  echo "Unallocated space has size $UNALLOCATED_SIZE so total size is $ALL_SIZE"
 
   SWAP_NEW_SIZE="$(( $RAM_SIZE * 2 ))"            # Swap size is RAM * 2 (in GB)
-  ROOT_NEW_SIZE=$(( $ALL_SIZE - $SWAP_NEW_SIZE )) # Everything that is lefs is root size (in GB)
+  ROOT_NEW_SIZE=$(( $USABLE_SIZE - $SWAP_NEW_SIZE )) # Everything that is lefs is root size (in GB)
 
   echo "DEV=$DEV ROOTDEV=$ROOT_DEV ROOT_STARTBLOCK=$ROOT_STARTBLOCK SWAP_DEV=$SWAP_DEV"
   echo "Resizing root to ${ROOT_NEW_SIZE}GB and swap to ${SWAP_NEW_SIZE}GB"

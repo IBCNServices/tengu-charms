@@ -451,7 +451,7 @@
     "files/tengu_management/scripts/virtualwall_prepare.sh": [
       "hauchiwa", 
       "static", 
-      "3e5521a7b7062b62cdf69237e7c2cfec5df7bb17d5e306804d0c445a9a39305f"
+      "799d3c7905f3cc663ccb1ecaa546f8ca87e5fa5c93c7d307cce7d0c8f5db6743"
     ], 
     "templates/dhc-init.sh": [
       "juju-client", 

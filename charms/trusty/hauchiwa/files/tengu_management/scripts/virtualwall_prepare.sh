@@ -159,7 +159,7 @@ else
   UNALL_SIZE_BEFORE_ROOT=$( bc <<< "a=$TEMP; b=1073741824; if ( a%b ) a/b+1 else a/b" )
   echo "Sector size is $SECTOR_SIZE, start of root is $ROOT_STARTBLOCK, ceil(Unallocated size before root) is ${UNALL_SIZE_BEFORE_ROOT}GB"
   DISK_SIZE=$( fdisk -l /dev/sda | grep 'Disk /dev/sda:' | cut -d ' ' -f 3 | cut -d '.' -f 1 | cut -d ',' -f 1 )
-  USABLE_SIZE=$(( $DISK_SIZE - $UNALL_SIZE_BEFORE_ROOT))
+  USABLE_SIZE=$(( $DISK_SIZE - $UNALL_SIZE_BEFORE_ROOT ))
   echo "Disk size is ${DISK_SIZE}GB. Total usable size is ${USABLE_SIZE}GB"
 
   RAM_SIZE=$(( $(free -m | grep Mem: | tr -s ' ' | cut -d ' ' -f 2) / 1024 ))  # RAM size in GB

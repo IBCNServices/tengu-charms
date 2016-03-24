@@ -156,7 +156,7 @@
     "files/rest2jfed/jfed_utils.py": [
       "rest2jfed", 
       "static", 
-      "624cf363fec6097ed008536cd7e4ec9ba0b0d8576003a84bb78d9b02473a7273"
+      "113b92ec49b18b7876a349dfe9cca0a3b9333ca64d4f3a510ed8670580bacba5"
     ], 
     "hooks/install": [
       "layer:basic", 

@@ -330,11 +330,11 @@ def parse_output(output, is_exit_code_error):
         'is_exit_code_error': is_exit_code_error,
     }
     # First we extract the 'request is' because otherwise, the json extracting regex would bork
-    request_regex=r'Request was: "([.*])"'
+    request_regex = r'Request was: "(\[.*\n\])"\n'
     match = re.search(request_regex, output, flags=re.DOTALL)
     request_obj_str = ''
     if match:
-        request_obj_string = match.group(1).lstrip()
+        request_obj_str = match.group(1).lstrip()
         output = re.sub(request_regex, '', output, flags=re.DOTALL)
     # Then we extract the json before all other regexes because we don't want other regexes to search the json.
     json_regex=r'"?({.*})"?'

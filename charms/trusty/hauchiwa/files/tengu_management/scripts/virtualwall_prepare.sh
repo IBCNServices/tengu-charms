@@ -4,7 +4,6 @@
 # Please be aware that all changes to this script need to be backwards compatible, since all instances automatically download the latest version.
 #set -e
 
-exit
 
 # Log output of this script
 exec >> /var/log/tengu-prepare.log

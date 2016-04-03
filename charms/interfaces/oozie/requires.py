@@ -13,7 +13,7 @@ class OozieRequires(RelationBase):
         conv = self.conversation()
         if conv.get_remote('private-address'):
             # TODO: Implement new relationship protocol that indicates when oozie is ready
-            conv.set_state('{relation_name}.available')
+            conv.set_state('{relation_name}.ready')
 
 
     @hook('{requires:opened-ports}-relation-{departed,broken}')

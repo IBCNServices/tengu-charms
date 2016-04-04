@@ -12,8 +12,9 @@ class OozieRequires(RelationBase):
         if self.get_remote('private-address'):
             conv = self.conversation()
             # TODO: Implement new relationship protocol that indicates when oozie is ready
-            conv.remove_state('{relation_name}.joined')
+            conv.set_state('{relation_name}.joined')
             conv.set_state('{relation_name}.ready')
+            print('wololo')
 
 
     @hook('{requires:oozie}-relation-{departed,broken}')
@@ -28,11 +29,13 @@ class OozieRequires(RelationBase):
         """ Return Oozie port"""
         # TODO: implement new relationship protocol that sends port number
         conv = self.conversation()
+        print('port')
         return conv.get_remote('port', str(11000))
 
 
     @property
     def private_address(self):
         """ return Oozie private address """
+        print('pa')
         conv = self.conversation()
         return conv.get_remote('private-address')

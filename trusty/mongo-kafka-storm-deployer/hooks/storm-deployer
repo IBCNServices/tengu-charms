@@ -44,7 +44,6 @@ testDeployment()
 	waitingFor=""
 	for i in "${files[@]}"
 	do
-		juju-log "LOOP: $i"
 		if [[ ! -e "/tmp/deployer/${i}_config" ]]; then 
 			waitingFor="$waitingFor $i relation;"	
 		else	
@@ -99,7 +98,8 @@ deploy()
 {
 	zookeeper=`cat /tmp/deployer/zookeeper_config`
 	mongodb=`cat /tmp/deployer/mongo_config`
-	/opt/storm/apache-storm-0.9.3/bin/storm jar /tmp/StormDemo-1.0-SNAPSHOT-jar-with-dependencies.jar io.tengu.storm.demo.Main $zookeeper $mongodb
+	juju-log "$dir"
+	/opt/storm/apache-storm-0.9.3/bin/storm jar files/StormDemo-1.0-SNAPSHOT-jar-with-dependencies.jar io.tengu.storm.demo.Main $zookeeper $mongodb
 }
 
 undeploy()

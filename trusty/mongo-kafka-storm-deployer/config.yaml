@@ -1,13 +1,1 @@
 options:
-  deploy:
-    type: string
-    description: |
-      Storm topologies that need to be deployed. Comma separated list of urls that point to a stormdeployer file. Example https://github.com/mectors/stormdeployer-examples/abc.storm
-  undeploy:
-    type: string
-    description: |
-      Storm topologies that need to be undeployed. Comma separated list of storm topology names. 
-  credentials:
-    type: string
-    description: |
-      Github username and password to deploy from private repository. Example username:password

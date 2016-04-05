@@ -12,7 +12,7 @@ Deployment is possible via source code or via jar. A .storm yaml file is needed 
 Deploying with source code requires a .stom with the format:
 ```
 topology:
-    - name: name of the topology (this should be the same as the topologyname which is used in submitTopology() )
+    - name: name of the topology
       jar: jar of the topology
       topologyclass: full domain and class of the topology
       packaging: mvn package 
@@ -31,7 +31,7 @@ topology:
 Deploying with jar requires a .storm with the format:
 ```
 topology:
-    - name: WordCount
+    - name: WordCountTopology
       jar: WordCountExample-1.0-SNAPSHOT.jar
       topologyclass: com.sborny.wordcountexample.WordCountTopology
       packaging: jar

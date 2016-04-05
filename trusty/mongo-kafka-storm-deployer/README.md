@@ -16,6 +16,9 @@ juju deploy mongo-kafka-storm-deployer deployer
 juju deploy mongodb
 juju deploy apache-kafka kafka
 
+juju action do kafka/0 create-topic topic=test partitions=1 replication=1
+juju action fetch <id>
+
 juju add-relation zookeeper stormmaster
 juju add-relation zookeeper stormworker
 juju add-relation zookeeper kafka

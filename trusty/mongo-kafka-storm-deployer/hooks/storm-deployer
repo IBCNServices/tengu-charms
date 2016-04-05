@@ -1,0 +1,169 @@
+#!/bin/bash -e
+
+#stormdeployerjar=/opt/storm/stormdeployer/stormdeployer.jar
+#export JAVA_HOME_7=/usr/lib/jvm/java-7-openjdk-amd64
+
+
+installPackages()
+{
+	#juju-log "Installing deployer"
+	#apt-get -y install git
+	#apt-get -y install maven
+	#apt-get -y install openjdk-7-jdk
+        #mkdir -p /opt/storm/stormdeployer/
+        #cd /opt/storm
+        #rm -rf /opt/storm/StormCharmConnector
+	#git clone https://github.com/xannz/StormCharmConnector
+	#cd /opt/storm/StormCharmConnector	
+	#mvn package
+	#if [ ! -L $stormdeployerjar ]; then
+        #	ln -s /opt/storm/StormCharmConnector/target/stormcharmconnector-0.0.1-SNAPSHOT-jar-with-dependencies.jar $stormdeployerjar
+	#fi
+	
+	rm -rf /tmp/deployer
+	mkdir -p /tmp/deployer
+
+	status-set blocked "Waiting for: MongoDB relation, Zookeeper relation, Kafka relation"
+}
+
+mongodbJoined()
+{
+	juju-log "Mongodb relation found"
+	privateIp=`relation-get private-address`
+	port=`relation-get port`
+	juju-log "Mongodb ip: $privateIp:$port"
+	#mkdir -p /tmp/deployer
+	echo "$privateIp:$port" > /tmp/deployer/mongo_config	
+	testDeployment 
+}
+
+zookeeperJoined()
+{
+	juju-log "Zookeeper relation found"
+	privateIp=`relation-get private-address`
+	port=`relation-get port`
+	juju-log "Zookeeper ip: $privateIp:$port"	
+	#mkdir -p /tmp/deployer	
+	echo "$privateIp:$port" > /tmp/deployer/zookeeper_config	
+	testDeployment 
+}
+
+kafkaJoined()
+{
+	juju-log "Kafka relation found"
+	privateIp=`relation-get private-address`
+	port=`relation-get port`
+	juju-log "Kafka ip: $privateIp:$port"
+	#mkdir -p /tmp/deployer	
+	echo "$privateIp:$port" > /tmp/deployer/kafka_config	
+	testDeployment 
+}
+
+testDeployment()
+{
+	files=( "mongo" "zookeeper" "kafka" )
+	waitingFor=""
+	for i in "${files[@]}"
+	do
+		juju-log "LOOP: $i"
+		if [[ ! -e "/tmp/deployer/${i}_config" ]]; then 
+			waitingFor="$waitingFor $i relation;"	
+		else	
+			regex="^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]+$"
+			[[ `cat /tmp/deployer/${i}_config` =~ $regex ]] && juju-log "$i regex matches" || waitingFor="$waitingFor $i relation;"
+		fi
+
+		
+	done
+
+	if [ -z "$waitingFor" ]; then
+		juju-log "All relations up and running, deploying storm topology"
+		status-set active 
+		deploy
+	else	
+		juju-log "Not all relations up, waiting to deploy / undeploying storm topology"
+		juju-log "WaitingFor: $waitingFor"
+		status-set blocked "Waiting for: $waitingFor"
+		undeploy
+	fi
+	waitingFor=""
+}
+
+mongodbBroken()
+{
+	juju-log "MongoDB relation broken"
+	if [[ -e "/tmp/deployer/mongo_config" ]]; then
+		rm -f /tmp/deployer/mongo_config
+	fi
+	testDeployment
+}
+
+zookeeperBroken()
+{
+	juju-log "Zookeeper relation broken"
+	if [[ -e "/tmp/deployer/zookeeper_config" ]]; then
+		rm -f /tmp/deployer/zookeeper_config
+	fi
+	testDeployment
+}
+
+kafkaBroken()
+{
+	juju-log "Kafka relation broken"
+	if [[ -e "/tmp/deployer/kafka_config" ]]; then
+		rm -f /tmp/deployer/kafka_config
+	fi
+	testDeployment
+}
+
+deploy()
+{
+	zookeeper=`cat /tmp/deployer/zookeeper_config`
+	mongodb=`cat /tmp/deployer/mongo_config`
+	/opt/storm/apache-storm-0.9.3/bin/storm jar /tmp/StormDemo-1.0-SNAPSHOT-jar-with-dependencies.jar io.tengu.storm.demo.Main $zookeeper $mongodb
+}
+
+undeploy()
+{
+	if ! /opt/storm/apache-storm-0.9.3/bin/storm list | grep -q "No topologies running." ; then
+		juju-log "Undeploying topology"
+		/opt/storm/apache-storm-0.9.3/bin/storm kill StormDemo
+	else
+		juju-log "No topologies running"
+	fi
+}
+
+cmd=$(basename "$0")
+juju-log "BASENAME: $cmd"
+case "$cmd" in
+config-changed)
+	;;
+install)
+	installPackages
+	;;
+upgrade-charm)
+	installPackages
+	;;
+start)
+	;;
+stop)
+	;;
+database-relation-broken)
+	mongodbBroken
+	;;
+zookeeper-relation-broken)
+	zookeeperBroken
+	;;
+kafka-relation-broken)
+	kafkaBroken
+	;;
+database-relation-changed)
+	mongodbJoined
+	;;
+zookeeper-relation-changed)
+	zookeeperJoined
+	;;
+kafka-relation-changed)
+	kafkaJoined
+	;;
+esac

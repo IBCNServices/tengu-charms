@@ -1,0 +1,14 @@
+name: stormdeployer
+summary: Storm Deployer
+maintainer: Maarten Ectors <maarten.ectors@canonical.com>
+description: |
+  Storm Deployer
+  .
+  The Storm Deployer provides a mechanism for deploying Storm Topology Jar application files on Juju deployed Storm Servers.  Deployed as a
+  subordinate charm, applications may be subsequently upgraded across all of your Juju services/units.
+categories: [app-servers]
+subordinate: true
+requires:
+  juju-info:
+    interface: juju-info
+    scope: container

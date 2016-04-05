@@ -1,0 +1,17 @@
+name: mongo-kafka-storm-deployer
+summary: mongo-kafka-storm-deployer
+maintainer: Sander Borny <sander.borny@ugent.be>
+description: |
+  mongo-kafka-storm-deployer  
+categories: [app-servers]
+subordinate: true
+requires:
+  juju-info:
+    interface: storm
+    scope: container
+  database:
+    interface: mongodb
+  zookeeper:
+    interface: zookeeper
+  kafka:
+    interface: kafka

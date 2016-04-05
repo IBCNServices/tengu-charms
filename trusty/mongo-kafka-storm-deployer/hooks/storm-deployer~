@@ -1,27 +1,11 @@
 #!/bin/bash -e
 
-#stormdeployerjar=/opt/storm/stormdeployer/stormdeployer.jar
-#export JAVA_HOME_7=/usr/lib/jvm/java-7-openjdk-amd64
-
 
 installPackages()
-{
-	#juju-log "Installing deployer"
-	#apt-get -y install git
-	#apt-get -y install maven
-	#apt-get -y install openjdk-7-jdk
-        #mkdir -p /opt/storm/stormdeployer/
-        #cd /opt/storm
-        #rm -rf /opt/storm/StormCharmConnector
-	#git clone https://github.com/xannz/StormCharmConnector
-	#cd /opt/storm/StormCharmConnector	
-	#mvn package
-	#if [ ! -L $stormdeployerjar ]; then
-        #	ln -s /opt/storm/StormCharmConnector/target/stormcharmconnector-0.0.1-SNAPSHOT-jar-with-dependencies.jar $stormdeployerjar
-	#fi
-	
+{	
 	rm -rf /tmp/deployer
 	mkdir -p /tmp/deployer
+	status-set blocked "Waiting for: MongoDB relation, Zookeeper relation, Kafka relation"
 }
 
 mongodbJoined()

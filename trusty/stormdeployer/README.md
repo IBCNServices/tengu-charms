@@ -44,3 +44,13 @@ Deploying from a private repository requires username and password wich can be e
 juju set stormdeployer "credentials=username:password"
 juju set stormdeployer "deploy=[url to .storm file on github]"
 juju set stormdeployer "undeploy=TopologyName"
+```
+Deploying a topology with starting parameters is possible by entering them after the name:
+```
+-topology
+  -name: ExampleTopologyName Arg1 Arg2
+  ...
+```
+
+
+

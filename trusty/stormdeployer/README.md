@@ -12,7 +12,7 @@ Deployment is possible via source code or via jar. A .storm yaml file is needed 
 Deploying with source code requires a .stom with the format:
 ```
 topology:
-    - name: name of the topology (this should be the same as the topologyname which is used in submitTopology() )
+    - name: name of the topology (this should be the same as the topologyname which is used in submitTopology())
       jar: jar of the topology
       topologyclass: full domain and class of the topology
       packaging: mvn package 

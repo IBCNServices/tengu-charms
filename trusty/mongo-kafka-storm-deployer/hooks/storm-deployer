@@ -98,7 +98,6 @@ deploy()
 {
 	zookeeper=`cat /tmp/deployer/zookeeper_config`
 	mongodb=`cat /tmp/deployer/mongo_config`
-	juju-log "$dir"
 	/opt/storm/apache-storm-0.9.3/bin/storm jar files/StormDemo-1.0-SNAPSHOT-jar-with-dependencies.jar io.tengu.storm.demo.Main $zookeeper $mongodb
 }
 

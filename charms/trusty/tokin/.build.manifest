@@ -9,12 +9,12 @@
     "reactive/juju-client.py": [
       "juju-client", 
       "static", 
-      "74cb2570639201bea2e3c8ee9d3b06e4f7264c1ef1f15b2f2a2e4b6fd42f641d"
+      "ff97a99b8c4df42ccfc35de3bd967a670234bcdc35536ec994dfca99cf662bc6"
     ], 
     "files/tokin/tokin.py": [
       "tokin", 
       "static", 
-      "318d4a4580fa8fc4f86ff76ae5f0e3467b35e6a2e77c9895c034f56dba65da7e"
+      "b39a56d2d29fa4f47b3a278d51b1e8d6bc7c96f60812644952c1ba397b989605"
     ], 
     "wheelhouse/charmhelpers-0.7.0.tar.gz": [
       "layer:basic", 

@@ -14,7 +14,8 @@ DEFAULT_PUBKEYS = 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiF+Y54T4MySG8akVwolplZoo8
 @APP.after_request
 def apply_caching(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,emulab-s4-cert'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,emulab-s4-cert,Location'
+    response.headers['Access-Control-Expose-Headers'] = 'Content-Type,Location'
     response.headers['Access-Control-Allow-Methods'] = 'GET,PUT'
     response.headers['Accept'] = 'application/json'
     return response
@@ -60,6 +61,7 @@ def api_hauchiwa_create(instance_id):
                 config_path=hauchiwa_cfg_path,
                 to='lxc:1')
     juju.add_relation(hauchiwa_name, 'rest2jfed')
+    juju.add_relation(hauchiwa_name, 'dhcp-server')
     resp = Response(
         "Created hauchiwa instance {}".format(instance_id),
         status=201,

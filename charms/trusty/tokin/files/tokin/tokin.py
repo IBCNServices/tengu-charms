@@ -11,6 +11,14 @@ APP = Flask(__name__)
 DEFAULT_PUBKEYS = 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiF+Y54T4MySG8akVwolplZoo8+uGdWHMQtzNEwbirqW8tutHmH2osYavsWyAuIbJPMH/mEMpvWNRilqXv7aw43YcD2Ie43MiLuEV6xWuC1SwdxxfyQ7Y2e0JEKohl6Xx3lWgHpiR5EZFeJmwHazthJnt94m/mTP7sEweK1m9cbk= thomasvanhove,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2AvnkZTypu/srnyAdjHjk6x+vsre05NOwFIOieu2mcAb4aJZOLHBqEE1pxxWrvPUULFS066xgNgvKwNZOZh+OPlUdFpjY2AqN8CtNnLuQ72EPYjpV69nrtsKaJO+ZYqTnl4uZOZDeSoqK0v6RBuBfb5YcZfqpR/z/turw5yZ1H5Ju5mykhzy5wBtWMXWjnODI309Q//0+0MZTSJIYDJ05mwkM0ma1kNWEpJCw9nAvADqYZdU/8thX2j1f3KFdfupZuDIw+rvX3KgCb1cRYvfr8N165J209lxxkwJQuSVGRZ3wUytC/JkqJB1ZK5FhL9WoKD0yXDxi+5nmAQVpVPgD merlijnsebrechts'
 
 
+@APP.after_request
+def apply_caching(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,emulab-s4-cert'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT'
+    response.headers['Accept'] = 'application/json'
+    return response
+
 
 @APP.route('/')
 def api_root():
@@ -58,7 +66,6 @@ def api_hauchiwa_create(instance_id):
         mimetype='text/plain',
     )
     resp.headers['location'] = '/hauchiwa/{}'.format(instance_id)
-    resp.headers['Access-Control-Allow-Origin'] = 'tengu.intec.ugent.be'
     return resp
 
 
@@ -75,10 +82,10 @@ def api_hauchiwa_info(instance_id):
     juju = JujuEnvironment(None)
     info = juju.status['services'].get('h-{}'.format(instance_id))
     if info:
-        info = {
-            'status' : info['service-status'],
-            'public-address' : info['units'].values()[0].get('public-address')
-        }
+        # info = {
+        #     'status' : info['service-status'],
+        #     'public-address' : info['units'].values()[0].get('public-address')
+        # }
         resp = Response(
             json.dumps(info),
             status=200,
@@ -91,7 +98,6 @@ def api_hauchiwa_info(instance_id):
             mimetype='text/plain',
         )
     resp.headers['location'] = '/hauchiwa/{}'.format(instance_id)
-    resp.headers['Access-Control-Allow-Origin'] = 'tengu.intec.ugent.be'
     return resp
 
 
@@ -101,19 +107,20 @@ def api_hauchiwa():
     # get values from request
     s4_cert = str(request.headers.get('emulab-s4-cert'))
     juju = JujuEnvironment(None)
-    services = juju.get_services('h-', 'emulab-s4-cert', s4_cert)
-    lst = {}
-    for service in services.keys():
-        lst[service] = {
-            'status' : services[service]['service-status'],
-            'public-address' : services[service]['units'].values()[0].get('public-address')
-        }
+    status = juju.status
+
+    # get_services('h-', 'emulab-s4-cert', s4_cert)
+    # lst = {}
+    # for service in services.keys():
+    #     lst[service] = {
+    #         'status' : services[service]['service-status'],
+    #         'public-address' : services[service]['units'].values()[0].get('public-address')
+    #     }
     resp = Response(
-        json.dumps(lst),
+        json.dumps(status),
         status=200,
         mimetype='application/json',
     )
-    resp.headers['Access-Control-Allow-Origin'] = 'tengu.intec.ugent.be'
     return resp
 
 

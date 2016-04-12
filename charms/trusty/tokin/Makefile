@@ -1,23 +1,18 @@
 #!/usr/bin/make
-PYTHON := /usr/bin/env python
 
-all: lint test build
+all: lint unit_test
 
 
-build: unit_test
-	juju-compose -o ~/charms .
+.PHONY: apt_prereqs
+apt_prereqs:
+	@# Need tox, but don't install the apt version unless we have to (don't want to conflict with pip)
+	@which tox >/dev/null || sudo apt-get install -y python-tox
 
-lint:
-	@flake8 $(wildcard hooks unit_tests tests)
+lint: apt_prereqs
+	@tox --notest
+	@.tox/py34/bin/flake8 $(wildcard hooks reactive lib unit_tests tests)
 	@charm proof
 
-unit_test:
+unit_test: apt_prereqs
 	@echo Starting tests...
 	tox
-
-test:
-	@echo Starting Amulet tests...
-	# coreycb note: The -v should only be temporary until Amulet sends
-	# raise_status() messages to stderr:
-	#   https://bugs.launchpad.net/amulet/+bug/1320357
-	@juju test -v -p AMULET_HTTP_PROXY,AMULET_OS_VIP --timeout 2700

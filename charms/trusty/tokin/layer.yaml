@@ -1,3 +1,11 @@
-includes:
-- /juju-client
-is: tokin
+"options":
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+  "tokin": {}
+  "juju-client": {}
+"includes":
+- "layer:basic"
+- "/juju-client"
+"is": "tokin"

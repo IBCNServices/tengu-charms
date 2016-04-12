@@ -1,0 +1,11 @@
+"options":
+  "limeds": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "interface:mongodb"
+- "interface:http"
+"is": "limeds"

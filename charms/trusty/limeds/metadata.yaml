@@ -1,19 +1,15 @@
-name: limeds
-summary: <Fill in summary here>
-maintainer: Merlijn Sebrechts <Merlijn.Sebrechts@travers>
-description: |
-  <Multi-line description here>
-tags:
-  # Replace "misc" with one or more whitelisted tags from this list:
-  # https://jujucharms.com/docs/stable/authors-charm-metadata
-  - misc
-subordinate: false
-provides:
-  provides-relation:
-    interface: interface-name
-requires:
-  requires-relation:
-    interface: interface-name
-peers:
-  peer-relation:
-    interface: interface-name
+"name": "limeds"
+"summary": "Installs LimeDS"
+"maintainer": "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
+"description": |
+  This Charm installs LimeDS
+"tags":
+- "streaming"
+- "analytics"
+"requires":
+  "mongodb":
+    "interface": "mongodb"
+"provides":
+  "limeds":
+    "interface": "http"
+"subordinate": !!bool "false"

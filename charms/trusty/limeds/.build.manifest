@@ -1,0 +1,286 @@
+{
+  "layers": [
+    "layer:basic", 
+    "limeds", 
+    "interface:mongodb", 
+    "interface:http", 
+    "build"
+  ], 
+  "signatures": {
+    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
+    ], 
+    "hooks/mongodb-relation-broken": [
+      "interface:mongodb", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/pyaml-15.8.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    ], 
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
+      "static", 
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "wheelhouse/charms.reactive-0.4.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "601fed753f88d25fb7928adfbbd1e863417000f5fb1d39fad8c44ec5c756f9cf"
+    ], 
+    "hooks/relations/http/interface.yaml": [
+      "interface:http", 
+      "static", 
+      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
+    ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
+    ], 
+    "hooks/relations/mongodb/__init__.py": [
+      "interface:mongodb", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "hooks/mongodb-relation-changed": [
+      "interface:mongodb", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
+    ], 
+    "wheelhouse/PyYAML-3.11.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+    ], 
+    "LICENSE": [
+      "limeds", 
+      "static", 
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
+    ], 
+    "copyright": [
+      "limeds", 
+      "static", 
+      "1c9c4ce3445efef9dff3d4ff39c4d901d105f0e026b7dc1a2e9ad9f46eca133a"
+    ], 
+    "hooks/relations/http/README.md": [
+      "interface:http", 
+      "static", 
+      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    "hooks/limeds-relation-joined": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "hooks/relations/http/__init__.py": [
+      "interface:http", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "hooks/limeds-relation-changed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/mongodb/requires.py": [
+      "interface:mongodb", 
+      "static", 
+      "40b76af43ce0d92ab2aad9dfb3fcbc444e48dd2f84874612416b54398d804e64"
+    ], 
+    "hooks/relations/mongodb/copyright": [
+      "interface:mongodb", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "icon.svg": [
+      "limeds", 
+      "static", 
+      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+    ], 
+    "config.yaml": [
+      "limeds", 
+      "dynamic", 
+      "d047e48447d374c91de7e90fd46a624f93adf76647a08a78eed40f180d16b29e"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "files/id_rsa": [
+      "limeds", 
+      "static", 
+      "34d10cd118e74dbdd2cbb4a9fbc6d4df5fcfb1a2fa6db671e821ee6b89e97485"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "lib/charms/layer/basic.py": [
+      "layer:basic", 
+      "static", 
+      "ec07861b9d201e9e741ee75d09e4f17cbd02775a969f76f5f8968806cb3dab6e"
+    ], 
+    "hooks/mongodb-relation-joined": [
+      "interface:mongodb", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "metadata.yaml": [
+      "limeds", 
+      "dynamic", 
+      "3162826ead9acc7c93790febcc8d7975c31f38d1abd4b459bcdda830bf37e6d7"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "files/id_rsa.pub": [
+      "limeds", 
+      "static", 
+      "c7baa5a488abb6290761cbef9e77cda7f42b4aa3ac8769ed482dc377260faa4f"
+    ], 
+    "README.md": [
+      "limeds", 
+      "static", 
+      "9a304fdb5553a2c6ffa5959a4b33ad26656468f8bcff60926969e8e16acc6867"
+    ], 
+    "hooks/mongodb-relation-departed": [
+      "interface:mongodb", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/http/requires.py": [
+      "interface:http", 
+      "static", 
+      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
+    ], 
+    "reactive/limeds.py": [
+      "limeds", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/limeds-relation-departed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "layer.yaml": [
+      "limeds", 
+      "dynamic", 
+      "1087eaaf04dfc42849e46b4cbd95d03a7316a5e1371bfd2d4d1f273efbcec25e"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/mongodb/interface.yaml": [
+      "interface:mongodb", 
+      "static", 
+      "512c111baee1fea7f6614e82b4a2215a91689b467181ca8667837ba4a2876023"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ], 
+    "hooks/relations/http/provides.py": [
+      "interface:http", 
+      "static", 
+      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
+    ], 
+    "hooks/limeds-relation-broken": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ]
+  }
+}

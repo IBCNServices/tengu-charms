@@ -240,12 +240,13 @@ class JujuEnvironment(object):
                   'r') as e_file:
             e_content = e_file.read()
         env_conf['environment-jenv'] = b64encode(e_content)
-        with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
-            e_content = e_file.read()
-        env_conf['environment-privkey'] = b64encode(e_content)
-        with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
-            e_content = e_file.read()
-        env_conf['environment-pubkey'] = b64encode(e_content)
+        # We don't need to export ssh keys since juju can just add the current ones.
+        # with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
+        #     e_content = e_file.read()
+        # env_conf['environment-privkey'] = b64encode(e_content)
+        # with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
+        #     e_content = e_file.read()
+        # env_conf['environment-pubkey'] = b64encode(e_content)
         return env_conf
 
 
@@ -279,7 +280,9 @@ class JujuEnvironment(object):
         environment = JujuEnvironment(name)
         environment.add_machines(machines)
         environment.deploy_lxc_networking()
+        print("deploying openvpn")
         environment.deploy('local:openvpn', 'openvpn', to='0')
+        print("Creation of bare Tengu complete!")
         return environment
 
 

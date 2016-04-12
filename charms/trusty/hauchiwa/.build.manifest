@@ -38,10 +38,10 @@
       "static", 
       "06465a3d613750e0895b4bc243bfca954ea2d9ccd4db0f0c0a23be82c5d4f661"
     ], 
-    "wheelhouse/Jinja2-2.8.tar.gz": [
+    "reactive/__init__.py": [
       "layer:basic", 
-      "dynamic", 
-      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
     "tests/00-setup": [
       "hauchiwa", 
@@ -61,7 +61,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "8cf4009941789d84a81bea979201f35f001d491cac8c95ea609bb490d16096bf"
+      "e6fbee40ae9f2af840863fac2f41deffa53da4f14d2a1f5c060e7a8983941836"
     ], 
     "copyright": [
       "layer:basic", 
@@ -158,10 +158,10 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "reactive/__init__.py": [
+    "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
     ], 
     "hooks/hauchiwa-port-forward-relation-broken": [
       "interface:opened-ports", 
@@ -203,11 +203,6 @@
       "static", 
       "5b3ff664bf7953b7523f4e37a8f6c3870ebaefd5a265c0f1037141269f1d28d1"
     ], 
-    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
-    ], 
     "hooks/config-changed": [
       "layer:basic", 
       "static", 
@@ -222,6 +217,11 @@
       "interface:http", 
       "static", 
       "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
+    ], 
+    "files/tengu_management/scripts/upgrade-tengu.sh": [
+      "hauchiwa", 
+      "static", 
+      "b8bd75c3fcb92d93b5cd9bb55614438fcd9f82f35c98b584ba1160660de577bd"
     ], 
     "wheelhouse/charmhelpers-0.7.0.tar.gz": [
       "layer:basic", 
@@ -256,7 +256,12 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "868f3fc0a3c3ebfceb1252010f4171c4f0cfe7a5e6945efe9e654a10f9b83ab9"
+      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
+    ], 
+    "wheelhouse/charms.reactive-0.4.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "601fed753f88d25fb7928adfbbd1e863417000f5fb1d39fad8c44ec5c756f9cf"
     ], 
     "files/tengu_management/scripts/config.py": [
       "hauchiwa", 
@@ -306,7 +311,7 @@
     "tox.ini": [
       "layer:basic", 
       "static", 
-      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
+      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
     ], 
     "metadata.yaml": [
       "hauchiwa", 
@@ -371,7 +376,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "9bb722e622264ce618f1ddcdd0d3d138e0d5be554539e70cc7b15591b0f79b9f"
+      "ec07861b9d201e9e741ee75d09e4f17cbd02775a969f76f5f8968806cb3dab6e"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 
@@ -451,7 +456,7 @@
     "files/tengu_management/scripts/virtualwall_prepare.sh": [
       "hauchiwa", 
       "static", 
-      "86e55ed3a89e93a77cca7b87360f8ed3584e5711b0f71e197bc15b9d8cd6edac"
+      "edb4c78c93902cc50369e9dfbba558112d08d51d5b20d8c4874b054aa443bc79"
     ], 
     "templates/dhc-init.sh": [
       "juju-client", 

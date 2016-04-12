@@ -151,6 +151,14 @@ else
   ROOT_STARTBLOCK=$(cat /sys/class/block/$ROOT_DEV/start)
 
   SWAP_DEV=$(lsblk --raw | grep 'SWAP' | tr -s ' ' | cut -d ' ' -f 1)
+  if [[ -z "$SWAP_DEV" ]]; then
+    SWAP_DEV=$(cat /etc/fstab | grep swap | cut -d ' ' -f 1 | grep -v '^#' | grep dev | sed "s/\/dev\///")
+    if [[ -z "$SWAP_DEV" ]]; then
+      SWAP_DEV=$DEV$(( $ROOT_PART_NUM + 1 ))
+      echo "# The following swap device added by Tengu's virtualwall_prepare script" >> /etc/fstab
+      echo "/dev/$SWAP_DEV               swap    swap    defaults        0       0" >> /etc/fstab
+    fi
+  fi
   SWAP_PART_NUM=$(echo $SWAP_DEV | sed "s/sda//")
 
   #SECTORS=$(fdisk /dev/sda -l | grep sectors | head -n 1 | rev |  cut -d ' ' -f 2 | rev)

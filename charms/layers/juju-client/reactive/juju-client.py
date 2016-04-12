@@ -25,11 +25,13 @@ HOME = expanduser('~{}'.format(USER))
 
 @hook('install')
 def install():
+    hookenv.status_set('maintenance', 'Installing Juju client')
     install_packages()
     install_juju_plugins()
     if not os.path.isfile("{}/.juju/environments.yaml".format(HOME)):
         configure_environments()
     reactive.set_state('juju.installed')
+    hookenv.status_set('maintenance', 'Juju client installed')
 
 
 @hook('upgrade-charm')
@@ -40,6 +42,7 @@ def upgrade():
 
 @hook('config-changed')
 def config_changed():
+    hookenv.status_set('maintenance', 'Changing Juju config')
     config = hookenv.config()
     git_url = config.get('charm-repo-source')
     env_name = config.get('environment-name')
@@ -52,6 +55,7 @@ def config_changed():
     if ssh_keys:
         for key in ssh_keys.split(','):
             add_key(key)
+    hookenv.status_set('maintenance', 'Juju config Changed')
 
 
 def add_key(key):
@@ -66,7 +70,7 @@ def add_key(key):
 
 
 def install_packages():
-    hookenv.status_set('maintenance', 'Installing packages')
+    #hookenv.status_set('maintenance', 'Installing packages')
     fetch.apt_install(fetch.filter_installed_packages(['software-properties-common']))
     fetch.add_source('ppa:juju/stable')
     fetch.apt_update()
@@ -99,7 +103,7 @@ def install_juju_plugins():
 
 
 def get_and_configure_charm_repo(git_url):
-    hookenv.status_set('maintenance', 'Configuring Charm Repo')
+    #hookenv.status_set('maintenance', 'Configuring Charm Repo')
     repo_name = git_url.rstrip('.git').split('/')[-1]
     repo_path = '/opt/{}'.format(repo_name)
     if not os.path.isdir(repo_path):
@@ -115,11 +119,10 @@ def get_and_configure_charm_repo(git_url):
             }
         )
         chownr(repo_path, USER, USER)
-    hookenv.status_set('active', 'Ready')
 
 
 def configure_environments():
-    hookenv.status_set('maintenance', 'Initializing environment')
+    #hookenv.status_set('maintenance', 'Initializing environment')
     chownr('{}/.juju'.format(HOME), USER, USER)
     check_output(['su',
                   '-l', USER,

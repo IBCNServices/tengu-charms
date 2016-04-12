@@ -9,13 +9,13 @@ import tempfile
 import pwd
 import grp
 import subprocess
-import re
+#import re
 
 # Charm pip dependencies
 from charmhelpers import fetch
 from charmhelpers.core import templating, hookenv, host
 from charmhelpers.core.hookenv import open_port, config
-from charms.reactive import hook, when, when_not, set_state, remove_state
+from charms.reactive import hook, when, when_all, when_not, set_state, remove_state
 
 # non-standard pip dependencies
 import yaml
@@ -34,15 +34,15 @@ def conf_pf(port_forward):
     port_forward.configure()
 
 
-@when('hauchiwa-port-forward.ready')
+@when_all('hauchiwa-port-forward.ready', 'tengu.repo.available', 'juju.repo.available', 'hauchiwa.provider.configured')
 def show_pf(port_forward):
-    state, msg = hookenv.status_get()
-    msg = re.sub(r' pf:".*"', '', msg)
-    msg += ' pf:"'
+    #state, msg = hookenv.status_get()
+    #msg = re.sub(r' pf:".*"', '', msg)
+    msg = 'Ready pf:"'
     for forward in port_forward.forwards:
         msg += '{}:{}->{} '.format(forward['public_ip'], forward['public_port'], forward['private_port'])
     msg += '"'
-    hookenv.status_set(state, msg)
+    hookenv.status_set('active', msg)
 
 
 @when('juju.repo.available')
@@ -83,8 +83,8 @@ def config_changed():
     content['pubkey'] = get_or_create_ssh_key(SSH_DIR, USER, USER)
     with open(GLOBAL_CONF_PATH, 'w') as config_file:
         config_file.write(yaml.dump(content, default_flow_style=False))
-    set_state('tengu.configured')
     chownr(os.path.dirname(GLOBAL_CONF_PATH), USER, USER)
+    set_state('tengu.configured')
 
 
 @when('tengu.installed')
@@ -97,8 +97,9 @@ def set_blocked():
         set_state('hauchiwa.provider.configured')
 
 
-@when('tengu.installed', 'tengu.configured', 'tengu.repo.available', 'juju.repo.available',
+@when('tengu.configured', 'tengu.repo.available', 'juju.repo.available',
       'hauchiwa.provider.configured')
+@when_not('bundle.deployed')
 def create_environment(*arg):  # pylint:disable=w0613
     conf = hookenv.config()
     bundle = conf.get('bundle')
@@ -113,7 +114,7 @@ def create_environment(*arg):  # pylint:disable=w0613
         subprocess.check_call(['su', '-', USER, '-c',
                                '{}/scripts/tengu.py create --bundle {} {}'.format(TENGU_DIR, bundle_path,
                                                                                   hostname[2:])])
-    hookenv.status_set('active', 'Ready')
+    set_state('bundle.deployed')
 
 
 @when('rest2jfed.available')

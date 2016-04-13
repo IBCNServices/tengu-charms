@@ -22,6 +22,7 @@ jfed_cli.tar.gz
 jfed_cli
 apache-activemq-*-bin.tar.gz
 server-jre-*-linux-*.tar.gz
+jdk-*-linux-*.tar.gz
 wso2esb-4.8.0.zip
 wso2esb-4.9.0.zip
 kafkaTransport-connector-*.zip

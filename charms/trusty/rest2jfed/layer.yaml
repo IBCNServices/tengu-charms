@@ -5,10 +5,11 @@
     "use_venv": !!bool "false"
     "packages": []
     "include_system_packages": !!bool "false"
+"name": "java"
 "includes":
 - "layer:basic"
 - "layer:apt"
 - "layer:apt"
-- "/java"
+- "layer:java"
 - "interface:http"
 "is": "rest2jfed"

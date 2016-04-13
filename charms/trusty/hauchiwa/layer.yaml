@@ -7,7 +7,7 @@
   "juju-client": {}
 "includes":
 - "layer:basic"
-- "/juju-client"
+- "layer:juju-client"
 - "interface:http"
 - "interface:opened-ports"
 "is": "hauchiwa"

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # pylint: disable=c0111,c0103,c0301
 import os
+import re
+import glob
 import shutil
 import tarfile
 import subprocess
@@ -12,10 +14,9 @@ from charmhelpers.core.hookenv import charm_dir
 
 def installoracle():
     hookenv.log('Installing Oracle JDK')
-    java_major = '8'
-    java_minor = '73'
-    tarname = 'server-jre-{}u{}-linux-x64.tar.gz'.format(java_major, java_minor)
-    dirname = 'jdk1.{}.0_{}'.format(java_major, java_minor)
+    filesdir = '{}/files/'.format(charm_dir())
+    conf = hookenv.config()
+    (tarname, dirname) = get_java_paths(filesdir, conf['install-type'], conf['java-major'])
     destdir = "/opt/java/{}".format(dirname)
     if not os.path.isdir(destdir):
         tfile = tarfile.open(
@@ -23,7 +24,6 @@ def installoracle():
         # Important to note that the following extraction is
         # UNSAFE since .tar.gz archive could contain
         # relative path like ../../ and overwrite other dirs
-        filesdir = '{}/files/'.format(charm_dir())
         extractdir = '{}/{}'.format(filesdir, dirname)
         tfile.extractall(filesdir)
         mergecopytree(extractdir, destdir)
@@ -46,26 +46,18 @@ def installoracle():
                 ])
 
 
-#import charms.apt #pylint: disable=E1101
-# def installoracle_desktop():
-#     hookenv.log('Installing Oracle JDK')
-#     conf = hookenv.config()
-#     java_major = conf['java-major']
-#     charms.apt.queue_install(['software-properties-common', 'python-software-properties', 'debconf-utils'])#pylint: disable=E1101
-#     charms.apt.install_queued()#pylint: disable=E1101
-#     subprocess.check_output(['sudo', 'apt-add-repository', 'ppa:webupd8team/java', '-y'])
-#     subprocess.check_output(['sudo', 'apt-get', 'update'])
-#     # Set license selected and seen
-#     subprocess.check_output(['echo "oracle-java%s-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections' % java_major])
-#     subprocess.check_output(['echo "oracle-java%s-installer shared/accepted-oracle-license-v1-1 seen true" | sudo debconf-set-selections' % java_major])
-#     # subprocess.check_output(['echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections'])
-#     # subprocess.check_output(['echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections'])
-#     charms.apt.queue_install(['oracle-java%s-installer' % java_major])#pylint: disable=E1101
-#     # remove when reactive fixed
-#     charms.apt.install_queued()#pylint: disable=E1101
-#     return 'oracle-java%s-installer' % java_major
-#
-#
+def get_java_paths(filesdir, install_type, java_major):
+    if install_type == 'jre':
+        tarstr = 'server-jre-{}u{}-linux-x64.tar.gz'
+    else:
+        tarstr = 'jdk-{}u{}-linux-x64.tar.gz'
+    filenames = glob.glob(filesdir + '/' + tarstr.format(java_major, '*'))
+    p = re.compile(r'-{}u()-'.format(java_major))
+    versions = [p.search(filename).group(1) for filename in filenames]
+    java_minor = max(versions)
+    tarname = tarstr.format(java_major, java_minor)
+    dirname = 'jdk1.{}.0_{}'.format(java_major, java_minor)
+    return (tarname, dirname)
 
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):

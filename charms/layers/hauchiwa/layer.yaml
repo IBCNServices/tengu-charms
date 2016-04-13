@@ -1,1 +1,1 @@
-includes: ['juju-client', 'interface:http', 'interface:opened-ports']
+includes: ['layer:juju-client', 'interface:http', 'interface:opened-ports']

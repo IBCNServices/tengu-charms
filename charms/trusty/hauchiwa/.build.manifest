@@ -1,7 +1,7 @@
 {
   "layers": [
     "layer:basic", 
-    "juju-client", 
+    "layer:juju-client", 
     "hauchiwa", 
     "interface:http", 
     "interface:opened-ports", 
@@ -9,7 +9,7 @@
   ], 
   "signatures": {
     "reactive/juju-client.py": [
-      "juju-client", 
+      "layer:juju-client", 
       "static", 
       "ff97a99b8c4df42ccfc35de3bd967a670234bcdc35536ec994dfca99cf662bc6"
     ], 
@@ -179,7 +179,7 @@
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "templates/juju.sh": [
-      "juju-client", 
+      "layer:juju-client", 
       "static", 
       "5a584e40d8181b891f8b5662810355c6999b64705257eb4115800c2aef095c2a"
     ], 
@@ -258,11 +258,6 @@
       "static", 
       "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
     ], 
-    "wheelhouse/charms.reactive-0.4.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "601fed753f88d25fb7928adfbbd1e863417000f5fb1d39fad8c44ec5c756f9cf"
-    ], 
     "files/tengu_management/scripts/config.py": [
       "hauchiwa", 
       "static", 
@@ -289,7 +284,7 @@
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
     "templates/debug-hooks-rc.yaml": [
-      "juju-client", 
+      "layer:juju-client", 
       "static", 
       "3cf2eff977180a509ab251c5690c66fb472a4fa3d89e893b40fdfd012dc99344"
     ], 
@@ -334,7 +329,7 @@
       "e5ff8c8bf8115faffc4e2ca42864eb4b929ef1be5313515ac0c968cddf90f2ac"
     ], 
     "templates/environments.yaml": [
-      "juju-client", 
+      "layer:juju-client", 
       "static", 
       "ea7a1f93d096d8b7bf4b432d9cb277c6233fc7465b965de2f6108c7ced12b7db"
     ], 
@@ -434,7 +429,7 @@
       "07a83b03bf60e4808d98d35d1db3b0433c3c11d57aa25aec6eae83f4110fb42f"
     ], 
     "templates/juju-plugins.sh": [
-      "juju-client", 
+      "layer:juju-client", 
       "static", 
       "bc26155481d176b1cf1a2f70bad264de0571ab35d2ddb4d1027264db53757aa7"
     ], 
@@ -448,10 +443,15 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
+    "wheelhouse/charms.reactive-0.4.3.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "61de97ba63aa0917dc756c95fdd6bfc8725e43e15750ac53ba7a409a819a76b6"
+    ], 
     "layer.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "0d2c55d3c05d1f45f4a30aa1746020bd83f71bbe6aeb940adde3ebdbcfccc762"
+      "642c15e857085f92c8d345f784ea99ebe36019874c10d76fe56836eb34b9a2ed"
     ], 
     "files/tengu_management/scripts/virtualwall_prepare.sh": [
       "hauchiwa", 
@@ -459,7 +459,7 @@
       "edb4c78c93902cc50369e9dfbba558112d08d51d5b20d8c4874b054aa443bc79"
     ], 
     "templates/dhc-init.sh": [
-      "juju-client", 
+      "layer:juju-client", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 

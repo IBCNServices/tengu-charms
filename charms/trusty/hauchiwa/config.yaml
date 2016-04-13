@@ -47,5 +47,6 @@
     "description": "bundle to deploy after setup"
   "hauchiwa-flavor":
     "type": "string"
-    "default": "ssh"
-    "description": "flavor of the installed hauchiwa"
+    "default": "rest2jfed"
+    "description": |
+      flavor of the installed hauchiwa. Possible values: ['rest2jfed', 'ssh']

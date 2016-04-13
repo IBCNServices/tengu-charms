@@ -1,0 +1,58 @@
+#!/bin/bash -e
+
+export JAVA_HOME_7=/usr/lib/jvm/java-7-openjdk-amd64
+
+installPackages()
+{
+	juju-log "Installing Packages";
+	apt-get -y install git
+	apt-get -y install maven
+	apt-get -y install openjdk-7-jdk	
+	if [ ! -d "/tmp/storm-topology" ]; then
+		juju-log "Creating /tmp/storm-topology"
+		mkdir -p /tmp/storm-topology
+	fi
+	status-set blocked "Waiting for topology name"
+}
+
+setName()
+{
+	juju-log "Setting name $1"
+	regex="^[^:]+:[^:]+$"
+	if [[ $1 =~ $regex ]]; then
+		oldName=`echo $1 | cut -d : -f 1`
+		newName=`echo $1 | cut -d : -f 2`
+		if [ -d "/tmp/storm-topology/$oldName" ]; then
+			mv /tmp/storm-topology/$oldName /tmp/storm-topology/$newName
+			#LATER: undeployen storm topology en terug deployen met nieuwe naam
+			#juju status-set 
+		fi		
+	elif [ ! -z $0 ];then
+		juju-log "Creating /tmp/storm-topology/$1"
+		mkdir -p /tmp/storm-topology/$1
+		juju-log "Setting up skeleton"
+		cd /tmp/storm-topology/$0
+		git clone https://github.com/xannz/Storm-Skeleton.git
+		status-set blocked "Waiting for valid topology"		
+	else
+		status-set blocked "Waiting for topology name"			
+	fi 
+}
+
+
+cmd=$(basename "$0")
+case $cmd in
+config-changed)
+	#naam instellen oud:nieuw
+	setName
+	;;
+start)
+	;;
+stop)
+	;;
+install)
+	installPackages
+	;;
+upgrade-charm)
+	;;
+esac

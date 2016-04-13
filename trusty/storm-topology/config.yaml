@@ -1,0 +1,5 @@
+options:
+  name:
+    type: string
+    description: "Specify name of topology to change name Example: oldName:newName"
+

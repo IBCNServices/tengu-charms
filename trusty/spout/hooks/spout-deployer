@@ -1,0 +1,71 @@
+#!/bin/bash -e
+
+
+installPackages()
+{
+	juju-log "Installing Packages"
+	apt-get -y install git
+	apt-get -y install maven
+	apt-get -y install openjdk-7-jdk	
+	if [ ! -d "/tmp/storm-topology" ]; then
+		juju-log "Creating /tmp/storm-topology"
+		mkdir -p /tmp/storm-topology
+	fi
+	if [ ! -d "/tmp/storm-topology/spouts" ]; then
+		juju-log "Creating spouts directory"
+		mkdir -p /tmp/storm-topology/spouts
+	fi
+	status-set blocked "Waiting for: spout name; spout class"
+}
+
+getSpout()
+{
+	juju-log "Downloading spout class"
+	wget $1 /tmp/storm-topology/spouts/$2.java
+	status-set active
+}
+
+importSpout()
+{
+	status-set active
+}
+
+checkSettings()
+{
+	spoutName=`config-get name`
+	spoutClass=`config-get spoutClass`
+	spoutURL=`config-get spoutURL`
+	waitingFor=""
+	if [ -w spoutName ];then
+		waitingFor="$waitingFor; spout name"
+	fi
+	if [[ -w spoutClass && -w spoutURL  ]];then
+		waitingFor="$waitingFor; spout class"
+	fi
+	if [ ! -w waitingFor ];then
+		status-set blocked "Waiting for $waitingFor"
+	else
+		if [ -w spoutClass ];then
+			getSpout $spoutURL $spoutName
+		else
+			importSpout $spoutClass $spoutName		
+		fi	
+	fi
+}
+
+
+cmd=$(basename "$0")
+case $cmd in
+config-changed)
+	checkSettings
+	;;
+start)
+	;;
+stop)
+	;;
+install)
+	installPackages
+	;;
+upgrade-charm)
+	;;
+esac

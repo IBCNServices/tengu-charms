@@ -1,1 +1,1 @@
-includes: ['layer:basic', 'interface:mongodb', 'interface:http']
+includes: ['layer:basic', 'interface:mongodb', 'layer:java', 'interface:http']

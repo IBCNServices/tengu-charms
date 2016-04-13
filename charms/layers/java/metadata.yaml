@@ -1,7 +1,0 @@
-name: java
-summary: Java Environment
-maintainer: Thomas Vanhove (thomas.vanhove@intec.ugent.be)
-description: |
-
-tags: ['java']
-subordinate: false

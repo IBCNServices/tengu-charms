@@ -23,4 +23,4 @@ options:
   charm-repo-source:
     type: string
     description: Git url where charm repo resides. Expects charm repo in <repo_root>/charms.
-    default: "http://github.com/tvanhove/tengu-charms.git"
+    default: "http://github.com/galgalesh/tengu-charms.git"

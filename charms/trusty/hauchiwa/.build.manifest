@@ -61,7 +61,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "e6fbee40ae9f2af840863fac2f41deffa53da4f14d2a1f5c060e7a8983941836"
+      "1cfc975310c8e34a8cce6df73afdfdb3a94fec44b9c76b72d67b7ad701d01d99"
     ], 
     "copyright": [
       "layer:basic", 
@@ -126,12 +126,12 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "422a0ee38575a22050c849d50e5835ee16a922fd33d1ef49c33a1319c607f90c"
+      "5ea78bb099ab7779c003ea0b023da49f929e143db5f7510532edf38b49c6fd9d"
     ], 
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 
       "static", 
-      "f8f4a35d5a7a48bf7f07f392843af4f83e780c9ef344d3761e8622d75e54e743"
+      "d189c1d30685ba383f850263496559b605682b20a686294a52d5e0e99ff55536"
     ], 
     "files/tengu_management/scripts/jfed_provider/__init__.py": [
       "hauchiwa", 
@@ -336,7 +336,7 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "703b35129d114222c109de7f263d568b549316abd825a6f7645b38a511fcb684"
+      "b1df86d06036110fa24d3bc2034b8944472d41ab6fbacfaffa741b20c00c26ca"
     ], 
     "templates/global-conf.yaml": [
       "hauchiwa", 
@@ -426,7 +426,7 @@
     "templates/upstart.conf": [
       "hauchiwa", 
       "static", 
-      "07a83b03bf60e4808d98d35d1db3b0433c3c11d57aa25aec6eae83f4110fb42f"
+      "f21baa2bc51fade85b3becd0d571dcd23e54d9b75e3dc5f1a8a46c3985bea72b"
     ], 
     "templates/juju-plugins.sh": [
       "layer:juju-client", 

@@ -23,6 +23,9 @@ class Service(object):
         self.env = env
         self.name = name
 
+    def upgrade(self):
+        self.env.do('upgrade-charm', self.name)
+
     @property
     def exists(self):
         return self.status is not None

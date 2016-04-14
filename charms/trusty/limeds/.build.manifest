@@ -72,7 +72,7 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "ce5918e05ec7d54d708f0435172573daeb4e14a06728d77c8d8504c8bf8b90df"
+      "94f6a4e582946bfaa0f02e65febbd2958e0e3314a5975024365733f077391192"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 

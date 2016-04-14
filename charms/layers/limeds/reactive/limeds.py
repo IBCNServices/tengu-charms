@@ -33,18 +33,18 @@ def upgrade():
     set_state('limeds.installed')
 
 
-@when('limeds.installed', 'mongodb.available')
+@when('limeds.installed', 'mongodb.database.available')
 @when_not('mongodb.configured')
 def configure_limeds(mongodb):
     hookenv.status_set('maintenance', 'Setting up LimeDS MongoDB relation')
-    configure_limeds_mongodb(mongodb.hostname, mongodb.port)
+    configure_limeds_mongodb(mongodb.hostname(), mongodb.port())
     restart_limeds()
     set_state('mongodb.configured')
     hookenv.status_set('active', 'Ready & connected to MongoDB')
 
 
 @when('mongodb.configured')
-@when_not('mongodb.available')
+@when_not('mongodb.database.available')
 def remove_mongodb_configured():
     remove_state('mongodb.configured')
 
@@ -126,10 +126,10 @@ def restart_limeds():
 def configure_limeds_mongodb(hostname, port):
     templating.render(
         source='org.ibcn.limeds.mongodb.MongoStorage.cfg',
-        target='/opt/limeds/run/org.ibcn.limeds.mongodb.MongoStorage.cfg',
+        target='/opt/limeds/run/config/org.ibcn.limeds.mongodb.MongoStorage.cfg',
         context={
             'hostname': hostname,
             'port': port,
-            'database_name': 'test'
+            'database_name': 'demo'
         }
     )

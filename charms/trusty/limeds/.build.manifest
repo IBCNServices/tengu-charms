@@ -59,10 +59,10 @@
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "files/server-jre-8u73-linux-x64.tar.gz.source": [
+    "files/server-jre-8u77-linux-x64.tar.gz": [
       "layer:java", 
       "static", 
-      "489869311fc05258233664423241ba84800eddfd89137e5b7ae3310f31b7d073"
+      "81ecc8bc0edd800271692cd50326996f970a6901eb0196e3962802927261edeb"
     ], 
     ".build.manifest": [
       "build", 
@@ -284,10 +284,10 @@
       "static", 
       "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
     ], 
-    "files/server-jre-8u73-linux-x64.tar.gz": [
-      "layer:java", 
+    "files/id_rsa.pub": [
+      "limeds", 
       "static", 
-      "3b80ca07bed322ad54c10bf364959befa2da7e652e6fb61296a8a97659c05d7b"
+      "c7baa5a488abb6290761cbef9e77cda7f42b4aa3ac8769ed482dc377260faa4f"
     ], 
     "files/jdk-8u77-linux-x64.tar.gz.source": [
       "layer:java", 
@@ -298,11 +298,6 @@
       "layer:java", 
       "static", 
       "832ce806d4576db6906ec7c1e0e6c3bb6dbd02bfef71e352116cbcdb5e216453"
-    ], 
-    "files/server-jre-8u77-linux-x64.tar.gz": [
-      "layer:java", 
-      "static", 
-      "81ecc8bc0edd800271692cd50326996f970a6901eb0196e3962802927261edeb"
     ], 
     "hooks/relations/http/provides.py": [
       "interface:http", 
@@ -353,11 +348,6 @@
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "files/id_rsa.pub": [
-      "limeds", 
-      "static", 
-      "c7baa5a488abb6290761cbef9e77cda7f42b4aa3ac8769ed482dc377260faa4f"
     ], 
     "hooks/relations/mongodb/interface.yaml": [
       "interface:mongodb", 

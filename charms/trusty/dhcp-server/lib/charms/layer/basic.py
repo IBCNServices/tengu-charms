@@ -4,11 +4,19 @@ import shutil
 from glob import glob
 from subprocess import check_call
 
+from charms.layer.execd import execd_preinstall
+
 
 def bootstrap_charm_deps():
     """
     Set up the base charm dependencies so that the reactive system can run.
     """
+    # execd must happen first, before any attempt to install packages or
+    # access the network, because sites use this hook to do bespoke
+    # configuration and install secrets so the rest of this bootstrap
+    # and the charm itself can actually succeed. This call does nothing
+    # unless the operator has created and populated $CHARM_DIR/exec.d.
+    execd_preinstall()
     venv = os.path.abspath('../.venv')
     vbin = os.path.join(venv, 'bin')
     vpip = os.path.join(vbin, 'pip')
@@ -23,6 +31,15 @@ def bootstrap_charm_deps():
         return
     # bootstrap wheelhouse
     if os.path.exists('wheelhouse'):
+        with open('/root/.pydistutils.cfg', 'w') as fp:
+            # make sure that easy_install also only uses the wheelhouse
+            # (see https://github.com/pypa/pip/issues/410)
+            charm_dir = os.environ['CHARM_DIR']
+            fp.writelines([
+                "[easy_install]\n",
+                "allow_hosts = ''\n",
+                "find_links = file://{}/wheelhouse/\n".format(charm_dir),
+            ])
         apt_install(['python3-pip', 'python3-setuptools', 'python3-yaml'])
         from charms import layer
         cfg = layer.options('basic')
@@ -32,7 +49,7 @@ def bootstrap_charm_deps():
         if cfg.get('use_venv'):
             if not os.path.exists(venv):
                 apt_install(['python-virtualenv'])
-                cmd = ['virtualenv', '--python=python3', venv]
+                cmd = ['virtualenv', '-ppython3', '--never-download', venv]
                 if cfg.get('include_system_packages'):
                     cmd.append('--system-site-packages')
                 check_call(cmd)
@@ -57,6 +74,7 @@ def bootstrap_charm_deps():
             if os.path.exists('/usr/bin/pip.save'):
                 shutil.copy2('/usr/bin/pip.save', '/usr/bin/pip')
                 os.remove('/usr/bin/pip.save')
+        os.remove('/root/.pydistutils.cfg')
         # flag us as having already bootstrapped so we don't do it again
         open('wheelhouse/.bootstrapped', 'w').close()
         # Ensure that the newly bootstrapped libs are available.
@@ -101,11 +119,13 @@ def apt_install(packages):
 def init_config_states():
     from charmhelpers.core import hookenv
     from charms.reactive import set_state
+    from charms.reactive import toggle_state
     config = hookenv.config()
     for opt in config.keys():
         if config.changed(opt):
             set_state('config.changed')
             set_state('config.changed.{}'.format(opt))
+        toggle_state('config.set.{}'.format(opt), config[opt])
     hookenv.atexit(clear_config_states)
 
 
@@ -116,4 +136,5 @@ def clear_config_states():
     remove_state('config.changed')
     for opt in config.keys():
         remove_state('config.changed.{}'.format(opt))
+        remove_state('config.set.{}'.format(opt))
     unitdata.kv().flush()

@@ -22,6 +22,7 @@ class OpenedPortsProvides(RelationBase):
 
 
     def configure(self):
+        conv = self.conversation()
         output = subprocess.check_output(['opened-ports'], universal_newlines=True)
         opened_ports = []
         for line in output.split('\n'):
@@ -41,10 +42,12 @@ class OpenedPortsProvides(RelationBase):
                         "port": port,
                         "protocol": protocol,
                     })
-        jsonop = json.dumps(opened_ports)
-        self.set_remote(
-            'opened-ports', jsonop,
-        )
+        if opened_ports != conv.get_local('opened_ports', {}):
+            jsonop = json.dumps(opened_ports)
+            conv.set_remote(
+                'opened-ports', jsonop,
+            )
+            conv.set_local('opened_ports', opened_ports)
         port_forwards = json.loads(self.get_remote('port-forwards', '[]'))
         f_port_set = set(i['private_port'] for i in port_forwards)
         o_ports_set = set(i['port'] for i in opened_ports)

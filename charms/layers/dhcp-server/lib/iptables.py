@@ -87,6 +87,7 @@ def update_rules(ruleset, comment):
     """
     rules_changed = False
     # Add all rules that don't exist yet
+    ruleset = [standardize_rule(rule) for rule in ruleset]
     for rule in ruleset:
         rule['comment'] = comment
         if not rule_exists(rule):

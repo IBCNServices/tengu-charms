@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3 pylint: disable=c0111
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -54,8 +54,8 @@ class MongoDBClient(RelationBase):
         Get the connection string, if available, or None.
         """
         data = {
-            'hostname': self.hostname(),
-            'port': self.port(),
+            'hostname': self.hostname(), #created by auto-acessors pylint: disable=E1101
+            'port': self.port(), #created by auto-acessors pylint: disable=E1101
         }
         if all(data.values()):
             return str.format('{hostname}:{port}', **data)

@@ -4,7 +4,7 @@ import shutil
 import subprocess
 
 from charmhelpers.core import hookenv, host, templating
-from charmhelpers.core.hookenv import open_port
+from charmhelpers.core.hookenv import open_port, close_port
 from charms.reactive import when, when_not, hook
 from charms.reactive import set_state, remove_state
 from charms import apt #(dependency will be added by apt layer) pylint: disable=E0401,E0611
@@ -88,19 +88,39 @@ def install_limeds():
 
 
 def upgrade_limeds():
+    stop_limeds()
+    keypath = '{}/files/id_rsa'.format(hookenv.charm_dir())
+    subprocess.check_call(['chmod', 'go-r', keypath])
     subprocess.check_call([
-        'git', 'pull', 'upstream', 'master'
+        # use ssh-agent to use supplied privkey for git ssh connection
+        'ssh-agent', 'bash', '-c',
+        # remote 'upstream' will point to supplied given repo
+        'ssh-add {}; git pull upstream master'.format(keypath)
     ], cwd='/opt/limeds')
-    restart_limeds()
+    subprocess.check_call([
+        'gradle', 'jar', 'export'
+    ], cwd='/opt/limeds')
+    start_limeds()
 
 
-def restart_limeds():
+def stop_limeds():
     host.service_stop('limeds')
+    close_port('8080')
+    remove_state('limeds.started')
+
+
+def start_limeds():
     success = host.service_start('limeds')
     if not success:
         print("starting limeds failed!")
         exit(1)
     open_port('8080') # LimeDS running on localhost:80/system/console
+    set_state('limeds.started')
+
+
+def restart_limeds():
+    stop_limeds()
+    start_limeds()
 
 
 def configure_limeds_mongodb(hostname, port):

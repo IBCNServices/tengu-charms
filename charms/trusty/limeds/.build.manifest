@@ -72,7 +72,7 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "513d3027465ff21897334041413763455e43acf3591375fd3361ca5c239d5501"
+      "ce5918e05ec7d54d708f0435172573daeb4e14a06728d77c8d8504c8bf8b90df"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 
@@ -267,7 +267,7 @@
     "hooks/relations/mongodb/requires.py": [
       "interface:mongodb", 
       "static", 
-      "40b76af43ce0d92ab2aad9dfb3fcbc444e48dd2f84874612416b54398d804e64"
+      "c30155c95a0fe5e7ec946a251b10f307ac475c1c280d4c1510c5e17e50ae91a2"
     ], 
     "lib/openjdk.py": [
       "layer:java", 

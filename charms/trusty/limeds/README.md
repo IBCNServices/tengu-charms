@@ -20,7 +20,7 @@ Check the deployment status (press <kbd>ctrl</kbd>-<kbd>c</kbd> to exit)
 
     watch juju status --format tabular
 
-When the deployment is done ('active', 'Ready'), surf to `<limeds>/system/console` and login with admin:  admin to see the management console.
+When the deployment is done ('active', 'Ready'), surf to `<limeds>/system/console` and login with admin:admin to see the management console.
 
 You can connect LimeDS to MongoDB
 

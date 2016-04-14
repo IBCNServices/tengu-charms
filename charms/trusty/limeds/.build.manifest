@@ -72,7 +72,7 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "abea175c4b7df7a856ea99bfc4ac22fa63494c749e08a2be59fc5a4148434903"
+      "513d3027465ff21897334041413763455e43acf3591375fd3361ca5c239d5501"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 
@@ -172,7 +172,7 @@
     "README.md": [
       "limeds", 
       "static", 
-      "68698cd1ed45c757439ae602712cf8ee9d5d9b6d399bee48301b4b08de4e602c"
+      "b80175e45acbababfe8d33b20bea1cecacc9fd37611659a9b299c229bde002c2"
     ], 
     "hooks/leader-elected": [
       "layer:basic", 

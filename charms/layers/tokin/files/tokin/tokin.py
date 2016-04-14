@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 #pylint: disable=c0111,c0301
-from flask import Flask, Response, request
-import tempfile
-import yaml
 import json
+import tempfile
+
+from flask import Flask, Response, request
+import yaml
+
 from jujuhelpers import JujuEnvironment
-#import base64
+
 
 APP = Flask(__name__)
 DEFAULT_PUBKEYS = 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiF+Y54T4MySG8akVwolplZoo8+uGdWHMQtzNEwbirqW8tutHmH2osYavsWyAuIbJPMH/mEMpvWNRilqXv7aw43YcD2Ie43MiLuEV6xWuC1SwdxxfyQ7Y2e0JEKohl6Xx3lWgHpiR5EZFeJmwHazthJnt94m/mTP7sEweK1m9cbk= thomasvanhove,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2AvnkZTypu/srnyAdjHjk6x+vsre05NOwFIOieu2mcAb4aJZOLHBqEE1pxxWrvPUULFS066xgNgvKwNZOZh+OPlUdFpjY2AqN8CtNnLuQ72EPYjpV69nrtsKaJO+ZYqTnl4uZOZDeSoqK0v6RBuBfb5YcZfqpR/z/turw5yZ1H5Ju5mykhzy5wBtWMXWjnODI309Q//0+0MZTSJIYDJ05mwkM0ma1kNWEpJCw9nAvADqYZdU/8thX2j1f3KFdfupZuDIw+rvX3KgCb1cRYvfr8N165J209lxxkwJQuSVGRZ3wUytC/JkqJB1ZK5FhL9WoKD0yXDxi+5nmAQVpVPgD merlijnsebrechts'
@@ -23,7 +25,7 @@ def apply_caching(response):
 
 @APP.route('/')
 def api_root():
-    """ Welcome me  ssage """
+    """ Welcome message """
     return 'Welcome to tokin v0.1'
 
 

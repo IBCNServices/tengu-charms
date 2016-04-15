@@ -8,18 +8,25 @@ installPackages()
 	apt-get -y install git
 	apt-get -y install maven
 	apt-get -y install openjdk-7-jdk	
-	if [ ! -d "/tmp/storm-topology" ]; then
-		juju-log "Creating /tmp/storm-topology"
-		mkdir -p /tmp/storm-topology
-	fi
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	if [ ! -d "/tmp/storm-topology/$serviceName" ]; then
+		juju-log "Creating /tmp/storm-topology/$serviceName"
+		mkdir -p /tmp/storm-topology/$serviceName
+		cd /tmp/storm-topology/$serviceName
+		git clone https://github.com/xannz/Storm-Skeleton.git
+	fi	
+
+
 	status-set blocked "Waiting for topology name"
 }
 
 setName()
 {
-	juju-log "Setting name $1"
+	name=`config-get name`
+	juju-log "Setting name $name"
 	regex="^[^:]+:[^:]+$"
-	if [[ $1 =~ $regex ]]; then
+	if [[ $name =~ $regex ]]; then
 		oldName=`echo $1 | cut -d : -f 1`
 		newName=`echo $1 | cut -d : -f 2`
 		if [ -d "/tmp/storm-topology/$oldName" ]; then
@@ -27,23 +34,42 @@ setName()
 			#LATER: undeployen storm topology en terug deployen met nieuwe naam
 			#juju status-set 
 		fi		
-	elif [ ! -z $0 ];then
-		juju-log "Creating /tmp/storm-topology/$1"
-		mkdir -p /tmp/storm-topology/$1
-		juju-log "Setting up skeleton"
-		cd /tmp/storm-topology/$0
-		git clone https://github.com/xannz/Storm-Skeleton.git
+	elif [ ! -z $name ];then	
+		workingDir=`pwd`
+		serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`	
+		#juju-log "Creating /tmp/storm-topology/$serviceName"
+		#juju-log "Setting up skeleton"
+		cd /tmp/storm-topology/$serviceName
+		#git clone https://github.com/xannz/Storm-Skeleton.git
+		mv Storm-Skeleton $name
+		#check if valid topology already ready?	
+		
+		
 		status-set blocked "Waiting for valid topology"		
 	else
 		status-set blocked "Waiting for topology name"			
 	fi 
 }
 
+topologyJoined()
+{
+	juju-log "topo joined"
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	juju-log "serviceName: $serviceName"
+	relation-set serviceName=$serviceName
+}
+
+topologyChanged()
+{
+	juju-log "topo changed"
+}
+
 
 cmd=$(basename "$0")
 case $cmd in
 config-changed)
-	#naam instellen oud:nieuw
+	#naam instellen oud:nieuw	
 	setName
 	;;
 start)
@@ -54,5 +80,11 @@ install)
 	installPackages
 	;;
 upgrade-charm)
+	;;
+topology-relation-joined)
+	topologyJoined
+	;;
+topology-relation-changed)
+	topologyChanged
 	;;
 esac

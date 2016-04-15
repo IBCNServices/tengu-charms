@@ -11,9 +11,9 @@ installPackages()
 		juju-log "Creating /tmp/storm-topology"
 		mkdir -p /tmp/storm-topology
 	fi
-	if [ ! -d "/tmp/storm-topology/spouts" ]; then
-		juju-log "Creating spouts directory"
-		mkdir -p /tmp/storm-topology/spouts
+	if [ ! -f "/tmp/storm-topology/spout-list" ]; then
+		juju-log "Creating spout-list"
+		touch /tmp/storm-topology/spout-list
 	fi
 	status-set blocked "Waiting for: spout name; spout class"
 }
@@ -53,6 +53,14 @@ checkSettings()
 	fi
 }
 
+topologyChanged()
+{
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topologyName=`relation-get serviceName`
+	juju-log "Topology name is: $topologyName"	
+	grep -q "^$serviceName" /tmp/storm-topology/spout-list && sed --quiet "s/^spout.*/spout topology/" /tmp/storm-topology/spout-list || echo "$serviceName $topologyName" >> /tmp/storm-topology/spout-list
+}
 
 cmd=$(basename "$0")
 case $cmd in
@@ -67,5 +75,8 @@ install)
 	installPackages
 	;;
 upgrade-charm)
+	;;
+topology-relation-changed)
+	topologyChanged
 	;;
 esac

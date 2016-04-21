@@ -1,8 +1,8 @@
-name: spout
-summary: Represents a spout class in an Apache Storm topology
+name: bolt
+summary: Represents an Apache Storm bolt
 maintainer: Sander Borny <sander.borny@ugent.be>
 description: |
-  This charm implements a spout class in an Apache Storm topology.
+  Represents an Apache Storm bolt
 tags:
   - misc
 subordinate: true

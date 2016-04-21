@@ -14,10 +14,14 @@ installPackages()
 		juju-log "Creating /tmp/storm-topology/$serviceName"
 		mkdir -p /tmp/storm-topology/$serviceName
 		cd /tmp/storm-topology/$serviceName
-		git clone https://github.com/xannz/Storm-Skeleton.git
+		git clone https://github.com/xannz/Storm-Flux-Skeleton.git
+		echo "name: \"example\"" > /tmp/storm-topology/$serviceName/topology.yaml
+		echo "config:" >> /tmp/storm-topology/$serviceName/topology.yaml
+		echo "  topology.workers: 1" >> /tmp/storm-topology/$serviceName/topology.yaml
+		touch /tmp/storm-topology/$serviceName/spouts
+		touch /tmp/storm-topology/$serviceName/bolts
+		touch /tmp/storm-topology/$serviceName/graphInput
 	fi	
-
-
 	status-set blocked "Waiting for topology name"
 }
 
@@ -25,51 +29,25 @@ setName()
 {
 	name=`config-get name`
 	juju-log "Setting name $name"
-	regex="^[^:]+:[^:]+$"
-	if [[ $name =~ $regex ]]; then
-		oldName=`echo $1 | cut -d : -f 1`
-		newName=`echo $1 | cut -d : -f 2`
-		if [ -d "/tmp/storm-topology/$oldName" ]; then
-			mv /tmp/storm-topology/$oldName /tmp/storm-topology/$newName
-			#LATER: undeployen storm topology en terug deployen met nieuwe naam
-			#juju status-set 
-		fi		
-	elif [ ! -z $name ];then	
-		workingDir=`pwd`
-		serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`	
-		#juju-log "Creating /tmp/storm-topology/$serviceName"
-		#juju-log "Setting up skeleton"
-		cd /tmp/storm-topology/$serviceName
-		#git clone https://github.com/xannz/Storm-Skeleton.git
-		mv Storm-Skeleton $name
-		#check if valid topology already ready?	
-		
-		
-		status-set blocked "Waiting for valid topology"		
-	else
-		status-set blocked "Waiting for topology name"			
-	fi 
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	sed -i "1s/.*/name: \"$name\"/" /tmp/storm-topology/$serviceName/topology.yaml
+	status-set active
 }
 
-topologyJoined()
+topologyChanged()
 {
-	juju-log "topo joined"
+	juju-log "topo changed"
 	workingDir=`pwd`
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	juju-log "serviceName: $serviceName"
 	relation-set serviceName=$serviceName
 }
 
-topologyChanged()
-{
-	juju-log "topo changed"
-}
-
 
 cmd=$(basename "$0")
 case $cmd in
-config-changed)
-	#naam instellen oud:nieuw	
+config-changed)	
 	setName
 	;;
 start)
@@ -80,9 +58,6 @@ install)
 	installPackages
 	;;
 upgrade-charm)
-	;;
-topology-relation-joined)
-	topologyJoined
 	;;
 topology-relation-changed)
 	topologyChanged

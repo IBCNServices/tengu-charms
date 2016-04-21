@@ -1,56 +1,51 @@
 #!/bin/bash -e
 
-
 installPackages()
 {
 	juju-log "Installing Packages"
 	apt-get -y install git
 	apt-get -y install maven
-	apt-get -y install openjdk-7-jdk	
+	apt-get -y install openjdk-7-jdk
 	if [ ! -d "/tmp/storm-topology" ]; then
 		juju-log "Creating /tmp/storm-topology"
 		mkdir -p /tmp/storm-topology
 	fi
-	if [ ! -f "/tmp/storm-topology/spout-list" ]; then
-		juju-log "Creating spout-list"
-		touch /tmp/storm-topology/spout-list
+	if [ ! -f "/tmp/storm-topology/bolt-list" ]; then
+		juju-log "Creating bolt-list"
+		touch -p /tmp/storm-topology/bolt-list
 	fi
-	status-set blocked "Waiting for: spout class"
+	status-set blocked "Waiting for: bolt class"
 }
 
-getSpout()
+getBolt()
 {
 	workingDir=`pwd`
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
-	juju-log "Downloading spout class"	
+	juju-log "Downloading bolt"
 	className=${$2##*/}
 	classNoExtension=`echo $className | cut -d \. -f1`
-	wget $1 /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
-	echo "$serviceName $classNoExtension" >> /tmp/storm-topology/$topology/spouts
+	wget $1 /tmp/storm-topology/$topology/Storm-Skeleton/src/main/java/tengu/storm/$className
+	echo "$serviceName $classNoExtension" >> /tmp/storm-topology/$topology/bolts
 	status-set active
 	#call run-topology
 }
 
 checkSettings()
 {
-	#spoutName=`config-get name`
-	spoutClass=`config-get spoutClass`
-	#spoutURL=`config-get spoutURL`
+	#boltName=`config-get name`
+	boltClass=`config-get boltClass`
 	waitingFor=""
-	#if [ -w spoutName ];then
-	#	waitingFor="$waitingFor; spout name"
+	#if [ -w $boltName ];then
+	#	waitingFor="$waitingFor; bolt name"
 	#fi
-	#if [[ -w spoutClass && -w spoutURL  ]];then
-	#	waitingFor="$waitingFor; spout class"
-	#fi
-	if [ -w spoutClass ];then
-		waitingFor="$waitingFor; spout class"
+	if [ -w $boltClass ];then
+		waitingFor="$waitingFor; bolt class"
 	fi
-	if [ ! -w waitingFor ];then
-		status-set blocked "Waiting for $waitingFor"
+	if [ -w $waitingFor ];then
+		getBolt $boltClass
 	else
-		getSpout $spoutClass
+		status-set blocked "Waiting for $waitingFor"
 	fi
 	waitingFor=""
 }
@@ -61,17 +56,19 @@ topologyChanged()
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	topologyName=`relation-get serviceName`
 	juju-log "Topology name is: $topologyName"	
-	if [ grep -q "^$serviceName" /tmp/storm-topology/spout-list ];then
-		hulp=$(sed --quiet "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/spout-list)
-		echo "$hulp" > /tmp/storm-topology/spout-list
+	#grep -q "^$serviceName" /tmp/storm-topology/spout-list && sed -i --quiet "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/bolt-list || echo "$serviceName $topologyName" >> /tmp/storm-topology/bolt-list
+
+	if [ grep -q "^$serviceName" /tmp/storm-topology/bolt-list ];then
+		hulp=$(sed --quiet "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/bolt-list)
+		echo "$hulp" > /tmp/storm-topology/bolt-list
 	else
-		echo "$serviceName $topologyName" >> /tmp/storm-topology/spout-list
+		echo "$serviceName $topologyName" >> /tmp/storm-topology/bolt-list
 	fi
 }
 
 stormelementChanged()
 {
-	juju-log "stormelement relation changed"	
+	juju-log "stormelement relation changed"
 	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	relation-set elementName=$serviceName
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
@@ -80,21 +77,20 @@ stormelementChanged()
 		juju-log "Connected to: $element"
 		#check if already in graph
 		( grep "$serviceName" /tmp/storm-topology/$topology/graph | grep -q "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
-		#deploy new graph 
+		#deploy new graph
 	fi
 }
 
 cmd=$(basename "$0")
 case $cmd in
 config-changed)
-	checkSettings
+	;;
+install)
+	installPackages
 	;;
 start)
 	;;
 stop)
-	;;
-install)
-	installPackages
 	;;
 upgrade-charm)
 	;;
@@ -103,5 +99,4 @@ topology-relation-changed)
 	;;
 stormelement-relation-changed)
 	stormelementChanged
-	;;
 esac

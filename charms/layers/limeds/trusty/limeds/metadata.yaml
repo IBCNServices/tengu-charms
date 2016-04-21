@@ -1,0 +1,15 @@
+"name": "limeds"
+"summary": "Installs LimeDS"
+"maintainer": "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
+"description": |
+  This Charm installs LimeDS
+"tags":
+- "streaming"
+- "analytics"
+"requires":
+  "mongodb":
+    "interface": "mongodb"
+"provides":
+  "limeds":
+    "interface": "http"
+"subordinate": !!bool "false"

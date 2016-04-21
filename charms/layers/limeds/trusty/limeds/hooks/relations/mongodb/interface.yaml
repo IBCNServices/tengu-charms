@@ -1,0 +1,3 @@
+name: mongodb
+summary: Interface for relating to a mongodb database
+maintainer: '"Mattyw" <gh@mattyw.net>'

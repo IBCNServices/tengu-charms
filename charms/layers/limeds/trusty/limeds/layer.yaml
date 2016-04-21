@@ -1,0 +1,16 @@
+"options":
+  "limeds": {}
+  "java": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"name": "java"
+"includes":
+- "layer:basic"
+- "layer:apt"
+- "layer:basic"
+- "interface:mongodb"
+- "layer:java"
+- "interface:http"
+"is": "limeds"

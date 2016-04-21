@@ -1,13 +1,13 @@
-"options":
-  "basic":
-    "use_venv": !!bool "false"
-    "packages": []
-    "include_system_packages": !!bool "false"
-  "hauchiwa": {}
-  "juju-client": {}
 "includes":
 - "layer:basic"
 - "layer:juju-client"
 - "interface:http"
 - "interface:opened-ports"
+"options":
+  "juju-client": {}
+  "hauchiwa": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
 "is": "hauchiwa"

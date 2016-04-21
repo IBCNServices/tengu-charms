@@ -802,7 +802,7 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "b7d77ebbf82d8ca74e7887fea43d46dfe86398a1a423ecb5ed10a1fbabc0a87d"
+      "b57914fb8402fff153c7da1b8cdb281d3c5206715cc958ffcc8236b6310ac0bd"
     ], 
     "trusty/limeds/lib/charms/layer/basic.py": [
       "limeds", 

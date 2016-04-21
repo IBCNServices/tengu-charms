@@ -89,6 +89,7 @@ def install_limeds():
 
 def upgrade_limeds():
     stop_limeds()
+    hookenv.status_set('maintenance', 'Upgrading LimeDS')
     keypath = '{}/files/id_rsa'.format(hookenv.charm_dir())
     subprocess.check_call(['chmod', 'go-r', keypath])
     subprocess.check_call([
@@ -105,6 +106,8 @@ def upgrade_limeds():
         hookenv.status_set('blocked', 'Error while building gradle: {}'.format(error.output))
         exit()
     start_limeds()
+    hookenv.status_set('active', 'Ready')
+
 
 
 def stop_limeds():

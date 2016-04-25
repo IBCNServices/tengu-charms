@@ -14,4 +14,6 @@ requires:
     interface: storm
     scope: container
   stormelement:
-    interface: topology-element
+    interface: storm-element
+
+  

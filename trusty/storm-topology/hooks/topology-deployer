@@ -12,6 +12,7 @@ installPackages()
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	if [ ! -d "/tmp/storm-topology/$serviceName" ]; then
 		juju-log "Creating /tmp/storm-topology/$serviceName"
+		juju-log "$workingDir"
 		mkdir -p /tmp/storm-topology/$serviceName
 		cd /tmp/storm-topology/$serviceName
 		git clone https://github.com/xannz/Storm-Flux-Skeleton.git
@@ -20,7 +21,14 @@ installPackages()
 		echo "  topology.workers: 1" >> /tmp/storm-topology/$serviceName/topology.yaml
 		touch /tmp/storm-topology/$serviceName/spouts
 		touch /tmp/storm-topology/$serviceName/bolts
-		touch /tmp/storm-topology/$serviceName/graphInput
+		touch /tmp/storm-topology/$serviceName/graph
+		touch /tmp/storm-topology/$serviceName/classes
+		if [ ! -f /tmp/storm-topology/buildGraph ]; then
+			juju-log "Setting buildGraph"
+			cp "$workingDir/files/buildGraph" /tmp/storm-topology/
+			chmod 744 /tmp/storm-topology/buildGraph
+		fi
+		
 	fi	
 	status-set blocked "Waiting for topology name"
 }

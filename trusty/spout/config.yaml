@@ -2,7 +2,7 @@ options:
   name:
     type: string
     description: "Spout name (Unique in the topology)"
-  spoutClass:
+  class:
     type: string
     description: "Spout class Example: storm.kafka.KafkaSpout"
   spoutURL:

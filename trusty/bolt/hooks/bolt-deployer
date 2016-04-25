@@ -12,7 +12,7 @@ installPackages()
 	fi
 	if [ ! -f "/tmp/storm-topology/bolt-list" ]; then
 		juju-log "Creating bolt-list"
-		touch -p /tmp/storm-topology/bolt-list
+		touch /tmp/storm-topology/bolt-list
 	fi
 	status-set blocked "Waiting for: bolt class"
 }
@@ -21,33 +21,27 @@ getBolt()
 {
 	workingDir=`pwd`
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
-	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
 	juju-log "Downloading bolt"
-	className=${$2##*/}
+	className=${1##*/}
 	classNoExtension=`echo $className | cut -d \. -f1`
-	wget $1 /tmp/storm-topology/$topology/Storm-Skeleton/src/main/java/tengu/storm/$className
+	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
+		wget -nc $1 /tmp/storm-topology/$topology/Storm-Skeleton/src/main/java/tengu/storm/$className
+	fi
 	echo "$serviceName $classNoExtension" >> /tmp/storm-topology/$topology/bolts
 	status-set active
-	#call run-topology
 }
 
 checkSettings()
 {
-	#boltName=`config-get name`
-	boltClass=`config-get boltClass`
-	waitingFor=""
-	#if [ -w $boltName ];then
-	#	waitingFor="$waitingFor; bolt name"
-	#fi
-	if [ -w $boltClass ];then
-		waitingFor="$waitingFor; bolt class"
-	fi
-	if [ -w $waitingFor ];then
+	boltClass=`config-get class`
+	if [ -n "$boltClass" ]; then
+		juju-log "Getting class"
 		getBolt $boltClass
 	else
-		status-set blocked "Waiting for $waitingFor"
-	fi
-	waitingFor=""
+		juju-log "bolt class required"
+		status-set blocked "Waiting for class"
+	fi	
 }
 
 topologyChanged()
@@ -55,13 +49,14 @@ topologyChanged()
 	workingDir=`pwd`
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	topologyName=`relation-get serviceName`
-	juju-log "Topology name is: $topologyName"	
-	#grep -q "^$serviceName" /tmp/storm-topology/spout-list && sed -i --quiet "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/bolt-list || echo "$serviceName $topologyName" >> /tmp/storm-topology/bolt-list
-
-	if [ grep -q "^$serviceName" /tmp/storm-topology/bolt-list ];then
-		hulp=$(sed --quiet "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/bolt-list)
+	juju-log "Topology name is: $topologyName"
+	if grep -q "^$serviceName" /tmp/storm-topology/bolt-list ; then
+		hulp=$(sed "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/bolt-list)
+		juju-log "Copy bolt-list "
+		#juju-log "$hulp"
 		echo "$hulp" > /tmp/storm-topology/bolt-list
-	else
+	else	
+		juju-log "Bolt not found in bolt-list ... adding"
 		echo "$serviceName $topologyName" >> /tmp/storm-topology/bolt-list
 	fi
 }
@@ -71,19 +66,22 @@ stormelementChanged()
 	juju-log "stormelement relation changed"
 	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	relation-set elementName=$serviceName
-	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
 	element=`relation-get elementName`
-	if [ -w element ]; then
+	if [ -n "$element" ]; then
 		juju-log "Connected to: $element"
 		#check if already in graph
-		( grep "$serviceName" /tmp/storm-topology/$topology/graph | grep -q "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
+		( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
 		#deploy new graph
+		sh /tmp/storm-topology/buildGraph $topology
+		juju-log "Ready to deploy topology.yaml"
 	fi
 }
 
 cmd=$(basename "$0")
 case $cmd in
 config-changed)
+	checkSettings
 	;;
 install)
 	installPackages
@@ -99,4 +97,8 @@ topology-relation-changed)
 	;;
 stormelement-relation-changed)
 	stormelementChanged
+	;;
+boltworker-relation-changed)
+	stormelementChanged
+	;;
 esac

@@ -2,7 +2,7 @@ options:
   name:
     type: string
     description: "Name of the bolt"
-  boltURL:
+  class:
     type: string
     description: "URL to the bolt class"
 

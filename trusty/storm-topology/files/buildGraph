@@ -1,0 +1,83 @@
+#!/bin/bash
+
+topology="$1"
+
+containsElement() 
+{
+  local e
+  for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+  return 1
+}
+
+#reset topology.yaml
+sed -n -i '/spouts:/q;p' /tmp/storm-topology/$topology/topology.yaml
+
+#genereer spouts config
+echo "spouts:" >> /tmp/storm-topology/$topology/topology.yaml
+while read spoutid className; do
+	echo "  - id: \"$spoutid\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    className: \"tengu.storm.$className\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    parallelism: 1" >> /tmp/storm-topology/$topology/topology.yaml
+done < /tmp/storm-topology/$topology/spouts
+
+#genereer bolts config 
+echo "bolts:" >> /tmp/storm-topology/$topology/topology.yaml
+while read boltid className; do
+	echo "  - id: \"$boltid\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    className: \"tengu.storm.$className\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    parallelism: 1" >> /tmp/storm-topology/$topology/topology.yaml
+done < /tmp/storm-topology/$topology/bolts
+
+#genereer stream-groupings
+echo "streams:" >> /tmp/storm-topology/$topology/topology.yaml
+cp /tmp/storm-topology/$topology/graph /tmp/storm-topology/$topology/graph.bak
+
+elements=( $(cat /tmp/storm-topology/$topology/spouts | cut -d " " -f1) )
+
+while [ ${#elements[@]} -gt 0 ]; do
+	while grep -w "${elements[0]}" /tmp/storm-topology/$topology/graph.bak; do #zolang het element nog relaties heeft
+		#haal lijn uit graph.bak
+		lijnnrs=( $(grep -nw "${elements[0]}" /tmp/storm-topology/$topology/graph.bak | cut -d ':' -f 1) )
+		printf '%s\n' "${lijnnrs[@]}"    #PRINT ARRAY
+		for lijnnr in "${lijnnrs[@]}"; do
+			lijn=$(sed "${lijnnr}q;d" /tmp/storm-topology/$topology/graph.bak)
+			firstElement=$( echo "$lijn" | cut -d " " -f 1 )
+			secondElement=$( echo "$lijn" | cut -d " " -f 2 )
+			grouping=$( echo "$lijn" | cut -d " " -f 3 )
+#niet vergeten to toe te voegen als nog niet gebeurt is
+			if [ "${elements[0]}" == "$firstElement" ];then #from is ${elements[0]} // $firstelement
+				echo "  - name: \"$firstElement --> $secondElement\"" >> /tmp/storm-topology/$topology/topology.yaml
+				echo "    from: \"$firstElement\"" >> /tmp/storm-topology/$topology/topology.yaml
+				echo "    to: \"$secondElement\"" >> /tmp/storm-topology/$topology/topology.yaml
+				echo "    grouping:" >> /tmp/storm-topology/$topology/topology.yaml
+				echo "      type: $grouping" >> /tmp/storm-topology/$topology/topology.yaml  #nog geen fields grouping mogelijk
+
+				#check if secondElement already in elements
+				containsElement "$secondElement" "${elements[@]}" || elements+=("$secondElement")
+
+			else # from is secondElement
+				echo "  - name: \"$secondElement --> $firstElement\"" >> /tmp/storm-topology/$topology/topology.yaml
+				echo "    from: \"$secondElement\"" >> /tmp/storm-topology/$topology/topology.yaml
+				echo "    to: \"$firstElement\"" >> /tmp/storm-topology/$topology/topology.yaml
+				echo "    grouping:" >> /tmp/storm-topology/$topology/topology.yaml
+				echo "      type: $grouping" >> /tmp/storm-topology/$topology/topology.yaml
+
+				#check if secondElement already in elements
+				containsElement "$firstElement" "${elements[@]}" || elements+=("$firstElement")
+			fi
+		done
+		#verwijder lijnnrs
+		lijnprep=$(printf '%sd;' "${lijnnrs}")
+		lijnDelete=${lijnprep::-1}
+		sed -i "$lijnDelete" /tmp/storm-topology/$topology/graph.bak 
+	done
+	elements=("${elements[@]:1}") #verwijder voorenste element
+done
+
+rm -f /tmp/storm-topology/$topology/graph.bak
+
+#deploy naar nimbus
+# 1) Jar maken indien nodig (nieuwe classes nodig?)
+# 2) Topology killen indien deze bestaat
+# 2) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
+

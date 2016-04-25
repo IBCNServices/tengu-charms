@@ -18,41 +18,35 @@ installPackages()
 	status-set blocked "Waiting for: spout class"
 }
 
+#test meerdere spouts uit in file /tmp/storm-topology/spout-list en /tmp/storm-topology/topo1/spouts
 getSpout()
 {
 	workingDir=`pwd`
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
-	juju-log "Downloading spout class"	
-	className=${$2##*/}
-	classNoExtension=`echo $className | cut -d \. -f1`
-	wget $1 /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
-	echo "$serviceName $classNoExtension" >> /tmp/storm-topology/$topology/spouts
-	status-set active
-	#call run-topology
+	if [ -n "$topology" ]; then			
+		className=${1##*/}
+		classNoExtension=`echo $className | cut -d \. -f1`
+		if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
+			juju-log "Downloading spout class"
+			wget -nc $1 /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
+		fi		
+		echo "$serviceName $classNoExtension" >> /tmp/storm-topology/$topology/spouts
+		status-set active
+	fi	
 }
 
 checkSettings()
 {
-	#spoutName=`config-get name`
-	spoutClass=`config-get spoutClass`
-	#spoutURL=`config-get spoutURL`
-	waitingFor=""
-	#if [ -w spoutName ];then
-	#	waitingFor="$waitingFor; spout name"
-	#fi
-	#if [[ -w spoutClass && -w spoutURL  ]];then
-	#	waitingFor="$waitingFor; spout class"
-	#fi
-	if [ -w spoutClass ];then
-		waitingFor="$waitingFor; spout class"
-	fi
-	if [ ! -w waitingFor ];then
-		status-set blocked "Waiting for $waitingFor"
-	else
+	spoutClass=`config-get class`
+	#juju-log "spoutClass: $spoutClass  exitcode: $?"
+	if [ -n "$spoutClass" ]; then
+		juju-log "Getting class"
 		getSpout $spoutClass
+	else
+		juju-log "spout class required"
+		status-set blocked "Waiting for class"
 	fi
-	waitingFor=""
 }
 
 topologyChanged()
@@ -61,10 +55,13 @@ topologyChanged()
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	topologyName=`relation-get serviceName`
 	juju-log "Topology name is: $topologyName"	
-	if [ grep -q "^$serviceName" /tmp/storm-topology/spout-list ];then
-		hulp=$(sed --quiet "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/spout-list)
+	if grep -q "^$serviceName" /tmp/storm-topology/spout-list ; then
+		hulp=$(sed "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/spout-list)
+		juju-log "Copy spout-list: "
+		juju-log "$hulp"
 		echo "$hulp" > /tmp/storm-topology/spout-list
 	else
+		juju-log "Spout not found in spout-list ... adding"
 		echo "$serviceName $topologyName" >> /tmp/storm-topology/spout-list
 	fi
 }
@@ -76,11 +73,12 @@ stormelementChanged()
 	relation-set elementName=$serviceName
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
 	element=`relation-get elementName`
-	if [ -w element ]; then
+	if [ -n "$element" ]; then
 		juju-log "Connected to: $element"
 		#check if already in graph
-		( grep "$serviceName" /tmp/storm-topology/$topology/graph | grep -q "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
+		( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
 		#deploy new graph 
+		sh /tmp/storm-topology/buildGraph $topology
 	fi
 }
 
@@ -99,6 +97,7 @@ install)
 upgrade-charm)
 	;;
 topology-relation-changed)
+	juju-log "Hook running topology-relation-changed"
 	topologyChanged
 	;;
 stormelement-relation-changed)

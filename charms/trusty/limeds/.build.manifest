@@ -802,7 +802,7 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "b57914fb8402fff153c7da1b8cdb281d3c5206715cc958ffcc8236b6310ac0bd"
+      "fc477531ca104e3c5f203d696028bcd0ae683539466b891f412b2ccb66e074c9"
     ], 
     "trusty/limeds/lib/charms/layer/basic.py": [
       "limeds", 
@@ -997,7 +997,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "0d6230b6568e5a18f97b1467e8ebbe19c4940dbb8b232ca942faa8a63e670796"
+      "7cf59b77bd5c76f39acfbe8b7733a042b26ecefbb33cbf16003c8f38ab38c1f0"
     ], 
     "trusty/limeds/deps/layer/layer-apt/config.yaml": [
       "limeds", 

@@ -82,7 +82,7 @@ def install_limeds():
         target='/etc/init/limeds.conf',
         context={
             'description': 'limeds',
-            'command': 'cd /opt/limeds/run/ \njava -jar -Dgosh.args=-nointeractive generated/distributions/executable/cot-demo.jar',
+            'command': 'cd /opt/limeds/run/ \njava -jar -Dgosh.args=--nointeractive generated/distributions/executable/cot-demo.jar',
         }
     )
 

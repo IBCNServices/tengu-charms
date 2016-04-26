@@ -68,7 +68,7 @@ I'm using Atom on Ubuntu with some extentions. Here's how I installed everything
     sudo apt-get install atom
 
     # Install python package manager
-    sudo apt install python-pip python3-pip
+    sudo apt install python-pip python3-pip python-setuptools python3-setuptools
 
     # Pyton linting (code checking) for both python 2 and python 3
     sudo pip2 install pylint
@@ -97,9 +97,9 @@ I'm using Atom on Ubuntu with some extentions. Here's how I installed everything
     from pkg_resources import load_entry_point
 
     if __name__ == '__main__':
-    sys.exit(
-        load_entry_point('pylint', 'console_scripts', 'pylint')()
-    )
+        sys.exit(
+            load_entry_point('pylint', 'console_scripts', 'pylint')()
+        )
 
 `nano ~/bin/pylint3` and add:
 
@@ -116,13 +116,16 @@ I'm using Atom on Ubuntu with some extentions. Here's how I installed everything
 
 and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and log back in to save the changes.
 
-Charm tools: helper toos to Charm.
+**Charm tools: helper tools to Charm.**
 
     # Juju Charm tools
     sudo apt-get install charm-tools
 
     sudo apt install python-pip
-    pip install charmhelpers
+    sudo pip install charmhelpers
+
+    # Dependencies of Charms so linter can check them
+    sudo pip3 install charms.reactive netifaces
 
 When running `juju debug-hooks`, you enter a tmux session. The default tmux bindings on Ubuntu are a bit strange. ctrl-a is the default command. To enable sane mouse scrolling set `set-window-option -g mode-mouse on` in `~/.tmux.conf` of the server.
 
@@ -140,3 +143,18 @@ grep and get text around match
 
     cat log | grep -A10 <searchterm> # Next 10 lines
     cat log | grep -B10 <searchterm> # Previous 10 lines
+
+Debug IP traffic:
+
+iptables -I INPUT -j LOG --log-prefix "Connection: "
+
+
+Mongo
+
+    show dbs
+    use db demo
+    show collections
+    coll = db['imec']
+    coll.find().skip(coll.count() - 20)
+    coll.find({"subscriptionId": { $exists : true }}).limit(1).sort({$natural:-1})
+    ObjectId("5714784653628548824c18de").getTimestamp()

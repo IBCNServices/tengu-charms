@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #pylint: disable=c0111,c0301
+import os
 import json
 import tempfile
 
@@ -141,4 +142,5 @@ def api_hauchiwa():
 
 
 if __name__ == '__main__':
-    APP.run(host='0.0.0.0')
+    DEBUG = (os.environ.get('DEBUG', 'False').lower() == 'true')
+    APP.run(host='0.0.0.0', debug=DEBUG)

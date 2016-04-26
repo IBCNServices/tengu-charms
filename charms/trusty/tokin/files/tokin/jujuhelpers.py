@@ -57,8 +57,7 @@ class JujuEnvironment(object):
     def status(self):
         """ Return dictionary with output of juju status """
         try:
-            output = check_output(["juju", "status", "--format=json"],
-                                  stderr=STDOUT)
+            output = check_output(["juju", "status", "--format=json"])
             return json.loads(output)
         except CalledProcessError as ex:
             if 'missing namespace, config not prepared' in ex.output:
@@ -71,8 +70,7 @@ class JujuEnvironment(object):
     def config_of(self, servicename):
         """ Return dictionary with output of juju get <servicename>"""
         try:
-            output = check_output(["juju", "get", "--format=yaml", servicename],
-                                  stderr=STDOUT)
+            output = check_output(["juju", "get", "--format=yaml", servicename])
             return yaml.load(output)
         except CalledProcessError as ex:
             if 'ERROR service "{}" not found'.format(servicename) in ex.output:
@@ -251,8 +249,7 @@ class JujuEnvironment(object):
     def env_exists(name):
         """Checks if Juju env with given name exists."""
         try:
-            envs = check_output(['juju', 'switch', '--list'],
-                                stderr=STDOUT).split()
+            envs = check_output(['juju', 'switch', '--list']).split()
         except CalledProcessError as ex:
             print ex.output
             raise
@@ -263,7 +260,7 @@ class JujuEnvironment(object):
     def current_env():
         """ Returns the current active Juju environment """
         try:
-            return check_output(['juju', 'switch'], stderr=STDOUT).rstrip()
+            return check_output(['juju', 'switch']).rstrip()
         except CalledProcessError as ex:
             print ex.output
             raise

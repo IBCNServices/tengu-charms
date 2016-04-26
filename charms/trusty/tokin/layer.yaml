@@ -1,11 +1,12 @@
+"includes":
+- "layer:basic"
+- "/juju-client"
 "options":
+  "juju-client": {}
+  "tokin": {}
   "basic":
     "use_venv": !!bool "false"
     "packages": []
     "include_system_packages": !!bool "false"
-  "tokin": {}
-  "juju-client": {}
-"includes":
-- "layer:basic"
-- "/juju-client"
+"repo": "git@github.com:galgalesh/tengu-charms.git"
 "is": "tokin"

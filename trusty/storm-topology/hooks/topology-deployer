@@ -23,6 +23,7 @@ installPackages()
 		touch /tmp/storm-topology/$serviceName/bolts
 		touch /tmp/storm-topology/$serviceName/graph
 		touch /tmp/storm-topology/$serviceName/classes
+		echo "0" > /tmp/storm-topology/$serviceName/rebuild
 		if [ ! -f /tmp/storm-topology/buildGraph ]; then
 			juju-log "Setting buildGraph"
 			cp "$workingDir/files/buildGraph" /tmp/storm-topology/

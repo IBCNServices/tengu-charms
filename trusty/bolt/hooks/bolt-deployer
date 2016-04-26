@@ -26,7 +26,13 @@ getBolt()
 	className=${1##*/}
 	classNoExtension=`echo $className | cut -d \. -f1`
 	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
-		wget -nc $1 /tmp/storm-topology/$topology/Storm-Skeleton/src/main/java/tengu/storm/$className
+		wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
+		echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
+		echo "1" > /tmp/storm-topology/$topology/rebuild
+	else
+		classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
+		((classnr++))
+		sed -i "s/^$classNoExtension.*/$classNoExtension $classnr/" /tmp/storm-topology/$topology/classes
 	fi
 	echo "$serviceName $classNoExtension" >> /tmp/storm-topology/$topology/bolts
 	status-set active

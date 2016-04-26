@@ -78,6 +78,15 @@ rm -f /tmp/storm-topology/$topology/graph.bak
 
 #deploy naar nimbus
 # 1) Jar maken indien nodig (nieuwe classes nodig?)
+if [ `cat /tmp/storm-topology/$topology/rebuild` == "1" ]; then
+	cd /tmp/storm-topology/$topology/Storm-Flux-Skeleton
+	mvn package	
+fi
 # 2) Topology killen indien deze bestaat
-# 2) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
+topoName=$(sed 's/name: "\(.*\)"[^"]*$/\1/')
+if ! /opt/storm/apache-storm-0.10.0/bin/storm list | grep -q "$topoName" ; then		
+	/opt/storm/apache-storm-0.10.0/bin/storm kill $topoName
+fi
+# 3) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
+/opt/storm/apache-storm-0.10.0/bin/storm jar /tmp/storm-topology/$topology/Storm-Flux-Skeleton/target/Storm-Flux-Skeleton-1.0-SNAPSHOT.jar org.apache.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml	
 

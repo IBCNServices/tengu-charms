@@ -27,6 +27,7 @@ getBolt()
 	classNoExtension=`echo $className | cut -d \. -f1`
 	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
 		wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
+		sed -i "s/.*package.*/package tengu.storm;/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
 		echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
 		echo "1" > /tmp/storm-topology/$topology/rebuild
 	else
@@ -79,7 +80,7 @@ stormelementChanged()
 		#check if already in graph
 		( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
 		#deploy new graph
-		sh /tmp/storm-topology/buildGraph $topology
+		/bin/bash /tmp/storm-topology/buildGraph $topology
 		juju-log "Ready to deploy topology.yaml"
 	fi
 }

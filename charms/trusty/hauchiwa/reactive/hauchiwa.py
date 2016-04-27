@@ -95,6 +95,7 @@ def set_blocked():
         hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
     else:
         set_state('hauchiwa.provider.configured')
+        hookenv.status_set('active', 'Ready')
 
 
 @when('tengu.configured', 'tengu.repo.available', 'juju.repo.available',

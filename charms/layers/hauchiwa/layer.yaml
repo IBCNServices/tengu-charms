@@ -1,1 +1,2 @@
 includes: ['layer:juju-client', 'interface:http', 'interface:opened-ports']
+repo: git@github.com:galgalesh/tengu-charms.git

@@ -201,13 +201,13 @@ class JujuEnvironment(object):
         self.do('add-unit', name, **options)
 
 
-    def deploy_bundle(self, bundle_path, **options):
+    def deploy_bundle(self, bundle_path, *args, **options):
         """ Deploy Juju bundle """
-        self.docall('deployer', '-c', bundle_path, **options)
+        return self.do('deployer', '-c', bundle_path, *args, **options)
 
 
     def action_do(self, unit, action, **options):
-        self.do('action do', unit, action, **options)
+        return self.do('action do', unit, action, **options)
 
 
     def destroy_service(self, name):

@@ -41,7 +41,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "fd2a94739049d736be347ae3999e0e4ff3fbd5d19284c79099116ed16a8558ec"
+      "15e77ae371997daccf4712fe707c8946aedacd0060f604d8f6b00a57b3d9914b"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -66,7 +66,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "1cfc975310c8e34a8cce6df73afdfdb3a94fec44b9c76b72d67b7ad701d01d99"
+      "0821e32444eb934f8ffab6a0717a2d8bf00cf98fe5b55843e9406a8ec179eee3"
     ], 
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
@@ -341,7 +341,7 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "ed853f2b4b4e4148b877ddc913b934a03e9e70872a023474b77023752b25a578"
+      "0154dac0ee33f9aaa5d803cfa3fab8196ec0cf7e20cb43c1506b0bc0f20a62c4"
     ], 
     "templates/global-conf.yaml": [
       "hauchiwa", 
@@ -376,7 +376,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "0d6230b6568e5a18f97b1467e8ebbe19c4940dbb8b232ca942faa8a63e670796"
+      "7cf59b77bd5c76f39acfbe8b7733a042b26ecefbb33cbf16003c8f38ab38c1f0"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 
@@ -456,7 +456,7 @@
     "layer.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "f26228ce67f24ac1dcc4b92747878b9c22a3bb6840ea7d7fd4c89add850d1ddf"
+      "e6b10e34d389c0f7cb88ed8975b9320fdc64a83dec28c123f1cc3cff6591d404"
     ], 
     "files/tengu_management/scripts/virtualwall_prepare.sh": [
       "hauchiwa", 

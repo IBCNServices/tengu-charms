@@ -10,4 +10,5 @@
     "use_venv": !!bool "false"
     "packages": []
     "include_system_packages": !!bool "false"
+"repo": "git@github.com:galgalesh/tengu-charms.git"
 "is": "hauchiwa"

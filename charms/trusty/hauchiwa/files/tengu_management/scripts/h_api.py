@@ -2,6 +2,7 @@
 #pylint: disable=c0111,c0301
 import os
 import json
+import base64
 import tempfile
 import subprocess
 
@@ -30,22 +31,28 @@ def api_root():
     return 'Welcome to Hauchiwa API v0.1'
 
 
-@APP.route('/bundle', methods=['POST'])
+@APP.route('/bundle', methods=['PUT'])
 def api_bundle_create():
     """ Deploys new bundle """
     #TODO: Authenticate this action
     # Get request values
-    bundle = request.get_data()
-    #s4_cert = str(request.headers.get('emulab-s4-cert'))
+    body = request.get_json()
+    bundle = body.get('bundle', "")
     # Get Instance ID
     import socket
     instance_id = socket.gethostname().lstrip('h-')
     # Write bundle
     bundle_path = tempfile.mkdtemp() + '/bundle.yaml'
     with open(bundle_path, 'w+') as bundle_file:
+        bundle = base64.b64decode(bundle)
         bundle_file.write(bundle)
-    # Run bundle
-    output = subprocess.check_call(['/opt/tengu/scripts/tengu.py', 'create', '--bundle', bundle_path, instance_id])
+    # Create environment from bundle if not exist, else deploy bundle
+    env = JujuEnvironment(None)
+    info = env.status
+    if info:
+        output = env.deploy_bundle(bundle_path, '--skip-unit-wait')
+    else:
+        output = subprocess.check_call(['/opt/tengu/scripts/tengu.py', 'create', '--bundle', bundle_path, instance_id])
     resp = Response(
         "Sucessfully deployed bundle to environment {}. Output: {}".format(instance_id, output),
         status=200,

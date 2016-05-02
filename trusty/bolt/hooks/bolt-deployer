@@ -85,6 +85,18 @@ stormelementChanged()
 	fi
 }
 
+stormelementDeparted()
+{
+	juju-log "Stormelement Departed"
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
+	element=`relation-get elementName`
+	juju-log "Relation broken with $element"
+	if [ -n $element ]; then
+		line=`grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -nw "$element" /tmp/storm-topology/$topology/graph | cut -d ":" -f 1` 
+	fi
+}
+
 cmd=$(basename "$0")
 case $cmd in
 config-changed)
@@ -107,5 +119,11 @@ stormelement-relation-changed)
 	;;
 boltworker-relation-changed)
 	stormelementChanged
+	;;
+stormelement-relation-departed)
+	stormelementDeparted
+	;;
+boltworker-relation-departed)
+	stormelementDeparted
 	;;
 esac

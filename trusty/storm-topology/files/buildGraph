@@ -67,7 +67,7 @@ while [ ${#elements[@]} -gt 0 ]; do
 			fi
 		done
 		#verwijder lijnnrs
-		lijnprep=$(printf '%sd;' "${lijnnrs}")
+		lijnprep=$(printf '%sd;' "${lijnnrs[@]}")
 		lijnDelete=${lijnprep::-1}
 		sed -i "$lijnDelete" /tmp/storm-topology/$topology/graph.bak 
 	done
@@ -84,8 +84,8 @@ if [ `cat /tmp/storm-topology/$topology/rebuild` == "1" ]; then
 	echo "0" > /tmp/storm-topology/$topology/rebuild
 fi
 # 2) Topology killen indien deze bestaat
-topoName=$(sed 's/name: "\(.*\)"[^"]*$/\1/')
-if ! /opt/storm/apache-storm-0.10.0/bin/storm list | grep -qw "$topoName" ; then		
+topoName=$(sed 's/name: "\(.*\)"[^"]*$/\1/' /tmp/storm-topology/$topology/topology.yaml)
+if /opt/storm/apache-storm-0.10.0/bin/storm list | grep -qw "$topoName" ; then		
 	/opt/storm/apache-storm-0.10.0/bin/storm kill $topoName
 fi
 # 3) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml

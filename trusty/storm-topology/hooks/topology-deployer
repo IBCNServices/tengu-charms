@@ -16,7 +16,7 @@ installPackages()
 		mkdir -p /tmp/storm-topology/$serviceName
 		cd /tmp/storm-topology/$serviceName
 		git clone https://github.com/xannz/Storm-Flux-Skeleton.git
-		echo "name: \"example\"" > /tmp/storm-topology/$serviceName/topology.yaml
+		echo "name: \"$serviceName\"" > /tmp/storm-topology/$serviceName/topology.yaml
 		echo "config:" >> /tmp/storm-topology/$serviceName/topology.yaml
 		echo "  topology.workers: 1" >> /tmp/storm-topology/$serviceName/topology.yaml
 		touch /tmp/storm-topology/$serviceName/spouts
@@ -29,7 +29,8 @@ installPackages()
 			cp "$workingDir/files/buildGraph" /tmp/storm-topology/
 			chmod 744 /tmp/storm-topology/buildGraph
 		fi
-		
+		cd /tmp/storm-topology/$serviceName/Storm-Flux-Skeleton 
+		mvn clean install -DskipTests=true		
 	fi	
 	status-set blocked "Waiting for topology name"
 }

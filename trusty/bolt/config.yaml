@@ -1,8 +1,6 @@
 options:
-  name:
-    type: string
-    description: "Name of the bolt"
   class:
+    default:
     type: string
     description: "URL to the bolt class"
 

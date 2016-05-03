@@ -15,50 +15,55 @@
       "dynamic", 
       "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
     ], 
-    "wheelhouse/ipaddress-1.0.16.tar.gz": [
-      "lxc-networking", 
-      "dynamic", 
-      "5a3182b322a706525c46282ca6f064d27a02cffbd449f9f47416f1dc96aa71b0"
-    ], 
-    "lib/charms/layer/basic.py": [
+    "bin/layer_option": [
       "layer:basic", 
       "static", 
-      "b0ff0f09a283c000a64e5da05acd550725d7bedd332b57372d6cd5157adf3901"
+      "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/pyaml-15.8.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
     ], 
-    "hooks/start": [
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
+      "static", 
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
+    ], 
+    "hooks/leader-elected": [
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/pip-7.1.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
-    ], 
     "Makefile": [
       "layer:basic", 
       "static", 
-      "868f3fc0a3c3ebfceb1252010f4171c4f0cfe7a5e6945efe9e654a10f9b83ab9"
+      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
+    "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
     ], 
     "reactive/lxc-networking.py": [
       "lxc-networking", 
       "static", 
-      "b3907fbb9c9994e19b56b06d4da7e7185ce8bdf69b6d9de5baba70da03da2220"
+      "680dedfa54a1ac7fa4f30eaf8bd23b8fce2850306f668e2c0c87668ee2a23770"
     ], 
     "hooks/update-status": [
       "layer:basic", 
@@ -80,15 +85,10 @@
       "static", 
       "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
-    "hooks/leader-settings-changed": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "wheelhouse/Jinja2-2.8.tar.gz": [
-      "layer:basic", 
+    "wheelhouse/ipaddress-1.0.16.tar.gz": [
+      "lxc-networking", 
       "dynamic", 
-      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+      "5a3182b322a706525c46282ca6f064d27a02cffbd449f9f47416f1dc96aa71b0"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -100,15 +100,20 @@
       "static", 
       "ade844ee6c786a872cae3ec0261658ac02410b4c02915a6ed920c3c775bd50d4"
     ], 
-    "hooks/hook.template": [
+    "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+      "41821be5a68e9380a3fb6b4efdb433d05ff958da68db766ca7156c0df80482d6"
+    ], 
+    "config.yaml": [
+      "lxc-networking", 
+      "dynamic", 
+      "320e777968a996f3a19c8acaba62b5714da7aaae974d2e73605642cf4d38f768"
     ], 
     "tox.ini": [
       "layer:basic", 
       "static", 
-      "5efb9280763f1f4cb861485e80863caafc9cd5ab1176543e911c27519436de7a"
+      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
     "metadata.yaml": [
       "lxc-networking", 
@@ -130,20 +135,30 @@
       "static", 
       "fab208e9752ac0c0cf93e419d12242c1252b36a2305d96441a6226db58799edb"
     ], 
-    "requirements.txt": [
+    "hooks/start": [
       "layer:basic", 
       "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/netaddr-0.7.18.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
     ], 
+    "wheelhouse/charms.reactive-0.4.3.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "61de97ba63aa0917dc756c95fdd6bfc8725e43e15750ac53ba7a409a819a76b6"
+    ], 
     ".gitignore": [
       "layer:basic", 
       "static", 
       "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "wheelhouse/PyYAML-3.11.zip": [
+      "layer:basic", 
+      "dynamic", 
+      "19bb3ac350ef878dda84a62d37c7d5c17a137386dde9c2ce7249c7a21d7f6ac9"
     ], 
     "hooks/install": [
       "layer:basic", 
@@ -155,30 +170,25 @@
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
-    "config.yaml": [
-      "lxc-networking", 
-      "dynamic", 
-      "320e777968a996f3a19c8acaba62b5714da7aaae974d2e73605642cf4d38f768"
-    ], 
-    "wheelhouse/PyYAML-3.11.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
-    ], 
-    "hooks/config-changed": [
+    "requirements.txt": [
       "layer:basic", 
       "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/leader-elected": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
     ], 
     "layer.yaml": [
       "lxc-networking", 
       "dynamic", 
-      "6b05b1df66c6154fce50ddd35007169806a8ec06fe731f0c8cc29bd31948b16f"
+      "a0a095df2a9e0afb6d34d2ba0d314a8299ea5d30e7462995a73b3c9628cf5201"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
     ], 
     "icon.svg": [
       "lxc-networking", 
@@ -190,10 +200,10 @@
       "dynamic", 
       "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
     ], 
-    "lib/charms/layer/__init__.py": [
+    "hooks/config-changed": [
       "layer:basic", 
       "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ]
   }
 }

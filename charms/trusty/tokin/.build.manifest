@@ -14,7 +14,7 @@
     "files/tokin/tokin.py": [
       "tokin", 
       "static", 
-      "68560bff7ff8f2e736df76735ce9364c3fc29a744f4ec73e3c7aea8cd331b494"
+      "d5bbd493205a536ba90db271c999dc7650ea1c936b97842a2c05031743f5ca97"
     ], 
     "wheelhouse/charmhelpers-0.7.0.tar.gz": [
       "layer:basic", 
@@ -49,7 +49,7 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
+      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -89,12 +89,12 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "7cf59b77bd5c76f39acfbe8b7733a042b26ecefbb33cbf16003c8f38ab38c1f0"
+      "41821be5a68e9380a3fb6b4efdb433d05ff958da68db766ca7156c0df80482d6"
     ], 
     "tox.ini": [
       "layer:basic", 
       "static", 
-      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
+      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
     "metadata.yaml": [
       "tokin", 

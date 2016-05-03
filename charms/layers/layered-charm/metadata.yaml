@@ -1,8 +1,0 @@
-name: layered-charm
-summary: An -as-thin-as-possible- Charm to test layered and reactive framework compatibility
-maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
-description: |
-  An -as-thin-as-possible- Charm to test layered and reactive framework compatibility
-tags:
-  - misc
-subordinate: false

@@ -10,7 +10,7 @@ iptables -A INPUT -i tun+ -j ACCEPT
 iptables -A FORWARD -i tun+ -j ACCEPT
 INTERFACES=`ifconfig -a | sed 's/[ \t].*//;/^\(lo\|tun.\|veth.*\|\)$/d'`
 for IFACE in ${INTERFACES}; do
-  iptables -t nat -A POSTROUTING -s ${NETWORK} -o ${IFACE} -j MASQUERADE
+  iptables -t nat -A POSTROUTING -s ${VPN_NETWORK} -o ${IFACE} -j MASQUERADE
 done
 
 

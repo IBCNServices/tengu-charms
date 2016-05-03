@@ -27,3 +27,7 @@ options:
     type: string
     default: "Juju"
     description: organization field for RSA certificate
+  network:
+    type: string
+    default: "192.168.14.0 255.255.255.0"
+    description: Network that vpn users should be able to connect to. A route to this network will be pushed to clients.

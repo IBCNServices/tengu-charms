@@ -40,8 +40,12 @@ def api_hauchiwa_create(instance_id):
     # get values from request
     s4_cert = str(request.headers.get('emulab-s4-cert'))
     body = request.get_json()
-    ssh_keys = body.get('ssh-keys', "")
-    bundle = body.get('bundle', "")
+    if body is not None:
+        ssh_keys = body.get('ssh-keys', "")
+        bundle = body.get('bundle', "")
+    else:
+        ssh_keys = ""
+        bundle = ""
 
     # Create config file
     hauchiwa_name = 'h-{}'.format(instance_id)

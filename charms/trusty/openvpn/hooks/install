@@ -18,11 +18,31 @@ gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz > $
 sed -i -e "s/;duplicate-cn/duplicate-cn/g" $SERVER_CONF
 # Use bigger key
 sed -i -e "s/dh dh1024.pem/dh dh2048.pem/g" $SERVER_CONF
-# Pass client web traffic to its destination
-sed -i -e "s/;push \"redirect-gateway def1 bypass-dhcp\"/push \"redirect-gateway def1 bypass-dhcp\"/g" $SERVER_CONF
-# give clients dns
-sed -i -e "s/;push \"dhcp-option DNS 208.67.222.222\"/push \"dhcp-option DNS 208.67.222.222\"/g" $SERVER_CONF
-sed -i -e "s/;push \"dhcp-option DNS 208.67.220.220\"/push \"dhcp-option DNS 208.67.220.220\"/g" $SERVER_CONF
+grep -q '^option' file && sed -i 's/^option.*/option=value/' file || echo 'option=value' >> file
+
+# Remove any prior active routes
+sed -r -i -e '/push \"route ([0-9]{1,3}\.){3}.*\" # Managed by juju/d' $SERVER_CONF
+# push route to client to route traffic to $NETWORK via VPN tunnel
+echo "push \"route ${NETWORK}\" # Managed by juju" >> $SERVER_CONF
+
+
+# Remove any prior active routes
+juju-log "Removing old routes"
+sed -r -i -e '/push \"route ([0-9]{1,3}\.){3}.*\"/d' $SERVER_CONF
+# Route traffic destined to the $IFACE network via the VPN tunnel
+juju-log "Adding current network route"
+echo "push \"route ${current_network}\"" >> $SERVER_CONF
+# Add user supplied additional routes
+juju-log "Adding additional, client specified routes"
+if [ -n "${ADDITIONAL_ROUTES}" ]; then
+	for add_net in ${ADDITIONAL_ROUTES//,/ }; do
+	    network=`parse_network ${add_net}`
+	    echo "push \"route ${network}\"" >> $SERVER_CONF
+        iptables -t nat -A POSTROUTING -s ${NETWORK} \
+	       -d $add_net -o ${IFACE} -j MASQUERADE
+	done
+fi
+
 # Run as unpriviliged user
 sed -i -e "s/;user nobody/user nobody/g" $SERVER_CONF
 sed -i -e "s/;group nogroup/group nogroup/g" $SERVER_CONF

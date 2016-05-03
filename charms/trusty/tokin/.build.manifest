@@ -14,7 +14,7 @@
     "files/tokin/tokin.py": [
       "tokin", 
       "static", 
-      "d5bbd493205a536ba90db271c999dc7650ea1c936b97842a2c05031743f5ca97"
+      "1232b165db8bb7c55d198350331dc750baa4fa2622cfe318a7ac63f4be1df2af"
     ], 
     "wheelhouse/charmhelpers-0.7.0.tar.gz": [
       "layer:basic", 

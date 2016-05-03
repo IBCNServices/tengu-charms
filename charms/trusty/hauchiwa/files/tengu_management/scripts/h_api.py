@@ -118,4 +118,4 @@ def request_wants_json():
 
 if __name__ == '__main__':
     DEBUG = (os.environ.get('DEBUG', 'False').lower() == 'true')
-    APP.run(host='0.0.0.0', debug=DEBUG)
+    APP.run(host='0.0.0.0', debug=DEBUG, threaded=True)

@@ -466,7 +466,7 @@
     "files/rest2jfed/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "dcf9a64d9bce31c98ec82368656e27d3b8810f434e6c54909b7d0b82e41da4e9"
+      "ddb6aa46bcee7945cc0b1c02bc48330b437413666aad612381e47b68f253a3a1"
     ], 
     "hooks/stop": [
       "layer:basic", 

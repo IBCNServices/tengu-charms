@@ -16,7 +16,7 @@
     "files/tengu_management/scripts/ssh_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "c25a6c137373023925a53bfe03ead87d9471ed4348bb68e7e09b938288f7535e"
+      "1356f922f800d3dd38d75e97ec53d169612cce1e70872b958eecc65738eda84c"
     ], 
     "bin/layer_option": [
       "layer:basic", 
@@ -66,7 +66,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "0821e32444eb934f8ffab6a0717a2d8bf00cf98fe5b55843e9406a8ec179eee3"
+      "6c8d190843212746183cde9cd4d27b8512318cc20e0dcbcdcc2154bd6630c59a"
     ], 
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
@@ -101,7 +101,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "bc724f8b8fd400814f0297c20882efd9c842a0c7908239b1f0a9fcc875d704af"
+      "659eec4376204b7088cfdbcada62569b653c8f882e02ae639f38072f98472395"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -226,7 +226,7 @@
     "files/tengu_management/scripts/upgrade-tengu.sh": [
       "hauchiwa", 
       "static", 
-      "b8bd75c3fcb92d93b5cd9bb55614438fcd9f82f35c98b584ba1160660de577bd"
+      "2cfc47e8017e77612ef886b3ec8bdf2ba8e74fed8c7f87e3e2041156f547258b"
     ], 
     "wheelhouse/charmhelpers-0.7.0.tar.gz": [
       "layer:basic", 
@@ -261,7 +261,7 @@
     "Makefile": [
       "layer:basic", 
       "static", 
-      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
+      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
     ], 
     "hooks/hauchiwa-port-forward-relation-joined": [
       "interface:opened-ports", 
@@ -293,10 +293,10 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "files/tengu_management/scripts/jfed_provider/rest2jfed_connector.py": [
+    "files/tengu_management/scripts/ssh_provider/ssh_destroy.sh": [
       "hauchiwa", 
       "static", 
-      "2f573a7137605f4888ba4b0a9d6b5a713af77e5840354dd58e51728e76506c0f"
+      "1f914e92ef4207e7199c97f8d68f53add2f07a1eddb7a1ddf94ae9db0bc01535"
     ], 
     "files/tengu_management/templates/bundle.yaml": [
       "hauchiwa", 
@@ -341,7 +341,12 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "0154dac0ee33f9aaa5d803cfa3fab8196ec0cf7e20cb43c1506b0bc0f20a62c4"
+      "97f75c160f0ba38458ee01351cbab2059e451dbf98404719afc275785e1e833d"
+    ], 
+    "files/tengu_management/scripts/jfed_provider/rest2jfed_connector.py": [
+      "hauchiwa", 
+      "static", 
+      "2f573a7137605f4888ba4b0a9d6b5a713af77e5840354dd58e51728e76506c0f"
     ], 
     "templates/global-conf.yaml": [
       "hauchiwa", 
@@ -376,7 +381,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "7cf59b77bd5c76f39acfbe8b7733a042b26ecefbb33cbf16003c8f38ab38c1f0"
+      "41821be5a68e9380a3fb6b4efdb433d05ff958da68db766ca7156c0df80482d6"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 
@@ -391,7 +396,7 @@
     "tox.ini": [
       "layer:basic", 
       "static", 
-      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
+      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
     "files/tengu_management/scripts/jfed_provider/templates/template.rspec": [
       "hauchiwa", 

@@ -1,11 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # pylint: disable=C0111,c0321,c0301,c0325
 #
 """ deploys a tengu env on a general ssh reachable cluster"""
-import yaml
 import subprocess
 
-from config import script_dir
+import click
+import yaml
+
+from config import script_dir # pylint: disable=E0401
 
 
 class ProviderException(Exception):
@@ -32,7 +34,7 @@ class SSHEnv(object):
         self.global_conf = global_conf
         self.env_conf = env_conf
 
-        self.files ={
+        self.files = {
             "bundle": self.bundle_path
         }
 
@@ -42,18 +44,25 @@ class SSHEnv(object):
         with open("{}/bundle.yaml".format(self.env_conf.dir), 'w') as outfile:
             outfile.write(yaml.dump(bundle, default_flow_style=True))
         machine_list = self.machines
-        for m in machine_list:
+        for machine in machine_list:
             subprocess.call(["scp", '-o', 'StrictHostKeyChecking=no', "%s/ssh_provider/ssh_prepare.sh" % script_dir(),
-                             '{}@{}:~/ssh_prepare.sh'.format(bootstrap_user, m)])
+                             '{}@{}:~/ssh_prepare.sh'.format(bootstrap_user, machine)])
             subprocess.call(
-                ["ssh", '-o', 'StrictHostKeyChecking=no', '{}@{}'.format(bootstrap_user, m), "~/ssh_prepare.sh"])
+                ["ssh", '-o', 'StrictHostKeyChecking=no', '{}@{}'.format(bootstrap_user, machine), "~/ssh_prepare.sh"])
 
-    def renew(self, hours):
+    def renew(self, hours): #pylint: disable=w0613,R0201
         print('Renew unnecessary in SSH environment...')
 
     def destroy(self):
-        # TODO remove juju installation on SSH nodes
+        bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']
         print('Removing Juju environment from nodes...')
+        machine_list = self.machines
+        if click.confirm('Warning! I will ssh to [{}] and start deleting very important files. Are you sure you want to continue?'.format(machine_list)):
+            for machine in machine_list:
+                subprocess.call(["scp", '-o', 'StrictHostKeyChecking=no', "%s/ssh_provider/ssh_destroy.sh" % script_dir(),
+                                 '{}@{}:~/ssh_destroy.sh'.format(bootstrap_user, machine)])
+                subprocess.call(
+                    ["ssh", '-o', 'StrictHostKeyChecking=no', '{}@{}'.format(bootstrap_user, machine), "~/ssh_destroy.sh"])
 
     @property
     def machines(self):
@@ -66,9 +75,9 @@ class SSHEnv(object):
 
     @property
     def status(self):
-        machines_list = self.machines();
-        for machine in machines_list:
-            print('')
+        machine_list = self.machines
+        for machine in machine_list:
+            print(machine)
         return 'TODO Status'
 
 

@@ -183,6 +183,7 @@ class JujuEnvironment(object):
                 'juju', 'add-machine',
                 'ssh:{}@{}'.format(self.bootstrap_user, machinefqdn)
             ]))
+            sleep(10)
         for proc in processes:
             if proc.poll() is None:
                 proc.wait()
@@ -279,7 +280,7 @@ class JujuEnvironment(object):
         JujuEnvironment._create_env(name, bootstrap_host, juju_config)
         # Wait 5 seconds before adding machines because python
         # is too fast for juju
-        sleep(5)
+        sleep(20)
         environment = JujuEnvironment(name)
         environment.add_machines(machines)
         environment.deploy_lxc_networking()

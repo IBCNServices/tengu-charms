@@ -26,16 +26,24 @@ from output import okblue, fail, okwhite
 from config import Config, script_dir, tengu_dir
 from jujuhelpers import JujuEnvironment
 import jfed_provider
-#import ssh_provider
+import ssh_provider
 
 
 global_conf = Config(realpath(script_dir() + "/../etc/global-conf.yaml")) # pylint: disable=c0103
 DEFAULT_ENV_CONF = realpath(script_dir() + "/../templates/env-conf.yaml.template")
 ENV_CONF_NAME = "env-conf.yaml"
 PPRINTER = pprint.PrettyPrinter()
-PROVIDER = jfed_provider.JfedProvider(global_conf)
-#PROVIDER = ssh_provider.SSHProvider(global_conf)
 DEFAULT_ENV = JujuEnvironment.current_env()
+
+
+def get_provider(config=global_conf):
+    provider = config.get('provider', 'jfed')
+    if provider == "ssh":
+        return ssh_provider.SSHProvider(global_conf)
+    elif provider == "jfed":
+        return jfed_provider.JfedProvider(global_conf)
+    else:
+        fail("No provider of type {} found".format(provider))
 
 
 def init_environment_config(env_name):
@@ -78,7 +86,7 @@ def create_juju(env_conf, provider_env):
     try:
         machines = provider_env.machines
     except Exception as ex: # pylint: disable=W0703
-        fail("Could not get machines from manifest", ex)
+        fail("Could not get machines from provider", ex)
     # Create Juju environment
     env_conf['juju-env-conf']['bootstrap-host'] = machines.pop(0)
     env_conf.save()
@@ -198,7 +206,7 @@ def c_add_machines(name):
     """Add machines of jfed experiment to Juju environment
     NAME: name of Tengu """
     env_conf = init_environment_config(name)
-    env = PROVIDER.get(env_conf)
+    env = get_provider(env_conf).get(env_conf)
     machines = env.machines
     machines.pop(0)
     jujuenv = JujuEnvironment(name)
@@ -259,9 +267,9 @@ def c_create(bundle, name, create_machines):
         raise click.ClickException('Parsing bundle \033[91mfailed\033[0m: {}'.format(str(yamlerror)))
     downloadbigfiles(os.environ['JUJU_REPOSITORY'])
     if create_machines:
-        provider_env = PROVIDER.create_from_bundle(env_conf, bundledict)
+        provider_env = get_provider(env_conf).create_from_bundle(env_conf, bundledict)
     else:
-        provider_env = PROVIDER.get(env_conf)
+        provider_env = get_provider(env_conf).get(env_conf)
     juju_env = create_juju(env_conf, provider_env)
     juju_env.deploy_bundle(bundle)
 
@@ -296,7 +304,7 @@ def c_destroy(name):
     if click.confirm('Warning! This will destroy both the Juju environment and the jFed experiment of the Tengu with name {}. Are you sure you want to continue?'.format(name)):
         destroy_juju_environment(name)
         env_conf = init_environment_config(name)
-        env = PROVIDER.get(env_conf)
+        env = get_provider(env_conf).get(env_conf)
         env.destroy()
 
 @click.command(
@@ -337,7 +345,7 @@ def c_renew(name, hours):
     HOURS: requested expiration hours"""
     okwhite('renewing slice {} for {} hours'.format(name, hours))
     env_conf = init_environment_config(name)
-    env = PROVIDER.get(env_conf)
+    env = get_provider(env_conf).get(env_conf)
     env.renew(hours)
 
 
@@ -354,7 +362,7 @@ def c_reload(name):
     """
     okwhite('reloading all slivers in slice {}'.format(name))
     env_conf = init_environment_config(name)
-    env = PROVIDER.get(env_conf)
+    env = get_provider(env_conf).get(env_conf)
     env.reload()
 
 
@@ -369,7 +377,7 @@ def c_status(name):
     """Show status of Tengu with given name
     NAME: name of Tengu """
     env_conf = init_environment_config(name)
-    env = PROVIDER.get(env_conf)
+    env = get_provider(env_conf).get(env_conf)
     responsedict = env.status
     if responsedict['short_status'] == 'READY':
         statusdict = responsedict['json_output']
@@ -406,7 +414,7 @@ def c_export(name, path):
         "tengu-env-conf" : env_conf_path(name),
     }
     env_conf = init_environment_config(name)
-    env = PROVIDER.get(env_conf)
+    env = get_provider(env_conf).get(env_conf)
     files.update(env.files)
     for f_name, f_path in files.iteritems():
         with open(f_path, 'r') as f_file:
@@ -438,7 +446,7 @@ def c_import(path):
         "tengu-env-conf" : env_conf_path(name),
     }
     env_conf = init_environment_config(name)
-    env = PROVIDER.get(env_conf)
+    env = get_provider(env_conf).get(env_conf)
     files.update(env.files)
     for f_key, f_path in files.iteritems():
         with open(f_path, 'w+') as f_file:
@@ -453,7 +461,7 @@ def c_import(path):
     context_settings=CONTEXT_SETTINGS)
 def c_userinfo():
     """ Print info of configured jfed user """
-    PPRINTER.pprint(PROVIDER.userinfo)
+    PPRINTER.pprint(get_provider().userinfo)
 
 @click.command(
     name='downloadbigfiles',

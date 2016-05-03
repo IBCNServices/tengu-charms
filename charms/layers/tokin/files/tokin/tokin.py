@@ -4,6 +4,8 @@ import os
 import json
 import tempfile
 
+from subprocess import CalledProcessError
+
 from flask import Flask, Response, request
 import yaml
 
@@ -63,12 +65,19 @@ def api_hauchiwa_create(instance_id):
         hauchiwa_cfg_file.write(yaml.dump(hauchiwa_cfg, default_flow_style=False))
     # Deploy Hauchiwa
     juju = JujuEnvironment(None)
-    juju.deploy('local:hauchiwa',
-                hauchiwa_name,
-                config_path=hauchiwa_cfg_path,
-                to='lxc:1')
-    juju.add_relation(hauchiwa_name, 'rest2jfed')
-    juju.add_relation(hauchiwa_name, 'dhcp-server')
+    try:
+        juju.deploy('local:hauchiwa',
+                    hauchiwa_name,
+                    config_path=hauchiwa_cfg_path,
+                    to='lxc:1')
+        juju.add_relation(hauchiwa_name, 'rest2jfed')
+        juju.add_relation(hauchiwa_name, 'dhcp-server')
+    except CalledProcessError as processError:
+        if "service already exists" in processError.output:
+            # Service exists, nothing to do here.
+            pass
+        else:
+            raise processError
     resp = Response(
         "Created hauchiwa instance {}".format(instance_id),
         status=201,

@@ -339,5 +339,5 @@ def api_slice_manifest(projectname, slicename):
 
 
 if __name__ == '__main__':
-    DEBUG = os.environ.get('DEBUG', False)
+    DEBUG = (os.environ.get('DEBUG', 'False').lower() == 'true')
     APP.run(host='0.0.0.0', debug=DEBUG)

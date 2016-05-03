@@ -52,7 +52,7 @@ def get_java_paths(filesdir, install_type, java_major):
     else:
         tarstr = 'jdk-{}u{}-linux-x64.tar.gz'
     filenames = glob.glob(filesdir + '/' + tarstr.format(java_major, '*'))
-    p = re.compile(r'-{}u()-'.format(java_major))
+    p = re.compile(r'-{}u([0-9]+)-'.format(java_major))
     versions = [p.search(filename).group(1) for filename in filenames]
     java_minor = max(versions)
     tarname = tarstr.format(java_major, java_minor)

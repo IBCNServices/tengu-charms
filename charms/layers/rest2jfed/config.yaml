@@ -12,3 +12,13 @@ options:
     default: "oracle"
     description: |
       Override of the java-flavor. NOT TO BE ADJUSTED.
+  install-type:
+    type: string
+    default: "jdk"
+    description: |
+      Override of the install-type. NOT TO BE ADJUSTED.
+  java-major:
+    type: string
+    default: "8"
+    description: |
+      Override of the java-major. NOT TO BE ADJUSTED.

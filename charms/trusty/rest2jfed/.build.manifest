@@ -146,7 +146,7 @@
     "config.yaml": [
       "rest2jfed", 
       "dynamic", 
-      "ff193d01fb39662ec76280957e950eb6f8ba3f8826ae52fb21b90d68fd7152c1"
+      "0bbb84dff0610cea5108e830372b39f6e9530b51cf2a24757ea1914422065625"
     ], 
     "files/jfedS4/jfed_cli/lib/logback-classic-1.1.3.jar": [
       "rest2jfed", 

@@ -27,17 +27,14 @@
     "default": ""
   "install-type":
     "type": "string"
-    "default": "jre"
+    "default": "jdk"
     "description": |
-      Type of install to perform. Valid options are 'jre' or 'full'. The
-      default is 'jre', which will install the Java Runtime Environment
-      (JRE). Setting this to 'full' will install the Java Development
-      Kit (JDK) in addition to the JRE.
+      Override of the install-type. NOT TO BE ADJUSTED.
   "java-major":
     "type": "string"
-    "default": "7"
+    "default": "8"
     "description": |
-      Major version of Java. Defaults to 7.
+      Override of the java-major. NOT TO BE ADJUSTED.
   "java-flavor":
     "type": "string"
     "default": "oracle"

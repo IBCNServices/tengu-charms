@@ -41,7 +41,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "15e77ae371997daccf4712fe707c8946aedacd0060f604d8f6b00a57b3d9914b"
+      "e5a7c338d8c2d1efbe58de701f5e9829b0e2098c27fe4fa6498f73841134b898"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -66,7 +66,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "6c8d190843212746183cde9cd4d27b8512318cc20e0dcbcdcc2154bd6630c59a"
+      "7f4bf48dac0625e6c7e98dabfad399b43acb2e51a9a4af75ffc48fd5bb3647e1"
     ], 
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
@@ -336,12 +336,12 @@
     "templates/environments.yaml": [
       "layer:juju-client", 
       "static", 
-      "ea7a1f93d096d8b7bf4b432d9cb277c6233fc7465b965de2f6108c7ced12b7db"
+      "b6aa71bd51c53d1dcbe711c9d8749c02213d223fccd55c302067ea9d27af497b"
     ], 
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "97f75c160f0ba38458ee01351cbab2059e451dbf98404719afc275785e1e833d"
+      "0bc309c50858f2d4cd629c519f72af82c101a0109eb78c2b32e06e0621ed57b4"
     ], 
     "files/tengu_management/scripts/jfed_provider/rest2jfed_connector.py": [
       "hauchiwa", 

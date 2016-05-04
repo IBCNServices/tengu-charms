@@ -1,7 +1,0 @@
-use_tmux_keybindings: true
-sync_excludes:
-- '.*'
-- '*.pyc'
-import_ids: []
-auto_sync: true
-auto_restart: true

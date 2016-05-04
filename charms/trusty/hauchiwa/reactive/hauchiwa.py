@@ -15,7 +15,7 @@ import subprocess
 from charmhelpers import fetch
 from charmhelpers.core import templating, hookenv, host
 from charmhelpers.core.hookenv import open_port, config
-from charms.reactive import hook, when, when_all, when_not, set_state, remove_state
+from charms.reactive import hook, when, when_all, when_not, set_state, remove_state, when_file_changed
 
 # non-standard pip dependencies
 import yaml
@@ -25,6 +25,7 @@ GLOBAL_CONF_PATH = TENGU_DIR + '/etc/global-conf.yaml'
 KEY_PATH = TENGU_DIR + '/etc/jfed_cert.crt'
 S4_CERT_PATH = TENGU_DIR + '/etc/s4_cert.pem.xml'
 USER = config()['user']
+FLAVOR = config()['hauchiwa-flavor']
 HOME = expanduser('~{}'.format(USER))
 SSH_DIR = HOME + '/.ssh'
 
@@ -90,12 +91,13 @@ def config_changed():
 @when('tengu.installed')
 @when_not('rest2jfed.available')
 def set_blocked():
-    conf = hookenv.config()
-    if conf['hauchiwa-flavor'] == 'rest2jfed':
+    if FLAVOR == 'rest2jfed':
         hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
-    else:
+    elif FLAVOR == 'ssh' or FLAVOR == 'tokin':
         set_state('hauchiwa.provider.configured')
         hookenv.status_set('active', 'Ready')
+    else:
+        hookenv.status_set('blocked', 'Hauchiwa flavor {} not recognized'.format(FLAVOR))
 
 
 @when('tengu.configured', 'tengu.repo.available', 'juju.repo.available',
@@ -186,7 +188,19 @@ def install_tengu():
     with open('/etc/hosts', 'a') as hosts_file:
         hosts_file.write('127.0.0.1 {}\n'.format(service_name))
     host.service_restart('h_api')
+    set_state('h_api.started')
     open_port('5000')
+
+
+# Service will restart even if files change outside of Juju.
+# `update-status` hook will run periodically checking the hash of those files.
+@when_file_changed(
+    '/etc/init/h_api.conf',
+    '/opt/tengu/scripts/h_api.py',
+    '/opt/tengu/scripts/jujuhelpers.py')
+@when('h_api.started')
+def restart():
+    host.service_restart('h_api')
 
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):

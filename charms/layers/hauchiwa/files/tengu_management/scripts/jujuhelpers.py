@@ -2,7 +2,7 @@
 #
 """ Handles communication to Juju """
 
-from subprocess import check_output, STDOUT, CalledProcessError, Popen
+from subprocess import check_output, STDOUT, CalledProcessError, Popen, PIPE
 from subprocess import check_call
 from time import sleep
 import json
@@ -18,6 +18,13 @@ USER = getpass.getuser()
 HOME = '/home/{}'.format(USER)
 
 
+class JujuException(Exception):
+    pass
+
+class JujuNotFoundException(Exception):
+    pass
+
+
 class Service(object):
     def __init__(self, name, env):
         self.env = env
@@ -28,7 +35,10 @@ class Service(object):
 
     @property
     def exists(self):
-        return self.status is not None
+        try:
+            return self.status is not None
+        except JujuNotFoundException:
+            return False
 
     @property
     def status(self):
@@ -39,11 +49,8 @@ class Service(object):
         }"""
         info = self.env.status['services'].get(self.name)
         if not info:
-            return info
-        return {
-            'service-status' : info['service-status']['current'],
-            'message' : info['service-status'].get('message'),
-        }
+            raise JujuNotFoundException('service {} not found'.format(self.name))
+        return info
 
     @property
     def config(self):
@@ -55,7 +62,8 @@ class Service(object):
         """ Wait until service contains status in its message """
         sys.stdout.write('waiting until {} service is {} '.format(self.name, status))
         while(True):
-            if (self.status and self.status['message'] and (status.lower() in self.status['message'].lower())):
+            status = self.status
+            if (status['service-status']['current'] and status['service-status'].get('message') and (status.lower() in status['service-status'].get('message').lower())):
                 break
             sleep(5)
             sys.stdout.write('.')
@@ -68,7 +76,6 @@ class JujuEnvironment(object):
     def __init__(self, _name=None):
         if _name:
             self.name = _name
-            JujuEnvironment.switch_env(self.name)
         else:
             self.name = self.current_env()
 
@@ -89,36 +96,13 @@ class JujuEnvironment(object):
         # convert all elements in command to string
         command = [str(i) for i in command]
         try:
-            output = check_output(command, stderr=STDOUT)
+            output = check_output_error(command)
             return output
         except CalledProcessError as ex:
             if 'missing namespace, config not prepared' in ex.output:
-                print("Environment doesn't exist")
-            print(ex.output)
-            raise
-
-
-    def docall(self, action, *args, **kwargs): #pylint: disable=c0103
-        args += ('-e', self.name)
-        return JujuEnvironment.juju_docall(action, *args, **kwargs)
-
-
-    @staticmethod
-    def juju_docall(action, *args, **kwargs):
-        command = ['juju', action]
-        # Add all the arguments to the command
-        command.extend(args)
-        # Ad all the keyword arguments to the command
-        for key, value in kwargs.iteritems():
-            command.extend(['--{}'.format(key), value])
-        # convert all elements in command to string
-        command = [str(i) for i in command]
-        try:
-            output = check_output(command, stderr=STDOUT)
-            return output
-        except CalledProcessError as ex:
-            if 'missing namespace, config not prepared' in ex.output:
-                print("Environment doesn't exist")
+                raise JujuNotFoundException("missing namespace, config not prepared")
+            if "ERROR Unable to connect to environment" in ex.output:
+                raise JujuNotFoundException("ERROR Unable to connect to environment")
             print(ex.output)
             raise
 
@@ -261,9 +245,15 @@ class JujuEnvironment(object):
 
 
     @staticmethod
+    def list_environments():
+        """Checks if Juju env with given name exists."""
+        return JujuEnvironment.juju_do('switch', '--list').split()
+
+
+    @staticmethod
     def env_exists(name):
         """Checks if Juju env with given name exists."""
-        envs = JujuEnvironment.juju_do('switch', '--list').split()
+        envs = JujuEnvironment.list_environments()
         return name in envs
 
 
@@ -347,3 +337,15 @@ class JujuEnvironment(object):
         with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
             e_file.write(pubkey)
         JujuEnvironment.switch_env(name)
+
+
+def check_output_error(*popenargs,  **kwargs):
+    process = Popen(stdout=PIPE, stderr=PIPE, *popenargs, **kwargs)
+    output, stderr = process.communicate()
+    retcode = process.poll()
+    if retcode:
+        cmd = kwargs.get("args")
+        if cmd is None:
+            cmd = popenargs[0]
+        raise CalledProcessError(retcode, cmd, output=stderr)  # or your own exception
+    return output

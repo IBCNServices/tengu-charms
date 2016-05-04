@@ -2,18 +2,112 @@
 #pylint: disable=c0111,c0301
 import os
 import json
-import base64
+import socket
 import tempfile
 import subprocess
+from subprocess import CalledProcessError
 
-from flask import Flask, Response, request
+from flask import Flask, Response, request, redirect
 from pygments import highlight, lexers, formatters
 
+from jujuhelpers import JujuEnvironment, JujuNotFoundException, Service
 
-from jujuhelpers import JujuEnvironment, Service
 
 APP = Flask(__name__)
-DEFAULT_PUBKEYS = 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiF+Y54T4MySG8akVwolplZoo8+uGdWHMQtzNEwbirqW8tutHmH2osYavsWyAuIbJPMH/mEMpvWNRilqXv7aw43YcD2Ie43MiLuEV6xWuC1SwdxxfyQ7Y2e0JEKohl6Xx3lWgHpiR5EZFeJmwHazthJnt94m/mTP7sEweK1m9cbk= thomasvanhove,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2AvnkZTypu/srnyAdjHjk6x+vsre05NOwFIOieu2mcAb4aJZOLHBqEE1pxxWrvPUULFS066xgNgvKwNZOZh+OPlUdFpjY2AqN8CtNnLuQ72EPYjpV69nrtsKaJO+ZYqTnl4uZOZDeSoqK0v6RBuBfb5YcZfqpR/z/turw5yZ1H5Ju5mykhzy5wBtWMXWjnODI309Q//0+0MZTSJIYDJ05mwkM0ma1kNWEpJCw9nAvADqYZdU/8thX2j1f3KFdfupZuDIw+rvX3KgCb1cRYvfr8N165J209lxxkwJQuSVGRZ3wUytC/JkqJB1ZK5FhL9WoKD0yXDxi+5nmAQVpVPgD merlijnsebrechts'
+
+
+@APP.route('/')
+def api_root():
+    """ Welcome message """
+    info = {
+        "name":socket.gethostname(),
+        "models": JujuEnvironment.list_environments(),
+    }
+    return create_response(200, info)
+
+
+@APP.route('/favicon.ico')
+def api_icon():
+    """ icon """
+    return redirect("http://tengu.io/assets/icons/favicon.ico", code=302)
+
+
+@APP.route('/<modelname>/', methods=['GET'])
+def api_model_info(modelname):
+    """ Shows the status of this hauchiwa instance """
+    env = JujuEnvironment(modelname)
+    info = env.status
+    if info:
+        return create_response(200, info)
+
+
+@APP.route('/<modelname>/', methods=['PUT'])
+def api_model_update(modelname):
+    """ Deploys new bundle """
+    bundle = request.data
+    # Write bundle
+    bundle_path = tempfile.mkdtemp() + '/bundle.yaml'
+    with open(bundle_path, 'w+') as bundle_file:
+        bundle_file.write(bundle)
+    # Create environment from bundle if not exist, else deploy bundle
+    if JujuEnvironment.env_exists(modelname):
+        env = JujuEnvironment(modelname)
+        output = env.deploy_bundle(bundle_path, '--skip-unit-wait')
+    else:
+        try:
+            output = subprocess.check_output(['/opt/tengu/scripts/tengu.py', 'create', '--bundle', bundle_path, modelname])
+        except CalledProcessError as process_error:
+            return create_response(500, {"msg": "Failed to deploy bundle to environment {}. Output: {}".format(modelname, process_error.output)})
+    return create_response(200, {"msg": "Sucessfully deployed bundle to environment {}. Output: {}".format(modelname, output)})
+
+
+@APP.route('/<modelname>/<servicename>', methods=['GET'])
+def api_service_info(modelname, servicename):
+    """ Shows the info of the specified Hauchiwa instance """
+    juju = JujuEnvironment(modelname)
+    service = Service(servicename, juju)
+    info = service.status
+    return create_response(200, info)
+
+
+
+@APP.route('/<modelname>/<servicename>/upgrade', methods=['GET'])
+def upgrade(modelname, name):
+    """ Shows the status of this hauchiwa instance """
+    env = JujuEnvironment(modelname)
+    service = Service(name, env)
+    service.upgrade()
+    return create_response(200, {"msg":'Started upgrade of service {}'.format(name)})
+
+
+def create_response(http_code, return_object):
+    if request_wants_json():
+        return Response(
+            json.dumps(return_object),
+            status=http_code,
+            mimetype='application/json',
+        )
+    else:
+        formatted_json = json.dumps(return_object, indent=4)
+        formatter = formatters.HtmlFormatter( #pylint: disable=E1101
+            full=True,
+            title="{} returns:".format(socket.gethostname())
+        )
+        colorful_json = highlight(unicode(formatted_json, 'UTF-8'), lexers.JsonLexer(), formatter) # pylint: disable=E1101
+        return Response(
+            colorful_json,
+            status=http_code,
+            mimetype='text/html',
+        )
+
+
+def request_wants_json():
+    best = request.accept_mimetypes \
+        .best_match(['application/json', 'text/html'])
+    return best == 'application/json' and \
+        request.accept_mimetypes[best] > \
+        request.accept_mimetypes['text/html']
+
 
 @APP.after_request
 def apply_caching(response):
@@ -25,96 +119,10 @@ def apply_caching(response):
     return response
 
 
-@APP.route('/')
-def api_root():
-    """ Welcome message """
-    return 'Welcome to Hauchiwa API v0.1'
+@APP.errorhandler(JujuNotFoundException)
+def handle_invalid_usage(error):
+    return create_response(404, {"msg": 'Cannot find resource. Reason: {}'.format(error.message)})
 
-
-@APP.route('/bundle', methods=['PUT'])
-def api_bundle_create():
-    """ Deploys new bundle """
-    #TODO: Authenticate this action
-    # Get request values
-    body = request.get_json()
-    bundle = body.get('bundle', "")
-    # Get Instance ID
-    import socket
-    instance_id = socket.gethostname().lstrip('h-')
-    # Write bundle
-    bundle_path = tempfile.mkdtemp() + '/bundle.yaml'
-    with open(bundle_path, 'w+') as bundle_file:
-        bundle = base64.b64decode(bundle)
-        bundle_file.write(bundle)
-    # Create environment from bundle if not exist, else deploy bundle
-    env = JujuEnvironment(None)
-    info = env.status
-    if info:
-        output = env.deploy_bundle(bundle_path, '--skip-unit-wait')
-    else:
-        output = subprocess.check_call(['/opt/tengu/scripts/tengu.py', 'create', '--bundle', bundle_path, instance_id])
-    resp = Response(
-        "Sucessfully deployed bundle to environment {}. Output: {}".format(instance_id, output),
-        status=200,
-        mimetype='text/plain',
-    )
-    return resp
-
-
-@APP.route('/status', methods=['GET'])
-def api_info():
-    """ Shows the status of this hauchiwa instance """
-    # get values from request
-    #TODO: Authenticate this action
-    #s4_cert = str(request.headers.get('emulab-s4-cert'))
-    env = JujuEnvironment(None)
-    info = env.status
-    if info:
-        if request_wants_json():
-            resp = Response(
-                json.dumps(info),
-                status=200,
-                mimetype='application/json',
-            )
-        else:
-            formatted_json = json.dumps(info, indent=4)
-            colorful_json = highlight(unicode(formatted_json, 'UTF-8'), lexers.JsonLexer(), formatters.HtmlFormatter(full=True)) # pylint: disable=E1101
-            resp = Response(
-                colorful_json,
-                status=200,
-                mimetype='text/html',
-            )
-    else:
-        resp = Response(
-            "Environment {} doesn't exist or isn't bootstrapped".format(env.name),
-            status=404,
-            mimetype='text/plain',
-        )
-    return resp
-
-
-@APP.route('/services/<name>/upgrade', methods=['GET'])
-def upgrade(name):
-    """ Shows the status of this hauchiwa instance """
-    # get values from request
-    #TODO: Authenticate this action
-    env = JujuEnvironment(None)
-    service = Service(name, env)
-    service.upgrade()
-    resp = Response(
-        'Started upgrade of service {}'.format(name),
-        status=200,
-        mimetype='text/plain',
-    )
-    return resp
-
-
-def request_wants_json():
-    best = request.accept_mimetypes \
-        .best_match(['application/json', 'text/html'])
-    return best == 'application/json' and \
-        request.accept_mimetypes[best] > \
-        request.accept_mimetypes['text/html']
 
 if __name__ == '__main__':
     DEBUG = (os.environ.get('DEBUG', 'False').lower() == 'true')

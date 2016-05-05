@@ -37,8 +37,6 @@ def conf_pf(port_forward):
 
 @when_all('hauchiwa-port-forward.ready', 'tengu.repo.available', 'juju.repo.available', 'hauchiwa.provider.configured')
 def show_pf(port_forward):
-    #state, msg = hookenv.status_get()
-    #msg = re.sub(r' pf:".*"', '', msg)
     msg = 'Ready pf:"'
     for forward in port_forward.forwards:
         msg += '{}:{}->{} '.format(forward['public_ip'], forward['public_port'], forward['private_port'])
@@ -188,8 +186,8 @@ def install_tengu():
     with open('/etc/hosts', 'a') as hosts_file:
         hosts_file.write('127.0.0.1 {}\n'.format(service_name))
     host.service_restart('h_api')
-    set_state('h_api.started')
     open_port('5000')
+    set_state('h_api.started')
 
 
 # Service will restart even if files change outside of Juju.
@@ -201,6 +199,7 @@ def install_tengu():
 @when('h_api.started')
 def restart():
     host.service_restart('h_api')
+    open_port('5000')
 
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):

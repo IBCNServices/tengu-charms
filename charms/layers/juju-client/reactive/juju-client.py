@@ -124,9 +124,6 @@ def get_and_configure_charm_repo(git_url):
 def configure_environments():
     #hookenv.status_set('maintenance', 'Initializing environment')
     chownr('{}/.juju'.format(HOME), USER, USER)
-    check_output(['su',
-                  '-l', USER,
-                  '-c', 'juju generate-config'], stderr=STDOUT)
     if not os.path.isdir('{}/.juju/environments'.format(HOME)):
         os.makedirs('{}/.juju/environments'.format(HOME))
     if not os.path.isdir('{}/.juju/ssh'.format(HOME)):

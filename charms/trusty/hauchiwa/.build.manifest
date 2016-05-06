@@ -11,7 +11,7 @@
     "reactive/juju-client.py": [
       "layer:juju-client", 
       "static", 
-      "4a94f0bdb1311c568031d41b69c69a48bf3281e4fc623cce66818d649505ea81"
+      "be04a2dfa9e150a5270a99f6f906cd899b2cbfff8ab9dccea46163931a7957b5"
     ], 
     "files/tengu_management/scripts/ssh_provider/provider.py": [
       "hauchiwa", 

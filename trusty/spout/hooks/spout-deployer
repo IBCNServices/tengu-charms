@@ -37,7 +37,8 @@ getSpout()
 		classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
 		((classnr++))
 		sed -i "s/^$classNoExtension.*/$classNoExtension $classnr/" /tmp/storm-topology/$topology/classes				
-		echo "$serviceName $classNoExtension" >> /tmp/storm-topology/$topology/spouts
+		#spouts dubbele entry als class 2de keer ingegeven wordt?		
+		echo "$serviceName tengu.storm.$classNoExtension" >> /tmp/storm-topology/$topology/spouts
 		status-set active
 	fi	
 }

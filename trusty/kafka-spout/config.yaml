@@ -1,0 +1,11 @@
+options:
+  config:
+    default:
+    type: string
+    description: "kafka configuration url"
+  spoutconfigname:
+    default: 
+    type: string
+    description: "kafka spout id, should be unique in the topology"
+    
+

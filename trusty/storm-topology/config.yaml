@@ -3,4 +3,8 @@ options:
     type: string
     description: "Specify name of topology"
     default: TopologyName
+  dependencies: string
+    default:
+    description: "URL to dependencies file"
+    type: string 
 

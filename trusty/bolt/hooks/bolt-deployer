@@ -13,7 +13,7 @@ installPackages()
 	if [ ! -f "/tmp/storm-topology/bolt-list" ]; then
 		juju-log "Creating bolt-list"
 		touch /tmp/storm-topology/bolt-list
-	fi
+	fi	
 	status-set blocked "Waiting for: bolt class"
 }
 
@@ -31,20 +31,49 @@ getBolt()
 		echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
 		echo "1" > /tmp/storm-topology/$topology/rebuild
 	else
-		classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
-		((classnr++))
-		sed -i "s/^$classNoExtension.*/$classNoExtension $classnr/" /tmp/storm-topology/$topology/classes
-	fi
-	echo "$serviceName $classNoExtension" >> /tmp/storm-topology/$topology/bolts
+		#classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
+		#((classnr++))
+		countClass=`grep -ow "$classNoExtension$" /tmp/storm-topology/$topology/bolts | wc -l`
+		if [[ $countClass -ne 0 ]]; then
+			((countClass++))
+			sed -i "s/^$classNoExtension.*/$classNoExtension $countClass/" /tmp/storm-topology/$topology/classes
+		fi		
+	fi	
+	grep -w "^$serviceName" /tmp/storm-topology/$topology/bolts && sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.$classNoExtension/" /tmp/storm-topology/$topology/bolts || echo "$serviceName tengu.storm.$classNoExtension" >> /tmp/storm-topology/$topology/bolts
 	status-set active
+}
+
+configBoltPreparation()
+{
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	#remove all lines in /tmp/storm-topology/$topology/bolt-preparation
+	sed -i "/^$serviceName/d" /tmp/storm-topology/$topology/bolt-preparation
+	#read methods into array
+	backupIFS=$IFS;
+	IFS=";";
+	methods=($1)
+	IFS="$backupIFS"
+	#Iterate over methods
+	for ((i=0; i<${#methods[@]}; ++i)); do 
+		echo "$serviceName $(tr "(|)|," " " <<< "${methods[$i]}")" >> /tmp/storm-topology/$topology/bolt-preparation
+	done
 }
 
 checkSettings()
 {
 	boltClass=`config-get class`
-	if [ -n "$boltClass" ]; then
-		juju-log "Getting class"
-		getBolt $boltClass
+	boltPrepare=`config-get prepare-methods`
+	if [[ -n "$boltClass" || -n "$boltPrepare" ]]; then
+		if [ -n "$boltClass" ]; then
+			juju-log "Getting class"
+			getBolt $boltClass
+		fi
+		if [ -n "$boltPrepare" ]; then
+			juju-log "Setting Bolt prepare method"
+			configBoltPreparation $boltPrepare
+		fi
 	else
 		juju-log "bolt class required"
 		status-set blocked "Waiting for class"
@@ -62,6 +91,10 @@ topologyChanged()
 		juju-log "Copy bolt-list "
 		#juju-log "$hulp"
 		echo "$hulp" > /tmp/storm-topology/bolt-list
+
+		if [ ! -f "/tmp/storm-topology/$topologyName/bolt-preparation" ]; then
+			touch "/tmp/storm-topology/$topologyName/bolt-preparation"
+		fi
 	else	
 		juju-log "Bolt not found in bolt-list ... adding"
 		echo "$serviceName $topologyName" >> /tmp/storm-topology/bolt-list
@@ -94,6 +127,10 @@ stormelementDeparted()
 	juju-log "Relation broken with $element"
 	if [ -n $element ]; then
 		line=`grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -nw "$element" /tmp/storm-topology/$topology/graph | cut -d ":" -f 1` 
+		if [ -n "$line" ]; then
+			sed -i "${line}d" /tmp/storm-topology/$topology/graph
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+		fi	
 	fi
 }
 

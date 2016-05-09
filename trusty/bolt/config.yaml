@@ -3,4 +3,8 @@ options:
     default:
     type: string
     description: "URL to the bolt class"
+  prepare-methods:
+    default:
+    type: string
+    description: "Methods to prepare bolt, example: method1(param,param);method2(param)"
 

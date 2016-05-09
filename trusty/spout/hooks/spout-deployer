@@ -24,7 +24,10 @@ getSpout()
 	workingDir=`pwd`
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
-	if [ -n "$topology" ]; then			
+	if [ -n "$topology" ]; then	
+		#find previous class if possible
+		prevClass=`grep -w "$serviceName" /tmp/storm-topology/$topology/spouts | cut -d ' ' -f 2`
+		
 		className=${1##*/}
 		classNoExtension=`echo $className | cut -d \. -f1`
 		if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
@@ -32,13 +35,26 @@ getSpout()
 			wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
 			sed -i "s/.*package.*/package tengu.storm;/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
 			echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
-			echo "1" > /tmp/storm-topology/$topology/rebuild				
+			echo "1" > /tmp/storm-topology/$topology/rebuild							
 		fi
-		classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
-		((classnr++))
-		sed -i "s/^$classNoExtension.*/$classNoExtension $classnr/" /tmp/storm-topology/$topology/classes				
+		countClass=`grep -ow "$classNoExtension$" /tmp/storm-topology/$topology/spouts | wc -l`
+		if [[ $countClass -ne 0 ]]; then
+			((countClass++))
+			sed -i "s/^$classNoExtension.*/$classNoExtension $countClass/" /tmp/storm-topology/$topology/classes
+		fi
+
+		#classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
+		#((classnr++))
+		#sed -i "s/^$classNoExtension.*/$classNoExtension $classnr/" /tmp/storm-topology/$topology/classes				
 		#spouts dubbele entry als class 2de keer ingegeven wordt?		
 		echo "$serviceName tengu.storm.$classNoExtension" >> /tmp/storm-topology/$topology/spouts
+		#If new class redeploy the topology   
+		if [ -n "$prevClass" ]; then	
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+		elif [ "$prevClass" != "$classNoExtension" ]; then	
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+		fi
+		
 		status-set active
 	fi	
 }
@@ -96,8 +112,23 @@ stormelementDeparted()
 	element=`relation-get elementName`
 	juju-log "Relation broken with $element"
 	if [ -n $element ]; then
-		line=`grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -nw "$element" /tmp/storm-topology/$topology/graph | cut -d ":" -f 1` 
+		line=`grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$element" | cut -d ":" -f 1` 
+		if [ -n "$line" ]; then
+			sed -i "${line}d" /tmp/storm-topology/$topology/graph
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+		fi
 	fi
+}
+
+topologyDeparted()
+{
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
+	juju-log "Topology departed"
+	#remove spout from topologyName/spouts
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/$topology/spouts
+	#remove spout van storm-topology/spout-list
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/spout-list
 }
 	
 
@@ -124,5 +155,8 @@ stormelement-relation-changed)
 	;;
 stormelement-relation-departed)
 	stormelementDeparted
+	;;
+topology-relation-departed)
+	topologyDeparted
 	;;
 esac

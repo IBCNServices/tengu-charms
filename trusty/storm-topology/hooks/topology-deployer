@@ -83,7 +83,7 @@ checkConfig()
 cmd=$(basename "$0")
 case $cmd in
 config-changed)	
-	setName
+	checkConfig
 	;;
 start)
 	;;

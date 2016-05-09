@@ -6,6 +6,6 @@ options:
   spoutconfigname:
     default: 
     type: string
-    description: "kafka spout id, should be unique in the topology"
+    description: "kafka spout id, should be unique in the topology and match kafka-config file"
     
 

@@ -13,9 +13,8 @@ requires:
   master:
     interface: storm
     scope: container
+  coworker:
+    interface: storm-element
 provides:
   stormelement:
     interface: storm-element
-peers:
-  boltworker:
-    interface: stormtopology

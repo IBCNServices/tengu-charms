@@ -25,25 +25,18 @@ getKafkaConfig()
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
 	className=${1##*/}
 	if [ -n "$topology" ]; then				
-		juju-log "Downloading kafka-spout config"		
-		#wget -nc "$1" -P /tmp/storm-topology/$topology/	
+		juju-log "Downloading kafka-spout config"	
 		wget -O /tmp/storm-topology/$topology/kafka-config "$1"
 		grep -wq "$serviceName" /tmp/storm-topology/$topology/spouts || echo "$serviceName storm.kafka.KafkaSpout" >> /tmp/storm-topology/$topology/spouts		
 		status-set active
 	fi	
-	#if [ -f "/tmp/storm-topology/$topology/kafka-spout-config-location" ]; then
-	#	sed -i "s/1s/.*$className/" /tmp/storm-topology/$topology/kafka-spout-config-location
-	#else
-	#	echo "$className" > /tmp/storm-topology/$topology/kafka-spout-config-location
-	#fi
 }
 
 setKafkaConfigName()
 {
 	workingDir=`pwd`
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
-	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
-	
+	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`	
 	grep -qw "$serviceName" /tmp/storm-topology/$topology/kafka-spout-config && sed -i "s/^$serviceName.*/$serviceName $1/" /tmp/storm-topology/$topology/kafka-spout-config || echo "$serviceName $1" >> /tmp/storm-topology/$topology/kafka-spout-config
 }
 
@@ -122,7 +115,7 @@ stormelementDeparted()
 	juju-log "Relation broken with $element"
 	if [ -n $element ]; then
 		#find linenumber in graph
-		line=`grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -nw "$element" /tmp/storm-topology/$topology/graph | cut -d ":" -f 1` 
+		line=`grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$element" | cut -d ":" -f 1` 
 		#remove line
 		if [ -n "$line" ]; then
 			sed -i "${line}d" /tmp/storm-topology/$topology/graph
@@ -165,7 +158,17 @@ zookeeperChanged()
 		fi
 	fi
 }
-	
+
+topologyDeparted()
+{
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
+	juju-log "Topology departed"
+	#remove spout from topologyName/spouts
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/$topology/spouts
+	#remove spout van storm-topology/spout-list
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/spout-list
+}
 
 cmd=$(basename "$0")
 case $cmd in
@@ -193,5 +196,8 @@ stormelement-relation-departed)
 	;;
 zookeeper-relation-changed)
 	zookeeperChanged
+	;;
+topology-relation-departed)
+	topologyDeparted
 	;;
 esac

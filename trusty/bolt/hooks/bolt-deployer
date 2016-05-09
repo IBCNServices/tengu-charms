@@ -126,12 +126,25 @@ stormelementDeparted()
 	element=`relation-get elementName`
 	juju-log "Relation broken with $element"
 	if [ -n $element ]; then
-		line=`grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -nw "$element" /tmp/storm-topology/$topology/graph | cut -d ":" -f 1` 
+		line=`grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$element" | cut -d ":" -f 1` 
 		if [ -n "$line" ]; then
 			sed -i "${line}d" /tmp/storm-topology/$topology/graph
 			/bin/bash /tmp/storm-topology/buildGraph $topology
 		fi	
 	fi
+}
+
+topologyDeparted()
+{
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	juju-log "Topology departed"
+	#remove preconfig methods 
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/$topology/bolt-preparation
+	#remove bolt from topologyName/bolts
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/$topology/bolts
+	#remove bolt van storm-topology/bolt-list
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/bolt-list
 }
 
 cmd=$(basename "$0")
@@ -154,13 +167,16 @@ topology-relation-changed)
 stormelement-relation-changed)
 	stormelementChanged
 	;;
-boltworker-relation-changed)
+coworker-relation-changed)
 	stormelementChanged
 	;;
 stormelement-relation-departed)
 	stormelementDeparted
 	;;
-boltworker-relation-departed)
+coworker-relation-departed)
 	stormelementDeparted
+	;;
+topology-relation-departed)
+	topologyDeparted
 	;;
 esac

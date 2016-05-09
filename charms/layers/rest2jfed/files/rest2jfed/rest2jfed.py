@@ -16,7 +16,7 @@ from jfed_utils import JFed, JfedError, NotExistError
 APP = Flask(__name__)
 
 
-PROPERTIES_PATH = '/opt/jfedS4/context_tengujfed_wall2.properties'
+PROPERTIES_PATH = '/opt/jfedS4/context.properties'
 ARCHIVE_PATH = '/opt/rest2jfed/archive'
 DEFAULT_RSPEC_PATH = '/opt/rest2jfed/node.rspec'
 

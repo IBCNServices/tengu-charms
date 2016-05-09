@@ -64,9 +64,9 @@ def config_changed():
     """Config changed"""
     hookenv.log('Reconfiguring REST2JFed')
     conf = hookenv.config()
-    # with open('/opt/jfedS4/certificate.pass', 'w+') as pass_file:
-    #     pass_file.write(conf['emulab-cert-pass'])
-    #     pass_file.truncate()
+    with open('/opt/jfedS4/certificate.pass', 'w+') as pass_file:
+        pass_file.write(conf['emulab-cert-pass'])
+        pass_file.truncate()
     with open('/opt/jfedS4/certificate.pem', 'wb+') as pemfile:
         pemfile.write(base64.b64decode(conf['emulab-cert']))
         pemfile.truncate()

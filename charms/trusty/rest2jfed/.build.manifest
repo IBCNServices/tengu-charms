@@ -61,7 +61,7 @@
     "files/jfedS4/context_tengujfed_wall2.properties": [
       "rest2jfed", 
       "static", 
-      "6b7d4643f51c9eabdbb17b8560864196133ff4e56d5a1ba92b9b05c8d9acaca9"
+      "bec035a615a81ae9a95a2fe1e7c74a74e94ecb25517c929b7db9807bdf935b85"
     ], 
     "files/jfedS4/jfed_cli/lib/woodstox-core-asl-4.4.0.jar": [
       "rest2jfed", 
@@ -152,11 +152,6 @@
       "rest2jfed", 
       "static", 
       "98c3f18f5d0d642cd5f327cc724566cd19649626c7d88f70143bd704c94157d5"
-    ], 
-    "files/jfedS4/tengu_base64.sh": [
-      "rest2jfed", 
-      "static", 
-      "1ddf5ab65ffb0b4a5abbf555f6a3068599530e6da7b2fa2faf2f9aad7f6f6a7c"
     ], 
     "hooks/hook.template": [
       "layer:basic", 
@@ -286,7 +281,7 @@
     "reactive/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "0b767048191ac19314fa13b72707749bec3b99f0e85744de782377235e3261b4"
+      "4ec7f8d184328f7d93ea94508708c838f1cfd2d1b42cb7affeb26af7fe9ad208"
     ], 
     "files/jfedS4/jfed_cli/experimenter-cli.jar": [
       "rest2jfed", 
@@ -486,7 +481,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "41821be5a68e9380a3fb6b4efdb433d05ff958da68db766ca7156c0df80482d6"
+      "d52423911fcef803a418025d355ac7c2e6729c2949c68aaf01bb3f8f24b67831"
     ], 
     "files/jfedS4/jfed_cli/lib/testng-6.9.4.jar": [
       "rest2jfed", 

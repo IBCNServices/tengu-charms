@@ -86,6 +86,10 @@ topologyChanged()
 		if [ ! -f /tmp/storm-topology/$topologyName/kafka-spout-config ]; then
 			touch /tmp/storm-topology/$topologyName/kafka-spout-config
 		fi
+		#copy KafkaBoltKeyValueScheme.java
+		if [ ! -f /tmp/storm-topology/$topologyName/Storm-Flux-Skeleton/src/main/java/tengu/storm/KafkaBoltKeyValueScheme.java ]; then
+			cp "$workingDir/files/KafkaBoltKeyValueScheme.java" /tmp/storm-topology/$topologyName/Storm-Flux-Skeleton/src/main/java/tengu/storm/
+		fi
 	fi
 	
 

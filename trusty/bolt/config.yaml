@@ -10,5 +10,5 @@ options:
   groupings:
     default:
     type: string
-    description: "All non SHUFFLE groupings go here: otherBolt(FIELDS word); otherSpout(ALL)"
+    description: "All non SHUFFLE groupings go here: otherBolt(FIELDS word);otherSpout(ALL)"
 

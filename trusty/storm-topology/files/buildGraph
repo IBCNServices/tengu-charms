@@ -37,6 +37,17 @@ constructPrepareMethods()
 	fi
 }
 
+constructGrouping()
+{
+	regex="FIELDS .*"
+	if [[ "$1" =~ $regex ]]; then
+		arg=$(echo "$1" | cut -d ' ' -f 2)
+		echo "      type: FIELDS" >> /tmp/storm-topology/$topology/topology.yaml 
+		echo "      args: [\"$arg\"]" >> /tmp/storm-topology/$topology/topology.yaml
+	else
+		echo "      type: $grouping" >> /tmp/storm-topology/$topology/topology.yaml 
+	fi
+}
 
 
 
@@ -81,27 +92,22 @@ while [ ${#elements[@]} -gt 0 ]; do
 			firstElement=$( echo "$lijn" | cut -d " " -f 1 )
 			secondElement=$( echo "$lijn" | cut -d " " -f 2 )
 			grouping=$( echo "$lijn" | cut -d " " -f 3 )
-#niet vergeten to toe te voegen als nog niet gebeurt is
 			if [ "${elements[0]}" == "$firstElement" ];then #from is ${elements[0]} // $firstelement
 				echo "  - name: \"$firstElement --> $secondElement\"" >> /tmp/storm-topology/$topology/topology.yaml
 				echo "    from: \"$firstElement\"" >> /tmp/storm-topology/$topology/topology.yaml
 				echo "    to: \"$secondElement\"" >> /tmp/storm-topology/$topology/topology.yaml
-				echo "    grouping:" >> /tmp/storm-topology/$topology/topology.yaml
-				echo "      type: $grouping" >> /tmp/storm-topology/$topology/topology.yaml  #nog geen fields grouping mogelijk
-
 				#check if secondElement already in elements
 				containsElement "$secondElement" "${elements[@]}" || elements+=("$secondElement")
-
 			else # from is secondElement
 				echo "  - name: \"$secondElement --> $firstElement\"" >> /tmp/storm-topology/$topology/topology.yaml
 				echo "    from: \"$secondElement\"" >> /tmp/storm-topology/$topology/topology.yaml
 				echo "    to: \"$firstElement\"" >> /tmp/storm-topology/$topology/topology.yaml
-				echo "    grouping:" >> /tmp/storm-topology/$topology/topology.yaml
-				echo "      type: $grouping" >> /tmp/storm-topology/$topology/topology.yaml
-
 				#check if secondElement already in elements
 				containsElement "$firstElement" "${elements[@]}" || elements+=("$firstElement")
 			fi
+			#groupings
+			echo "    grouping:" >> /tmp/storm-topology/$topology/topology.yaml
+			constructGrouping "$grouping"
 		done
 		#verwijder lijnnrs
 		lijnprep=$(printf '%sd;' "${lijnnrs[@]}")

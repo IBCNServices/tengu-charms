@@ -7,4 +7,8 @@ options:
     default:
     type: string
     description: "Methods to prepare bolt, example: method1(param,param);method2(param)"
+  groupings:
+    default:
+    type: string
+    description: "All non SHUFFLE groupings go here: otherBolt(FIELDS word); otherSpout(ALL)"
 

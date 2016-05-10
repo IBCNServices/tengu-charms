@@ -25,6 +25,8 @@ getBolt()
 	juju-log "Downloading bolt"
 	className=${1##*/}
 	classNoExtension=`echo $className | cut -d \. -f1`
+	#find previous class if possible
+	prevClass=`grep -w "$serviceName" /tmp/storm-topology/$topology/spouts | cut -d ' ' -f 2`
 	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
 		wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
 		sed -i "s/.*package.*/package tengu.storm;/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
@@ -40,6 +42,8 @@ getBolt()
 		fi		
 	fi	
 	grep -w "^$serviceName" /tmp/storm-topology/$topology/bolts && sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.$classNoExtension/" /tmp/storm-topology/$topology/bolts || echo "$serviceName tengu.storm.$classNoExtension" >> /tmp/storm-topology/$topology/bolts
+
+	[ -n "$prevClass" ] && /bin/bash /tmp/storm-topology/buildGraph $topology
 	status-set active
 }
 
@@ -61,11 +65,33 @@ configBoltPreparation()
 	done
 }
 
+configGroupings()
+{
+	juju-log "Configuring groupings"
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	#remove all lines in /tmp/storm-topology/$topology/graph except the default SHUFFLE
+	#sed -i "/^$serviceName/{/SHUFFLE/!d}" /tmp/storm-topology/$topology/graph
+	#iterate over all custom groupings and remove their SHUFFLE default
+	backupIFS=$IFS;
+	IFS=";";
+	groupings=($1)
+	IFS="$backupIFS"
+	for ((i=0; i<${#groupings[@]}; ++i)); do 
+		grouping=$(tr "(|)|," " " <<< "${groupings[$i]}") # bolt2 ALL
+		stormcomponent=$(echo "$grouping" | cut -d ' ' -f 1)
+		line=$(grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$stormcomponent" | cut -d ':' -f 1)
+		[ -n "$line" ] && sed -i "${line}s/.*/$serviceName $grouping/" /tmp/storm-topology/$topology/graph && /bin/bash /tmp/storm-topology/buildGraph $topology
+	done
+}
+
 checkSettings()
 {
 	boltClass=`config-get class`
 	boltPrepare=`config-get prepare-methods`
-	if [[ -n "$boltClass" || -n "$boltPrepare" ]]; then
+	boltGroupings=`config-get groupings`
+	if [[ -n "$boltClass" || -n "$boltPrepare" || -n "$boltGroupings" ]]; then
 		if [ -n "$boltClass" ]; then
 			juju-log "Getting class"
 			getBolt $boltClass
@@ -73,6 +99,9 @@ checkSettings()
 		if [ -n "$boltPrepare" ]; then
 			juju-log "Setting Bolt prepare method"
 			configBoltPreparation $boltPrepare
+		fi
+		if [ -n "$boltGroupings" ]; then
+			configGroupings "$boltGroupings"
 		fi
 	else
 		juju-log "bolt class required"

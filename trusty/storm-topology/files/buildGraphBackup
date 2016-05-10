@@ -1,6 +1,8 @@
 #!/bin/bash
 
 topology="$1"
+isKafkaTopology=false
+validTopology=true
 
 containsElement() 
 {
@@ -9,6 +11,35 @@ containsElement()
   return 1
 }
 
+constructPrepareMethods()
+{
+	# $1 = serviceName, $2 = topologyName
+	# check of de service name voorkomt
+	# haal alle entries van de service op en per method toevoegen
+
+	if grep "^$1" /tmp/storm-topology/$2/bolt-preparation ; then
+		echo "    configMethods:" >> /tmp/storm-topology/$2/topology.yaml
+		backupIFS=$IFS
+		IFS=$'\n'
+		methods=(`grep "^$1" /tmp/storm-topology/$2/bolt-preparation`)
+		IFS="$backupIFS"
+		for ((i=0; i<${#methods[@]}; ++i)); do 
+			arguments=(${methods[i]})
+			echo "      - name: \"${arguments[1]}\"" >> /tmp/storm-topology/$2/topology.yaml
+			if [ ${#arguments[@]} -gt 2 ]; then
+				echo "        args:" >> /tmp/storm-topology/$2/topology.yaml
+
+				for ((j=2; j<${#arguments[@]}; ++j)); do 
+					echo "          - \"${arguments[j]}\"" >> /tmp/storm-topology/$2/topology.yaml
+				done
+			fi			
+		done
+	fi
+}
+
+
+
+
 #reset topology.yaml
 sed -n -i '/spouts:/q;p' /tmp/storm-topology/$topology/topology.yaml
 
@@ -16,16 +47,22 @@ sed -n -i '/spouts:/q;p' /tmp/storm-topology/$topology/topology.yaml
 echo "spouts:" >> /tmp/storm-topology/$topology/topology.yaml
 while read spoutid className; do
 	echo "  - id: \"$spoutid\"" >> /tmp/storm-topology/$topology/topology.yaml
-	echo "    className: \"tengu.storm.$className\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    className: \"$className\"" >> /tmp/storm-topology/$topology/topology.yaml
 	echo "    parallelism: 1" >> /tmp/storm-topology/$topology/topology.yaml
+	if [ "$className" == "storm.kafka.KafkaSpout" ]; then
+		isKafkaTopology=true
+		kafkaConfigName=$(grep -w "$spoutid" /tmp/storm-topology/$topology/kafka-spout-config | cut -d " " -f 2)
+		{ echo "    constructorArgs:" ; echo "      - ref: \"$kafkaConfigName\"" ; } >> /tmp/storm-topology/$topology/topology.yaml
+	fi
 done < /tmp/storm-topology/$topology/spouts
 
 #genereer bolts config 
 echo "bolts:" >> /tmp/storm-topology/$topology/topology.yaml
 while read boltid className; do
 	echo "  - id: \"$boltid\"" >> /tmp/storm-topology/$topology/topology.yaml
-	echo "    className: \"tengu.storm.$className\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    className: \"$className\"" >> /tmp/storm-topology/$topology/topology.yaml
 	echo "    parallelism: 1" >> /tmp/storm-topology/$topology/topology.yaml
+	constructPrepareMethods $boltid $topology
 done < /tmp/storm-topology/$topology/bolts
 
 #genereer stream-groupings
@@ -76,18 +113,38 @@ done
 
 rm -f /tmp/storm-topology/$topology/graph.bak
 
-#deploy naar nimbus
-# 1) Jar maken indien nodig (nieuwe classes nodig?)
-if [ `cat /tmp/storm-topology/$topology/rebuild` == "1" ]; then
-	cd /tmp/storm-topology/$topology/Storm-Flux-Skeleton
-	mvn package	
-	echo "0" > /tmp/storm-topology/$topology/rebuild
-fi
-# 2) Topology killen indien deze bestaat
-topoName=$(sed 's/name: "\(.*\)"[^"]*$/\1/' /tmp/storm-topology/$topology/topology.yaml)
+# Topology killen indien deze bestaat
+topoName=$(grep "^name: \".*\"" /tmp/storm-topology/$topology/topology.yaml | sed 's/[^"]*"\([^"]*\)".*/\1/')
 if /opt/storm/apache-storm-0.10.0/bin/storm list | grep -qw "$topoName" ; then		
-	/opt/storm/apache-storm-0.10.0/bin/storm kill $topoName
+	/opt/storm/apache-storm-0.10.0/bin/storm kill "$topoName"
 fi
-# 3) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
-/opt/storm/apache-storm-0.10.0/bin/storm jar /tmp/storm-topology/$topology/Storm-Flux-Skeleton/target/Storm-Flux-Skeleton-1.0-SNAPSHOT.jar org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
+
+#check if a stream has been defined
+tail -n 1 /tmp/storm-topology/$topology/topology.yaml | grep -q "streams:" && validTopology=false 
+if [ "$validTopology" = true ]; then
+
+	#check if a kafka spout has been found
+	if [ "$isKafkaTopology" = true ]; then
+		#check kafka spouts config in /tmp/storm-topology/$topology/kafka-spout-config
+		if [ -f "/tmp/storm-topology/$topology/kafka-config" ]; then
+		#voeg components toe aan topology.yaml
+		#kafkaConfigFile=$(head -n 1 "/tmp/storm-topology/$topology/kafka-config")
+		#cat "/tmp/storm-topology/$topology/$kafkaConfigFile" >> /tmp/storm-topology/$topology/topology.yaml
+		cat "/tmp/storm-topology/$topology/kafka-config" >> /tmp/storm-topology/$topology/topology.yaml
+		fi
+	fi
+
+
+	#deploy naar nimbus
+	# 1) Jar maken indien nodig (nieuwe classes nodig?)
+	if [ `cat /tmp/storm-topology/$topology/rebuild` == "1" ]; then
+		cd /tmp/storm-topology/$topology/Storm-Flux-Skeleton
+		mvn package	
+		echo "0" > /tmp/storm-topology/$topology/rebuild
+	fi
+	
+	# 2) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
+	/opt/storm/apache-storm-0.10.0/bin/storm jar /tmp/storm-topology/$topology/Storm-Flux-Skeleton/target/Storm-Flux-Skeleton-1.0-SNAPSHOT.jar org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
+
+fi
 

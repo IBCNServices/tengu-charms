@@ -35,6 +35,9 @@ constructPrepareMethods()
 			fi			
 		done
 	fi
+
+	#check if database (MongoDB) bolt
+	
 }
 
 constructGrouping()
@@ -151,6 +154,7 @@ if [ "$validTopology" = true ]; then
 	
 	# 2) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
 	/opt/storm/apache-storm-0.10.0/bin/storm jar /tmp/storm-topology/$topology/Storm-Flux-Skeleton/target/Storm-Flux-Skeleton-1.0-SNAPSHOT.jar org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
-
+	# 3) set deploy file that we just deployed
+	echo "1" > /tmp/storm-topology/$topology/deploy
 fi
 

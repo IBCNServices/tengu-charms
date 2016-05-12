@@ -11,4 +11,8 @@ options:
     default:
     type: string
     description: "All non SHUFFLE groupings go here: otherBolt(FIELDS word);otherSpout(ALL)"
+  database:
+    default:
+    type: string
+    description: "Name of MongoDB database for mongodb bolt"
 

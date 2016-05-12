@@ -89,6 +89,7 @@ topologyChanged()
 		#copy KafkaBoltKeyValueScheme.java
 		if [ ! -f /tmp/storm-topology/$topologyName/Storm-Flux-Skeleton/src/main/java/tengu/storm/KafkaBoltKeyValueScheme.java ]; then
 			cp "$workingDir/files/KafkaBoltKeyValueScheme.java" /tmp/storm-topology/$topologyName/Storm-Flux-Skeleton/src/main/java/tengu/storm/
+			echo "1" > /tmp/storm-topology/$topology/rebuild
 		fi
 	fi
 	
@@ -97,17 +98,22 @@ topologyChanged()
 
 stormelementChanged()
 {
-	juju-log "stormelement relation changed"	
+	juju-log "stormelement relation changed"
 	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
 	relation-set elementName=$serviceName
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
-	element=`relation-get elementName`
-	if [ -n "$element" ]; then
-		juju-log "Connected to: $element"
-		#check if already in graph
-		( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
-		#deploy new graph 
-		/bin/bash /tmp/storm-topology/buildGraph $topology
+	element=`relation-get elementName`	
+	if grep "0" /tmp/storm-topology/$topology/deploy ; then
+	
+		if [ -n "$element" ]; then
+			juju-log "Connected to: $element"
+			#check if already in graph
+			( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
+			#deploy new graph 
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+		fi
+	else
+		echo "0" > /tmp/storm-topology/$topology/deploy
 	fi
 }
 

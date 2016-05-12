@@ -1,0 +1,1 @@
+<dependency>\n<groupId>org.mongodb</groupId>\n<artifactId>mongodb-driver</artifactId>\n<version>3.2.0</version>\n</dependency>\n<dependency>\n<groupId>org.json</groupId>\n<artifactId>json</artifactId>\n<version>20140107</version>\n</dependency>

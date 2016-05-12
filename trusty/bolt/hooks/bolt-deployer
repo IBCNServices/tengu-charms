@@ -21,13 +21,13 @@ getBolt()
 {
 	workingDir=`pwd`
 	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
-	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
-	juju-log "Downloading bolt"
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`	
 	className=${1##*/}
 	classNoExtension=`echo $className | cut -d \. -f1`
 	#find previous class if possible
 	prevClass=`grep -w "$serviceName" /tmp/storm-topology/$topology/spouts | cut -d ' ' -f 2`
 	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
+		juju-log "Downloading bolt"
 		wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
 		sed -i "s/.*package.*/package tengu.storm;/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
 		echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
@@ -43,7 +43,7 @@ getBolt()
 	fi	
 	grep -w "^$serviceName" /tmp/storm-topology/$topology/bolts && sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.$classNoExtension/" /tmp/storm-topology/$topology/bolts || echo "$serviceName tengu.storm.$classNoExtension" >> /tmp/storm-topology/$topology/bolts
 
-	[ -n "$prevClass" ] && /bin/bash /tmp/storm-topology/buildGraph $topology
+	[ "$prevClass" != "tengu.storm.$classNoExtension" ] && /bin/bash /tmp/storm-topology/buildGraph $topology
 	status-set active
 }
 
@@ -86,12 +86,35 @@ configGroupings()
 	done
 }
 
+configDatabase()
+{
+	juju-log "Configuring database name"
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	
+	if [ -f /tmp/storm-topology/$topology/database-config ]; then
+		#check if already in file
+		line=$(grep -nw "^$serviceName" /tmp/storm-topology/$topology/database-config)
+		if [ -n "$line" ]; then
+			sed -ie "s${line}/\<\w\+/$1/4" /tmp/storm-topology/$topology/database-config
+		else		
+			echo "$serviceName 0 0 $1" >> /tmp/storm-topology/$topology/database-config
+		fi		
+	else
+		touch /tmp/storm-topology/$topology/database-config
+		# $serviceName ip-adress port databaseName
+		echo "$serviceName 0 0 $1" >> /tmp/storm-topology/$topology/database-config
+	fi
+}
+
 checkSettings()
 {
 	boltClass=`config-get class`
 	boltPrepare=`config-get prepare-methods`
 	boltGroupings=`config-get groupings`
-	if [[ -n "$boltClass" || -n "$boltPrepare" || -n "$boltGroupings" ]]; then
+	boltDatabase=`config-get database`
+	if [[ -n "$boltClass" || -n "$boltPrepare" || -n "$boltGroupings" || -n "$boltDatabase" ]]; then
 		if [ -n "$boltClass" ]; then
 			juju-log "Getting class"
 			getBolt $boltClass
@@ -102,6 +125,9 @@ checkSettings()
 		fi
 		if [ -n "$boltGroupings" ]; then
 			configGroupings "$boltGroupings"
+		fi
+		if [ -n "$boltDatabase" ]; then
+			configDatabase "$boltDatabase"
 		fi
 	else
 		juju-log "bolt class required"
@@ -137,13 +163,17 @@ stormelementChanged()
 	relation-set elementName=$serviceName
 	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
 	element=`relation-get elementName`
-	if [ -n "$element" ]; then
-		juju-log "Connected to: $element"
-		#check if already in graph
-		( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
-		#deploy new graph
-		/bin/bash /tmp/storm-topology/buildGraph $topology
-		juju-log "Ready to deploy topology.yaml"
+	if grep "0" /tmp/storm-topology/$topology/deploy ; then
+		if [ -n "$element" ]; then
+			juju-log "Connected to: $element"
+			#check if already in graph
+			( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
+			#deploy new graph
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+			juju-log "Ready to deploy topology.yaml"
+		fi
+	else
+		echo "0" > /tmp/storm-topology/$topology/deploy
 	fi
 }
 
@@ -174,6 +204,60 @@ topologyDeparted()
 	sed -i "/^$serviceName\b/d" /tmp/storm-topology/$topology/bolts
 	#remove bolt van storm-topology/bolt-list
 	sed -i "/^$serviceName\b/d" /tmp/storm-topology/bolt-list
+}
+
+mongodbChanged()
+{
+	juju-log "Database relation found" 
+	privateIp=`relation-get private-address`
+	port=`relation-get port`
+
+	if [[ -n "$privateIp" && -n "$port" ]]; then
+		workingDir=`pwd`
+		serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+		topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	
+		if [ -f /tmp/storm-topology/$topology/database-config ]; then
+			#check if already in file
+			line=$(grep -nw "^$serviceName" /tmp/storm-topology/$topology/database-config | cut -d ':' -f 1)
+			if [ -n "$line" ]; then
+				sed -i "${line}s/[^ ]\+/$privateIp/2" /tmp/storm-topology/$topology/database-config				
+				sed -i "${line}s/[^ ]\+/$port/3" /tmp/storm-topology/$topology/database-config
+			else		
+				echo "$serviceName $privateIp $port test" >> /tmp/storm-topology/$topology/database-config
+			fi		
+		else
+			touch /tmp/storm-topology/$topology/database-config
+			# $serviceName ip-adress port databaseName
+			echo "$serviceName $privateIp $port test" >> /tmp/storm-topology/$topology/database-config
+		fi
+
+		#load class if not already in dir
+		if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/MongoBolt.java ]; then
+			cp "$workingDir/files/MongoBolt.java" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/
+		fi
+
+		#load dependencies
+		if ! grep "mongodb-driver" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/pom.xml; then 
+			C=$(cat $workingDir/files/dependencies | sed 's/\//\\\//g')
+			sed -i "/<\/dependencies>/ s/.*/${C}\n&/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/pom.xml
+		fi
+
+		grep -w "^$serviceName" /tmp/storm-topology/$topology/bolts && sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.MongoBolt/" /tmp/storm-topology/$topology/bolts || echo "$serviceName tengu.storm.MongoBolt" >> /tmp/storm-topology/$topology/bolts
+
+
+		#voeg toe aan prepareConfig
+		#TODO
+
+		echo "1" > /tmp/storm-topology/$topology/rebuild
+	fi	
+
+	status-set active
+}
+
+mongodbDeparted()
+{
+	juju-log "Database (MongoDB) relation departed"
 }
 
 cmd=$(basename "$0")
@@ -207,5 +291,11 @@ coworker-relation-departed)
 	;;
 topology-relation-departed)
 	topologyDeparted
+	;;
+database-relation-changed)
+	mongodbChanged
+	;;
+database-relation-departed)
+	mongodbDeparted
 	;;
 esac

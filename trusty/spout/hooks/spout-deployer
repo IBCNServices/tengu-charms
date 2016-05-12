@@ -96,12 +96,16 @@ stormelementChanged()
 	relation-set elementName=$serviceName
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
 	element=`relation-get elementName`
-	if [ -n "$element" ]; then
-		juju-log "Connected to: $element"
-		#check if already in graph
-		( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
-		#deploy new graph 
-		/bin/bash /tmp/storm-topology/buildGraph $topology
+	if grep "0" /tmp/storm-topology/$topology/deploy ; then
+		if [ -n "$element" ]; then
+			juju-log "Connected to: $element"
+			#check if already in graph
+			( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
+			#deploy new graph 
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+		fi
+	else
+		echo "0" > /tmp/storm-topology/$topology/deploy
 	fi
 }
 

@@ -14,6 +14,20 @@ from jujuhelpers import JujuEnvironment, JujuNotFoundException, Service
 
 
 APP = Flask(__name__)
+APP.url_map.strict_slashes = False
+
+@APP.after_request
+def apply_caching(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,emulab-s4-cert,Location'
+    response.headers['Access-Control-Expose-Headers'] = 'Content-Type,Location'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT'
+    response.headers['Accept'] = 'application/json'
+    return response
+
+@APP.errorhandler(JujuNotFoundException)
+def handle_invalid_usage(error):
+    return create_response(404, {"msg": 'Cannot find resource. Reason: {}'.format(error.message)})
 
 
 @APP.route('/')
@@ -107,21 +121,6 @@ def request_wants_json():
     return best == 'application/json' and \
         request.accept_mimetypes[best] > \
         request.accept_mimetypes['text/html']
-
-
-@APP.after_request
-def apply_caching(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,emulab-s4-cert,Location'
-    response.headers['Access-Control-Expose-Headers'] = 'Content-Type,Location'
-    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT'
-    response.headers['Accept'] = 'application/json'
-    return response
-
-
-@APP.errorhandler(JujuNotFoundException)
-def handle_invalid_usage(error):
-    return create_response(404, {"msg": 'Cannot find resource. Reason: {}'.format(error.message)})
 
 
 if __name__ == '__main__':

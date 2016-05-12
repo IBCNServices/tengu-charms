@@ -341,7 +341,7 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "0bc309c50858f2d4cd629c519f72af82c101a0109eb78c2b32e06e0621ed57b4"
+      "790afb31323a75012ecb8e8e2cacd58f39ea2dcfe196a1e8837d06f8a7b51540"
     ], 
     "files/tengu_management/scripts/jfed_provider/rest2jfed_connector.py": [
       "hauchiwa", 
@@ -381,7 +381,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "41821be5a68e9380a3fb6b4efdb433d05ff958da68db766ca7156c0df80482d6"
+      "d52423911fcef803a418025d355ac7c2e6729c2949c68aaf01bb3f8f24b67831"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 

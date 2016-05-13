@@ -7,11 +7,19 @@ options:
     type: string
     default: ""
     description: "tag of the model"
+  property:
+    type: string
+    default: ""
+    description: "Property"
   moreinfo:
     type: string
     default: ""
     description: "More info about the model"
-  semver:
+  model-version:
     type: string
-    default: "1.0.0"
-    description: "Version of this model, see semver.org"
+    default: "0.0.0"
+    description: "Version of the model. See semver.org"
+  modelinfo-version:
+    type: string
+    default: "1.1.0"
+    description: "Version of this modelinfo charm. See semver.org"

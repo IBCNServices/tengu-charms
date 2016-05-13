@@ -36,6 +36,7 @@ def api_root():
     info = {
         "name":socket.gethostname(),
         "models": JujuEnvironment.list_environments(),
+        "version": "1.0.0", # see http://semver.org/
     }
     return create_response(200, info)
 
@@ -83,6 +84,14 @@ def api_service_info(modelname, servicename):
     info = service.status
     return create_response(200, info)
 
+
+@APP.route('/<modelname>/<servicename>/config', methods=['GET'])
+def api_service_config(modelname, servicename):
+    """ Shows the info of the specified Hauchiwa instance """
+    juju = JujuEnvironment(modelname)
+    service = Service(servicename, juju)
+    info = service.config
+    return create_response(200, info)
 
 
 @APP.route('/<modelname>/<servicename>/upgrade', methods=['GET'])

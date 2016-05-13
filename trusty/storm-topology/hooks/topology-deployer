@@ -24,6 +24,7 @@ installPackages()
 		touch /tmp/storm-topology/$serviceName/graph
 		touch /tmp/storm-topology/$serviceName/classes
 		touch /tmp/storm-topology/$serviceName/deploy
+		touch /tmp/storm-topology/$serviceName/bolt-preparation
 		echo "0" > /tmp/storm-topology/$serviceName/deploy
 		echo "0" > /tmp/storm-topology/$serviceName/rebuild
 		if [ ! -f /tmp/storm-topology/buildGraph ]; then

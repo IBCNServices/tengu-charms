@@ -123,14 +123,18 @@ stormelementDeparted()
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
 	element=`relation-get elementName`
 	juju-log "Relation broken with $element"
-	if [ -n $element ]; then
-		#find linenumber in graph
-		line=`grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$element" | cut -d ":" -f 1` 
-		#remove line
-		if [ -n "$line" ]; then
-			sed -i "${line}d" /tmp/storm-topology/$topology/graph
-			/bin/bash /tmp/storm-topology/buildGraph $topology
+	if grep "0" /tmp/storm-topology/$topology/deploy ; then
+		if [ -n $element ]; then
+			#find linenumber in graph
+			line=`grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$element" | cut -d ":" -f 1` 
+			#remove line
+			if [ -n "$line" ]; then
+				sed -i "${line}d" /tmp/storm-topology/$topology/graph
+				/bin/bash /tmp/storm-topology/buildGraph $topology
+			fi
 		fi
+	else
+		echo "0" > /tmp/storm-topology/$topology/deploy
 	fi
 }
 

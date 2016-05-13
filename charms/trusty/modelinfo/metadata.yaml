@@ -1,0 +1,14 @@
+name: modelinfo
+summary: Charm to show model info
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+description: |
+  Charm to show model info
+tags:
+  # Replace "misc" with one or more whitelisted tags from this list:
+  # https://jujucharms.com/docs/stable/authors-charm-metadata
+  - misc
+subordinate: true
+requires:
+  dont-use-me:
+      interface: juju-info
+      scope: container

@@ -125,7 +125,7 @@ rm -f /tmp/storm-topology/$topology/graph.bak
 # Topology killen indien deze bestaat
 topoName=$(grep "^name: \".*\"" /tmp/storm-topology/$topology/topology.yaml | sed 's/[^"]*"\([^"]*\)".*/\1/')
 if /opt/storm/apache-storm-0.10.0/bin/storm list | grep -qw "$topoName" ; then		
-	/opt/storm/apache-storm-0.10.0/bin/storm kill "$topoName"
+	/opt/storm/apache-storm-0.10.0/bin/storm kill "$topoName" -w 1
 fi
 
 #check if a stream has been defined

@@ -1,18 +1,22 @@
 options:
   class:
-    default:
     type: string
-    description: "URL to the bolt class"
+    default:    
+    description: |
+      URL to the bolt class
   prepare-methods:
-    default:
     type: string
-    description: "Methods to prepare bolt, example: method1(param,param);method2(param)"
+    default:    
+    description: |
+      Methods to prepare bolt, example: method1(param,param);method2(param)
   groupings:
-    default:
     type: string
-    description: "All non SHUFFLE groupings go here: otherBolt(FIELDS word);otherSpout(ALL)"
+    default:
+    description: |
+      All non SHUFFLE groupings go here: otherBolt(FIELDS word);otherSpout(ALL)
   database:
-    default:
     type: string
-    description: "Name of MongoDB database for mongodb bolt"
+    default:
+    description: |
+      Name of MongoDB database for mongodb bolt
 

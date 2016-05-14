@@ -29,7 +29,7 @@ public class MongoBolt extends BaseBasicBolt{
     private Boolean dbIsSet;
 
     
-    public void prepareConfig(String mongo_ip, String mongoPort, String dbName, String m){
+    public void prepareConfig(String mongo_ip, String mongoPort, String name, String m){
 	message = m;
         m_ip = mongo_ip;
         m_port = mongoPort;

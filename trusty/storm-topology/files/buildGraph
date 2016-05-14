@@ -94,7 +94,7 @@ while [ ${#elements[@]} -gt 0 ]; do
 			lijn=$(sed "${lijnnr}q;d" /tmp/storm-topology/$topology/graph.bak)
 			firstElement=$( echo "$lijn" | cut -d " " -f 1 )
 			secondElement=$( echo "$lijn" | cut -d " " -f 2 )
-			grouping=$( echo "$lijn" | cut -d " " -f 3 )
+			grouping=$( echo "$lijn" | cut -d " " -f 3,4 )
 			if [ "${elements[0]}" == "$firstElement" ];then #from is ${elements[0]} // $firstelement
 				echo "  - name: \"$firstElement --> $secondElement\"" >> /tmp/storm-topology/$topology/topology.yaml
 				echo "    from: \"$firstElement\"" >> /tmp/storm-topology/$topology/topology.yaml

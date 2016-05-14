@@ -1,10 +1,12 @@
 options:
   name:
-    default: TopologyName
     type: string
-    description: "Specify name of topology"    
+    default: TopologyName    
+    description: |
+      Specify name of topology   
   dependencies:
-    default:
     type: string 
-    description: "URL to dependencies file"    
+    default:    
+    description: |
+      URL to dependencies file   
 

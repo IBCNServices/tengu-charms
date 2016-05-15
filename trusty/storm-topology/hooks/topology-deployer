@@ -24,7 +24,7 @@ installPackages()
 		touch /tmp/storm-topology/$serviceName/graph
 		touch /tmp/storm-topology/$serviceName/classes
 		touch /tmp/storm-topology/$serviceName/deploy
-		touch /tmp/storm-topology/$serviceName/bolt-preparation
+		touch /tmp/storm-topology/$serviceName/bolt-preparation		
 		echo "0" > /tmp/storm-topology/$serviceName/deploy
 		echo "0" > /tmp/storm-topology/$serviceName/rebuild
 		if [ ! -f /tmp/storm-topology/buildGraph ]; then
@@ -35,6 +35,7 @@ installPackages()
 		cd /tmp/storm-topology/$serviceName/Storm-Flux-Skeleton 
 		mvn clean install -DskipTests=true		
 	fi	
+	[ ! -f /tmp/storm-topology/runningTopologies ] && touch /tmp/storm-topology/runningTopologies
 	status-set blocked "Waiting for topology name"
 }
 

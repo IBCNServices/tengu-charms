@@ -82,7 +82,12 @@ configGroupings()
 		grouping=$(tr "(|)|," " " <<< "${groupings[$i]}") # bolt2 ALL
 		stormcomponent=$(echo "$grouping" | cut -d ' ' -f 1)
 		line=$(grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$stormcomponent" | cut -d ':' -f 1)
-		[ -n "$line" ] && sed -i "${line}s/.*/$serviceName $grouping/" /tmp/storm-topology/$topology/graph && /bin/bash /tmp/storm-topology/buildGraph $topology
+#		[ -n "$line" ] && sed -i "${line}s/.*/$serviceName $grouping/" /tmp/storm-topology/$topology/graph && /bin/bash /tmp/storm-topology/buildGraph $topology
+		
+		if [ -n "$line" ]; then
+			sed -i "${line}s/.*/$serviceName $grouping/" /tmp/storm-topology/$topology/graph
+			grep "0" /tmp/storm-topology/$topology/deploy && /bin/bash /tmp/storm-topology/buildGraph $topology || echo "0" > /tmp/storm-topology/$topology/deploy
+		fi
 	done
 }
 
@@ -181,7 +186,7 @@ stormelementDeparted()
 {
 	juju-log "Stormelement Departed"
 	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
-	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
 	element=`relation-get elementName`
 	juju-log "Relation broken with $element"
 	if grep "0" /tmp/storm-topology/$topology/deploy ; then

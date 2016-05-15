@@ -123,9 +123,10 @@ done
 rm -f /tmp/storm-topology/$topology/graph.bak
 
 # Topology killen indien deze bestaat
-topoName=$(grep "^name: \".*\"" /tmp/storm-topology/$topology/topology.yaml | sed 's/[^"]*"\([^"]*\)".*/\1/')
-if /opt/storm/apache-storm-0.10.0/bin/storm list | grep -qw "$topoName" ; then		
+if grep -w "$topology" /tmp/storm-topology/runningTopologies ; then
+	topoName=$(grep "^name: \".*\"" /tmp/storm-topology/$topology/topology.yaml | sed 's/[^"]*"\([^"]*\)".*/\1/')	
 	/opt/storm/apache-storm-0.10.0/bin/storm kill "$topoName" -w 1
+	sed -i "/^${topology}$/d" /tmp/storm-topology/runningTopologies
 fi
 
 #check if a stream has been defined
@@ -143,7 +144,6 @@ if [ "$validTopology" = true ]; then
 		fi
 	fi
 
-
 	#deploy naar nimbus
 	# 1) Jar maken indien nodig (nieuwe classes nodig?)
 	if [ `cat /tmp/storm-topology/$topology/rebuild` == "1" ]; then
@@ -155,6 +155,8 @@ if [ "$validTopology" = true ]; then
 	# 2) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
 	/opt/storm/apache-storm-0.10.0/bin/storm jar /tmp/storm-topology/$topology/Storm-Flux-Skeleton/target/Storm-Flux-Skeleton-1.0-SNAPSHOT.jar org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
 	# 3) set deploy file that we just deployed
+	echo "$topology" >> /tmp/storm-topology/runningTopologies
 	echo "1" > /tmp/storm-topology/$topology/deploy
 fi
+
 

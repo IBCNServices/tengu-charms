@@ -174,7 +174,7 @@
     "hooks/relations/opened-ports/interface.yaml": [
       "interface:opened-ports", 
       "static", 
-      "51ee931b03fdf4b739492b34cbf6a1be79e7271e82b39db8c18a9d2a2a2fc290"
+      "54bbfda5d2e925163bcf2234ca6b9fef778d3f74cee605d74e5c83e6479188b8"
     ], 
     "wheelhouse/ipaddress-1.0.16.tar.gz": [
       "dhcp-server", 
@@ -254,7 +254,7 @@
     "layer.yaml": [
       "dhcp-server", 
       "dynamic", 
-      "13c4310ab371034ed1c5dc7cfb3392cd8c17ac7ec4f81aae5feb3f46e1deeea5"
+      "7359a7064f80e9a98994d6cee7aca90ec47ccb974bd4a03b36f91b7e90f0bc41"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 

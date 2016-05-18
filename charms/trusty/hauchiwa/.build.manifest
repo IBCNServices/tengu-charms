@@ -141,7 +141,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "5ea78bb099ab7779c003ea0b023da49f929e143db5f7510532edf38b49c6fd9d"
+      "7df7de6c127619ce9cfa6dd3d02755bddab77244bd2358fea9ce8a8357324268"
     ], 
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 
@@ -381,7 +381,7 @@
     "hooks/relations/opened-ports/interface.yaml": [
       "interface:opened-ports", 
       "static", 
-      "51ee931b03fdf4b739492b34cbf6a1be79e7271e82b39db8c18a9d2a2a2fc290"
+      "54bbfda5d2e925163bcf2234ca6b9fef778d3f74cee605d74e5c83e6479188b8"
     ], 
     "lib/charms/layer/basic.py": [
       "layer:basic", 
@@ -466,7 +466,7 @@
     "layer.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "e6b10e34d389c0f7cb88ed8975b9320fdc64a83dec28c123f1cc3cff6591d404"
+      "64e7b2e2acbcf39928e5f95026cd61a39be1d67c41aa429752bbbbaa284987f6"
     ], 
     "files/tengu_management/scripts/virtualwall_prepare.sh": [
       "hauchiwa", 

@@ -347,7 +347,7 @@
     "layer.yaml": [
       "limeds", 
       "dynamic", 
-      "cc76cb44e84376a10dc194590cf7be71af9e92702fd490b9cf4e8e85601282ed"
+      "7d2b7fcaf3058d387dbe9483574da5a2bc6eec6384acee201c31cecd9ad71125"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 

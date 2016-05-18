@@ -63,7 +63,7 @@
     "reactive/lxc-networking.py": [
       "lxc-networking", 
       "static", 
-      "680dedfa54a1ac7fa4f30eaf8bd23b8fce2850306f668e2c0c87668ee2a23770"
+      "2a27cb5d5e7f09bcbe57566428de233a07d8e2b1deb6dbdf6ea4359406f2704e"
     ], 
     "hooks/update-status": [
       "layer:basic", 
@@ -103,7 +103,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "41821be5a68e9380a3fb6b4efdb433d05ff958da68db766ca7156c0df80482d6"
+      "d52423911fcef803a418025d355ac7c2e6729c2949c68aaf01bb3f8f24b67831"
     ], 
     "config.yaml": [
       "lxc-networking", 
@@ -123,7 +123,7 @@
     "LICENSE": [
       "lxc-networking", 
       "static", 
-      "edecebcc053c3934e9e222df5a10228818a57e536dc68c549ae7bd9d4a06c911"
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
     ], 
     "copyright": [
       "layer:basic", 
@@ -178,7 +178,7 @@
     "layer.yaml": [
       "lxc-networking", 
       "dynamic", 
-      "a0a095df2a9e0afb6d34d2ba0d314a8299ea5d30e7462995a73b3c9628cf5201"
+      "a75a324fe4f66fc350cb59bfdd6e1877129b447f680992304e2ebb82ae016192"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 

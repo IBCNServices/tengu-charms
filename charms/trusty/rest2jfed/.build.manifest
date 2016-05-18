@@ -551,7 +551,7 @@
     "layer.yaml": [
       "rest2jfed", 
       "dynamic", 
-      "40070abdd7ee79fd269fd148c8732e7aab5f6d515c7c220511a9280edb98dd8b"
+      "a57ba40bd7b47403eacc956f257a98b82e73e5dc1542c085239d4cf1f5b838b5"
     ], 
     "lib/charms/apt.py": [
       "layer:apt", 

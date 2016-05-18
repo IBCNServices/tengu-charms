@@ -6,5 +6,5 @@
     "include_system_packages": !!bool "false"
 "includes":
 - "layer:basic"
-"repo": "git@github.com:galgalesh/tengu-charms.git"
+"repo": "git@github.com:IBCNServices/tengu-charms.git"
 "is": "lxc-networking"

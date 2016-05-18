@@ -129,7 +129,7 @@ def install_queued():
             status_set('blocked',
                        'Unable to install packages {}'
                        .format(','.join(packages)))
-            return False # Without setting reactive state.
+            return False  # Without setting reactive state.
 
     for package in installed:
         reactive.set_state('apt.installed.{}'.format(package))

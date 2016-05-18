@@ -119,10 +119,11 @@ and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and l
 **Charm tools: helper tools to Charm.**
 
     # Juju Charm tools
-    sudo apt-get install charm-tools
+    sudo apt-get install charm-tools juju-deployer
 
     sudo apt install python-pip
     sudo pip install charmhelpers
+    sudo pip2 install Flask
 
     # Dependencies of Charms so linter can check them
     sudo pip3 install charms.reactive netifaces
@@ -158,3 +159,55 @@ Mongo
     coll.find().skip(coll.count() - 20)
     coll.find({"subscriptionId": { $exists : true }}).limit(1).sort({$natural:-1})
     ObjectId("5714784653628548824c18de").getTimestamp()
+
+cat /var/lib/dhcp/dhcpd.leases
+
+
+**disk space analyseren**
+
+    tree -h --du /var | grep "G]"
+    sudo du -h /var | grep '[0-9\.]\+G'
+
+
+
+# Default Tengu license:
+
+## Plain text
+
+```
+Copyright (C) 2016  Ghent University
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+```
+
+## Hash comments
+
+```
+# Copyright (C) 2016  Ghent University
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+```

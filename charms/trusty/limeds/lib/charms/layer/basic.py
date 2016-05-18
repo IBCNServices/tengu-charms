@@ -1,6 +1,7 @@
 import os
 import sys
 import shutil
+import platform
 from glob import glob
 from subprocess import check_call
 
@@ -50,7 +51,11 @@ def bootstrap_charm_deps():
         # if we're using a venv, set it up
         if cfg.get('use_venv'):
             if not os.path.exists(venv):
-                apt_install(['python-virtualenv'])
+                distname, version, series = platform.linux_distribution()
+                if series in ('precise', 'trusty'):
+                    apt_install(['python-virtualenv'])
+                else:
+                    apt_install(['virtualenv'])
                 cmd = ['virtualenv', '-ppython3', '--never-download', venv]
                 if cfg.get('include_system_packages'):
                     cmd.append('--system-site-packages')
@@ -125,19 +130,20 @@ def init_config_states():
     from charms.reactive import toggle_state
     config = hookenv.config()
     config_defaults = {}
+    config_defs = {}
     config_yaml = os.path.join(hookenv.charm_dir(), 'config.yaml')
     if os.path.exists(config_yaml):
         with open(config_yaml) as fp:
             config_defs = yaml.load(fp).get('options', {})
             config_defaults = {key: value.get('default')
                                for key, value in config_defs.items()}
-    for opt in config.keys():
+    for opt in config_defs.keys():
         if config.changed(opt):
             set_state('config.changed')
             set_state('config.changed.{}'.format(opt))
-        toggle_state('config.set.{}'.format(opt), config[opt])
+        toggle_state('config.set.{}'.format(opt), config.get(opt))
         toggle_state('config.default.{}'.format(opt),
-                     config[opt] == config_defaults[opt])
+                     config.get(opt) == config_defaults[opt])
     hookenv.atexit(clear_config_states)
 
 

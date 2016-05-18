@@ -1,1 +1,2 @@
 includes: ['layer:basic', 'interface:opened-ports']
+repo: git@github.com:galgalesh/tengu-charms.git

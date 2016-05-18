@@ -9,10 +9,10 @@
     "build"
   ], 
   "signatures": {
-    "hooks/relations/mongodb/copyright": [
-      "interface:mongodb", 
-      "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
     ], 
     "bin/layer_option": [
       "layer:basic", 
@@ -24,15 +24,15 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "lib/openjdk.py": [
+    "wheelhouse/pyaml-15.8.2.tar.gz": [
       "layer:java", 
-      "static", 
-      "6cd604c92ceb4783595d69d34d4cdd3a6298c4eaf7ca67d649947acd42444837"
+      "dynamic", 
+      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
     ], 
-    "LICENSE": [
-      "limeds", 
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
       "static", 
-      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
     ], 
     "hooks/leader-elected": [
       "layer:basic", 
@@ -44,24 +44,19 @@
       "dynamic", 
       "dbade544066885c2db48d18eca4512c89ca5c38c81ff8bd5b8ff228166dedb72"
     ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
+    ], 
     "reactive/__init__.py": [
       "layer:basic", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "trusty/limeds/reactive/__init__.py": [
-      "limeds", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "wheelhouse/path.py-8.2.1.tar.gz": [
-      "layer:java", 
+    "hooks/mongodb-relation-departed": [
+      "interface:mongodb", 
       "dynamic", 
-      "c9ad2d462a7f8d7f6f6d2b89220bd50425221e399a4b8dfe5fa6725eb26fd708"
-    ], 
-    "trusty/limeds/hooks/mongodb-relation-broken": [
-      "limeds", 
-      "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "files/server-jre-8u77-linux-x64.tar.gz": [
@@ -69,845 +64,10 @@
       "static", 
       "81ecc8bc0edd800271692cd50326996f970a6901eb0196e3962802927261edeb"
     ], 
-    "trusty/limeds/wheelhouse/MarkupSafe-0.23.tar.gz": [
-      "limeds", 
-      "static", 
-      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
-    ], 
-    "deps/layer/layer-basic/wheelhouse.txt": [
-      "limeds", 
-      "static", 
-      "8a77ef8ac3c5763edb6caaeb6178e87fcc2961274815ab0130afd49151c70b0a"
-    ], 
-    "trusty/limeds/limeDS_640.svg": [
-      "limeds", 
-      "static", 
-      "7ed39630e7fb4a7143a867c34db3eb24bc864207e5df834c01869abbc7d293d1"
-    ], 
-    "deps/layer/layer-apt/config.yaml": [
-      "limeds", 
-      "static", 
-      "6f53871229977160b32c1451af3d98bb75d24e7c225afb1a0e9fa422ef7b0977"
-    ], 
-    "trusty/limeds/files/jdk-8u77-linux-x64.tar.gz": [
-      "limeds", 
-      "static", 
-      "a47dc0962a57b27a0cc00b9f11a53dc3add40c98633ba49a2419b845e4dedf43"
-    ], 
-    "copyright": [
-      "limeds", 
-      "static", 
-      "1c9c4ce3445efef9dff3d4ff39c4d901d105f0e026b7dc1a2e9ad9f46eca133a"
-    ], 
-    "requirements.txt": [
-      "layer:basic", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
-    ], 
-    "hooks/mongodb-relation-broken": [
-      "interface:mongodb", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    ".gitignore": [
-      "layer:apt", 
-      "static", 
-      "54c2eac10d7d0187b02c271ac7a3767bb3d365d562cfb8c1548efb4e84f7b2d5"
-    ], 
-    "trusty/limeds/files/server-jre-8u77-linux-x64.tar.gz.source": [
-      "limeds", 
-      "static", 
-      "832ce806d4576db6906ec7c1e0e6c3bb6dbd02bfef71e352116cbcdb5e216453"
-    ], 
-    "README.md": [
-      "limeds", 
-      "static", 
-      "b80175e45acbababfe8d33b20bea1cecacc9fd37611659a9b299c229bde002c2"
-    ], 
-    "trusty/limeds/hooks/mongodb-relation-changed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/hooks/limeds-relation-broken": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "icon.svg": [
-      "limeds", 
-      "static", 
-      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
-    ], 
-    "deps/layer/layer-basic/metadata.yaml": [
-      "limeds", 
-      "static", 
-      "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
-    ], 
-    "deps/layer/layer-basic/hooks/stop": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/hooks/mongodb-relation-departed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/deps/interface/interface-http/README.md": [
-      "limeds", 
-      "static", 
-      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
-    ], 
-    "hooks/hook.template": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/Makefile": [
-      "limeds", 
-      "static", 
-      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
-    ], 
-    "trusty/limeds/hooks/relations/http/provides.py": [
-      "limeds", 
-      "static", 
-      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
-    ], 
-    "trusty/limeds/hooks/relations/http/README.md": [
-      "limeds", 
-      "static", 
-      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
-    ], 
-    "deps/layer/layer-basic/lib/charms/layer/__init__.py": [
-      "limeds", 
-      "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
-    ], 
-    "lib/oracle.py": [
-      "layer:java", 
-      "static", 
-      "e5627dc208c98b449263366fdf4726ba4ccc564f5b152d723a8dcf9296061e19"
-    ], 
-    "trusty/limeds/reactive/apt.py": [
-      "limeds", 
-      "static", 
-      "d47770a6a44c723082a6a7a658679e15b73f0f2280d4662bc80c2935823dc20a"
-    ], 
-    "trusty/limeds/hooks/limeds-relation-departed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "deps/layer/layer-basic/hooks/leader-settings-changed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/copyright": [
-      "limeds", 
-      "static", 
-      "1e2afbd75c71affa132ae7ee3327cb29b5e4b9d9705f27dfd03857c326f50c5c"
-    ], 
-    "hooks/mongodb-relation-departed": [
-      "interface:mongodb", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/lib/charms/layer/__init__.py": [
-      "limeds", 
-      "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
-    ], 
-    "reactive/java.py": [
-      "layer:java", 
-      "static", 
-      "455e271075553ce771fafaf3201b67180f5663a11b9d34f14d12d9158347ac2c"
-    ], 
-    "deps/layer/layer-basic/hooks/leader-elected": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/files/jdk-8u77-linux-x64.tar.gz.source": [
-      "limeds", 
-      "static", 
-      "b1e2a2f66e8738adb603000541964b9ae4dd76cdde422beca9a7789661d32266"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/.gitignore": [
-      "limeds", 
-      "static", 
-      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
-    ], 
-    "hooks/relations/http/requires.py": [
-      "interface:http", 
-      "static", 
-      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
-    ], 
-    "deps/layer/layer-basic/tox.ini": [
-      "limeds", 
-      "static", 
-      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
-    ], 
-    "wheelhouse/jujubigdata-6.4.4.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "b3c3650ee41354220e7cc71a033588cca64a5a9b504bffd2490a6da2dd162924"
-    ], 
-    "trusty/limeds/deps/layer/layer-apt/lib/charms/apt.py": [
-      "limeds", 
-      "static", 
-      "9ed953bd9411b982561646607212eaa37494f7a8d1696e15832d8ea0ec23c762"
-    ], 
-    "trusty/limeds/hooks/relations/mongodb/__init__.py": [
-      "limeds", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "trusty/limeds/reactive/limeds.py": [
-      "limeds", 
-      "static", 
-      "b7d77ebbf82d8ca74e7887fea43d46dfe86398a1a423ecb5ed10a1fbabc0a87d"
-    ], 
-    "trusty/limeds/deps/layer/layer-apt/README.md": [
-      "limeds", 
-      "static", 
-      "bceabb90537111d685d6ddbeda63fbdbcdfe43d33e2c2ce5912f636fbc3dac83"
-    ], 
-    "trusty/limeds/metadata.yaml": [
-      "limeds", 
-      "static", 
-      "3162826ead9acc7c93790febcc8d7975c31f38d1abd4b459bcdda830bf37e6d7"
-    ], 
-    "deps/layer/layer-apt/copyright": [
-      "limeds", 
-      "static", 
-      "5123b2d0220fefb4424a463216fb41a6dd7cfad49c9799ba7037f1e74a2fd6bc"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/lib/charms/layer/__init__.py": [
-      "limeds", 
-      "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
-    ], 
-    "trusty/limeds/wheelhouse/path.py-8.2.1.tar.gz": [
-      "limeds", 
-      "static", 
-      "c9ad2d462a7f8d7f6f6d2b89220bd50425221e399a4b8dfe5fa6725eb26fd708"
-    ], 
-    "trusty/limeds/hooks/leader-settings-changed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/limeds-relation-joined": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/files/id_rsa": [
-      "limeds", 
-      "static", 
-      "34d10cd118e74dbdd2cbb4a9fbc6d4df5fcfb1a2fa6db671e821ee6b89e97485"
-    ], 
-    "deps/layer/layer-basic/copyright": [
-      "limeds", 
-      "static", 
-      "1e2afbd75c71affa132ae7ee3327cb29b5e4b9d9705f27dfd03857c326f50c5c"
-    ], 
-    "wheelhouse/pyaml-15.8.2.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
-    ], 
-    "trusty/limeds/icon.svg": [
-      "limeds", 
-      "static", 
-      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
-    ], 
-    "deps/layer/layer-basic/hooks/install": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "Makefile": [
-      "layer:basic", 
-      "static", 
-      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
-    ], 
-    "trusty/limeds/deps/layer/layer-apt/reactive/apt.py": [
-      "limeds", 
-      "static", 
-      "d47770a6a44c723082a6a7a658679e15b73f0f2280d4662bc80c2935823dc20a"
-    ], 
-    "deps/layer/layer-apt/.gitignore": [
-      "limeds", 
-      "static", 
-      "54c2eac10d7d0187b02c271ac7a3767bb3d365d562cfb8c1548efb4e84f7b2d5"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/metadata.yaml": [
-      "limeds", 
-      "static", 
-      "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
-    ], 
-    "hooks/mongodb-relation-changed": [
-      "interface:mongodb", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/hooks/limeds-relation-joined": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/limeds-relation-changed": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "wheelhouse/MarkupSafe-0.23.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/upgrade-charm": [
-      "limeds", 
-      "static", 
-      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
-    ], 
-    "wheelhouse/netaddr-0.7.18.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
-    ], 
-    "trusty/limeds/deps/interface/interface-http/requires.py": [
-      "limeds", 
-      "static", 
-      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
-    ], 
-    "deps/layer/layer-basic/README.md": [
-      "limeds", 
-      "static", 
-      "c684724f0ed21eb614d541c1dadaf78d703d1a2436be05bea7b20042d1a088a6"
-    ], 
-    "deps/layer/layer-basic/bin/layer_option": [
-      "limeds", 
-      "static", 
-      "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
-    ], 
-    "deps/layer/layer-basic/hooks/config-changed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/layer.yaml": [
-      "limeds", 
-      "static", 
-      "fbd3e3a22f3b8b1e7656e12f5db0ebf69c145b8e8b59c125e6faf043cba50b9b"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/install": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "files/jdk-8u77-linux-x64.tar.gz": [
-      "layer:java", 
-      "static", 
-      "a47dc0962a57b27a0cc00b9f11a53dc3add40c98633ba49a2419b845e4dedf43"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/hook.template": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "lib/charms/layer/__init__.py": [
-      "layer:basic", 
-      "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
-    ], 
-    "trusty/limeds/files/server-jre-8u77-linux-x64.tar.gz": [
-      "limeds", 
-      "static", 
-      "81ecc8bc0edd800271692cd50326996f970a6901eb0196e3962802927261edeb"
-    ], 
-    "hooks/stop": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "reactive/apt.py": [
-      "layer:apt", 
-      "static", 
-      "d47770a6a44c723082a6a7a658679e15b73f0f2280d4662bc80c2935823dc20a"
-    ], 
-    "deps/interface/interface-http/requires.py": [
-      "limeds", 
-      "static", 
-      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
-    ], 
-    "trusty/limeds/wheelhouse/Jinja2-2.8.tar.gz": [
-      "limeds", 
-      "static", 
-      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
-    ], 
-    "trusty/limeds/lib/charms/layer/execd.py": [
-      "limeds", 
-      "static", 
-      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/wheelhouse.txt": [
-      "limeds", 
-      "static", 
-      "8a77ef8ac3c5763edb6caaeb6178e87fcc2961274815ab0130afd49151c70b0a"
-    ], 
-    "trusty/limeds/hooks/hook.template": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/hooks/start": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/templates/upstart.conf": [
-      "limeds", 
-      "static", 
-      "7bc47cf6d539b26f7d28576dc317a9ded82357ddbf2fceb436ee257cd247557e"
-    ], 
-    "trusty/limeds/wheelhouse/Tempita-0.5.2.tar.gz": [
-      "limeds", 
-      "static", 
-      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
-    ], 
-    "hooks/relations/mongodb/interface.yaml": [
-      "interface:mongodb", 
-      "static", 
-      "512c111baee1fea7f6614e82b4a2215a91689b467181ca8667837ba4a2876023"
-    ], 
-    "files/server-jre-8u77-linux-x64.tar.gz.source": [
-      "layer:java", 
-      "static", 
-      "832ce806d4576db6906ec7c1e0e6c3bb6dbd02bfef71e352116cbcdb5e216453"
-    ], 
-    "deps/layer/layer-apt/README.md": [
-      "limeds", 
-      "static", 
-      "bceabb90537111d685d6ddbeda63fbdbcdfe43d33e2c2ce5912f636fbc3dac83"
-    ], 
-    "hooks/limeds-relation-departed": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/wheelhouse/pyaml-15.8.2.tar.gz": [
-      "limeds", 
-      "static", 
-      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
-    ], 
-    "hooks/start": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/start": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "wheelhouse/PyYAML-3.11.zip": [
-      "layer:java", 
-      "dynamic", 
-      "19bb3ac350ef878dda84a62d37c7d5c17a137386dde9c2ce7249c7a21d7f6ac9"
-    ], 
-    "trusty/limeds/wheelhouse/setuptools_scm-1.11.0.tar.gz": [
-      "limeds", 
-      "static", 
-      "0600be1762896d58c818829c30b828f02ed78df3cc73ace346ae7224689c5552"
-    ], 
-    "trusty/limeds/lib/charms/apt.py": [
-      "limeds", 
-      "static", 
-      "9ed953bd9411b982561646607212eaa37494f7a8d1696e15832d8ea0ec23c762"
-    ], 
-    "hooks/relations/mongodb/requires.py": [
-      "interface:mongodb", 
-      "static", 
-      "c30155c95a0fe5e7ec946a251b10f307ac475c1c280d4c1510c5e17e50ae91a2"
-    ], 
-    "trusty/limeds/hooks/update-status": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/hooks/limeds-relation-changed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/deps/interface/interface-http/interface.yaml": [
-      "limeds", 
-      "static", 
-      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
-    ], 
-    "wheelhouse/six-1.10.0.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
-    ], 
-    "lib/charms/apt.py": [
-      "layer:apt", 
-      "static", 
-      "9ed953bd9411b982561646607212eaa37494f7a8d1696e15832d8ea0ec23c762"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/leader-settings-changed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/copyright": [
-      "limeds", 
-      "static", 
-      "1c9c4ce3445efef9dff3d4ff39c4d901d105f0e026b7dc1a2e9ad9f46eca133a"
-    ], 
-    "trusty/limeds/files/id_rsa.pub": [
-      "limeds", 
-      "static", 
-      "c7baa5a488abb6290761cbef9e77cda7f42b4aa3ac8769ed482dc377260faa4f"
-    ], 
-    "trusty/limeds/wheelhouse/charms.reactive-0.4.3.tar.gz": [
-      "limeds", 
-      "static", 
-      "61de97ba63aa0917dc756c95fdd6bfc8725e43e15750ac53ba7a409a819a76b6"
-    ], 
-    "wheelhouse/Jinja2-2.8.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
-    ], 
-    "hooks/mongodb-relation-joined": [
-      "interface:mongodb", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/README.md": [
-      "limeds", 
-      "static", 
-      "b80175e45acbababfe8d33b20bea1cecacc9fd37611659a9b299c229bde002c2"
-    ], 
-    "trusty/limeds/requirements.txt": [
-      "limeds", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/requirements.txt": [
-      "limeds", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
-    ], 
-    "hooks/relations/http/interface.yaml": [
-      "interface:http", 
-      "static", 
-      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
-    ], 
-    "trusty/limeds/hooks/stop": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/hooks/install": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/tox.ini": [
-      "limeds", 
-      "static", 
-      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
-    ], 
-    "lib/charms/__init__.py": [
-      "layer:apt", 
-      "static", 
-      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
-    ], 
-    "trusty/limeds/deps/interface/juju-relation-mongodb/copyright": [
-      "limeds", 
-      "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
-    ], 
-    "deps/interface/interface-http/README.md": [
-      "limeds", 
-      "static", 
-      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
-    ], 
-    "hooks/relations/http/README.md": [
-      "interface:http", 
-      "static", 
-      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
-    ], 
-    "trusty/limeds/wheelhouse/PyYAML-3.11.zip": [
-      "limeds", 
-      "static", 
-      "19bb3ac350ef878dda84a62d37c7d5c17a137386dde9c2ce7249c7a21d7f6ac9"
-    ], 
-    "wheelhouse/setuptools_scm-1.11.0.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "0600be1762896d58c818829c30b828f02ed78df3cc73ace346ae7224689c5552"
-    ], 
-    "deps/layer/layer-apt/lib/charms/__init__.py": [
-      "limeds", 
-      "static", 
-      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
-    ], 
-    "trusty/limeds/hooks/leader-elected": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/Makefile": [
-      "limeds", 
-      "static", 
-      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
-    ], 
-    "trusty/limeds/deps/interface/juju-relation-mongodb/interface.yaml": [
-      "limeds", 
-      "static", 
-      "512c111baee1fea7f6614e82b4a2215a91689b467181ca8667837ba4a2876023"
-    ], 
-    "hooks/install": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/limeds-relation-broken": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/wheelhouse/netaddr-0.7.18.tar.gz": [
-      "limeds", 
-      "static", 
-      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
-    ], 
-    "deps/interface/interface-http/interface.yaml": [
-      "limeds", 
-      "static", 
-      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
-    ], 
-    "trusty/limeds/hooks/relations/mongodb/copyright": [
-      "limeds", 
-      "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/lib/charms/layer/execd.py": [
-      "limeds", 
-      "static", 
-      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
-    ], 
-    "deps/layer/layer-basic/hooks/hook.template": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "deps/layer/layer-apt/lib/charms/apt.py": [
-      "limeds", 
-      "static", 
-      "9ed953bd9411b982561646607212eaa37494f7a8d1696e15832d8ea0ec23c762"
-    ], 
-    "trusty/limeds/lib/charms/__init__.py": [
-      "limeds", 
-      "static", 
-      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
-    ], 
-    "config.yaml": [
-      "limeds", 
-      "dynamic", 
-      "e5bf32ba7b3c157b051fabad9aeb9d7e01ef1c51c5cbd714d52acbd81613accb"
-    ], 
-    "trusty/limeds/deps/layer/layer-apt/copyright": [
-      "limeds", 
-      "static", 
-      "5123b2d0220fefb4424a463216fb41a6dd7cfad49c9799ba7037f1e74a2fd6bc"
-    ], 
-    "files/id_rsa": [
-      "limeds", 
-      "static", 
-      "34d10cd118e74dbdd2cbb4a9fbc6d4df5fcfb1a2fa6db671e821ee6b89e97485"
-    ], 
-    "deps/layer/layer-basic/reactive/__init__.py": [
-      "limeds", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "trusty/limeds/hooks/relations/mongodb/interface.yaml": [
-      "limeds", 
-      "static", 
-      "512c111baee1fea7f6614e82b4a2215a91689b467181ca8667837ba4a2876023"
-    ], 
-    "wheelhouse/pip-7.1.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
-    ], 
-    "deps/interface/juju-relation-mongodb/interface.yaml": [
-      "limeds", 
-      "static", 
-      "512c111baee1fea7f6614e82b4a2215a91689b467181ca8667837ba4a2876023"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/config-changed": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/hooks/relations/http/interface.yaml": [
-      "limeds", 
-      "static", 
-      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
-    ], 
-    "deps/layer/layer-basic/.gitignore": [
-      "limeds", 
-      "static", 
-      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/stop": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/deps/interface/juju-relation-mongodb/requires.py": [
-      "limeds", 
-      "static", 
-      "40b76af43ce0d92ab2aad9dfb3fcbc444e48dd2f84874612416b54398d804e64"
-    ], 
-    "hooks/update-status": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/hooks/relations/mongodb/requires.py": [
-      "limeds", 
-      "static", 
-      "40b76af43ce0d92ab2aad9dfb3fcbc444e48dd2f84874612416b54398d804e64"
-    ], 
-    "files/jdk-8u77-linux-x64.tar.gz.source": [
-      "layer:java", 
-      "static", 
-      "b1e2a2f66e8738adb603000541964b9ae4dd76cdde422beca9a7789661d32266"
-    ], 
-    "trusty/limeds/hooks/relations/http/requires.py": [
-      "limeds", 
-      "static", 
-      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
-    ], 
-    "reactive/limeds.py": [
-      "limeds", 
-      "static", 
-      "fc477531ca104e3c5f203d696028bcd0ae683539466b891f412b2ccb66e074c9"
-    ], 
-    "trusty/limeds/lib/charms/layer/basic.py": [
-      "limeds", 
-      "static", 
-      "0d6230b6568e5a18f97b1467e8ebbe19c4940dbb8b232ca942faa8a63e670796"
-    ], 
-    "trusty/limeds/layer.yaml": [
-      "limeds", 
-      "static", 
-      "303ed2de701141782b50dc81cd81c266116a0e0e483c18bff03a04fe26b1b7b5"
-    ], 
-    "trusty/limeds/wheelhouse/pip-7.1.2.tar.gz": [
-      "limeds", 
-      "static", 
-      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
-    ], 
-    "trusty/limeds/wheelhouse/charmhelpers-0.7.0.tar.gz": [
-      "limeds", 
-      "static", 
-      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
-    ], 
-    "limeDS_640.svg": [
-      "limeds", 
-      "static", 
-      "7ed39630e7fb4a7143a867c34db3eb24bc864207e5df834c01869abbc7d293d1"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/lib/charms/layer/basic.py": [
-      "limeds", 
-      "static", 
-      "0d6230b6568e5a18f97b1467e8ebbe19c4940dbb8b232ca942faa8a63e670796"
-    ], 
-    "hooks/relations/http/provides.py": [
-      "interface:http", 
-      "static", 
-      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
-    ], 
-    "deps/layer/layer-basic/requirements.txt": [
-      "limeds", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
-    ], 
-    "deps/interface/juju-relation-mongodb/requires.py": [
-      "limeds", 
-      "static", 
-      "40b76af43ce0d92ab2aad9dfb3fcbc444e48dd2f84874612416b54398d804e64"
-    ], 
-    "trusty/limeds/.build.manifest": [
-      "limeds", 
-      "static", 
-      "f328eca14e0993c9209cbeb0ce9c7ef7a0b2e168b9976abab98c800c1db2b36c"
-    ], 
-    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
-    ], 
-    "hooks/relations/mongodb/README.md": [
-      "interface:mongodb", 
-      "static", 
-      "818955af3a0c79eda716a87aa1d8a5b460d9f118118b8fbbe91c8320de321b48"
-    ], 
-    "trusty/limeds/LICENSE": [
-      "limeds", 
-      "static", 
-      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
-    ], 
-    "lib/charms/layer/execd.py": [
-      "layer:basic", 
-      "static", 
-      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/update-status": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "trusty/limeds/wheelhouse/jujubigdata-6.4.4.tar.gz": [
-      "limeds", 
-      "static", 
-      "b3c3650ee41354220e7cc71a033588cca64a5a9b504bffd2490a6da2dd162924"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/README.md": [
-      "limeds", 
-      "static", 
-      "c684724f0ed21eb614d541c1dadaf78d703d1a2436be05bea7b20042d1a088a6"
-    ], 
     ".build.manifest": [
       "build", 
       "dynamic", 
       "unchecked"
-    ], 
-    "trusty/limeds/lib/oracle.py": [
-      "limeds", 
-      "static", 
-      "e5627dc208c98b449263366fdf4726ba4ccc564f5b152d723a8dcf9296061e19"
-    ], 
-    "trusty/limeds/hooks/mongodb-relation-joined": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "deps/layer/layer-basic/lib/charms/layer/execd.py": [
-      "limeds", 
-      "static", 
-      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 
@@ -919,200 +79,305 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "hooks/relations/http/__init__.py": [
-      "interface:http", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "deps/layer/layer-apt/reactive/apt.py": [
-      "limeds", 
-      "static", 
-      "d47770a6a44c723082a6a7a658679e15b73f0f2280d4662bc80c2935823dc20a"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/hooks/leader-elected": [
-      "limeds", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "tox.ini": [
-      "layer:basic", 
-      "static", 
-      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
-    ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "deps/layer/layer-basic/layer.yaml": [
-      "limeds", 
-      "static", 
-      "fbd3e3a22f3b8b1e7656e12f5db0ebf69c145b8e8b59c125e6faf043cba50b9b"
-    ], 
-    "trusty/limeds/lib/openjdk.py": [
-      "limeds", 
-      "static", 
-      "6cd604c92ceb4783595d69d34d4cdd3a6298c4eaf7ca67d649947acd42444837"
-    ], 
-    "trusty/limeds/hooks/relations/http/__init__.py": [
-      "limeds", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "trusty/limeds/config.yaml": [
-      "limeds", 
-      "static", 
-      "e5bf32ba7b3c157b051fabad9aeb9d7e01ef1c51c5cbd714d52acbd81613accb"
-    ], 
-    "deps/interface/juju-relation-mongodb/copyright": [
-      "limeds", 
-      "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
-    ], 
-    "trusty/limeds/hooks/upgrade-charm": [
-      "limeds", 
-      "static", 
-      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
-    ], 
-    "deps/layer/layer-basic/lib/charms/layer/basic.py": [
-      "limeds", 
-      "static", 
-      "0d6230b6568e5a18f97b1467e8ebbe19c4940dbb8b232ca942faa8a63e670796"
-    ], 
-    "trusty/limeds/deps/layer/layer-basic/reactive/__init__.py": [
-      "limeds", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "hooks/config-changed": [
-      "layer:basic", 
-      "static", 
+    "hooks/mongodb-relation-changed": [
+      "interface:mongodb", 
+      "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "deps/layer/layer-basic/Makefile": [
-      "limeds", 
-      "static", 
-      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
+    "hooks/limeds-relation-changed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "7cf59b77bd5c76f39acfbe8b7733a042b26ecefbb33cbf16003c8f38ab38c1f0"
+      "d52423911fcef803a418025d355ac7c2e6729c2949c68aaf01bb3f8f24b67831"
     ], 
-    "trusty/limeds/deps/layer/layer-apt/config.yaml": [
-      "limeds", 
+    "tox.ini": [
+      "layer:basic", 
       "static", 
-      "6f53871229977160b32c1451af3d98bb75d24e7c225afb1a0e9fa422ef7b0977"
-    ], 
-    "trusty/limeds/wheelhouse/jujuresources-0.4.0.tar.gz": [
-      "limeds", 
-      "static", 
-      "dbade544066885c2db48d18eca4512c89ca5c38c81ff8bd5b8ff228166dedb72"
-    ], 
-    "deps/layer/layer-basic/hooks/upgrade-charm": [
-      "limeds", 
-      "static", 
-      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
-    ], 
-    "trusty/limeds/wheelhouse/six-1.10.0.tar.gz": [
-      "limeds", 
-      "static", 
-      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
-    ], 
-    "files/id_rsa.pub": [
-      "limeds", 
-      "static", 
-      "c7baa5a488abb6290761cbef9e77cda7f42b4aa3ac8769ed482dc377260faa4f"
+      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
     "metadata.yaml": [
       "limeds", 
       "dynamic", 
       "3162826ead9acc7c93790febcc8d7975c31f38d1abd4b459bcdda830bf37e6d7"
     ], 
-    "trusty/limeds/hooks/config-changed": [
+    "LICENSE": [
       "limeds", 
       "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
     ], 
-    "trusty/limeds/bin/layer_option": [
+    "copyright": [
       "limeds", 
       "static", 
-      "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
+      "1c9c4ce3445efef9dff3d4ff39c4d901d105f0e026b7dc1a2e9ad9f46eca133a"
     ], 
-    "trusty/limeds/deps/layer/layer-basic/bin/layer_option": [
-      "limeds", 
+    "hooks/relations/http/README.md": [
+      "interface:http", 
       "static", 
-      "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
+      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
     ], 
-    "trusty/limeds/reactive/java.py": [
-      "limeds", 
+    "requirements.txt": [
+      "layer:basic", 
       "static", 
-      "455e271075553ce771fafaf3201b67180f5663a11b9d34f14d12d9158347ac2c"
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
     ], 
-    "trusty/limeds/deps/layer/layer-apt/.gitignore": [
-      "limeds", 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    "wheelhouse/path.py-8.2.1.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "c9ad2d462a7f8d7f6f6d2b89220bd50425221e399a4b8dfe5fa6725eb26fd708"
+    ], 
+    ".gitignore": [
+      "layer:apt", 
       "static", 
       "54c2eac10d7d0187b02c271ac7a3767bb3d365d562cfb8c1548efb4e84f7b2d5"
     ], 
-    "trusty/limeds/templates/org.ibcn.limeds.mongodb.MongoStorage.cfg": [
-      "limeds", 
+    "hooks/relations/http/__init__.py": [
+      "interface:http", 
       "static", 
-      "fc7ecfd7630001cd63c7897e503df7718088e25ea9298ba120dac872a2bb91ee"
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "templates/org.ibcn.limeds.mongodb.MongoStorage.cfg": [
-      "limeds", 
-      "static", 
-      "fc7ecfd7630001cd63c7897e503df7718088e25ea9298ba120dac872a2bb91ee"
-    ], 
-    "templates/upstart.conf": [
-      "limeds", 
-      "static", 
-      "7bc47cf6d539b26f7d28576dc317a9ded82357ddbf2fceb436ee257cd247557e"
-    ], 
-    "deps/layer/layer-basic/hooks/start": [
-      "limeds", 
+    "hooks/install": [
+      "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "trusty/limeds/deps/layer/layer-basic/tox.ini": [
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "hooks/relations/http/interface.yaml": [
+      "interface:http", 
+      "static", 
+      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
+    ], 
+    "README.md": [
       "limeds", 
       "static", 
-      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
+      "b80175e45acbababfe8d33b20bea1cecacc9fd37611659a9b299c229bde002c2"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
+    ], 
+    "hooks/relations/mongodb/requires.py": [
+      "interface:mongodb", 
+      "static", 
+      "c30155c95a0fe5e7ec946a251b10f307ac475c1c280d4c1510c5e17e50ae91a2"
+    ], 
+    "hooks/relations/mongodb/copyright": [
+      "interface:mongodb", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "icon.svg": [
+      "limeds", 
+      "static", 
+      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+    ], 
+    "files/jdk-8u77-linux-x64.tar.gz": [
+      "layer:java", 
+      "static", 
+      "a47dc0962a57b27a0cc00b9f11a53dc3add40c98633ba49a2419b845e4dedf43"
+    ], 
+    "hooks/limeds-relation-joined": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "config.yaml": [
+      "limeds", 
+      "dynamic", 
+      "e5bf32ba7b3c157b051fabad9aeb9d7e01ef1c51c5cbd714d52acbd81613accb"
+    ], 
+    "limeDS_640.svg": [
+      "limeds", 
+      "static", 
+      "7ed39630e7fb4a7143a867c34db3eb24bc864207e5df834c01869abbc7d293d1"
+    ], 
+    "files/id_rsa": [
+      "limeds", 
+      "static", 
+      "34d10cd118e74dbdd2cbb4a9fbc6d4df5fcfb1a2fa6db671e821ee6b89e97485"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "reactive/apt.py": [
+      "layer:apt", 
+      "static", 
+      "d47770a6a44c723082a6a7a658679e15b73f0f2280d4662bc80c2935823dc20a"
+    ], 
+    "hooks/relations/mongodb/README.md": [
+      "interface:mongodb", 
+      "static", 
+      "818955af3a0c79eda716a87aa1d8a5b460d9f118118b8fbbe91c8320de321b48"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/setuptools_scm-1.11.0.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "0600be1762896d58c818829c30b828f02ed78df3cc73ace346ae7224689c5552"
+    ], 
+    "hooks/mongodb-relation-joined": [
+      "interface:mongodb", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "lib/oracle.py": [
+      "layer:java", 
+      "static", 
+      "e5627dc208c98b449263366fdf4726ba4ccc564f5b152d723a8dcf9296061e19"
+    ], 
+    "reactive/java.py": [
+      "layer:java", 
+      "static", 
+      "455e271075553ce771fafaf3201b67180f5663a11b9d34f14d12d9158347ac2c"
+    ], 
+    "lib/openjdk.py": [
+      "layer:java", 
+      "static", 
+      "6cd604c92ceb4783595d69d34d4cdd3a6298c4eaf7ca67d649947acd42444837"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "lib/charms/__init__.py": [
+      "layer:apt", 
+      "static", 
+      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
+    ], 
+    "files/id_rsa.pub": [
+      "limeds", 
+      "static", 
+      "c7baa5a488abb6290761cbef9e77cda7f42b4aa3ac8769ed482dc377260faa4f"
     ], 
     "wheelhouse/charms.reactive-0.4.3.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "61de97ba63aa0917dc756c95fdd6bfc8725e43e15750ac53ba7a409a819a76b6"
     ], 
-    "deps/layer/layer-basic/hooks/update-status": [
+    "files/jdk-8u77-linux-x64.tar.gz.source": [
+      "layer:java", 
+      "static", 
+      "b1e2a2f66e8738adb603000541964b9ae4dd76cdde422beca9a7789661d32266"
+    ], 
+    "files/server-jre-8u77-linux-x64.tar.gz.source": [
+      "layer:java", 
+      "static", 
+      "832ce806d4576db6906ec7c1e0e6c3bb6dbd02bfef71e352116cbcdb5e216453"
+    ], 
+    "hooks/relations/http/provides.py": [
+      "interface:http", 
+      "static", 
+      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
+    ], 
+    "templates/org.ibcn.limeds.mongodb.MongoStorage.cfg": [
       "limeds", 
+      "static", 
+      "fc7ecfd7630001cd63c7897e503df7718088e25ea9298ba120dac872a2bb91ee"
+    ], 
+    "reactive/limeds.py": [
+      "limeds", 
+      "static", 
+      "05ce54d5e1a4c24e8030944ab716381cb372eda53352fa7f576b799dfea77e86"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "trusty/limeds/deps/layer/layer-apt/lib/charms/__init__.py": [
-      "limeds", 
-      "static", 
-      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
+    "hooks/limeds-relation-departed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "deps/interface/interface-http/provides.py": [
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/jujubigdata-6.4.4.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "b3c3650ee41354220e7cc71a033588cca64a5a9b504bffd2490a6da2dd162924"
+    ], 
+    "wheelhouse/PyYAML-3.11.zip": [
+      "layer:java", 
+      "dynamic", 
+      "19bb3ac350ef878dda84a62d37c7d5c17a137386dde9c2ce7249c7a21d7f6ac9"
+    ], 
+    "hooks/mongodb-relation-broken": [
+      "interface:mongodb", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "templates/upstart.conf": [
       "limeds", 
       "static", 
-      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
+      "7bc47cf6d539b26f7d28576dc317a9ded82357ddbf2fceb436ee257cd247557e"
     ], 
     "layer.yaml": [
       "limeds", 
       "dynamic", 
-      "303ed2de701141782b50dc81cd81c266116a0e0e483c18bff03a04fe26b1b7b5"
+      "cc76cb44e84376a10dc194590cf7be71af9e92702fd490b9cf4e8e85601282ed"
     ], 
-    "trusty/limeds/deps/interface/interface-http/provides.py": [
-      "limeds", 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
       "static", 
-      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
     ], 
-    "trusty/limeds/.gitignore": [
-      "limeds", 
+    "hooks/relations/mongodb/interface.yaml": [
+      "interface:mongodb", 
       "static", 
-      "54c2eac10d7d0187b02c271ac7a3767bb3d365d562cfb8c1548efb4e84f7b2d5"
+      "512c111baee1fea7f6614e82b4a2215a91689b467181ca8667837ba4a2876023"
+    ], 
+    "hooks/relations/http/requires.py": [
+      "interface:http", 
+      "static", 
+      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ], 
+    "lib/charms/apt.py": [
+      "layer:apt", 
+      "static", 
+      "a0ac50a69f3af46b5b89d0e0e39e46313417eee08e24de1f0987b81ec813b3de"
+    ], 
+    "hooks/limeds-relation-broken": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ]
   }
 }

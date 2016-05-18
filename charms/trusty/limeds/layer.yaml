@@ -13,4 +13,5 @@
 - "interface:mongodb"
 - "layer:java"
 - "interface:http"
+"repo": "git@github.com:galgalesh/tengu-charms.git"
 "is": "limeds"

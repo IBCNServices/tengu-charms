@@ -1,6 +1,7 @@
 import os
 import sys
 import shutil
+import platform
 from glob import glob
 from subprocess import check_call
 
@@ -17,6 +18,8 @@ def bootstrap_charm_deps():
     # and the charm itself can actually succeed. This call does nothing
     # unless the operator has created and populated $CHARM_DIR/exec.d.
     execd_preinstall()
+    # ensure that $CHARM_DIR/bin is on the path, for helper scripts
+    os.environ['PATH'] += ':%s' % os.path.join(os.environ['CHARM_DIR'], 'bin')
     venv = os.path.abspath('../.venv')
     vbin = os.path.join(venv, 'bin')
     vpip = os.path.join(vbin, 'pip')
@@ -48,7 +51,11 @@ def bootstrap_charm_deps():
         # if we're using a venv, set it up
         if cfg.get('use_venv'):
             if not os.path.exists(venv):
-                apt_install(['python-virtualenv'])
+                distname, version, series = platform.linux_distribution()
+                if series in ('precise', 'trusty'):
+                    apt_install(['python-virtualenv'])
+                else:
+                    apt_install(['virtualenv'])
                 cmd = ['virtualenv', '-ppython3', '--never-download', venv]
                 if cfg.get('include_system_packages'):
                     cmd.append('--system-site-packages')
@@ -117,15 +124,26 @@ def apt_install(packages):
 
 
 def init_config_states():
+    import yaml
     from charmhelpers.core import hookenv
     from charms.reactive import set_state
     from charms.reactive import toggle_state
     config = hookenv.config()
-    for opt in config.keys():
+    config_defaults = {}
+    config_defs = {}
+    config_yaml = os.path.join(hookenv.charm_dir(), 'config.yaml')
+    if os.path.exists(config_yaml):
+        with open(config_yaml) as fp:
+            config_defs = yaml.load(fp).get('options', {})
+            config_defaults = {key: value.get('default')
+                               for key, value in config_defs.items()}
+    for opt in config_defs.keys():
         if config.changed(opt):
             set_state('config.changed')
             set_state('config.changed.{}'.format(opt))
-        toggle_state('config.set.{}'.format(opt), config[opt])
+        toggle_state('config.set.{}'.format(opt), config.get(opt))
+        toggle_state('config.default.{}'.format(opt),
+                     config.get(opt) == config_defaults[opt])
     hookenv.atexit(clear_config_states)
 
 
@@ -137,4 +155,5 @@ def clear_config_states():
     for opt in config.keys():
         remove_state('config.changed.{}'.format(opt))
         remove_state('config.set.{}'.format(opt))
+        remove_state('config.default.{}'.format(opt))
     unitdata.kv().flush()

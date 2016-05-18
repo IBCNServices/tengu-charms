@@ -119,14 +119,13 @@ and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and l
 **Charm tools: helper tools to Charm.**
 
     # Juju Charm tools
-    sudo apt-get install charm-tools juju-deployer
+    sudo apt-get install charm-tools
 
     sudo apt install python-pip
     sudo pip install charmhelpers
 
     # Dependencies of Charms so linter can check them
     sudo pip3 install charms.reactive netifaces
-    sudo pip2 install Flask
 
 When running `juju debug-hooks`, you enter a tmux session. The default tmux bindings on Ubuntu are a bit strange. ctrl-a is the default command. To enable sane mouse scrolling set `set-window-option -g mode-mouse on` in `~/.tmux.conf` of the server.
 
@@ -159,11 +158,3 @@ Mongo
     coll.find().skip(coll.count() - 20)
     coll.find({"subscriptionId": { $exists : true }}).limit(1).sort({$natural:-1})
     ObjectId("5714784653628548824c18de").getTimestamp()
-
-
-cat /var/lib/dhcp/dhcpd.leases
-
-**disk space analyseren**
-
-    tree -h --du /var | grep "G]"
-    sudo du -h /var | grep '[0-9\.]\+G'

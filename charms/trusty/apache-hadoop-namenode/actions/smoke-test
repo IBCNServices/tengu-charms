@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+
+import sys
+
+from charmhelpers.core import hookenv
+from jujubigdata.utils import run_as
+from charms.reactive import is_state
+
+if not is_state('namenode.ready'):
+    hookenv.action_fail('NameNode service not yet ready')
+
+
+# verify the hdfs-test directory does not already exist
+output = run_as('ubuntu', 'hdfs', 'dfs', '-ls', '/tmp', capture_output=True)
+if '/tmp/hdfs-test' in output:
+    run_as('ubuntu', 'hdfs', 'dfs', '-rm', '-R', '/tmp/hdfs-test')
+    output = run_as('ubuntu', 'hdfs', 'dfs', '-ls', '/tmp', capture_output=True)
+    if 'hdfs-test' in output:
+        hookenv.action_fail('Unable to remove existing hdfs-test directory')
+        sys.exit()
+
+# create the directory
+run_as('ubuntu', 'hdfs', 'dfs', '-mkdir', '-p', '/tmp/hdfs-test')
+run_as('ubuntu', 'hdfs', 'dfs', '-chmod', '-R', '777', '/tmp/hdfs-test')
+
+# verify the newly created hdfs-test subdirectory exists
+output = run_as('ubuntu', 'hdfs', 'dfs', '-ls', '/tmp', capture_output=True)
+for line in output.split('\n'):
+    if '/tmp/hdfs-test' in line:
+        if 'ubuntu' not in line or 'drwxrwxrwx' not in line:
+            hookenv.action_fail('Permissions incorrect for hdfs-test directory')
+            sys.exit()
+        break
+else:
+    hookenv.action_fail('Unable to create hdfs-test directory')
+    sys.exit()
+
+# remove the directory
+run_as('ubuntu', 'hdfs', 'dfs', '-rm', '-R', '/tmp/hdfs-test')
+
+# verify the hdfs-test subdirectory has been removed
+output = run_as('ubuntu', 'hdfs', 'dfs', '-ls', '/tmp', capture_output=True)
+if '/tmp/hdfs-test' in output:
+    hookenv.action_fail('Unable to remove hdfs-test directory')
+    sys.exit()
+
+hookenv.action_set({'outcome': 'success'})

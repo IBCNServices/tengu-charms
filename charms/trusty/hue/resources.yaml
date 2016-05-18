@@ -1,0 +1,12 @@
+"options":
+  "output_dir": "/home/ubuntu/resources"
+"resources":
+  "pathlib":
+    "pypi": "path.py>=7.0"
+  "jujubigdata":
+    "pypi": "jujubigdata>=5.0.0,<6.0.0"
+"optional_resources":
+  "hue-x86_64":
+    "url": "https://s3.amazonaws.com/jujubigdata/apache/x86_64/hue-3.9_x86_64-ce8e7e6.tar.gz"
+    "hash": "ce8e7e67c0c715973a116f1056ba601b95eacaef5fd4a9a0078b034c707f4d6b"
+    "hash_type": "sha256"

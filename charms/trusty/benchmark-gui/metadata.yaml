@@ -1,0 +1,18 @@
+name: benchmark-gui
+summary: Graphical User Interface and metric collection service
+maintainers:
+  - Marco Ceppi <marco.ceppi@canonical.com>
+  - Tim Van Steenburgh <tim.van.steenburgh@canonical.com>
+  - Adam Israel <adam.israel@canonical.com>
+description: |
+  Graphical User Interface and metric collection service
+tags:
+  - misc
+requires:
+  collector:
+    interface: benchmark-collector
+  benchmark:
+    interface: benchmark
+provides:
+  website:
+    interface: http

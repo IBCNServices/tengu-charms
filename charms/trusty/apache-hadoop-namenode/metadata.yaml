@@ -1,0 +1,16 @@
+"name": "apache-hadoop-namenode"
+"summary": "HDFS master (NameNode) for Apache Hadoop platform"
+"maintainer": "bigdata-dev <bigdata-dev@canonical.com>"
+"description": "Hadoop is a software platform that lets one easily write and run applications\
+  \ that process vast amounts of data.\nThis charm manages the HDFS master node (NameNode).\n"
+"tags": ["applications", "bigdata", "hadoop", "apache"]
+"requires":
+  "datanode":
+    "interface": "dfs-slave"
+"provides":
+  "ganglia":
+    "interface": "monitor"
+  "namenode":
+    "interface": "dfs"
+  "benchmark":
+    "interface": "benchmark"

@@ -6,10 +6,9 @@ SERVER_CONF=/etc/openvpn/server.conf
 DEFAULT_CLIENT_CONF=/etc/openvpn/client.ovpn
 PROTO=`config-get protocol`
 PORT=`config-get port`
-PRIVATE_NETWORKS=`config-get network`
 DEFAULT_GW_IP=`ip route get 8.8.8.8 | grep src | tr -s ' ' | rev | cut -d ' ' -f 2 | rev`
 PUBLIC_IP=`unit-get public-address`
-VPN_NETWORK=10.8.0.0/8
+NETWORK=10.8.0.0/8
 
 # Convert a CIDR notation to netmask for use with the route command.
 # Essentially, this will take a CIDR value (/1-32) and return a

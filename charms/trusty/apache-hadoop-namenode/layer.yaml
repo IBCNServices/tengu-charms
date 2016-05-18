@@ -1,0 +1,18 @@
+"options":
+  "hadoop-base": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+  "apache-hadoop-namenode": {}
+  "hadoop-ganglia": {}
+"includes":
+- "layer:basic"
+- "interface:monitor"
+- "layer:hadoop-base"
+- "layer:hadoop-ganglia"
+- "interface:dfs"
+- "interface:dfs-slave"
+- "interface:benchmark"
+"repo": "git@github.com:juju-solutions/layer-apache-hadoop-namenode.git"
+"is": "apache-hadoop-namenode"

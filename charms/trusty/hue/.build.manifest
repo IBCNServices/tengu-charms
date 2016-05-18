@@ -1,0 +1,444 @@
+{
+  "layers": [
+    "layer:basic", 
+    "layer:hadoop-client", 
+    "hue", 
+    "interface:hadoop-plugin", 
+    "interface:hive", 
+    "interface:oozie", 
+    "interface:zookeeper", 
+    "build"
+  ], 
+  "signatures": {
+    "hooks/relations/hadoop-plugin/interface.yaml": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "328c379dc80f10a5f2f5e8c5d5c586f2d4409b95be81e3d5b68a91d5095b6281"
+    ], 
+    "hooks/relations/hive/provides.py": [
+      "interface:hive", 
+      "static", 
+      "ca5930c2681716ba2c2b5e07b228ddac8ba937aea170c33ab35ed2b5aba92fea"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/hive-relation-changed": [
+      "interface:hive", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/jujuresources-0.4.0.tar.gz": [
+      "hue", 
+      "dynamic", 
+      "dbade544066885c2db48d18eca4512c89ca5c38c81ff8bd5b8ff228166dedb72"
+    ], 
+    "hooks/relations/zookeeper/copyright": [
+      "interface:zookeeper", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/hadoop-plugin/copyright": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "hooks/hadoop-relation-broken": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "resources.yaml": [
+      "hue", 
+      "dynamic", 
+      "08ddf0efafcb01696b3e6969d0d503f7ebb3b8b7d4081e10b767b24a9a0ca3c9"
+    ], 
+    "wheelhouse/setuptools_scm-1.10.1.tar.bz2": [
+      "hue", 
+      "dynamic", 
+      "1cdea91bbe1ec4d52b3e9c451ab32ae6e1f3aa3fd91e90580490a9eb75bea286"
+    ], 
+    "LICENSE": [
+      "layer:hadoop-client", 
+      "static", 
+      "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    ], 
+    "copyright": [
+      "layer:hadoop-client", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "hooks/oozie-relation-broken": [
+      "interface:oozie", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/zookeeper/requires.py": [
+      "interface:zookeeper", 
+      "static", 
+      "2ed3ff4e8ceba20dce8248de3f0229736a69f6826f4fca028106ff01bbc81311"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "icon.svg": [
+      "layer:hadoop-client", 
+      "static", 
+      "e5d238351a525794b31fc3d331b0bbd66cc403750ca7b3312e69898e960039a6"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/hadoop-plugin/__init__.py": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "reactive/hadoop_client.py": [
+      "layer:hadoop-client", 
+      "static", 
+      "3352874e27463cb80be7aaa83dafd687ab90ba06f26b3e42a76dbd4fb59a280f"
+    ], 
+    "wheelhouse/charms.reactive-0.4.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "07624f413b0397e5ac8e2baec8a5d2727949733516fc6786ffe5b72cc556dfa2"
+    ], 
+    "hooks/oozie-relation-departed": [
+      "interface:oozie", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "reactive/hue.py": [
+      "hue", 
+      "static", 
+      "88702e93f884f2bf748f352b084f3455a4160dd4658b83ae5eed4bff16c1cac8"
+    ], 
+    "lib/charms/layer/hadoop_client.py": [
+      "layer:hadoop-client", 
+      "static", 
+      "bd3ce23d7b86aec29759914ed3c5783592c1c38a140ca28464eea16a4a564cfc"
+    ], 
+    "hooks/zookeeper-relation-departed": [
+      "interface:zookeeper", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/pyaml-15.8.2.tar.gz": [
+      "hue", 
+      "dynamic", 
+      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    ], 
+    "wheelhouse/pip-7.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "306ae29d3c498ce06207d3036bbdbcd175e4ed042286a6f00802035ec2218739"
+    ], 
+    "hooks/zookeeper-relation-broken": [
+      "interface:zookeeper", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "hooks/oozie-relation-changed": [
+      "interface:oozie", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/path.py-8.1.2.tar.gz": [
+      "hue", 
+      "dynamic", 
+      "ada95d117c4559abe64080961daf5badda68561afdd34c278f8ca20f2fa466d2"
+    ], 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    "TODOs.txt": [
+      "hue", 
+      "static", 
+      "1223aa27952112b1e6872296aafaf89465696e76c84b66c376d030ddaaa66e8a"
+    ], 
+    "hooks/relations/zookeeper/provides.py": [
+      "interface:zookeeper", 
+      "static", 
+      "dccb7675f1cf0dee381a41827e5e9bfa8e7fc7993c70d83ffa391dfd7b20640f"
+    ], 
+    "hooks/hadoop-relation-departed": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "hooks/hadoop-relation-changed": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/oozie/provides.py": [
+      "interface:oozie", 
+      "static", 
+      "c1e21d46c2b2f1e416e8e2ca70a6c35046c6dea28cb032e340726c94d7ced936"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/hadoop-plugin/README.md": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "dabaeb1662074bd4d2bf44e26e7cc98188f2ed164111bead07b4c46cceb66d70"
+    ], 
+    "hooks/relations/hive/interface.yaml": [
+      "interface:hive", 
+      "static", 
+      "4a5e3ce890af88b67d2e56747eb64bd4d647293449d398178516967eed3ca3cc"
+    ], 
+    "lib/charms/__init__.py": [
+      "hue", 
+      "static", 
+      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
+    ], 
+    "hooks/zookeeper-relation-changed": [
+      "interface:zookeeper", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/hadoop-plugin/requires.py": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "b4b14f9a663a658e159755bb47aa58164a664ba69fd0a484faef8b14bb749103"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/hive-relation-broken": [
+      "interface:hive", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/PyYAML-3.11.tar.gz": [
+      "hue", 
+      "dynamic", 
+      "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "hue", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "config.yaml": [
+      "hue", 
+      "dynamic", 
+      "33c6d1f7cfe69e3399020ef21461cacbdfa5b1725a592f144dc82a16ab644cc7"
+    ], 
+    "hooks/relations/zookeeper/interface.yaml": [
+      "interface:zookeeper", 
+      "static", 
+      "99cd388585b57bbc90872f698a428bdf1589c9e92bd8ba0b29a677baef2e062e"
+    ], 
+    "hooks/relations/oozie/interface.yaml": [
+      "interface:oozie", 
+      "static", 
+      "339dc3f64e5f8312ef31b9696ddfcd174a4e7c8956895083d2546f432633c5bc"
+    ], 
+    "hooks/hadoop-relation-joined": [
+      "interface:hadoop-plugin", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/hive-relation-departed": [
+      "interface:hive", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "tests/tests.yaml": [
+      "layer:hadoop-client", 
+      "static", 
+      "d41eabeecbbbd5852512f8424bebbcf3b6118f2c4f90b9da45d23a79acd1324e"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "README.md": [
+      "hue", 
+      "static", 
+      "98888a2284c1ee2e0fc411d0d7b2ed7155baa9b48530d4f040b72935bc0c66c9"
+    ], 
+    "hooks/hive-relation-joined": [
+      "interface:hive", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/hive/__init__.py": [
+      "interface:hive", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
+    ], 
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
+      "static", 
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
+    ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "e1601bbcd22637e07eee1052f5da79c1be173492af82d21e7db73e2069cc6715"
+    ], 
+    "metadata.yaml": [
+      "hue", 
+      "dynamic", 
+      "23bb691fa99ad090dbf50b9c281ce98f22f4ce6b45d986bd67bc91579bf4cce7"
+    ], 
+    "hooks/relations/oozie/requires.py": [
+      "interface:oozie", 
+      "static", 
+      "6a037b9092f261ad3b8349dc2759276176e7bc8b1f171e9c04085f0009cbe929"
+    ], 
+    "tests/01-basic-deployment.py": [
+      "layer:hadoop-client", 
+      "static", 
+      "3aaaead1244f3c5bd5a3a86e800a4003edae00d994b60ad7e7f8c20994a6a2aa"
+    ], 
+    "hooks/relations/oozie/__init__.py": [
+      "interface:oozie", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/zookeeper/README.md": [
+      "interface:zookeeper", 
+      "static", 
+      "dd1f3f98ad17dfc499084a277fe8dd1c1c51e3cbedc4fff936ab8b2f95fc4dfe"
+    ], 
+    "hooks/relations/hive/copyright": [
+      "interface:hive", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/zookeeper/__init__.py": [
+      "interface:zookeeper", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "lib/charms/layer/basic.py": [
+      "layer:basic", 
+      "static", 
+      "ec07861b9d201e9e741ee75d09e4f17cbd02775a969f76f5f8968806cb3dab6e"
+    ], 
+    "hooks/relations/hive/README.md": [
+      "interface:hive", 
+      "static", 
+      "03fcef4247f45c435198897b7f278265d3912c008087521a2e241ddb78278efa"
+    ], 
+    "hooks/oozie-relation-joined": [
+      "interface:oozie", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "lib/charms/hue.py": [
+      "hue", 
+      "static", 
+      "fe1a89b2efaf32412bbd8dc7176a67f22608ab87550e0515e6036ea5a2184129"
+    ], 
+    "hooks/relations/hive/requires.py": [
+      "interface:hive", 
+      "static", 
+      "d47246620f7d9cd890cddd0911465bf88e9a82a4411c6ff719a7f7e43504f77e"
+    ], 
+    "wheelhouse/jujubigdata-6.4.2.tar.gz": [
+      "hue", 
+      "dynamic", 
+      "8c859cdbfa667670cfd86777c774c503edc065b42131002977ba338b0209b85b"
+    ], 
+    "layer.yaml": [
+      "hue", 
+      "dynamic", 
+      "2038cfdb0421ca5d0dd40c2d465a16917486ce8b4029a42c1e61844d101ba3a8"
+    ], 
+    "hooks/zookeeper-relation-joined": [
+      "interface:zookeeper", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/hadoop-plugin/provides.py": [
+      "interface:hadoop-plugin", 
+      "static", 
+      "4ca55e4661f72d0cf53745acccbec1763eb06978c5c2f16c0cbaa2e0956b5083"
+    ]
+  }
+}

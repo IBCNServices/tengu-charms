@@ -1,0 +1,54 @@
+#!/bin/bash
+set -ex
+RESULTS_FILE=`action-get resfile`
+OPTIONS=''
+
+MODE=`action-get mode`
+NUMFILES=`action-get numfiles`
+FILESIZE=`action-get filesize`
+BUFFERSIZE=`action-get buffersize`
+
+if [ $MODE == 'read' ] ; then
+        OPTIONS="${OPTIONS} -read"
+else
+        OPTIONS="${OPTIONS} -write"
+fi
+
+OPTIONS="${OPTIONS} -nrFiles ${NUMFILES}"
+OPTIONS="${OPTIONS} -fileSize ${FILESIZE}"
+OPTIONS="${OPTIONS} -bufferSize ${BUFFERSIZE}"
+OPTIONS="${OPTIONS} -resFile ${RESULTS_FILE}"
+
+# create dir to store results
+RUN=`date +%s`
+RESULT_DIR=/opt/TestDFSIO-results
+RESULT_LOG=${RESULT_DIR}/${RUN}.log
+mkdir -p ${RESULT_DIR}
+chown -R ubuntu:ubuntu ${RESULT_DIR}
+
+
+# clean out any previous data (must be run as ubuntu)
+su ubuntu << EOF
+. /etc/environment
+echo 'cleaning data'
+hadoop jar \${HADOOP_HOME}/share/hadoop/mapreduce/hadoop-*test*.jar TestDFSIO -clean
+EOF
+
+benchmark-start
+START=`date +%s`
+# NB: Escaped vars in the block below (e.g., \${HADOOP_HOME}) come from
+# /etc/environment while non-escaped vars (e.g., ${IN_DIR}) are parameterized
+# from this outer scope
+su ubuntu << EOF
+. /etc/environment
+echo 'running benchmark'
+cd /tmp/ 
+hadoop jar \${HADOOP_HOME}/share/hadoop/mapreduce/hadoop-*test*.jar TestDFSIO $OPTIONS &> ${RESULT_LOG} 
+EOF
+STOP=`date +%s`
+benchmark-finish
+
+`cat ${RESULTS_FILE} ${RESULT_LOG} | $CHARM_DIR/actions/parseNNBench.py`
+
+DURATION=`expr $STOP - $START`
+benchmark-composite "${DURATION}" 'secs' 'asc'

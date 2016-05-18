@@ -1,19 +1,4 @@
-[a] License explanation
-The copyright of this repository is a mess. This repository contains a lot of separate works with separate licenses. Following order explains how to find the license that applies to a work. The first rule that matches explains what license applies.
+This repository is a combination of different works that have different licenses. Individual works such as Charms, bundles and layers can specify their own license in the root directory of the work or in the files themselves. Works may contain binary files that are licensed differently.
 
-1. If a file contains an explicit license, that license applies to that file.
-
-2. If a file is a third party program, binary or installer, the third party license applies.
-
-3. All other files are licensed according to the "closest directory that contains a license". The closest directory is measured starting from the directory the file is in, going to the root of the repository. The first license you encounter is the license that applies to the file.
-
-4. If no other license applies, the default license in [b] applies.
-
-
-[b] Default license
-© 2009 University of Ghent
-All Rights Reserved.
-
-
-[c] Comment
-If you want to use a work where the default license applies, please contact merlijn.sebrechts@intec.ugent.be
+All files copyright (C) 2016 Ghent University unless otherwise specified.
+All files licensed under AGPLv3 unless otherwise specified. See the LICENSE_AGPLV3 file for the full license.

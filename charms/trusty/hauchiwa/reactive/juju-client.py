@@ -64,7 +64,7 @@ def add_key(key):
     try:
         subprocess.check_call([
             'su', USER, '-c',
-            'juju authorized-keys add {}'.format(key)])
+            'juju authorized-keys add "{}"'.format(key)])
     except subprocess.CalledProcessError as err:
         print("failed to add key to environment: {}".format(err))
 

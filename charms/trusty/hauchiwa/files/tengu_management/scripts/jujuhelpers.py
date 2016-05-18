@@ -58,17 +58,17 @@ class Service(object):
         output = self.env.do('get', self.name, format='yaml')
         return yaml.load(output)
 
-    def wait_until(self, status):
+    def wait_until(self, requested_status):
         """ Wait until service contains status in its message """
-        sys.stdout.write('waiting until {} service is {} '.format(self.name, status))
+        sys.stdout.write('waiting until {} service is {} '.format(self.name, requested_status))
         while(True):
-            status = self.status
-            if (status['service-status']['current'] and status['service-status'].get('message') and (status.lower() in status['service-status'].get('message').lower())):
+            current_status = self.status
+            if (current_status['service-status']['current'] and current_status['service-status'].get('message') and (requested_status.lower() in current_status['service-status'].get('message').lower())):
                 break
             sleep(5)
             sys.stdout.write('.')
             sys.stdout.flush()
-        sys.stdout.write('{} is {}!\n'.format(self.name, status))
+        sys.stdout.write('{} is {}!\n'.format(self.name, requested_status))
 
 
 class JujuEnvironment(object):

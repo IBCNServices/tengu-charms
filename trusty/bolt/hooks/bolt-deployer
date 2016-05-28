@@ -25,7 +25,7 @@ getBolt()
 	className=${1##*/}
 	classNoExtension=`echo $className | cut -d \. -f1`
 	#find previous class if possible
-	prevClass=`grep -w "$serviceName" /tmp/storm-topology/$topology/spouts | cut -d ' ' -f 2`
+	prevClass=`grep -w "$serviceName" /tmp/storm-topology/$topology/bolts | cut -d ' ' -f 2`
 	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
 		juju-log "Downloading bolt"
 		wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
@@ -43,7 +43,7 @@ getBolt()
 	fi	
 	grep -w "^$serviceName" /tmp/storm-topology/$topology/bolts && sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.$classNoExtension/" /tmp/storm-topology/$topology/bolts || echo "$serviceName tengu.storm.$classNoExtension" >> /tmp/storm-topology/$topology/bolts
 
-	[ "$prevClass" != "tengu.storm.$classNoExtension" ] && /bin/bash /tmp/storm-topology/buildGraph $topology
+	[ "$prevClass" != "tengu.storm.$classNoExtension" ] && echo "1 $serviceName" > /tmp/storm-topology/$topology/deploy && /bin/bash /tmp/storm-topology/buildGraph $topology
 	status-set active
 }
 
@@ -86,7 +86,8 @@ configGroupings()
 		
 		if [ -n "$line" ]; then
 			sed -i "${line}s/.*/$serviceName $grouping/" /tmp/storm-topology/$topology/graph
-			grep "0" /tmp/storm-topology/$topology/deploy && /bin/bash /tmp/storm-topology/buildGraph $topology || echo "0" > /tmp/storm-topology/$topology/deploy
+			#grep "0" /tmp/storm-topology/$topology/deploy && /bin/bash /tmp/storm-topology/buildGraph $topology || echo "0" > /tmp/storm-topology/$topology/deploy
+			/bin/bash /tmp/storm-topology/buildGraph $topology
 		fi
 	done
 }
@@ -103,6 +104,7 @@ configDatabase()
 		line=$(grep -nw "^$serviceName" /tmp/storm-topology/$topology/database-config)
 		if [ -n "$line" ]; then
 			sed -ie "s${line}/\<\w\+/$1/4" /tmp/storm-topology/$topology/database-config
+			/bin/bash /tmp/storm-topology/buildGraph $topology
 		else		
 			echo "$serviceName 0 0 $1" >> /tmp/storm-topology/$topology/database-config
 		fi		
@@ -168,7 +170,7 @@ stormelementChanged()
 	relation-set elementName=$serviceName
 	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
 	element=`relation-get elementName`
-	if grep "0" /tmp/storm-topology/$topology/deploy ; then
+	#if grep "0" /tmp/storm-topology/$topology/deploy ; then
 		if [ -n "$element" ]; then
 			juju-log "Connected to: $element"
 			#check if already in graph
@@ -177,9 +179,22 @@ stormelementChanged()
 			/bin/bash /tmp/storm-topology/buildGraph $topology
 			juju-log "Ready to deploy topology.yaml"
 		fi
-	else
-		echo "0" > /tmp/storm-topology/$topology/deploy
-	fi
+	#else
+	#	echo "0" > /tmp/storm-topology/$topology/deploy
+	#fi
+}
+
+coworkerChanged()
+{
+	juju-log "coworker changed"
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	relation-set elementName=$serviceName
+}
+
+coworkerDeparted()
+{
+	juju-log "coworker departed"
+	
 }
 
 stormelementDeparted()
@@ -189,7 +204,7 @@ stormelementDeparted()
 	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
 	element=`relation-get elementName`
 	juju-log "Relation broken with $element"
-	if grep "0" /tmp/storm-topology/$topology/deploy ; then
+	#if grep "0" /tmp/storm-topology/$topology/deploy ; then
 		if [ -n $element ]; then
 			line=`grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$element" | cut -d ":" -f 1` 
 			if [ -n "$line" ]; then
@@ -197,9 +212,9 @@ stormelementDeparted()
 				/bin/bash /tmp/storm-topology/buildGraph $topology
 			fi	
 		fi
-	else
-		echo "0" > /tmp/storm-topology/$topology/deploy
-	fi
+	#else
+	#	echo "0" > /tmp/storm-topology/$topology/deploy
+	#fi
 }
 
 topologyDeparted()
@@ -262,6 +277,7 @@ mongodbChanged()
 		configBoltPreparation $boltPrepare
 
 		echo "1" > /tmp/storm-topology/$topology/rebuild
+		/bin/bash /tmp/storm-topology/buildGraph $topology
 	fi	
 
 	status-set active
@@ -281,6 +297,7 @@ mongodbDeparted()
 	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/LoggerBolt.java ]; then
 		cp "$workingDir/files/LoggerBolt.java" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/
 		echo "1" > /tmp/storm-topology/$topology/rebuild
+		/bin/bash /tmp/storm-topology/buildGraph $topology
 	fi
 }
 
@@ -305,13 +322,15 @@ stormelement-relation-changed)
 	stormelementChanged
 	;;
 coworker-relation-changed)
-	stormelementChanged
+	#stormelementChanged
+	coworkerChanged
 	;;
 stormelement-relation-departed)
 	stormelementDeparted
 	;;
 coworker-relation-departed)
-	stormelementDeparted
+	#stormelementDeparted
+	coworkerDeparted
 	;;
 topology-relation-departed)
 	topologyDeparted

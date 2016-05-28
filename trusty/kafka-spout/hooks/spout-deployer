@@ -103,18 +103,6 @@ stormelementChanged()
 	relation-set elementName=$serviceName
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
 	element=`relation-get elementName`	
-	if grep "0" /tmp/storm-topology/$topology/deploy ; then
-	
-		if [ -n "$element" ]; then
-			juju-log "Connected to: $element"
-			#check if already in graph
-			( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
-			#deploy new graph 
-			/bin/bash /tmp/storm-topology/buildGraph $topology
-		fi
-	else
-		echo "0" > /tmp/storm-topology/$topology/deploy
-	fi
 }
 
 stormelementDeparted()
@@ -123,19 +111,6 @@ stormelementDeparted()
 	topology=`grep "^$serviceName" /tmp/storm-topology/spout-list | cut -d " " -f 2`
 	element=`relation-get elementName`
 	juju-log "Relation broken with $element"
-	if grep "0" /tmp/storm-topology/$topology/deploy ; then
-		if [ -n $element ]; then
-			#find linenumber in graph
-			line=`grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$element" | cut -d ":" -f 1` 
-			#remove line
-			if [ -n "$line" ]; then
-				sed -i "${line}d" /tmp/storm-topology/$topology/graph
-				/bin/bash /tmp/storm-topology/buildGraph $topology
-			fi
-		fi
-	else
-		echo "0" > /tmp/storm-topology/$topology/deploy
-	fi
 }
 
 zookeeperChanged()
@@ -180,8 +155,10 @@ topologyDeparted()
 	juju-log "Topology departed"
 	#remove spout from topologyName/spouts
 	sed -i "/^$serviceName\b/d" /tmp/storm-topology/$topology/spouts
-	#remove spout van storm-topology/spout-list
+	#remove spout from storm-topology/spout-list
 	sed -i "/^$serviceName\b/d" /tmp/storm-topology/spout-list
+	#remove spout from kafka-spout-config
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/kafka-spout-config
 }
 
 cmd=$(basename "$0")

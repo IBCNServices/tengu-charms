@@ -11,7 +11,7 @@
     "reactive/juju-client.py": [
       "layer:juju-client", 
       "static", 
-      "ed1b06595c15c440458d1293481a6145cb158ba8d5b4e87ef1f8832f40ad7517"
+      "3a3528578e5ce05435928bc67d17e7945536214dc8a051be51079291fc718407"
     ], 
     "files/tengu_management/scripts/ssh_provider/provider.py": [
       "hauchiwa", 
@@ -31,7 +31,7 @@
     "LICENSE": [
       "hauchiwa", 
       "static", 
-      "1fff31bc8297921cd62c5eb51acd17a9a9be3e7d7b1dd808e4ae73080631a581"
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
     ], 
     "hooks/leader-elected": [
       "layer:basic", 
@@ -66,7 +66,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "9f77462c5402c8f1cf85f2c52a86039ae37eb81af997794e7b49e29ce9808d38"
+      "13cbcce3eecc29e34441d5cabe85643eace44726c1c52bb37ba37d0acfea8c7f"
     ], 
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
@@ -83,10 +83,10 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "hooks/rest2jfed-relation-joined": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    "lib/tengu_charmhelpers/confighelpers.py": [
+      "hauchiwa", 
+      "static", 
+      "473b7c0f658fad12e4877a74ad9f0ac20b57f7746288f405630bd5e07ac84815"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -113,11 +113,6 @@
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
-    "LICENSE0.undefined": [
-      "hauchiwa", 
-      "static", 
-      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
-    ], 
     "README.md": [
       "hauchiwa", 
       "static", 
@@ -141,17 +136,12 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "7df7de6c127619ce9cfa6dd3d02755bddab77244bd2358fea9ce8a8357324268"
+      "4071ffa64d15fe73516df06802025a0450d755885259296b6be222091285139e"
     ], 
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 
       "static", 
       "1b46d8fc7ce81627e769c6cecb2b24c3b1c678206a8bb9690ce50f246553bcf4"
-    ], 
-    "hooks/rest2jfed-relation-changed": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "files/tengu_management/scripts/jfed_provider/__init__.py": [
       "hauchiwa", 
@@ -198,10 +188,10 @@
       "static", 
       "5a584e40d8181b891f8b5662810355c6999b64705257eb4115800c2aef095c2a"
     ], 
-    "lib/tengu_charmhelpers/confighelpers.py": [
-      "hauchiwa", 
-      "static", 
-      "473b7c0f658fad12e4877a74ad9f0ac20b57f7746288f405630bd5e07ac84815"
+    "hooks/rest2jfed-relation-joined": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "files/tengu_management/scripts/ssh_provider/__init__.py": [
       "hauchiwa", 
@@ -312,6 +302,11 @@
       "hauchiwa", 
       "static", 
       "b0d3d5d4c47cfa380a626767940a002485305c6b162b19abc5dac44cfd8a933d"
+    ], 
+    "templates/dhc-init.sh": [
+      "layer:juju-client", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
     "files/tengu_management/scripts/get_pubipv4.py": [
       "hauchiwa", 
@@ -473,10 +468,10 @@
       "static", 
       "84401086780ed62915a6cbd1c8dcbd167a847ad9614e08633544eca2dddecc4c"
     ], 
-    "templates/dhc-init.sh": [
-      "layer:juju-client", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "hooks/rest2jfed-relation-changed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "files/tengu_management/templates/env-conf.yaml.template": [
       "hauchiwa", 

@@ -15,14 +15,6 @@
     "type": "string"
     "description": "base64 encoded environment.jenv file"
     "default": !!null ""
-  "environment-pubkey":
-    "type": "string"
-    "description": "base64 encoded pubkey file"
-    "default": !!null ""
-  "environment-privkey":
-    "type": "string"
-    "description": "base64 encoded privkey file"
-    "default": !!null ""
   "ssh-keys":
     "type": "string"
     "description": "a comma-seperated list of public ssh keys to add to the default\

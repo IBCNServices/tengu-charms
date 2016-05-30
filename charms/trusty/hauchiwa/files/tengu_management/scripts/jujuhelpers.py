@@ -16,8 +16,7 @@
 #
 """ Handles communication to Juju """
 
-from subprocess import check_output, STDOUT, CalledProcessError, Popen, PIPE
-from subprocess import check_call
+from subprocess import CalledProcessError, Popen, PIPE
 from time import sleep
 import json
 import sys
@@ -103,6 +102,11 @@ class Service(object):
         sys.stdout.write('{} is {}!\n'.format(self.name, requested_status))
 
 
+    def add_unit(self, **options):
+        """ Add unit to existing Charm"""
+        self.env.do('add-unit', self.name, **options)
+
+
 class JujuEnvironment(object):
     """ handles an existing Juju environment """
     def __init__(self, _name=None):
@@ -111,62 +115,21 @@ class JujuEnvironment(object):
         else:
             self.name = self.current_env()
 
-
-    def do(self, action, *args, **kwargs): #pylint: disable=c0103
-        args += ('-e', self.name)
-        return JujuEnvironment.juju_do(action, *args, **kwargs)
-
-
-    @staticmethod
-    def juju_do(action, *args, **kwargs):
-        command = ['juju', action]
-        # Add all the arguments to the command
-        command.extend(args)
-        # Ad all the keyword arguments to the command
-        for key, value in kwargs.iteritems():
-            command.extend(['--{}'.format(key), value])
-        # convert all elements in command to string
-        command = [str(i) for i in command]
-        try:
-            output = check_output_error(command)
-            return output
-        except CalledProcessError as ex:
-            if 'missing namespace, config not prepared' in ex.output:
-                raise JujuNotFoundException("missing namespace, config not prepared")
-            if "ERROR Unable to connect to environment" in ex.output:
-                raise JujuNotFoundException("ERROR Unable to connect to environment")
-            raise JujuException(ex.output)
-
-
     @property
     def machines(self):
         """ Return machines"""
         return self.status['machines'].keys()
-
 
     @property
     def services(self):
         """ Returns services"""
         return self.status['services'].keys()
 
-
     @property
     def status(self):
         """ Return dictionary with output of juju status """
         output = self.do('status', format='json')
         return json.loads(output)
-
-
-    def get_services(self, startstring, key, value):
-        services = []
-        status = self.status
-        for service_name in status['services'].keys():
-            if service_name.startswith(startstring):
-                config = Service(service_name, self).config
-                if config['settings'][key]['value'] == value:
-                    services.append({service_name:  status['services'][service_name]})
-        return services
-
 
     @property
     def password(self):
@@ -177,7 +140,6 @@ class JujuEnvironment(object):
         password = doc.get('password')
         return password
 
-
     @property
     def bootstrap_user(self):
         """ Gets the bootstrap user from the Juju environment"""
@@ -187,6 +149,10 @@ class JujuEnvironment(object):
         password = doc.get('bootstrap-config').get('bootstrap-user')
         return password
 
+
+    def set_active(self):
+        """switch active juju environment to self"""
+        JujuEnvironment.juju_do('switch', self.name)
 
     def add_machines(self, machines):
         """ Add all machines received from provider to Juju environment"""
@@ -211,37 +177,33 @@ class JujuEnvironment(object):
         self.do('deploy', charm, name, **options)
         return Service(name, self)
 
-
-    def add_unit(self, name, **options):
-        """ Add unit to existing Charm"""
-        self.do('add-unit', name, **options)
-
-
     def deploy_bundle(self, bundle_path, *args, **options):
         """ Deploy Juju bundle """
         return self.do('deployer', '-c', bundle_path, *args, **options)
-
-
-    def action_do(self, unit, action, **options):
-        return self.do('action do', unit, action, **options)
-
-
-    def destroy_service(self, name):
-        """ Deploy <charm> as <name> with config in <config_path> """
-        c_action = ['juju', 'destroy']
-        c_charm = [name]
-        c_force = ['--force']
-        command = c_action + c_charm + c_force
-        try:
-            check_output(command, stderr=STDOUT)
-        except CalledProcessError as ex:
-            raise JujuException(ex.output)
-
 
     def add_relation(self, charm1, charm2):
         """ add relation between two charms """
         self.do('add-relation', charm1, charm2)
 
+    def action_do(self, unit, action, **options):
+        return self.do('action do', unit, action, **options)
+
+    def do(self, action, *args, **kwargs): #pylint: disable=c0103
+        args += ('-e', self.name)
+        return JujuEnvironment.juju_do(action, *args, **kwargs)
+
+    #
+    # Tengu specific methods
+    #
+
+    def deploy_lxc_networking(self):
+        lxc_networking = self.deploy("local:lxc-networking", "lxc-networking", to='0')
+        for machine in self.machines:
+            if machine != '0':
+                lxc_networking.add_unit(to=machine)
+        lxc_networking.wait_until('Ready')
+        dhcp_server = self.deploy("local:dhcp-server", "dhcp-server", to='0')
+        dhcp_server.wait_until('Ready')
 
     def return_environment(self):
         """ returns exported juju environment"""
@@ -258,40 +220,48 @@ class JujuEnvironment(object):
                   'r') as e_file:
             e_content = e_file.read()
         env_conf['environment-jenv'] = b64encode(e_content)
-        # We don't need to export ssh keys since juju can just add the current ones.
-        # with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
-        #     e_content = e_file.read()
-        # env_conf['environment-privkey'] = b64encode(e_content)
-        # with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
-        #     e_content = e_file.read()
-        # env_conf['environment-pubkey'] = b64encode(e_content)
         return env_conf
 
 
-    @staticmethod
-    def switch_env(name):
-        """switch active juju environment to self"""
-        JujuEnvironment.juju_do('switch', name)
-
+    #
+    # Static methods
+    #
 
     @staticmethod
-    def list_environments():
-        """Checks if Juju env with given name exists."""
-        return JujuEnvironment.juju_do('switch', '--list').split()
-
-
-    @staticmethod
-    def env_exists(name):
-        """Checks if Juju env with given name exists."""
-        envs = JujuEnvironment.list_environments()
-        return name in envs
-
+    def juju_do(action, *args, **kwargs):
+        command = ['juju', action]
+        # Add all the arguments to the command
+        command.extend(args)
+        # Ad all the keyword arguments to the command
+        for key, value in kwargs.iteritems():
+            command.extend(['--{}'.format(key), value])
+        # convert all elements in command to string
+        command = [str(i) for i in command]
+        try:
+            output = check_output_error(command)
+            return output
+        except CalledProcessError as ex:
+            if 'missing namespace, config not prepared' in ex.output:
+                raise JujuNotFoundException("missing namespace, config not prepared")
+            if "ERROR Unable to connect to environment" in ex.output:
+                raise JujuNotFoundException("ERROR Unable to connect to environment")
+            raise JujuException(ex.output)
 
     @staticmethod
     def current_env():
         """ Returns the current active Juju environment """
         return JujuEnvironment.juju_do('switch').rstrip()
 
+    @staticmethod
+    def list_environments():
+        """Checks if Juju env with given name exists."""
+        return JujuEnvironment.juju_do('switch', '--list').split()
+
+    @staticmethod
+    def env_exists(name):
+        """Checks if Juju env with given name exists."""
+        envs = JujuEnvironment.list_environments()
+        return name in envs
 
     @staticmethod
     def create(name, bootstrap_host, juju_config, machines):
@@ -308,16 +278,6 @@ class JujuEnvironment(object):
         environment.deploy('local:openvpn', 'openvpn', to='0')
         print("Creation of bare Tengu complete!")
         return environment
-
-
-    def deploy_lxc_networking(self):
-        lxc_networking = self.deploy("local:lxc-networking", "lxc-networking", to='0')
-        for machine in self.machines:
-            if machine != '0':
-                self.add_unit('lxc-networking', to=machine)
-        lxc_networking.wait_until('Ready')
-        dhcp_server = self.deploy("local:dhcp-server", "dhcp-server", to='0')
-        dhcp_server.wait_until('Ready')
 
 
     @staticmethod
@@ -339,10 +299,11 @@ class JujuEnvironment(object):
             config_file.write(yaml.dump(config, default_flow_style=False))
         # Bootstrap new environmnent
         try:
-            check_output(['juju', 'switch', name], stderr=STDOUT)
+            env = JujuEnvironment(name)
+            env.set_active()
             print "bootstrapping juju environment"
             sleep(5) # otherwise we get a weird error
-            check_call(['juju', 'bootstrap'])
+            env.do('bootstrap')
         except CalledProcessError as ex:
             raise JujuException(ex.output)
 
@@ -352,8 +313,6 @@ class JujuEnvironment(object):
         name = env_conf['environment-name']
         conf = yaml.load(b64decode(env_conf['environment-config']))
         jenv = b64decode(env_conf['environment-jenv'])
-        pubkey = b64decode(env_conf['environment-pubkey'])
-        privkey = b64decode(env_conf['environment-privkey'])
         with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
             e_content = yaml.load(e_file)
         with open('{}/.juju/environments.yaml'.format(HOME), 'w+') as e_file:
@@ -361,11 +320,8 @@ class JujuEnvironment(object):
             e_file.write(yaml.dump(e_content, default_flow_style=False))
         with open('{}/.juju/environments/{}.jenv'.format(HOME, name), 'w+') as e_file:
             e_file.write(jenv)
-        with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'w+') as e_file:
-            e_file.write(privkey)
-        with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'w+') as e_file:
-            e_file.write(pubkey)
-        JujuEnvironment.switch_env(name)
+        env = JujuEnvironment(name)
+        env.set_active()
 
 
 def check_output_error(*popenargs, **kwargs):

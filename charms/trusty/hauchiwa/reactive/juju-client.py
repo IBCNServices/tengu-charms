@@ -84,7 +84,6 @@ def add_key(key):
 
 
 def install_packages():
-    #hookenv.status_set('maintenance', 'Installing packages')
     fetch.apt_install(fetch.filter_installed_packages(['software-properties-common']))
     fetch.add_source('ppa:juju/stable')
     fetch.apt_update()
@@ -117,7 +116,6 @@ def install_juju_plugins():
 
 
 def get_and_configure_charm_repo(git_url):
-    #hookenv.status_set('maintenance', 'Configuring Charm Repo')
     repo_name = git_url.rstrip('.git').split('/')[-1]
     repo_path = '/opt/{}'.format(repo_name)
     if not os.path.isdir(repo_path):
@@ -136,7 +134,6 @@ def get_and_configure_charm_repo(git_url):
 
 
 def configure_environments():
-    #hookenv.status_set('maintenance', 'Initializing environment')
     with open('{}/.juju/current-environment'.format(HOME), 'w+') as c_file:
         c_file.write("none")
     if not os.path.isdir('{}/.juju/environments'.format(HOME)):
@@ -191,12 +188,6 @@ def return_environment(name):
               'r') as e_file:
         e_content = e_file.read()
     env_conf['environment-jenv'] = b64encode(e_content)
-    with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'r') as e_file:
-        e_content = e_file.read()
-    env_conf['environment-privkey'] = b64encode(e_content)
-    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'r') as e_file:
-        e_content = e_file.read()
-    env_conf['environment-pubkey'] = b64encode(e_content)
     return env_conf
 
 
@@ -204,8 +195,6 @@ def import_environment(env_conf):
     name = env_conf['environment-name']
     conf = yaml.load(b64decode(env_conf['environment-config']))
     jenv = b64decode(env_conf['environment-jenv'])
-    pubkey = b64decode(env_conf['environment-pubkey'])
-    privkey = b64decode(env_conf['environment-privkey'])
     with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
         e_content = yaml.load(e_file)
     with open('{}/.juju/environments.yaml'.format(HOME), 'w+') as e_file:
@@ -213,10 +202,6 @@ def import_environment(env_conf):
         e_file.write(yaml.dump(e_content, default_flow_style=False))
     with open('{}/.juju/environments/{}.jenv'.format(HOME, name), 'wb+') as e_file:
         e_file.write(jenv)
-    with open('{}/.juju/ssh/juju_id_rsa'.format(HOME), 'wb+') as e_file:
-        e_file.write(privkey)
-    with open('{}/.juju/ssh/juju_id_rsa.pub'.format(HOME), 'wb+') as e_file:
-        e_file.write(pubkey)
     switch_env(name)
 
 

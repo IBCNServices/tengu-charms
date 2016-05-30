@@ -23,6 +23,8 @@ import json
 import sys
 from base64 import b64encode, b64decode
 import getpass
+import tempfile
+import os
 
 # non standard pip dependencies
 import yaml
@@ -35,7 +37,7 @@ HOME = '/home/{}'.format(USER)
 class JujuException(Exception):
     pass
 
-class JujuNotFoundException(Exception):
+class JujuNotFoundException(JujuException):
     pass
 
 
@@ -71,6 +73,22 @@ class Service(object):
         """ Return dictionary with configuration of deployed service"""
         output = self.env.do('get', self.name, format='yaml')
         return yaml.load(output)
+
+    def set_config(self, config):
+        """ Update config of service to values in given dictionary. Format of dictionary:
+        {
+            '<config-key>': '....',
+        }
+
+        Please note that this format is different from what you get when asking the config of a service."""
+        config = {self.name: config}
+        try:
+            with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                # do stuff with temp file
+                tmp.write(yaml.dump(config))
+            self.env.do('set', self.name, config=tmp.name)
+        finally:
+            os.remove(tmp.name)
 
     def wait_until(self, requested_status):
         """ Wait until service contains status in its message """
@@ -117,8 +135,7 @@ class JujuEnvironment(object):
                 raise JujuNotFoundException("missing namespace, config not prepared")
             if "ERROR Unable to connect to environment" in ex.output:
                 raise JujuNotFoundException("ERROR Unable to connect to environment")
-            print(ex.output)
-            raise
+            raise JujuException(ex.output)
 
 
     @property
@@ -186,7 +203,7 @@ class JujuEnvironment(object):
             if proc.poll() is None:
                 proc.wait()
             if proc.poll() > 0:
-                raise Exception('error while adding machines')
+                raise JujuException('error while adding machines')
 
 
     def deploy(self, charm, name, **options):
@@ -218,8 +235,7 @@ class JujuEnvironment(object):
         try:
             check_output(command, stderr=STDOUT)
         except CalledProcessError as ex:
-            print ex.output
-            raise
+            raise JujuException(ex.output)
 
 
     def add_relation(self, charm1, charm2):
@@ -328,8 +344,7 @@ class JujuEnvironment(object):
             sleep(5) # otherwise we get a weird error
             check_call(['juju', 'bootstrap'])
         except CalledProcessError as ex:
-            print ex.output
-            raise
+            raise JujuException(ex.output)
 
 
     @staticmethod
@@ -353,7 +368,7 @@ class JujuEnvironment(object):
         JujuEnvironment.switch_env(name)
 
 
-def check_output_error(*popenargs,  **kwargs):
+def check_output_error(*popenargs, **kwargs):
     process = Popen(stdout=PIPE, stderr=PIPE, *popenargs, **kwargs)
     output, stderr = process.communicate()
     retcode = process.poll()
@@ -361,5 +376,5 @@ def check_output_error(*popenargs,  **kwargs):
         cmd = kwargs.get("args")
         if cmd is None:
             cmd = popenargs[0]
-        raise CalledProcessError(retcode, cmd, output=stderr)  # or your own exception
+        raise CalledProcessError(retcode, cmd, output=stderr)
     return output

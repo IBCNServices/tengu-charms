@@ -13,7 +13,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#pylint: disable=c0111,c0301
+#pylint: disable=c0111,c0301,c0325
 import os
 import json
 import socket
@@ -24,7 +24,7 @@ from subprocess import CalledProcessError
 from flask import Flask, Response, request, redirect
 from pygments import highlight, lexers, formatters
 
-from jujuhelpers import JujuEnvironment, JujuNotFoundException, Service
+from jujuhelpers import JujuEnvironment, JujuException, JujuNotFoundException, Service
 
 
 APP = Flask(__name__)
@@ -50,7 +50,7 @@ def api_root():
     info = {
         "name":socket.gethostname(),
         "models": JujuEnvironment.list_environments(),
-        "version": "1.0.0", # see http://semver.org/
+        "version": "1.1.0", # see http://semver.org/
     }
     return create_response(200, info)
 
@@ -106,6 +106,20 @@ def api_service_config(modelname, servicename):
     service = Service(servicename, juju)
     info = service.config
     return create_response(200, info)
+
+
+@APP.route('/<modelname>/<servicename>/config', methods=['PUT'])
+def api_service_config_change(modelname, servicename):
+    """ Change config of specified hauchiwa """
+    config = request.json
+    juju = JujuEnvironment(modelname)
+    service = Service(servicename, juju)
+    try:
+        service.set_config(config)
+    except JujuException as exception:
+        print(exception.message)
+        return create_response(500, {"msg":'config change failed', "output": exception.message})
+    return create_response(200, {"msg":'Config change requested'})
 
 
 @APP.route('/<modelname>/<servicename>/upgrade', methods=['GET'])

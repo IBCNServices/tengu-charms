@@ -11,7 +11,7 @@ In your charm layer's `composer.yaml`, you will need to include this layer, e.g.
 
 Don't forget to set COMPOSER_HOME when composing from local layers.
 
-You can react to the states `juju.installed` and `juju.upgraded`. The [`tengu-intance-admin`](https://github.com/galgalesh/tengu-charms/tree/master/charms/layers/tengu-instance-admin) is an example of al layer that uses this layer.
+You can react to the states `juju.installed` and `juju.upgraded`. The [`tengu-intance-admin`](https://github.com/IBCNServices/tengu-charms/tree/master/charms/layers/tengu-instance-admin) is an example of al layer that uses this layer.
 
 # Options
 

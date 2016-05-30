@@ -59,4 +59,4 @@ Python exceptions are automatically catched in production. To run the server in 
 # Contact Information
 
 merlijn.sebrechts@gmail.com
-https://github.com/galgalesh/tengu-charms
+https://github.com/IBCNServices/tengu-charms

@@ -42,7 +42,7 @@ or
     command: <download command>     # command to execute in order to download resource
     [<action>]                      # action to execute after download. Currently only 'extract' is supported
 
-The second format can be used when you need to add custom cookies and headers to the download request. This is for example needed when downloading oracle java [as used in the rest2jfed charm](https://github.com/galgalesh/tengu-charms/blob/390256d7eafa86a7b50bb46c4c6b5f22ff4739cc/charms/trusty/rest2jfed/files/server-jre-8u45-linux-x64.tar.gz.source).
+The second format can be used when you need to add custom cookies and headers to the download request. This is for example needed when downloading oracle java [as used in the rest2jfed charm](https://github.com/IBCNServices/tengu-charms/blob/390256d7eafa86a7b50bb46c4c6b5f22ff4739cc/charms/trusty/rest2jfed/files/server-jre-8u45-linux-x64.tar.gz.source).
 
 
 ## Layers

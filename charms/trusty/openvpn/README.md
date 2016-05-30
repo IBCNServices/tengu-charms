@@ -160,4 +160,4 @@ server or client certificates.
 # Contact Information
 
 Author: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
-Report bugs at: https://github.com/galgalesh/tengu-charms
+Report bugs at: https://github.com/IBCNServices/tengu-charms

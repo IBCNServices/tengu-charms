@@ -1,0 +1,13 @@
+"options":
+  "rest2kafka": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "layer:apt"
+- "interface:kafka"
+- "interface:http"
+"repo": "git@github.com:IBCNServices/tengu-charms.git"
+"is": "rest2kafka"

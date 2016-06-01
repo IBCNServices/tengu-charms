@@ -1,0 +1,4 @@
+name: kafka
+summary: Interface between Kafka and its clients
+version: 1
+maintainer: "Juju Big Data <bigdata@lists.ubuntu.com>"

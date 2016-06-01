@@ -1,0 +1,14 @@
+name: rest2kafka
+summary: Installs simple rest2kafka server
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@ugent.be>
+description: |
+  Installs simple rest2kafka server
+provides:
+  website:
+    interface: http
+requires:
+  kafka:
+    interface: kafka
+subordinate: false
+categories:
+  - big-data

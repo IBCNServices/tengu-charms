@@ -61,7 +61,7 @@
     "templates/kafka.connect": [
       "rest2kafka", 
       "static", 
-      "70fb9fd9ffb0fd039f5d437ce303f96044fc56e911534348c00e4581130a3a21"
+      "3a3b56abb7c0737ccd6d0e464584e3f5d6bc76e0b6c17259fcaf7d4c265685b1"
     ], 
     "hooks/relations/http/interface.yaml": [
       "interface:http", 
@@ -81,7 +81,7 @@
     "reactive/rest2kafka.py": [
       "rest2kafka", 
       "static", 
-      "40bcf1aa21bd2ea83f2aaa920cc335d98f9e904682f444472e1f485ac4f77328"
+      "b52a8c8f7e857bea3613ccc5d6ea1eb89752917470fb81bc4d774913ed4cf5f6"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 
@@ -291,7 +291,7 @@
     "files/rest2kafka/rest2kafka.py": [
       "rest2kafka", 
       "static", 
-      "130048285be13ba40d432aafe907a0ec306840258aec0d16a025aaf5da58d6a0"
+      "3982f3911beda7c847dbabacf77578a4ebb2110bc8ba5cf890bd8fcd432f2cc5"
     ], 
     "wheelhouse/PyYAML-3.11.zip": [
       "layer:basic", 

@@ -32,27 +32,27 @@ os.environ['HOME'] = "/root"
 def install():
     install_rest2kafka()
     set_state('rest2kafka.installed')
+    hookenv.status_set('blocked', 'Waiting for relation to Kafka')
+
 
 @hook('upgrade-charm')
 def upgrade():
     upgrade_rest2kafka()
     set_state('rest2kafka.installed')
 
-@when('rest2kafka.installed', 'kafka.ready')
 @when_not('kafka.configured')
 def configure_rest2kafka(kafka):
-    hookenv.status_set('maintenance', 'Setting up rest2kafka kafka relation')
-    configure_rest2kafka_kafka(kafka)
-    restart_rest2kafka()
-    set_state('kafka.configured')
-    hookenv.status_set('active', 'Ready & connected to kafka')
-
+    if kafka.kafkas():
+        hookenv.status_set('maintenance', 'Setting up rest2kafka kafka relation')
+        configure_rest2kafka_kafka(kafka)
+        restart_rest2kafka()
+        set_state('kafka.configured')
+        hookenv.status_set('active', 'Ready & connected to kafka')
 
 @when('kafka.configured')
-@when_not('kafka.database.available')
+@when_not('kafka.joined')
 def remove_kafka_configured():
     remove_state('kafka.configured')
-
 
 def install_rest2kafka():
     apt.add_source('ppa:cwchien/gradle')

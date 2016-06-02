@@ -1,6 +1,6 @@
-{% for kafka_unit in kafkas %}
+{%- for kafka_unit in kafkas -%}
   {{kafka_unit['host']}}:{{kafka_unit['port']}}
-  {% if not loop.last %}
+  {%- if not loop.last -%}
       ,
-  {%- endif %}
-{% endfor %}
+  {%- endif -%}
+{%- endfor -%}

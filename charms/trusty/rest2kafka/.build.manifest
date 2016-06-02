@@ -81,7 +81,7 @@
     "reactive/rest2kafka.py": [
       "rest2kafka", 
       "static", 
-      "b52a8c8f7e857bea3613ccc5d6ea1eb89752917470fb81bc4d774913ed4cf5f6"
+      "4d9e066e35e9fb1cc29220d8d6313f5c363e5ce709c886a9d190b268aaa518e4"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 

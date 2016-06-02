@@ -41,6 +41,7 @@ def upgrade():
     set_state('rest2kafka.installed')
 
 @when_not('kafka.configured')
+@when('kafka.joined')
 def configure_rest2kafka(kafka):
     if kafka.kafkas():
         hookenv.status_set('maintenance', 'Setting up rest2kafka kafka relation')

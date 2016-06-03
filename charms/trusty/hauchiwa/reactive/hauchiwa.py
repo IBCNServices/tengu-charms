@@ -28,7 +28,7 @@ import subprocess
 from charmhelpers import fetch
 from charmhelpers.core import templating, hookenv, host
 from charmhelpers.core.hookenv import open_port, config
-from charms.reactive import hook, when, when_all, when_not, set_state, remove_state, when_file_changed
+from charms.reactive import hook, when, when_all, when_any, when_not, set_state, remove_state
 
 # non-standard pip dependencies
 import yaml
@@ -55,6 +55,7 @@ def show_pf(port_forward):
         msg += '{}:{}->{} '.format(forward['public_ip'], forward['public_port'], forward['private_port'])
     msg += '"'
     hookenv.status_set('active', msg)
+    set_state('hauchiwa-port-forward.shown')
 
 
 @when('juju.repo.available')
@@ -66,7 +67,6 @@ def downloadbigfiles():
 
 @hook('upgrade-charm')
 def upgrade_charm():
-    """Upgrade Charm"""
     hookenv.log('Updating tengu-instance-admin')
     install_tengu()
 
@@ -74,16 +74,24 @@ def upgrade_charm():
 @when('juju.installed')
 @when_not('tengu.installed')
 def install():
-    """Install"""
     hookenv.log('Installing tengu-instance-admin')
     install_tengu()
     set_state('tengu.installed')
     open_port('22')
 
 
-@hook('config-changed')
+@when('tengu.installed')
+@when('config.changed.feature-flags')
+def feature_flags_changed():
+    render_upstart_template()
+    host.service_restart('h_api')
+    set_state('h_api.started')
+    open_port('5000')
+
+
+@when('tengu.installed')
+@when_any('config.changed.project-name', 'config.changed.s4-cert-path', 'config.changed.pubkey')
 def config_changed():
-    """Config changed"""
     conf = hookenv.config()
     with open(S4_CERT_PATH, 'wb+') as certfile:
         certfile.write(base64.b64decode(conf['emulab-s4-cert']))
@@ -111,8 +119,8 @@ def set_blocked():
         hookenv.status_set('blocked', 'Hauchiwa flavor {} not recognized'.format(FLAVOR))
 
 
-@when('tengu.configured', 'tengu.repo.available', 'juju.repo.available',
-      'hauchiwa.provider.configured')
+@when_all('tengu.configured', 'tengu.repo.available', 'juju.repo.available',
+          'hauchiwa.provider.configured', 'hauchiwa-port-forward.shown')
 @when_not('bundle.deployed')
 def create_environment(*arg):  # pylint:disable=w0613
     conf = hookenv.config()
@@ -156,7 +164,7 @@ def install_tengu():
     """ Installs tengu management tools """
     packages = ['python-pip', 'tree']
     fetch.apt_install(fetch.filter_installed_packages(packages))
-    subprocess.check_output(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil'])
+    subprocess.check_output(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client'])
     # Install Tengu. Existing /etc files don't get overwritten.
     t_dir = None
     if os.path.isdir(TENGU_DIR + '/etc'):
@@ -182,14 +190,6 @@ def install_tengu():
         context={'tengu_dir': TENGU_DIR}
     )
     chownr(TENGU_DIR, USER, USER)
-    templating.render(
-        source='upstart.conf',
-        target='/etc/init/h_api.conf',
-        context={
-            'tengu_dir': TENGU_DIR,
-            'user': USER
-        }
-    )
 
     # get the name of this service from the unit name
     service_name = hookenv.local_unit().split('/')[0]
@@ -198,21 +198,20 @@ def install_tengu():
     # Make hostname resolvable
     with open('/etc/hosts', 'a') as hosts_file:
         hosts_file.write('127.0.0.1 {}\n'.format(service_name))
-    host.service_restart('h_api')
-    open_port('5000')
-    set_state('h_api.started')
 
 
-# Service will restart even if files change outside of Juju.
-# `update-status` hook will run periodically checking the hash of those files.
-@when_file_changed(
-    '/etc/init/h_api.conf',
-    '/opt/tengu/scripts/h_api.py',
-    '/opt/tengu/scripts/jujuhelpers.py')
-@when('h_api.started')
-def restart():
-    host.service_restart('h_api')
-    open_port('5000')
+def render_upstart_template():
+    flags = hookenv.config()['feature-flags'].replace(' ', '')
+    flags = [x for x in flags.split(',') if x != '']
+    templating.render(
+        source='upstart.conf',
+        target='/etc/init/h_api.conf',
+        context={
+            'tengu_dir': TENGU_DIR,
+            'user': USER,
+            'flags': flags
+        }
+    )
 
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):

@@ -41,7 +41,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "8e14b9bc6b8cf45db6ef1ecaa389f2746fb504b101ea05e058b612f422417cdc"
+      "12942b488958a99c125633ec1950d66e3a2f6ccb3ed1ab4c3a7d371560b6199b"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -136,7 +136,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "4071ffa64d15fe73516df06802025a0450d755885259296b6be222091285139e"
+      "9667053e6be786a7bfe302fb0103f9cd2021b7808488b6a0ebe095159d63ef4b"
     ], 
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 
@@ -341,7 +341,7 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "d515aa358095ade09fcc3627eacc5b33c629be045af07db826d7b6e6884d495b"
+      "df3383b63af72b77eceba3de4f877d53ad6c0ac85f439b8f7bbb3d45ab7a3bc8"
     ], 
     "files/tengu_management/scripts/jfed_provider/rest2jfed_connector.py": [
       "hauchiwa", 
@@ -431,7 +431,7 @@
     "templates/upstart.conf": [
       "hauchiwa", 
       "static", 
-      "f21baa2bc51fade85b3becd0d571dcd23e54d9b75e3dc5f1a8a46c3985bea72b"
+      "e9836eb25e3f14fdf84fd407092b8ccb9eab1b50330730312e14f9f2030fa77b"
     ], 
     "templates/juju-plugins.sh": [
       "layer:juju-client", 

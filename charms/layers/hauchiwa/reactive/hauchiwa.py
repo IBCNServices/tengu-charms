@@ -78,6 +78,7 @@ def install():
     install_tengu()
     set_state('tengu.installed')
     open_port('22')
+    config_changed()
 
 
 @when('tengu.installed')

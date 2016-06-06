@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=C0111,c0321,c0301,c0325
 #
-""" deploys a tengu env """
 import os
 from os.path import expanduser, realpath
 import shutil
@@ -70,7 +69,7 @@ def init_environment_config(env_name):
 
 
 def wait_for_init(env_conf):
-    """Waits until VW prepare script has happened"""
+    """Waits until the init script has run"""
     bootstrap_host = env_conf['juju-env-conf']['bootstrap-host']
     bootstrap_user = env_conf['juju-env-conf']['bootstrap-user']
     okwhite('Waiting for {} to finish partition resize'.format(bootstrap_host))
@@ -99,7 +98,7 @@ def create_juju(env_conf, provider_env):
         fail("Juju environment already exists. Remove it first with 'tengu destroy {}'".format(env_conf['env-name']))
     try:
         machines = provider_env.machines
-    except Exception as ex: # pylint: disable=W0703
+    except Exception as ex:
         fail("Could not get machines from provider", ex)
     # Create Juju environment
     env_conf['juju-env-conf']['bootstrap-host'] = machines.pop(0)
@@ -121,7 +120,7 @@ def lock_environment(env_name, lock_status):
         action = 'locked'
     else:
         action = 'unlocked'
-    print "Tengu {} is {}".format(env_name, action)
+    print "Model {} is {}".format(env_name, action)
 #    from crontab import CronTab
 #    tab = CronTab()
 #    cron = tab.new(command='/foo/bar')
@@ -215,10 +214,10 @@ def g_juju():
 @click.option(
     '-n', '--name',
     default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
+    help='Name of model. Defaults to the active model.')
 def c_add_machines(name):
     """Add machines of jfed experiment to Juju environment
-    NAME: name of Tengu """
+    NAME: name of model """
     env_conf = init_environment_config(name)
     env = get_provider(env_conf).get(env_conf)
     machines = env.machines
@@ -232,7 +231,7 @@ def c_add_machines(name):
 @click.option(
     '-n', '--name',
     default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
+    help='Name of model. Defaults to the active model.')
 @click.argument('filename')
 def c_export_juju_env(name, filename):
     """export juju environment to given yaml file """
@@ -263,16 +262,10 @@ def g_cli():
     '--create-machines/--no-create-machines',
     default=True,
     help='skip creation of provider environment')
-# @click.option(
-#     '--clean/--no-clean',
-#     default=False,
-#     help='destroys juju environment before creating Tengu')
 @click.argument('name')
 def c_create(bundle, name, create_machines):
-    """Create a Tengu with given name. Skips slice creation if it already exists.
-    NAME: name of Tengu """
-#    if clean:
-#        destroy_juju_environment(name)
+    """Create a model with given name. Skips slice creation if it already exists.
+    NAME: name of model """
     env_conf = init_environment_config(name)
     try:
         with open(bundle, 'r') as bundle_file:
@@ -291,59 +284,62 @@ def c_create(bundle, name, create_machines):
 @click.command(
     name='deploy',
     context_settings=CONTEXT_SETTINGS)
-@click.option(
-    '--bundle',
-    type=click.Path(exists=True, readable=True),
-    default='/opt/tengu/templates/bundle.yaml',
-    help='path to bundle that contains machines to create and services to deploy')
 @click.argument('name')
 def c_deploy(bundle, name):
-    """Create a Tengu with given name. Skips slice creation if it already exists.
-    NAME: name of Tengu """
+    """Create a model with given name. Skips slice creation of the model's underlying jFed experiment if the slice already exists.
+    NAME: name of model """
     downloadbigfiles(os.environ['JUJU_REPOSITORY'])
     juju_env = JujuEnvironment(name)
     juju_env.deploy_bundle(bundle)
 
 
 @click.command(
+    name='lock',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name', type=str)
+def c_lock(name):
+    """Lock destructive actions (such as destroy and reload) for given model.
+    NAME: name of model """
+    lock_environment(name, True)
+
+
+@click.command(
+    name='unlock',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name', type=str)
+def c_unlock(name):
+    """Unlock destructive actions (such as destroy, reload) for given model.
+    NAME: name of model """
+    lock_environment(name, False)
+
+
+@click.command(
+    name='reload',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name', type=str)
+def c_reload(name):
+    """ Reload the model's machines. This will completely wipe the disk of the machines and put a new OS on them.
+    NAME: name of model
+    """
+    if click.confirm('Warning! This will wipe the disk of all the machines of the model "{}". Are you sure you want to continue?'.format(name)):
+        okwhite('reloading all slivers in slice {}'.format(name))
+        env_conf = init_environment_config(name)
+        env = get_provider(env_conf).get(env_conf)
+        env.reload()
+
+
+@click.command(
     name='destroy',
     context_settings=CONTEXT_SETTINGS)
-@click.option(
-    '-n', '--name',
-    default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
 def c_destroy(name):
-    """Destroys Tengu with given name
-    NAME: name of Tengu """
-    if click.confirm('Warning! This will destroy both the Juju environment and the jFed experiment of the Tengu with name {}. Are you sure you want to continue?'.format(name)):
+    """Destroys model with given name
+    NAME: name of model """
+    if click.confirm('Warning! This will destroy both the Juju environment and the jFed experiment of the model "{}". Are you sure you want to continue?'.format(name)):
         destroy_juju_environment(name)
         env_conf = init_environment_config(name)
         env = get_provider(env_conf).get(env_conf)
         env.destroy()
 
-@click.command(
-    name='lock',
-    context_settings=CONTEXT_SETTINGS)
-@click.option(
-    '-n', '--name',
-    default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
-def c_lock(name):
-    """Lock destructive actions for given Tengu
-    NAME: name of Tengu """
-    lock_environment(name, True)
-
-@click.command(
-    name='unlock',
-    context_settings=CONTEXT_SETTINGS)
-@click.option(
-    '-n', '--name',
-    default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
-def c_unlock(name):
-    """Lock destructive actions for given Tengu
-    NAME: name of Tengu """
-    lock_environment(name, False)
 
 @click.command(
     name='renew',
@@ -351,11 +347,11 @@ def c_unlock(name):
 @click.option(
     '-n', '--name',
     default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
+    help='Name of model. Defaults to the active model.')
 @click.argument('hours', type=int, default=800)
 def c_renew(name, hours):
-    """ Set expiration date of Tengu to now + given hours
-    NAME: name of Tengu
+    """ Set expiration date of the model's underlying jFed experiment to now + given hours
+    NAME: name of model
     HOURS: requested expiration hours"""
     okwhite('renewing slice {} for {} hours'.format(name, hours))
     env_conf = init_environment_config(name)
@@ -364,32 +360,15 @@ def c_renew(name, hours):
 
 
 @click.command(
-    name='reload',
-    context_settings=CONTEXT_SETTINGS)
-@click.option(
-    '-n', '--name',
-    default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
-def c_reload(name):
-    """ Reload the Tengu machines. This will completely wipe the machines.
-    NAME: name of Tengu
-    """
-    okwhite('reloading all slivers in slice {}'.format(name))
-    env_conf = init_environment_config(name)
-    env = get_provider(env_conf).get(env_conf)
-    env.reload()
-
-
-@click.command(
     name='status',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
     default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
+    help='Name of model. Defaults to the active model.')
 def c_status(name):
-    """Show status of Tengu with given name
-    NAME: name of Tengu """
+    """Show status of model with given name
+    NAME: name of model """
     env_conf = init_environment_config(name)
     env = get_provider(env_conf).get(env_conf)
     responsedict = env.status
@@ -410,18 +389,19 @@ def c_status(name):
     else:
         okwhite("Juju environment doesn't exist")
 
+
 @click.command(
     name='export',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-n', '--name',
     default=DEFAULT_ENV,
-    help='Name of Tengu. Defaults to name of current Juju environment.')
+    help='Name of model. Defaults to the active model.')
 @click.argument(
     'path',
     type=click.Path(writable=True))
 def c_export(name, path):
-    """Export Tengu with given NAME"""
+    """Export the config of the model with given NAME"""
     jujuenv = JujuEnvironment(name)
     config = jujuenv.return_environment()
     files = {
@@ -440,6 +420,7 @@ def c_export(name, path):
     with open(path, 'w+') as outfile:
         outfile.write(yaml.dump(export))
 
+
 @click.command(
     name='import',
     context_settings=CONTEXT_SETTINGS)
@@ -447,14 +428,14 @@ def c_export(name, path):
     'path',
     type=click.Path(exists=True, readable=True))
 def c_import(path):
-    """Import Tengu from config file"""
+    """Import model config from config file"""
     with open(path, 'r') as stream:
         export = yaml.load(stream)
     name = export.keys()[0]
     config = export.values()[0]
     if not os.path.isdir(os.path.dirname(env_conf_path(name))):
         os.makedirs(os.path.dirname(env_conf_path(name)))
-    elif not click.confirm('Warning! Tengu with name {} already configured, are you sure you want to overwrite the config files?'.format(name)):
+    elif not click.confirm('Warning! Model "{}" already configured, are you sure you want to overwrite the config files?'.format(name)):
         exit()
     files = {
         "tengu-env-conf" : env_conf_path(name),
@@ -477,6 +458,7 @@ def c_userinfo():
     """ Print info of configured jfed user """
     PPRINTER.pprint(get_provider().userinfo)
 
+
 @click.command(
     name='downloadbigfiles',
     context_settings=CONTEXT_SETTINGS)
@@ -490,7 +472,7 @@ def c_downloadbigfiles():
 # @click.option(
 #     '-n', '--name',
 #     default=DEFAULT_ENV,
-#     help='Name of Tengu. Defaults to name of current Juju environment.')
+#     help='Name of model. Defaults to the active model.')
 # @click.argument(
 #     'mindays',
 #     type=int,
@@ -541,6 +523,7 @@ def c_downloadbigfiles():
 g_cli.add_command(c_create)
 g_cli.add_command(c_deploy)
 g_cli.add_command(c_destroy)
+g_cli.add_command(c_reload)
 g_cli.add_command(c_lock)
 g_cli.add_command(c_unlock)
 g_cli.add_command(c_renew)

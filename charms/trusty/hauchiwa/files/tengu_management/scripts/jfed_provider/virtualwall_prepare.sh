@@ -51,7 +51,7 @@ locale-gen nl_BE.UTF-8
 useradd safety --uid 30000
 
 # Get help script
-wget https://raw.githubusercontent.com/IBCNServices/tengu-charms/master/charms/layers/hauchiwa/files/tengu_management/scripts/get_pubipv4.py -O /get_pubipv4.py
+wget https://raw.githubusercontent.com/IBCNServices/tengu-charms/master/charms/layers/hauchiwa/files/tengu_management/scripts/jfed_provider/get_pubipv4.py -O /get_pubipv4.py
 chmod u+x /get_pubipv4.py
 
 # Get required values

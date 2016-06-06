@@ -7,7 +7,7 @@
     </sliver_type>
     <services>
       <execute shell="sh" command="echo 'This command fixes a !command to long! bug, leave it here.'"/>
-      <execute shell="sh" command="echo 'CmV4cG9ydCBodHRwc19wcm94eT0naHR0cDovL3Byb3h5LmF0bGFudGlzLnVnZW50LmJlOjgwODAnCndnZXQgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2dhbGdhbGVzaC90ZW5ndS1jaGFybXMvbWFzdGVyL2NoYXJtcy9sYXllcnMvaGF1Y2hpd2EvZmlsZXMvdGVuZ3VfbWFuYWdlbWVudC9zY3JpcHRzL3ZpcnR1YWx3YWxsX3ByZXBhcmUuc2ggLU8gL3ByZXBhcmUuc2gKY2htb2QgdSt4IC9wcmVwYXJlLnNoCi9wcmVwYXJlLnNoCgo=' | base64 --decode | sudo bash"/>
+      <execute shell="sh" command="export https_proxy='http://proxy.atlantis.ugent.be:8080'; sudo -E wget https://raw.githubusercontent.com/IBCNServices/tengu-charms/master/charms/trusty/hauchiwa/files/tengu_management/scripts/jfed_provider/virtualwall_prepare.sh -O /prepare.sh; sudo chmod u+x /prepare.sh; sudo bash /prepare.sh"/>
     </services>
     <interface client_id="{{ node.name }}:if0">
       <ip address="{{ node.private_ip }}" netmask="{{ node.private_netmask }}" type="ipv4"/>

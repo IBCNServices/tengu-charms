@@ -6,4 +6,4 @@ juju-env-conf:
     authorized-keys-path: ~/.ssh/authorized_keys
     ssl-hostname-verification: False
     bootstrap-user: jujuuser
-locked: True
+locked: False

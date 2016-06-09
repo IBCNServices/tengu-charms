@@ -1,7 +1,7 @@
 Overview
 --------
 
-The Spout charm represents an Apache Storm spout. 
+The Kafka-Spout charm represents an Apache Storm Kafka spout. 
  
 Usage
 -----
@@ -18,10 +18,13 @@ juju add-relation stormmaster:master stormworker:worker
 
 juju deploy storm-topology topo
 juju add-relation topo stormmaster
-juju deploy spout spout1
-juju add-relation spout1 stormmaster
-juju add-relation spout1 topo
+juju deploy kafka-spout kspout
+juju add-relation kspout stormmaster
+juju add-relation kspout topo
 
-juju set spout1 "class=https://raw.githubusercontent.com/xannz/WordCountExample/master/src/main/java/com/sborny/wordcountexample/RandomSentenceSpout.java"
+juju set kspout "config=https://raw.githubusercontent.com/xannz/WordCountExample/master/kafkaconfig.yaml"
+juju set kspout "spoutconfigname=spoutConfig"
 ```
+
+The `spoutconfigname` must match the id in the config file.
 

@@ -1,7 +1,7 @@
 Overview
 --------
 
-The Spout charm represents an Apache Storm spout. 
+The storm-topology charm represents an Apache Storm topology. 
  
 Usage
 -----
@@ -18,10 +18,10 @@ juju add-relation stormmaster:master stormworker:worker
 
 juju deploy storm-topology topo
 juju add-relation topo stormmaster
-juju deploy spout spout1
-juju add-relation spout1 stormmaster
-juju add-relation spout1 topo
 
-juju set spout1 "class=https://raw.githubusercontent.com/xannz/WordCountExample/master/src/main/java/com/sborny/wordcountexample/RandomSentenceSpout.java"
+juju set topo "name=WordCountTopology"
+juju set topo "dependencies=https://raw.githubusercontent.com/xannz/WordCountExample/master/dependencies"
 ```
+
+
 

@@ -2,6 +2,7 @@ Overview
 --------
 
 The bolt charm represents an Apache Storm bolt. 
+Required Apache Storm version is 0.10 +.
  
 Usage
 -----

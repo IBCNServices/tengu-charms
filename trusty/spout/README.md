@@ -2,6 +2,7 @@ Overview
 --------
 
 The Spout charm represents an Apache Storm spout. 
+Required Apache Storm version is 0.10 +.
  
 Usage
 -----

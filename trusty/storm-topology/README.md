@@ -2,6 +2,7 @@ Overview
 --------
 
 The storm-topology charm represents an Apache Storm topology. 
+Required Apache Storm version is 0.10 +.
  
 Usage
 -----

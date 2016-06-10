@@ -2,6 +2,7 @@ Overview
 --------
 
 The Kafka-Spout charm represents an Apache Storm Kafka spout. 
+Required Apache Storm version is 0.10 +.
  
 Usage
 -----

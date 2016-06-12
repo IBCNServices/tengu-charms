@@ -14,7 +14,7 @@ installPackages()
 		juju-log "Creating bolt-list"
 		touch /tmp/storm-topology/bolt-list
 	fi	
-	status-set blocked "Waiting for: bolt class"
+	status-set blocked "Waiting for: Storm-Topology relation"
 }
 
 getBolt()
@@ -30,16 +30,16 @@ getBolt()
 		juju-log "Downloading bolt"
 		wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
 		sed -i "s/.*package.*/package tengu.storm;/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
-		echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
+#		echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
 		echo "1" > /tmp/storm-topology/$topology/rebuild
-	else
+#	else
 		#classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
 		#((classnr++))
-		countClass=`grep -ow "$classNoExtension$" /tmp/storm-topology/$topology/bolts | wc -l`
-		if [[ $countClass -ne 0 ]]; then
-			((countClass++))
-			sed -i "s/^$classNoExtension.*/$classNoExtension $countClass/" /tmp/storm-topology/$topology/classes
-		fi		
+		#countClass=`grep -ow "$classNoExtension$" /tmp/storm-topology/$topology/bolts | wc -l`
+		#if [[ $countClass -ne 0 ]]; then
+		#	((countClass++))
+		#	sed -i "s/^$classNoExtension.*/$classNoExtension $countClass/" /tmp/storm-topology/$topology/classes
+		#fi		
 	fi	
 	grep -w "^$serviceName" /tmp/storm-topology/$topology/bolts && sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.$classNoExtension/" /tmp/storm-topology/$topology/bolts || echo "$serviceName tengu.storm.$classNoExtension" >> /tmp/storm-topology/$topology/bolts
 
@@ -161,6 +161,8 @@ topologyChanged()
 		juju-log "Bolt not found in bolt-list ... adding"
 		echo "$serviceName $topologyName" >> /tmp/storm-topology/bolt-list
 	fi
+
+	status-set blocked "Waiting for class"
 }
 
 stormelementChanged()

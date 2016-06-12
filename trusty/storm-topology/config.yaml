@@ -6,7 +6,6 @@ options:
       Specify name of topology   
   dependencies:
     type: string 
-    default:    
     description: |
       URL to dependencies file   
 

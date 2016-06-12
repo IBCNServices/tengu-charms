@@ -22,7 +22,7 @@ installPackages()
 		touch /tmp/storm-topology/$serviceName/spouts
 		touch /tmp/storm-topology/$serviceName/bolts
 		touch /tmp/storm-topology/$serviceName/graph
-		touch /tmp/storm-topology/$serviceName/classes
+		#touch /tmp/storm-topology/$serviceName/classes
 		touch /tmp/storm-topology/$serviceName/deploy
 		touch /tmp/storm-topology/$serviceName/bolt-preparation		
 		echo "0" > /tmp/storm-topology/$serviceName/deploy

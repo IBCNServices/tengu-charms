@@ -15,7 +15,7 @@ installPackages()
 		juju-log "Creating spout-list"
 		touch /tmp/storm-topology/spout-list
 	fi
-	status-set blocked "Waiting for: spout class"
+	status-set blocked "Waiting for: Storm-Topology relation"
 }
 
 #test meerdere spouts uit in file /tmp/storm-topology/spout-list en /tmp/storm-topology/topo1/spouts
@@ -34,14 +34,14 @@ getSpout()
 			juju-log "Downloading spout class"
 			wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
 			sed -i "s/.*package.*/package tengu.storm;/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
-			echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
+#			echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
 			echo "1" > /tmp/storm-topology/$topology/rebuild							
 		fi
-		countClass=`grep -ow "$classNoExtension$" /tmp/storm-topology/$topology/spouts | wc -l`
-		if [[ $countClass -ne 0 ]]; then
-			((countClass++))
-			sed -i "s/^$classNoExtension.*/$classNoExtension $countClass/" /tmp/storm-topology/$topology/classes
-		fi
+#		countClass=`grep -ow "$classNoExtension$" /tmp/storm-topology/$topology/spouts | wc -l`
+#		if [[ $countClass -ne 0 ]]; then
+#			((countClass++))
+#			sed -i "s/^$classNoExtension.*/$classNoExtension $countClass/" /tmp/storm-topology/$topology/classes
+#		fi
 
 		#classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
 		#((classnr++))
@@ -89,6 +89,8 @@ topologyChanged()
 		juju-log "Spout not found in spout-list ... adding"
 		echo "$serviceName $topologyName" >> /tmp/storm-topology/spout-list
 	fi
+
+	status-set blocked "Waiting for class"
 }
 
 stormelementChanged()

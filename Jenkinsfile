@@ -4,10 +4,10 @@ node {
   echo checkout scm
 
   stage 'Download Bigfiles'
-  env.JUJU_REPOSITORY = env.PWD
-  echo env.PWD
+  env.JUJU_REPOSITORY = pwd
+  echo pwd
   echo env.JUJU_REPOSITORY
-  sh 'echo $PWD'
+  sh 'tengu downloadbigfiles'
   stage 'Test'
   echo 'Stage Test'
 }

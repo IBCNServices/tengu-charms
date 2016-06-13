@@ -1,4 +1,4 @@
-echo properties
+echo properties()
 
 node {
   echo 'Pipeline Start'

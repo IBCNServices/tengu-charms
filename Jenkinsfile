@@ -1,3 +1,5 @@
+echo properties
+
 node {
   echo 'Pipeline Start'
   stage 'Checkout'
@@ -9,5 +11,8 @@ node {
   sh 'tengu downloadbigfiles'
 
   stage 'Test'
-  echo 'Stage Test'
+  sh 'bundletester -e tenguci -t /opt/tengu-charms/bundles/testbundle -l DEBUG --no-destroy'
+
+  stage 'Build'
+  echo 'Building charms and uploading to store'
 }

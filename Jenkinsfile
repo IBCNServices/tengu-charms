@@ -22,6 +22,7 @@ node {
   stage 'Checkout'
   git url: 'https://github.com/IBCNServices/tengu-charms/'
   env.JUJU_REPOSITORY = pwd() + '/charms'
+  def resultsDir = "/var/www/html"
 
   stage 'Download Bigfiles'
   sh 'tengu downloadbigfiles'
@@ -31,22 +32,21 @@ node {
       run tests according to testplan in repo root.
     */
     stage 'Test'
-    sh 'cwr --no-destroy tenguci testplan.yaml --no-destroy -l DEBUG'
+    sh "cwr --no-destroy tenguci testplan.yaml --no-destroy -l DEBUG -o ${resultsDir}"
   } finally {
     /*
       publish test results even when tests failed. apache2 needs to be
       installed for this to work. Default apache2 config is ok.
     */
     stage 'Publish Test results'
-    def resultsDir = "/home/ubuntu/results"
     sh "cp `ls -dt ${resultsDir}/* | grep result.html | head -1` ${resultsDir}/index.html"
-    sh "sudo cp -r results/* /var/www/html"
 
     /*
       this is here so the "Publish Test results" stage doesn't appear 'crashed'
       when the "Test" stage crashed
     */
     stage 'Crash on failed test'
+    sh "cat ${resultsDir}/index.html | grep -q '<span class="test-result fail">' && exit 1"
   }
 
   stage 'Build'

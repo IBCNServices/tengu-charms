@@ -1,8 +1,3 @@
-
-
-
-
-
 node {
   echo 'Pipeline Start'
   stage 'Checkout'

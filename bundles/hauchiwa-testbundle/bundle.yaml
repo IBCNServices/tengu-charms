@@ -5,11 +5,10 @@ machines:
     series: trusty
 services:
   hauchiwa:
-    charm: local:trusty/hauchiwa
+    charm: cs:~tengu-bot/trusty/hauchiwa
     num_units: 1
     to: 'lxc:0'
   rest2jfed:
-    charm: local:trusty/rest2jfed
+    charm: cs:~tengu-bot/trusty/rest2jfed
     num_units: 1
     to: lxc:0
-

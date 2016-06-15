@@ -1,5 +1,2 @@
 bundle: bundles/hauchiwa-testbundle/
 benchmark:
-bundle_name: testbundle
-bundle_file: bundle.yaml
-

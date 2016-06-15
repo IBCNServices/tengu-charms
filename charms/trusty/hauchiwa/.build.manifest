@@ -48,11 +48,6 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "tests/00-setup": [
-      "hauchiwa", 
-      "static", 
-      "d4931aae4f7c5723bec3bd02ef50cd8b0ecff8cf8592e513472bf7847157aeb4"
-    ], 
     "files/tengu_management/README.md": [
       "hauchiwa", 
       "static", 
@@ -332,11 +327,6 @@
       "layer:basic", 
       "dynamic", 
       "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
-    ], 
-    "tests/01-simple": [
-      "hauchiwa", 
-      "static", 
-      "e5ff8c8bf8115faffc4e2ca42864eb4b929ef1be5313515ac0c968cddf90f2ac"
     ], 
     "templates/environments.yaml": [
       "layer:juju-client", 

@@ -8,3 +8,4 @@
   "rest2jfed":
     "interface": "http"
 "subordinate": !!bool "false"
+"series": ["trusty"]

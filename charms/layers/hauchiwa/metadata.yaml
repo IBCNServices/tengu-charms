@@ -11,3 +11,4 @@ requires:
 provides:
   hauchiwa-port-forward:
     interface: opened-ports
+series: [ 'trusty' ]

@@ -131,7 +131,7 @@
     "icon.svg": [
       "hauchiwa", 
       "static", 
-      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+      "87ec356e72cb888c2c2da6cc105daadc3676f7fe2ada33bfcd1abace213cb87e"
     ], 
     "config.yaml": [
       "hauchiwa", 
@@ -316,7 +316,7 @@
     "metadata.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "3f26f28888125b7670ac1767e26a2f3755c62647e6d435cf13d8c40a2aa55fd3"
+      "d232fcba83fd22877993a4e1c7c39e06fcc9f0bee85c9cae30171326a9c3d59a"
     ], 
     "files/tengu_management/scripts/jfed_provider/rspec_utils.py": [
       "hauchiwa", 

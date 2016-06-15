@@ -8,3 +8,4 @@ subordinate: false
 provides:
   rest2jfed:
     interface: http
+series: ['trusty']

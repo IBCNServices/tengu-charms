@@ -7,5 +7,5 @@
 "provides":
   "rest2jfed":
     "interface": "http"
-"subordinate": !!bool "false"
 "series": ["trusty"]
+"subordinate": !!bool "false"

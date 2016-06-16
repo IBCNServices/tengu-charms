@@ -10,6 +10,5 @@
 "provides":
   "hauchiwa-port-forward":
     "interface": "opened-ports"
-"subordinate": !!bool "false"
-"supported-series": ["trusty"]
 "series": ["trusty"]
+"subordinate": !!bool "false"

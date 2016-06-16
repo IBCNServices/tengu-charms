@@ -53,6 +53,11 @@
       "static", 
       "062f0ce8e7d72b4cabaaab87c30f0f959aa255eade1603484e36001875784ff3"
     ], 
+    "wheelhouse/charms.reactive-0.4.4.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "97455ce944a85adb2ceb897af81a1b93746f43527e6c4ac44798b193132158c7"
+    ], 
     "actions.yaml": [
       "hauchiwa", 
       "dynamic", 
@@ -316,7 +321,7 @@
     "metadata.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "d232fcba83fd22877993a4e1c7c39e06fcc9f0bee85c9cae30171326a9c3d59a"
+      "f0905fa5463ac289bd68e5bbf8a3d880c527c73ec32fc49c201d5c0f1d4229d8"
     ], 
     "files/tengu_management/scripts/jfed_provider/rspec_utils.py": [
       "hauchiwa", 
@@ -442,11 +447,6 @@
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "wheelhouse/charms.reactive-0.4.3.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "61de97ba63aa0917dc756c95fdd6bfc8725e43e15750ac53ba7a409a819a76b6"
     ], 
     "wheelhouse/PyYAML-3.11.zip": [
       "layer:basic", 

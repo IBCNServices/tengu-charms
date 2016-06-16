@@ -15,19 +15,10 @@
    id="svg6517"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="icon.svg">
+   sodipodi:docname="icon.svg"
+   enable-background="new">
   <defs
      id="defs6519">
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#Background"
-       id="linearGradient6461"
-       gradientUnits="userSpaceOnUse"
-       x1="0"
-       y1="970.29498"
-       x2="144"
-       y2="970.29498"
-       gradientTransform="matrix(0,-0.66666669,0.6660448,0,-866.25992,731.29077)" />
     <linearGradient
        id="Background">
       <stop
@@ -137,8 +128,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8.1490724"
-     inkscape:cx="51.157517"
-     inkscape:cy="41.102518"
+     inkscape:cx="28.709606"
+     inkscape:cy="49.088649"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="true"
@@ -146,10 +137,10 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1225"
-     inkscape:window-height="1000"
-     inkscape:window-x="55"
-     inkscape:window-y="80"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="1280"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      showborder="true"
      showguides="true"
@@ -183,7 +174,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -195,7 +186,7 @@
      style="display:inline"
      sodipodi:insensitive="true">
     <path
-       style="display:inline;fill:url(#linearGradient6461);fill-opacity:1;stroke:none;filter:url(#filter1121)"
+       style="display:inline;fill:#a71f28;fill-opacity:1;stroke:none;filter:url(#filter1121)"
        d="m -268,700.15563 0,-33.72973 c 0,-27.24324 3.88785,-31.13513 31.10302,-31.13513 l 33.79408,0 c 27.21507,0 31.1029,3.89189 31.1029,31.13513 l 0,33.72973 c 0,27.24325 -3.88783,31.13514 -31.1029,31.13514 l -33.79408,0 c -27.21517,0 -31.10302,-3.89189 -31.10302,-31.13514 z"
        id="path6455"
        inkscape:connector-curvature="0"
@@ -209,7 +200,7 @@
     <image
        y="16"
        x="16"
-       id="image3433"
+       id="image4231"
        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
 jwv8YQUAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41
 LjEwMPRyoQAALGBJREFUeF7tnQe8VNW59odDUymK2BUTY4sVWzRe07wpJrElUSOWaEzsDUFBAQug

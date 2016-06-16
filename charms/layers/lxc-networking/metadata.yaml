@@ -8,3 +8,4 @@ description: |
 tags:
   - network
 subordinate: false
+series: ['trusty']

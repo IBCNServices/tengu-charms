@@ -8,4 +8,5 @@
   This is achieved by creating the lxcbr0 interface and configuring it to connect directly to the interface of the given network. Default LXC containers are connected to this bridge; connecting them to the eth0 interface.
 "tags":
 - "network"
+"series": ["trusty"]
 "subordinate": !!bool "false"

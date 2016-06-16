@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111
+import subprocess
+
 import click
 import yaml
 
@@ -38,7 +40,10 @@ def generate_replacers(urls):
         replacers[charmname] = url
     return replacers
 
-
+def publish(channel, urls):
+    for url in urls:
+        print("publishing {}".format(url))
+        subprocess.check_call(['charm', 'publish', url, '--channel', channel])
 
 
 
@@ -53,10 +58,21 @@ def g_cli():
 @click.argument(
     'urls', nargs=-1)
 def c_replace(path, urls):
-    """ Print info of configured jfed user """
+    """ replace urls without revision in bundle so they have a revision """
     replace_charm_url(path, urls)
 
+@click.command(name='publish')
+@click.argument(
+    'channel', nargs=1)
+@click.argument(
+    'urls', nargs=-1)
+def c_publish(channel, urls):
+    """ publish given charm urls to revision """
+    publish(channel, urls)
+
+
 g_cli.add_command(c_replace)
+g_cli.add_command(c_publish)
 
 
 if __name__ == '__main__':

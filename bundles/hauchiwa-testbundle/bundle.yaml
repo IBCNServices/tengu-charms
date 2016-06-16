@@ -1,14 +1,25 @@
 series: trusty
 machines:
   '0':
-    constraints: arch=amd64
     series: trusty
+    constraints: "arch=amd64"
 services:
   hauchiwa:
-    charm: cs:~tengu-bot/trusty/hauchiwa
+    charm: "cs:~tengu-bot/trusty/hauchiwa"
     num_units: 1
-    to: 'lxc:0'
+    annotations:
+      "gui-x": "300"
+      "gui-y": "300"
+    to:
+      - "lxc:0"
   rest2jfed:
-    charm: cs:~tengu-bot/trusty/rest2jfed
+    charm: "cs:~tengu-bot/trusty/rest2jfed"
     num_units: 1
-    to: lxc:0
+    annotations:
+      "gui-x": "600"
+      "gui-y": "300"
+    to:
+      - "lxc:0"
+relations:
+  - - "hauchiwa:rest2jfed"
+    - "rest2jfed:rest2jfed"

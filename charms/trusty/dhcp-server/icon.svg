@@ -126,9 +126,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.0372681"
-     inkscape:cx="-210.39382"
-     inkscape:cy="73.138083"
+     inkscape:zoom="1.4405661"
+     inkscape:cx="-19.979625"
+     inkscape:cy="5.5869084"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="true"
@@ -202,7 +202,7 @@
      style="display:inline">
     <g
        id="g4389"
-       transform="matrix(0.07728973,0,0,0.07728973,27.924231,16.160513)">
+       transform="matrix(0.11927205,0,0,0.11927205,16.008891,16.160513)">
       <g
          id="g4347">
         <g
@@ -245,18 +245,6 @@
       <g
          id="g4381" />
     </g>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:23.01260376px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="19.805696"
-       y="73.594574"
-       id="text4409"
-       sodipodi:linespacing="125%"
-       transform="scale(0.92535717,1.0806638)"><tspan
-         sodipodi:role="line"
-         id="tspan4411"
-         x="19.805696"
-         y="73.594574">DHCP</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"

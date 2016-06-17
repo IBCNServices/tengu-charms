@@ -41,17 +41,12 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "4dac5ec3e7453436be037b7f0f3d5fdb40593fb88c00c451ea0f844b7211ce1c"
+      "201c4971a6876aa32e2dba649caa12095c362b14e091f16d1737ab654fc81cb4"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "files/tengu_management/README.md": [
-      "hauchiwa", 
-      "static", 
-      "062f0ce8e7d72b4cabaaab87c30f0f959aa255eade1603484e36001875784ff3"
     ], 
     "wheelhouse/charms.reactive-0.4.4.tar.gz": [
       "layer:basic", 
@@ -61,7 +56,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "e978f0a184518cb91cf187cab8a04fd91c42fed8e071a95fba255eb5950107c7"
+      "fb1f715faf34aa0426e365ccd007a99ab884e4cf931939633e06c333dbf26fe1"
     ], 
     "copyright": [
       "layer:basic", 
@@ -96,7 +91,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "26eddb98ff0922c9dadbae8ea75eade6289c5d20dad93f48cd57a87036a1ff63"
+      "73e28b735a9aaff348c430c8b51993c9551646163d0be82197c7c38784a2ae38"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -131,7 +126,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "a419c16762df6e3f03b572228d879c7d9547be6bcdaf98e6c3279027e1f81eca"
+      "3f8c58247a8830d1e9f766f0b382b6a85ed577edc760b8089f0cc69cde270720"
     ], 
     "files/tengu_management/scripts/jfed_provider/__init__.py": [
       "hauchiwa", 

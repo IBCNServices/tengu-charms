@@ -48,7 +48,7 @@ def conf_pf(port_forward):
     port_forward.configure()
 
 
-@when_all('hauchiwa-port-forward.ready', 'tengu.repo.available', 'juju.repo.available', 'hauchiwa.provider.configured')
+@when_all('hauchiwa-port-forward.ready', 'hauchiwa.provider.configured')
 def show_pf(port_forward):
     msg = 'Ready pf:"'
     for forward in port_forward.forwards:
@@ -60,7 +60,7 @@ def show_pf(port_forward):
 
 @when('juju.repo.available')
 @when_not('tengu.repo.available')
-def downloadbigfiles():
+def download_bigfiles():
     subprocess.check_call(['su', '-', USER, '-c', '{}/scripts/tengu.py downloadbigfiles'.format(TENGU_DIR)])
     set_state('tengu.repo.available')
 
@@ -120,8 +120,7 @@ def set_blocked():
         hookenv.status_set('blocked', 'Hauchiwa flavor {} not recognized'.format(FLAVOR))
 
 
-@when_all('tengu.configured', 'tengu.repo.available', 'juju.repo.available',
-          'hauchiwa.provider.configured', 'hauchiwa-port-forward.shown')
+@when_all('tengu.configured', 'hauchiwa.provider.configured', 'hauchiwa-port-forward.shown')
 @when_not('bundle.deployed')
 def create_environment(*arg):  # pylint:disable=w0613
     conf = hookenv.config()

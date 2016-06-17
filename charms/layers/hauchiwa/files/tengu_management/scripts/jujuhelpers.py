@@ -284,7 +284,7 @@ class JujuEnvironment(object):
         environment.add_machines(machines)
         environment.deploy_lxc_networking()
         print("deploying openvpn")
-        environment.deploy('local:openvpn', 'openvpn', to='0')
+        environment.deploy('cs:~tengu-bot/trusty/openvpn', 'openvpn', to='0')
         print("Creation of bare Tengu complete!")
         return environment
 

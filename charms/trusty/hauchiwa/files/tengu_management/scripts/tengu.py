@@ -159,6 +159,9 @@ def ensure_exists(default, dest):
 
 def downloadbigfiles(path):
     """Downloads url from .source files it finds in path"""
+    if path == "":
+        okwhite("No repository specified, will not download bigfiles")
+        return
     # The top argument for walk
     topdir = os.path.realpath(path)
     okwhite("downloading bigfiles in %s " % topdir)

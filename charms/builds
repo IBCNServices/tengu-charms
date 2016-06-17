@@ -1,0 +1,1 @@
+This file is here to give you a warning when building a charm without specifying a series. Please rebuild using `charm build --series trusty <charmname>`.

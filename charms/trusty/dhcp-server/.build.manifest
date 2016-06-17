@@ -99,7 +99,7 @@
     "LICENSE": [
       "dhcp-server", 
       "static", 
-      "edecebcc053c3934e9e222df5a10228818a57e536dc68c549ae7bd9d4a06c911"
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
     ], 
     "copyright": [
       "layer:basic", 
@@ -135,11 +135,6 @@
       "layer:basic", 
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
-    ], 
-    "LICENSE0.undefined": [
-      "dhcp-server", 
-      "static", 
-      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
     ], 
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 

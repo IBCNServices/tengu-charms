@@ -12,3 +12,4 @@ description: |
   dial-up clients), tunnels over NAT or connection-oriented stateful
   firewalls (such as Linux's iptables).
 categories: ["cache-proxy"]
+series: ['trusty']

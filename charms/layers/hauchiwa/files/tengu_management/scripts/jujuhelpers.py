@@ -106,6 +106,9 @@ class Service(object):
         """ Add unit to existing Charm"""
         self.env.do('add-unit', self.name, **options)
 
+    def destroy(self):
+        self.env.do('destroy-service', self.name)
+
 
 class JujuEnvironment(object):
     """ handles an existing Juju environment """
@@ -222,6 +225,12 @@ class JujuEnvironment(object):
         env_conf['environment-jenv'] = b64encode(e_content)
         return env_conf
 
+    def destroy_containers(self):
+        """force destroy containers"""
+        for machine in self.status['machines'].values():
+            if machine.get('containers'):
+                for container in machine['containers'].keys():
+                    self.do('destroy-machine', container, '--force')
 
     #
     # Static methods

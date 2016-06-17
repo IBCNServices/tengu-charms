@@ -37,7 +37,7 @@ import yaml
 # Own modules
 from output import okblue, fail, okwhite
 from config import Config, script_dir, tengu_dir
-from jujuhelpers import JujuEnvironment
+from jujuhelpers import JujuEnvironment, Service
 import jfed_provider
 import ssh_provider
 
@@ -329,6 +329,26 @@ def c_reload(name):
 
 
 @click.command(
+    name='reset',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('name', type=str)
+def c_reset(name):
+    """ Destroys the model's services and containers except for lxc-networking and dhcp-server
+    NAME: name of model
+    """
+    if click.confirm('Warning! This will remove all services and containers of the model "{}". Are you sure you want to continue?'.format(name)):
+        env_conf = init_environment_config(name)
+        if env_conf['locked']:
+            fail('Cannot reset locked environment')
+        else:
+            jujuenv = JujuEnvironment(name)
+            for service in jujuenv.status['services'].keys():
+                if service not in ['lxc-networking', 'dhcp-server']:
+                    Service(service, jujuenv).destroy()
+            jujuenv.destroy_containers()
+
+
+@click.command(
     name='destroy',
     context_settings=CONTEXT_SETTINGS)
 def c_destroy(name):
@@ -524,6 +544,7 @@ g_cli.add_command(c_create)
 g_cli.add_command(c_deploy)
 g_cli.add_command(c_destroy)
 g_cli.add_command(c_reload)
+g_cli.add_command(c_reset)
 g_cli.add_command(c_lock)
 g_cli.add_command(c_unlock)
 g_cli.add_command(c_renew)

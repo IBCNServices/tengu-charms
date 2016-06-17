@@ -1,3 +1,4 @@
 bootstrap: false
 reset: false
 makefile: ['test']
+teardown: "echo y | tengu reset tenguci"

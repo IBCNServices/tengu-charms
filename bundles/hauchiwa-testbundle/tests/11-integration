@@ -1,0 +1,100 @@
+#!/usr/bin/python3
+# Copyright (C) 2016  Ghent University
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#pylint: disable=c0111,c0103
+import os
+
+import unittest
+import amulet
+import yaml
+
+SECONDS_TO_WAIT = 1200
+
+
+class TestCharm(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        """Read the bundle in and deploy the bundle."""
+        # Get the relative bundle path from the environment variable.
+        cls.bundle = os.getenv("BUNDLE", "bundle.yaml")
+        # Create a path to the bundle based on this file's location.
+        cls.bundle_path = os.path.join(os.path.dirname(__file__),
+                                       "..",
+                                       cls.bundle)
+        # Normalize the path to the bundle.
+        cls.bundle_path = os.path.abspath(cls.bundle_path)
+
+        print("Deploying bundle: {0}".format(cls.bundle_path))
+
+        cls.deployment = amulet.Deployment()
+        with open(cls.bundle_path, "r") as bundle_file:
+            contents = yaml.safe_load(bundle_file)
+            cls.deployment.load(contents)
+
+        # Allow some time for Juju to provision and deploy the bundle.
+        cls.deployment.setup(timeout=SECONDS_TO_WAIT)
+        # Wait for the system to settle down.
+        cls.deployment.sentry.wait()
+
+        cls.hauchiwa = cls.deployment.sentry['hauchiwa']
+        cls.rest2jfed = cls.deployment.sentry['rest2jfed']
+
+    def test_rest2jfed_local(self):
+        """Check to see if rest2jfed is up and running correctly"""
+        for unit in self.rest2jfed:
+            output, rc = unit.run("curl localhost:5000")
+            if rc != 0:
+                message = "Couldn't connect to rest2jfed: \n{}".format(output)
+                raise Exception(message)
+            if 'Welcome to rest2jfed python flask implementation' not in output:
+                message = "Got wrong response from rest2jfed: \n{}".format(output)
+                raise Exception(message)
+            output, rc = unit.run("java --version")
+            if rc != 0 or "Java HotSpot(TM) 64-Bit Server VM" not in output:
+                message = "Java not installed correctly: \n{}".format(output)
+                raise Exception(message)
+
+    def test_tengu_installed(self):
+        """Check to see if tengu is installed correctly on the Hauchiwa"""
+        for unit in self.hauchiwa:
+            output, rc = unit.run("tengu")
+            if rc != 0 or 'Usage: tengu.py [OPTIONS] COMMAND [ARGS]...' not in output:
+                message = "tengu command not installed correctly: \n{}".format(output)
+                raise Exception(message)
+
+    def test_hauchiwa_rest2jfed_connection(self):
+        """Check to see if tengu->rest2jfed connection is correct"""
+        for unit in self.hauchiwa:
+            output, rc = unit.run("tengu userinfo")
+            if rc != 0:
+                message = "tengu userinfo failed: \n{}".format(output)
+                raise Exception(message)
+            if "'is_exit_code_error': False'" not in output:
+                message = "tengu userinfo got error response from jfed: \n{}".format(output)
+                raise Exception(message)
+            if " u's4cred': u'urn:publicid:IDN+wall2.ilabt.iminds.be+user+tenguci'" not in output:
+                message = "tengu userinfo got wrong response: \n{}".format(output)
+                raise Exception(message)
+
+    def test_huachiwa_port_forward(self):
+        """Check to see if tengu->rest2jfed connection is correct"""
+        for unit in self.hauchiwa:
+            if "Ready pf" not in unit.message():
+                message = "No port forwards: \n{}".format(unit.message())
+                raise Exception(message)
+
+
+if __name__ == '__main__':
+    unittest.main()

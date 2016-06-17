@@ -42,6 +42,8 @@ node {
   urls.add(readFile('result').trim()) //workaround for https://issues.jenkins-ci.org/browse/JENKINS-26133
   sh("( charm push charms/trusty/rest2jfed || exit 1 ) | grep '^url:' | sed -r 's/^.{5}//' > result")
   urls.add(readFile('result').trim()) //workaround for https://issues.jenkins-ci.org/browse/JENKINS-26133
+  sh("( charm push charms/trusty/dhcp-server || exit 1 ) | grep '^url:' | sed -r 's/^.{5}//' > result")
+  urls.add(readFile('result').trim()) //workaround for https://issues.jenkins-ci.org/browse/JENKINS-26133
   //urls.add('cs:~tengu-bot/rest2jfed-2')
   //urls.add('cs:~tengu-bot/hauchiwa-3')
   sh "./cihelpers.py replace ${pwd()}/bundles/hauchiwa-testbundle/bundle.yaml ${urls.join(' ')}"

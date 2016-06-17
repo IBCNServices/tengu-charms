@@ -101,7 +101,7 @@
     "reactive/rest2jfed.py": [
       "rest2jfed", 
       "static", 
-      "535d849a6bd83c72183e007c32bd2cd88a852b9a13af9cf6685f609e017a5a08"
+      "7a269521ce1b132bf9f7eb93548bb135417e628bff62eeee02289034368d3d5f"
     ], 
     "files/jfedS4/jfed_cli/lib/mockito-core-1.10.19.jar": [
       "rest2jfed", 
@@ -501,7 +501,7 @@
     "reactive/java.py": [
       "layer:java", 
       "static", 
-      "455e271075553ce771fafaf3201b67180f5663a11b9d34f14d12d9158347ac2c"
+      "2b6feea5c6984535d231a20a84d1e4411a8d025ee5a23e222001ad1d08b7f1b1"
     ], 
     "lib/charms/__init__.py": [
       "layer:apt", 

@@ -37,11 +37,8 @@ To add te gateway to your environment:
  -  **portrange**: The start port of the range to use for dynamically assigning port forwards. When a Charm requests a port forward, it will be assigned a port starting from the portrange. *default: 29000*
 
 
-
-
-
-
-
 # Contact Information
 
 Maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+
+Part of globe icon made by [Zurb](http://www.flaticon.com/authors/zurb) from [www.flaticon.com](http://www.flaticon.com) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)

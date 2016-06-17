@@ -66,6 +66,11 @@
       "static", 
       "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
+    "wheelhouse/charms.reactive-0.4.4.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "97455ce944a85adb2ceb897af81a1b93746f43527e6c4ac44798b193132158c7"
+    ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
@@ -84,7 +89,7 @@
     "metadata.yaml": [
       "dhcp-server", 
       "dynamic", 
-      "6c22aa31f0c6a146f0943f56c21e7766efb7cb1087fe128dd2f4337a7885d4b7"
+      "98c584c36e6e6a8a3f46e5d6077f69f43a8c3e04db89fd9ef9492043673fc2a6"
     ], 
     "hooks/opened-ports-relation-joined": [
       "interface:opened-ports", 
@@ -141,15 +146,10 @@
       "static", 
       "1b46d8fc7ce81627e769c6cecb2b24c3b1c678206a8bb9690ce50f246553bcf4"
     ], 
-    "wheelhouse/pip-7.1.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "ca047986f0528cfa975a14fb9f7f106271d4e0c3fe1ddced6c1db2e7ae57a477"
-    ], 
     "icon.svg": [
       "dhcp-server", 
       "static", 
-      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+      "31dd068af3a06935fe9834e984e137d058209774f767c7b4cea4e9e948fa555d"
     ], 
     "config.yaml": [
       "dhcp-server", 
@@ -206,6 +206,11 @@
       "static", 
       "99bafc8e334d469ef59d5fd51a04e9648698c5faa9ba869b365c60629a70762b"
     ], 
+    "wheelhouse/pip-8.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
+    ], 
     "hooks/update-status": [
       "layer:basic", 
       "static", 
@@ -214,7 +219,7 @@
     "README.md": [
       "dhcp-server", 
       "static", 
-      "2cf78cbd1843c889fbe2c0b522a18958274d7e7c721486d983e4ec12aef9b17c"
+      "900669f86f17cc8b3899993bfb1d6112f223088e3de0d785b3d351ad0b8a61de"
     ], 
     "hooks/opened-ports-relation-broken": [
       "interface:opened-ports", 
@@ -230,11 +235,6 @@
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "wheelhouse/charms.reactive-0.4.3.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "61de97ba63aa0917dc756c95fdd6bfc8725e43e15750ac53ba7a409a819a76b6"
     ], 
     "wheelhouse/PyYAML-3.11.zip": [
       "layer:basic", 

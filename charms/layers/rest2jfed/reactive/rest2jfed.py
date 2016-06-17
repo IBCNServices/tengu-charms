@@ -20,7 +20,7 @@ import shutil
 import base64
 
 from charmhelpers.core import hookenv
-from charmhelpers.core.hookenv import charm_dir, open_port, relation_set, status_set
+from charmhelpers.core.hookenv import charm_dir, open_port, status_set
 from charms.reactive import hook, when, when_not, set_state
 
 import charms.apt #pylint: disable=e0611,e0401

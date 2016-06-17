@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pylint: disable=c0111,c0103
 import os
+import base64
 
 import unittest
 import amulet
@@ -41,8 +42,19 @@ class TestCharm(unittest.TestCase):
         cls.deployment = amulet.Deployment()
         with open(cls.bundle_path, "r") as bundle_file:
             contents = yaml.safe_load(bundle_file)
-            cls.deployment.load(contents)
 
+        s4cert_path = "/opt/tengu/etc/s4_cert.pem.xml"
+        # This file is not by default on a hauchiwa. You can find it on the rest2jfed server.
+        priv_cert_path = "/opt/tengu/etc/s4_cert.pem.xml"
+
+        with open(s4cert_path, 'rb') as s4cert_file:
+            s4cert = base64.b64encode(s4cert_file.read()).decode(encoding='UTF-8')
+            contents['hauchiwa']['options']['emulab-s4-cert'] = s4cert
+        with open(priv_cert_path, 'rb') as priv_cert_file:
+            priv_cert = base64.b64encode(priv_cert_file.read()).decode(encoding='UTF-8')
+            contents['rest2jfed']['options']['emulab-cert'] = priv_cert
+
+        cls.deployment.load(contents)
         # Allow some time for Juju to provision and deploy the bundle.
         cls.deployment.setup(timeout=SECONDS_TO_WAIT)
         # Wait for the system to settle down.

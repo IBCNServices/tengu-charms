@@ -45,14 +45,18 @@ class TestCharm(unittest.TestCase):
 
         s4cert_path = "/opt/tengu/etc/s4_cert.pem.xml"
         # This file is not by default on a hauchiwa. You can find it on the rest2jfed server.
-        priv_cert_path = "/opt/tengu/etc/s4_cert.pem.xml"
+        priv_cert_path = "/opt/tengu/etc/tengu_unsigned.pem"
 
         with open(s4cert_path, 'rb') as s4cert_file:
             s4cert = base64.b64encode(s4cert_file.read()).decode(encoding='UTF-8')
-            contents['hauchiwa']['options']['emulab-s4-cert'] = s4cert
+            if not contents['services']['hauchiwa'].get('options'):
+                contents['services']['hauchiwa']['options'] = dict()
+            contents['services']['hauchiwa']['options']['emulab-s4-cert'] = s4cert
         with open(priv_cert_path, 'rb') as priv_cert_file:
             priv_cert = base64.b64encode(priv_cert_file.read()).decode(encoding='UTF-8')
-            contents['rest2jfed']['options']['emulab-cert'] = priv_cert
+            if not contents['services']['rest2jfed'].get('options'):
+                contents['services']['rest2jfed']['options'] = dict()
+            contents['services']['rest2jfed']['options']['emulab-cert'] = priv_cert
 
         cls.deployment.load(contents)
         # Allow some time for Juju to provision and deploy the bundle.
@@ -62,6 +66,7 @@ class TestCharm(unittest.TestCase):
 
         cls.hauchiwa = cls.deployment.sentry['hauchiwa']
         cls.rest2jfed = cls.deployment.sentry['rest2jfed']
+
 
     def test_rest2jfed_local(self):
         """Check to see if rest2jfed is up and running correctly"""
@@ -73,7 +78,7 @@ class TestCharm(unittest.TestCase):
             if 'Welcome to rest2jfed python flask implementation' not in output:
                 message = "Got wrong response from rest2jfed: \n{}".format(output)
                 raise Exception(message)
-            output, rc = unit.run("java --version")
+            output, rc = unit.run("sudo su - ubuntu -c 'java -version 2>&1'")
             if rc != 0 or "Java HotSpot(TM) 64-Bit Server VM" not in output:
                 message = "Java not installed correctly: \n{}".format(output)
                 raise Exception(message)
@@ -81,7 +86,7 @@ class TestCharm(unittest.TestCase):
     def test_tengu_installed(self):
         """Check to see if tengu is installed correctly on the Hauchiwa"""
         for unit in self.hauchiwa:
-            output, rc = unit.run("tengu")
+            output, rc = unit.run("sudo su - ubuntu -c 'tengu'")
             if rc != 0 or 'Usage: tengu.py [OPTIONS] COMMAND [ARGS]...' not in output:
                 message = "tengu command not installed correctly: \n{}".format(output)
                 raise Exception(message)
@@ -89,11 +94,11 @@ class TestCharm(unittest.TestCase):
     def test_hauchiwa_rest2jfed_connection(self):
         """Check to see if tengu->rest2jfed connection is correct"""
         for unit in self.hauchiwa:
-            output, rc = unit.run("tengu userinfo")
+            output, rc = unit.run("sudo su - ubuntu -c 'tengu userinfo'")
             if rc != 0:
                 message = "tengu userinfo failed: \n{}".format(output)
                 raise Exception(message)
-            if "'is_exit_code_error': False'" not in output:
+            if "'is_exit_code_error': False" not in output:
                 message = "tengu userinfo got error response from jfed: \n{}".format(output)
                 raise Exception(message)
             if " u's4cred': u'urn:publicid:IDN+wall2.ilabt.iminds.be+user+tenguci'" not in output:
@@ -102,10 +107,16 @@ class TestCharm(unittest.TestCase):
 
     def test_huachiwa_port_forward(self):
         """Check to see if tengu->rest2jfed connection is correct"""
-        for unit in self.hauchiwa:
-            if "Ready pf" not in unit.message():
-                message = "No port forwards: \n{}".format(unit.message())
-                raise Exception(message)
+        status = self._get_status()
+        message = status['services']['hauchiwa']['service-status']['message']
+        if "Ready pf" not in message:
+            message = "No port forwards: \n{}".format(message)
+            raise Exception(message)
+        ipport = message.lstrip('Ready pf:"').split('-')[0]
+
+
+    def _get_status(self):
+        return self.deployment.sentry.wait_for_status(self.deployment.sentry.juju_env, self.deployment.services, SECONDS_TO_WAIT)
 
 
 if __name__ == '__main__':

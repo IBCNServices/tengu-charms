@@ -200,12 +200,12 @@ class JujuEnvironment(object):
     #
 
     def deploy_lxc_networking(self):
-        lxc_networking = self.deploy("local:lxc-networking", "lxc-networking", to='0')
+        lxc_networking = self.deploy("cs:~tengu-bot/trusty/lxc-networking", "lxc-networking", to='0')
         for machine in self.machines:
             if machine != '0':
                 lxc_networking.add_unit(to=machine)
         lxc_networking.wait_until('Ready')
-        dhcp_server = self.deploy("local:dhcp-server", "dhcp-server", to='0')
+        dhcp_server = self.deploy("cs:~tengu-bot/trusty/dhcp-server", "dhcp-server", to='0')
         dhcp_server.wait_until('Ready')
 
     def return_environment(self):

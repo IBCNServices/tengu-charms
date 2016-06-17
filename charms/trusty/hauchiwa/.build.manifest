@@ -61,7 +61,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "328c83cd9b07234fda51595ac4d50262e9c84980eb29d4b21fc57f058577db45"
+      "e978f0a184518cb91cf187cab8a04fd91c42fed8e071a95fba255eb5950107c7"
     ], 
     "copyright": [
       "layer:basic", 
@@ -261,7 +261,7 @@
     "README.md": [
       "hauchiwa", 
       "static", 
-      "72307e0d4c8b80b74ae472d6fca1144519842fedd3e17bb4058ea73583c2259f"
+      "1b94bbbaac7588c5caf9c036d8f49d461e600ec9f76913219c794b8826330aa4"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 

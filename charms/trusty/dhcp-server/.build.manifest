@@ -149,7 +149,7 @@
     "icon.svg": [
       "dhcp-server", 
       "static", 
-      "31dd068af3a06935fe9834e984e137d058209774f767c7b4cea4e9e948fa555d"
+      "8d53a2c400da1d7792257e5cce0299946116b2ba239533e0a52008a94d26aabf"
     ], 
     "config.yaml": [
       "dhcp-server", 

@@ -103,7 +103,7 @@
     "README.md": [
       "lxc-networking", 
       "static", 
-      "ade844ee6c786a872cae3ec0261658ac02410b4c02915a6ed920c3c775bd50d4"
+      "e87119d4886003f6b1b58f1dd81cc03a2fff670274e9cf5a18f9e93929136978"
     ], 
     "lib/charms/layer/basic.py": [
       "layer:basic", 

@@ -17,6 +17,7 @@ To add te gateway to your environment:
  -  **port-forwards**: This option takes a list of json objects. Each object represents a requested port forward. *default: "[]"*
 
  Example configuration:
+
  ```
  dhcp-server:
     port-forwards: |
@@ -39,6 +40,13 @@ To add te gateway to your environment:
 
 # Contact Information
 
-Maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+## Bugs
 
-Part of globe icon made by [Zurb](http://www.flaticon.com/authors/zurb) from [www.flaticon.com](http://www.flaticon.com) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)
+Report bugs on [Github](https://github.com/IBCNServices/tengu-charms/issues).
+
+## Authors
+
+This Charm was created in the [IBCN research group](https://www.ibcn.intec.ugent.be/) of [Ghent University](http://www.ugent.be/en) in Belgium. This Charm used in [Tengu](http://tengu.intec.ugent.be), a project that aims to make experimenting with data frameworks and tools as easy as possible.
+
+ - Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+ - Part of globe icon made by [Zurb](http://www.flaticon.com/authors/zurb) from [www.flaticon.com](http://www.flaticon.com) licensed as [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)

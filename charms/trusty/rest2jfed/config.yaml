@@ -27,7 +27,7 @@
     "default": ""
   "install-type":
     "type": "string"
-    "default": "jdk"
+    "default": "jre"
     "description": |
       Override of the install-type. NOT TO BE ADJUSTED.
   "java-major":

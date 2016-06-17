@@ -1,9 +1,0 @@
-#!/bin/bash
-# Deploys bundle. Creates Juju and Jfed environment if they don't exist.
-if [ "$(id -u)" == "0" ]; then
-  exec su `config-get user` "$0"
-fi
-file=$(mktemp)
-echo $(action-get bundle) | base64 --decode > "$file"
-juju deployer -c "$file"
-rm $file

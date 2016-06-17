@@ -58,11 +58,6 @@
       "dynamic", 
       "97455ce944a85adb2ceb897af81a1b93746f43527e6c4ac44798b193132158c7"
     ], 
-    "actions.yaml": [
-      "hauchiwa", 
-      "dynamic", 
-      "b3fc73db97698b9fd12f35e998c99065c64619b5298de4e062fbccdbdc7005cd"
-    ], 
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
@@ -113,15 +108,10 @@
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
-    "README.md": [
-      "hauchiwa", 
+    "hooks/relations/opened-ports/provides.py": [
+      "interface:opened-ports", 
       "static", 
-      "4d91b380af5815f0604f98fc517cfd2085074e446b026d98d6ca83fc277deca2"
-    ], 
-    "actions/deploy-bundle": [
-      "hauchiwa", 
-      "static", 
-      "25067d330315b5f838ed55246c3f73da8a8573c1274e408730aa83fd23832921"
+      "1b46d8fc7ce81627e769c6cecb2b24c3b1c678206a8bb9690ce50f246553bcf4"
     ], 
     "files/tengu_management/scripts/jfed_provider/get_pubipv4.py": [
       "hauchiwa", 
@@ -141,12 +131,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "9667053e6be786a7bfe302fb0103f9cd2021b7808488b6a0ebe095159d63ef4b"
-    ], 
-    "hooks/relations/opened-ports/provides.py": [
-      "interface:opened-ports", 
-      "static", 
-      "1b46d8fc7ce81627e769c6cecb2b24c3b1c678206a8bb9690ce50f246553bcf4"
+      "a419c16762df6e3f03b572228d879c7d9547be6bcdaf98e6c3279027e1f81eca"
     ], 
     "files/tengu_management/scripts/jfed_provider/__init__.py": [
       "hauchiwa", 
@@ -273,10 +258,10 @@
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    ".build.manifest": [
-      "build", 
-      "dynamic", 
-      "unchecked"
+    "README.md": [
+      "hauchiwa", 
+      "static", 
+      "72307e0d4c8b80b74ae472d6fca1144519842fedd3e17bb4058ea73583c2259f"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 
@@ -353,6 +338,11 @@
       "static", 
       "34cf8e92d3f8aa0f036a30f1dea810492ec006df9e99e87ddd7ef890b3322892"
     ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
     "hooks/hauchiwa-port-forward-relation-changed": [
       "interface:opened-ports", 
       "dynamic", 
@@ -398,11 +388,6 @@
       "static", 
       "2a498ec0351a16b5189ec956f412982490a046127ea2bee9b28c4c3d47a84ecb"
     ], 
-    "actions/create-jfed-exp": [
-      "hauchiwa", 
-      "static", 
-      "d2bc8fca0b5aa023d3a009f19705c15805d74e489f56bf398b56d6cd2fd60e29"
-    ], 
     "hooks/relations/opened-ports/requires.py": [
       "interface:opened-ports", 
       "static", 
@@ -437,11 +422,6 @@
       "layer:juju-client", 
       "static", 
       "bc26155481d176b1cf1a2f70bad264de0571ab35d2ddb4d1027264db53757aa7"
-    ], 
-    "actions/export-tengu": [
-      "hauchiwa", 
-      "static", 
-      "b7188c0fbc8a917b7c7ee6513ea05c2f61027dfc754343671bb8470620bfd007"
     ], 
     "hooks/start": [
       "layer:basic", 

@@ -1,7 +1,0 @@
-#!/bin/bash
-# Creates default tengu environment
-if [ "$(id -u)" == "0" ]; then
-   exec su `config-get user` "$0"
-fi
-tengu export "export.yaml"
-cat "export.yaml" | 

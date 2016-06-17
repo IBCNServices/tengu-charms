@@ -6,7 +6,7 @@ options:
   emulab-project-name:
     type: string
     default: "tengu"
-    description: "Password of the emulab certificate"
+    description: "Name of the emulab project"
   bundle:
     type: string
     default:

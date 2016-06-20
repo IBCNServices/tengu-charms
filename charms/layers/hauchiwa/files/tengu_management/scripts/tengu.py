@@ -346,7 +346,7 @@ def c_reset(name):
         else:
             jujuenv = JujuEnvironment(name)
             for service in jujuenv.status['services'].keys():
-                if service not in ['lxc-networking', 'dhcp-server']:
+                if service not in ['lxc-networking', 'dhcp-server', 'openvpn']:
                     Service(service, jujuenv).destroy()
             jujuenv.destroy_containers()
 

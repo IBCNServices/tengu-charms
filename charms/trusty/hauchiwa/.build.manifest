@@ -91,7 +91,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "73e28b735a9aaff348c430c8b51993c9551646163d0be82197c7c38784a2ae38"
+      "f57239645214d07fad158eed463047b1dbe8e3253fefbf9892406c8d27914df7"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -121,7 +121,7 @@
     "icon.svg": [
       "hauchiwa", 
       "static", 
-      "245dec329c6c839c6d6a3ea1e77207c50cce8e98f188364d3fae3e5b240a89a2"
+      "05eab4f602cbd6a878a88ee3c6e3956c5cd1fbb750bf1661affd6356fa04a154"
     ], 
     "config.yaml": [
       "hauchiwa", 

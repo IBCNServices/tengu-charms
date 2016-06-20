@@ -1,0 +1,2 @@
+includes: ['layer:basic', 'interface:mongodb', 'layer:java', 'interface:http']
+repo: git@github.com:IBCNServices/tengu-charms.git

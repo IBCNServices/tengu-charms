@@ -1,0 +1,21 @@
+options:
+  java-flavor:
+    type: string
+    default: "oracle"
+    description: |
+      This overrides the java-flavor config option in the java layer. NOT TO BE ADJUSTED.
+  install-type:
+    type: string
+    default: "jdk"
+    description: |
+      This overrides the install-type config option in the java layer. NOT TO BE ADJUSTED.
+  java-major:
+    type: string
+    default: "8"
+    description: |
+      This overrides the java-major config option in the java layer. NOT TO BE ADJUSTED.
+  git-repo:
+    type: string
+    default: "git@bitbucket.org:ibcndevs/cot-livinglabs.git"
+    description: |
+      Git repo where source is.

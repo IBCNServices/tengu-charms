@@ -144,7 +144,7 @@
     "icon.svg": [
       "dhcp-server", 
       "static", 
-      "ad5b0aff84ed628cb4e31ecc2d51dc9c8d9f87a7a049b402aab5c69940281f05"
+      "790c2afd944735b595ef5fe783b1f7c37a63a9771b04092f1b5e499ba87c3e60"
     ], 
     "config.yaml": [
       "dhcp-server", 
@@ -214,7 +214,7 @@
     "README.md": [
       "dhcp-server", 
       "static", 
-      "9d98f8131ae9e6c2ab7c9506a3a4854465fa63dede8fe75300eb33b2f740844f"
+      "4013b6ad377a9bd095ceae0069ea4b988bac234bc8f4afe226ff2f0e44420825"
     ], 
     "hooks/opened-ports-relation-broken": [
       "interface:opened-ports", 

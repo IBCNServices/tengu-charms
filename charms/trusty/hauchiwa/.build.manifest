@@ -256,7 +256,7 @@
     "README.md": [
       "hauchiwa", 
       "static", 
-      "1b94bbbaac7588c5caf9c036d8f49d461e600ec9f76913219c794b8826330aa4"
+      "a5ff4b70e2adaa14bae83789ad853768203c0a42ba2a1df85e2aa8177e1a0eca"
     ], 
     "hooks/upgrade-charm": [
       "layer:basic", 

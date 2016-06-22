@@ -1,6 +1,6 @@
 # Overview
 
-This Charm sets up a [Tengu](tengu.intec.ugent.be) Hauchiwa. This Hauchiwa can be used to create models on servers from jFed compatible testbed.
+This Charm sets up a [Tengu](http://tengu.intec.ugent.be) Hauchiwa. This Hauchiwa can be used to create models on servers from jFed compatible testbed.
 
 # Usage
 

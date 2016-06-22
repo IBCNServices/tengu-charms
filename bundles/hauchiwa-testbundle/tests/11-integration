@@ -47,11 +47,16 @@ class TestCharm(unittest.TestCase):
         # This file is not by default on a hauchiwa. You can find it on the rest2jfed server.
         priv_cert_path = "/opt/tengu/etc/tengu_unsigned.pem"
 
+
+        for s_name, service in contents['services'].items():
+            if 'hauchiwa' in service['charm']:
+                cls.hauchiwa_name = s_name
+
         with open(s4cert_path, 'rb') as s4cert_file:
             s4cert = base64.b64encode(s4cert_file.read()).decode(encoding='UTF-8')
-            if not contents['services']['hauchiwa'].get('options'):
-                contents['services']['hauchiwa']['options'] = dict()
-            contents['services']['hauchiwa']['options']['emulab-s4-cert'] = s4cert
+            if not contents['services'][cls.hauchiwa_name].get('options'):
+                contents['services'][cls.hauchiwa_name]['options'] = dict()
+            contents['services'][cls.hauchiwa_name]['options']['emulab-s4-cert'] = s4cert
         with open(priv_cert_path, 'rb') as priv_cert_file:
             priv_cert = base64.b64encode(priv_cert_file.read()).decode(encoding='UTF-8')
             if not contents['services']['rest2jfed'].get('options'):
@@ -64,7 +69,7 @@ class TestCharm(unittest.TestCase):
         # Wait for the system to settle down.
         cls.deployment.sentry.wait()
 
-        cls.hauchiwa = cls.deployment.sentry['hauchiwa']
+        cls.hauchiwa = cls.deployment.sentry[cls.hauchiwa_name]
         cls.rest2jfed = cls.deployment.sentry['rest2jfed']
 
 
@@ -105,10 +110,10 @@ class TestCharm(unittest.TestCase):
                 message = "tengu userinfo got wrong response: \n{}".format(output)
                 raise Exception(message)
 
-    def test_huachiwa_port_forward(self):
+    def test_hauchiwa_port_forward(self):
         """Check to see if tengu->rest2jfed connection is correct"""
         status = self._get_status()
-        message = status['services']['hauchiwa']['service-status']['message']
+        message = status['services'][self.hauchiwa_name]['service-status']['message']
         if "Ready pf" not in message:
             message = "No port forwards: \n{}".format(message)
             raise Exception(message)

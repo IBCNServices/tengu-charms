@@ -14,8 +14,8 @@
    height="96"
    id="svg6517"
    version="1.1"
-   inkscape:version="0.91+devel r"
-   sodipodi:docname="hw_zoo-keeper.svg">
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="icon.svg">
   <defs
      id="defs6519">
     <linearGradient
@@ -380,9 +380,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="6.3664627"
-     inkscape:cx="27.87084"
-     inkscape:cy="45.622606"
+     inkscape:zoom="2.2508845"
+     inkscape:cx="-12.803276"
+     inkscape:cy="-21.77305"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -390,10 +390,10 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1920"
-     inkscape:window-height="1029"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-width="1225"
+     inkscape:window-height="1000"
+     inkscape:window-x="55"
+     inkscape:window-y="80"
      inkscape:window-maximized="1"
      showborder="true"
      showguides="false"
@@ -440,7 +440,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -452,8 +452,7 @@
      style="display:inline"
      sodipodi:insensitive="true">
     <g
-       id="g4464"
-       style="filter:url(#filter1121)">
+       id="g4464">
       <path
          sodipodi:nodetypes="sssssssss"
          inkscape:connector-curvature="0"

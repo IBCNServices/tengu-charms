@@ -15,4 +15,4 @@ provides:
 peers:
   quorum:
     interface: zookeeper-quorum
-
+series: ['trusty']

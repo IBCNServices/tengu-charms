@@ -1,0 +1,34 @@
+machines:
+  '0':
+    constraints: 'arch=amd64 testbed=wall1 pubipv4=true'
+    series: trusty
+  '1':
+    constraints: 'arch=amd64 testbed=wall1'
+    series: trusty
+services:
+  modelinfo:
+    charm: cs:~tengu-bot/trusty/modelinfo
+    options:
+      type: "web-ui"
+      tag: "storm"
+  nimbus:
+    charm: cs:~tengu-bot/trusty/storm
+    num_units: 1
+    to: lxc:0
+  worker:
+    charm: cs:~tengu-bot/trusty/storm
+    num_units: 1
+    to: lxc:1
+  apache-zookeeper:
+    charm: cs:~tengu-bot/trusty/apache-zookeeper
+    num_units: 1
+    to: lxc:0
+  cassandra:
+    charm: cs:trusty/cassandra
+    num_units: 1
+    to: lxc:0
+series: trusty
+relations:
+  - [nimbus, apache-zookeeper]
+  - [worker, apache-zookeeper]
+  - ["nimbus:master", "worker:worker"]

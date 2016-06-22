@@ -12,4 +12,5 @@
 "provides":
   "limeds":
     "interface": "http"
+"series": ["trusty"]
 "subordinate": !!bool "false"

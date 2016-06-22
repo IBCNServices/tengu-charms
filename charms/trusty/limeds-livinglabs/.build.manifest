@@ -187,7 +187,7 @@
     "icon.svg": [
       "limeds-livinglabs", 
       "static", 
-      "085f367baa9c4ec724561b6e0d5d167c14c4295d6311b719a57729a17ac025c7"
+      "2722ac7737b450dada22b41f1d7669a223cc8552040575c37333d4a354b32662"
     ], 
     "files/jdk-8u77-linux-x64.tar.gz": [
       "layer:java", 
@@ -203,11 +203,6 @@
       "limeds-livinglabs", 
       "dynamic", 
       "02ee12b27bb094b48969efa2db3497d016f3cf192a163a3e991056e28c386b45"
-    ], 
-    "limeDS_640.svg": [
-      "limeds-livinglabs", 
-      "static", 
-      "7ed39630e7fb4a7143a867c34db3eb24bc864207e5df834c01869abbc7d293d1"
     ], 
     "files/id_rsa": [
       "limeds-livinglabs", 

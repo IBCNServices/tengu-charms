@@ -3,6 +3,9 @@ machines:
   '0':
     series: trusty
     constraints: "arch=amd64"
+    annotations:
+      testbed: wall1
+      pubipv4: True
 services:
   hauchiwa:
     charm: "cs:~tengu-bot/trusty/hauchiwa"

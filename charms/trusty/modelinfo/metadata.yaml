@@ -12,3 +12,4 @@ requires:
   dont-use-me:
       interface: juju-info
       scope: container
+series: ['trusty']

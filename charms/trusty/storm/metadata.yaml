@@ -3,7 +3,7 @@ summary: "The Storm Master/Worker Server"
 maintainer: "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
 categories: ["misc"]
 description: |
-    Installs the Twitter Storm Master/ Worker Server. The Master server runs Nimbus and the UI. The Worker server runs Supervisor, Workers and DRPC. 
+    Installs the Twitter Storm Master/ Worker Server. The Master server runs Nimbus and the UI. The Worker server runs Supervisor, Workers and DRPC.
 provides:
   master:
     interface: storm
@@ -17,3 +17,4 @@ requires:
     interface: storm
   kafka:
     interface: kafka
+series: ['trusty']

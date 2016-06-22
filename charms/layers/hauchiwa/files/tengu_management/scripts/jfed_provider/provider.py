@@ -17,6 +17,7 @@
 #
 """ deploys a tengu env """
 from os.path import expanduser
+from distutils.util import strtobool
 
 # non-default pip dependencies
 import click
@@ -159,21 +160,11 @@ def get_data_from_bundle(bundle):
     for m_id in range(len(machines)):
         if not machines.get(str(m_id)): raise ProviderException('Parsing bundle \033[91mfailed\033[0m: machine {} not found while number of machines is {}.'.format(m_id, len(machines)))
         if m_id == 0:
-            constraints = machines[str(m_id)].get('constraints').split()
-            for constraint in constraints:
-                try:
-                    key, value = constraint.split('=', 1)
-                except ValueError as valueerr:
-                    print('cannot decode constraint: {}'.format(constraint))
-                    print(valueerr.message)
-                    continue
-                if key == 'testbed':
-                    testbed = value
-                elif key == 'pubipv4' and value.lower() == 'true':
-                    pub_ipv4 = True
-                elif key not in ['arch']:
-                    print('WARNING: constraint {} unknown'.format(constraint))
-            if not testbed: raise ProviderException("Parsing bundle \033[91mfailed\033[0m: machine {} doesn't specify testbed.".format(m_id))
+            annotations = machines[str(m_id)].get('annotations', dict())
+            testbed = annotations.pop('testbed', 'wall1')
+            pub_ipv4 = strtobool(annotations.pop('pubipv4', 'false').lower())
+            for annotation in annotations:
+                print('WARNING: annotation {} unknown'.format(annotation))
     return {
         'nrnodes' : len(machines),
         'testbed' : testbed,

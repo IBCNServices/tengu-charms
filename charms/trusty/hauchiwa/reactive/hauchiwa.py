@@ -162,9 +162,9 @@ def remove_rest2jfed():
 
 def install_tengu():
     """ Installs tengu management tools """
-    packages = ['python-pip', 'tree']
+    packages = ['python-pip', 'tree', 'python-dev', 'unzip', 'make']
     fetch.apt_install(fetch.filter_installed_packages(packages))
-    subprocess.check_output(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client'])
+    subprocess.check_output(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client', 'cloud-weather-report'])
     # Install Tengu. Existing /etc files don't get overwritten.
     t_dir = None
     if os.path.isdir(TENGU_DIR + '/etc'):

@@ -2,12 +2,12 @@
 
 This charm provides access to Storm, the distributed realtime computation system. The Charm allows you
 to setup a master and one or more workers. The supervisor contains Nimbus and the UI.
-The workers containi a supervisor, a DRPC server and one or more workers when a topology is deployed.
+The workers contain a supervisor, a DRPC server and one or more workers when a topology is deployed.
 A relation with zookeeper is required.
 
 # Usage
 
-To setup a test environment::
+To setup a test environment:
 
     juju bootstrap
     juju deploy zookeeper
@@ -67,3 +67,16 @@ Kill storm topology
 Storm logs:
 
     /opt/storm/latest/logs
+
+# Contact Information
+
+## Bugs
+
+Report bugs on [Github](https://github.com/IBCNServices/tengu-charms/issues).
+
+## Authors
+
+This software was created in the [IBCN research group](https://www.ibcn.intec.ugent.be/) of [Ghent University](http://www.ugent.be/en) in Belgium. This software is used in [Tengu](http://tengu.intec.ugent.be), a project that aims to make experimenting with data frameworks and tools as easy as possible.
+
+ - Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+ - Maarten Ectors <maarten.ectors@canonical.com>

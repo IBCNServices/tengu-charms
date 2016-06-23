@@ -124,6 +124,10 @@ def set_blocked():
 @when_not('bundle.deployed')
 def create_environment(*arg):  # pylint:disable=w0613
     conf = hookenv.config()
+    init_bundle = conf.get('init-bundle')
+    with open('{}/templates/init-bundle.yaml'.format(TENGU_DIR), 'w+') as init_bundle_file:
+        init_bundle = base64.b64decode(init_bundle).decode('utf8')
+        init_bundle_file.write(init_bundle)
     bundle = conf.get('bundle')
     if bundle:
         bundle_dir = tempfile.mkdtemp()
@@ -135,7 +139,7 @@ def create_environment(*arg):  # pylint:disable=w0613
         hostname = subprocess.getoutput(['hostname'])
         subprocess.check_call(['su', '-', USER, '-c',
                                '{}/scripts/tengu.py create --bundle {} {}'.format(TENGU_DIR, bundle_path,
-                                                                                  hostname[2:])])
+                                                                                  hostname[2:12])]) # jfed hostname cannot be longer than 10 chars
     set_state('bundle.deployed')
 
 

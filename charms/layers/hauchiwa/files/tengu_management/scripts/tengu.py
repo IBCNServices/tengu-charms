@@ -93,7 +93,7 @@ def wait_for_init(env_conf):
     sys.stdout.write('\n')
 
 
-def create_juju(env_conf, provider_env):
+def create_juju(env_conf, provider_env, init_bundle):
     if JujuEnvironment.env_exists(env_conf['env-name']):
         fail("Juju environment already exists. Remove it first with 'tengu destroy {}'".format(env_conf['env-name']))
     try:
@@ -108,7 +108,8 @@ def create_juju(env_conf, provider_env):
         env_conf['env-name'],
         env_conf['juju-env-conf']['bootstrap-host'],
         env_conf['juju-env-conf'],
-        machines
+        machines,
+        init_bundle,
     )
 
 
@@ -262,11 +263,16 @@ def g_cli():
     default='/opt/tengu/templates/bundle.yaml',
     help='path to bundle that contains machines to create and services to deploy')
 @click.option(
+    '--init-bundle',
+    type=click.Path(exists=True, readable=True),
+    default='/opt/tengu/templates/init-bundle.yaml',
+    help='path to the bundle to use to setup a bare model')
+@click.option(
     '--create-machines/--no-create-machines',
     default=True,
     help='skip creation of provider environment')
 @click.argument('name')
-def c_create(bundle, name, create_machines):
+def c_create(bundle, init_bundle, name, create_machines):
     """Create a model with given name. Skips slice creation if it already exists.
     NAME: name of model """
     env_conf = init_environment_config(name)
@@ -275,12 +281,12 @@ def c_create(bundle, name, create_machines):
             bundledict = yaml.load(bundle_file)
     except yaml.YAMLError as yamlerror:
         raise click.ClickException('Parsing bundle \033[91mfailed\033[0m: {}'.format(str(yamlerror)))
-    downloadbigfiles(os.environ['JUJU_REPOSITORY'])
+    downloadbigfiles(os.environ.get('JUJU_REPOSITORY', ''))
     if create_machines:
         provider_env = get_provider(env_conf).create_from_bundle(env_conf, bundledict)
     else:
         provider_env = get_provider(env_conf).get(env_conf)
-    juju_env = create_juju(env_conf, provider_env)
+    juju_env = create_juju(env_conf, provider_env, init_bundle)
     juju_env.deploy_bundle(bundle)
 
 
@@ -291,7 +297,7 @@ def c_create(bundle, name, create_machines):
 def c_deploy(bundle, name):
     """Create a model with given name. Skips slice creation of the model's underlying jFed experiment if the slice already exists.
     NAME: name of model """
-    downloadbigfiles(os.environ['JUJU_REPOSITORY'])
+    downloadbigfiles(os.environ.get('JUJU_REPOSITORY', ''))
     juju_env = JujuEnvironment(name)
     juju_env.deploy_bundle(bundle)
 
@@ -487,7 +493,7 @@ def c_userinfo():
     context_settings=CONTEXT_SETTINGS)
 def c_downloadbigfiles():
     """ Download bigfiles in $JUJU_REPOSITORY """
-    downloadbigfiles(os.environ['JUJU_REPOSITORY'])
+    downloadbigfiles(os.environ.get('JUJU_REPOSITORY', ''))
 
 # @click.command(
 #     name='c_renew_if_closer_than'

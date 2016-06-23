@@ -199,14 +199,30 @@ class JujuEnvironment(object):
     # Tengu specific methods
     #
 
-    def deploy_lxc_networking(self):
-        lxc_networking = self.deploy("cs:~tengu-bot/trusty/lxc-networking", "lxc-networking", to='0')
-        for machine in self.machines:
-            if machine != '0':
-                lxc_networking.add_unit(to=machine)
-        lxc_networking.wait_until('Ready')
-        dhcp_server = self.deploy("cs:~tengu-bot/trusty/dhcp-server", "dhcp-server", to='0')
-        dhcp_server.wait_until('Ready')
+    def deploy_init_bundle(self, bundle_path):
+        with open(bundle_path, 'r') as stream:
+            bundle = yaml.load(stream.read())
+        services = bundle['services']
+
+        def custom_sorting_key(service):
+            return (service[1]['annotations']['order'])
+        services = sorted(services.items(), key=custom_sorting_key)
+
+        for name, service in services:
+            # Put config in temp file so we can give it to the charm deploy command.
+            # Leave config empty when no config in bundle.
+            tmp = tempfile.NamedTemporaryFile(delete=False)
+            tmp.write(yaml.dump({name: service.get('options', dict())}))
+            tmp.close()
+            # Deploy to all machines if "to" not specified
+            to_machines = service.get('to', self.machines)
+            deployed_service = self.deploy(service['charm'], name, to=to_machines.pop(), config=tmp.name)
+            os.remove(tmp.name) # No finally because we don't want to delete the file if deploying failed.
+            for machine in to_machines:
+                deployed_service.add_unit(to=machine)
+            # Wait until status message "Ready" if no status message is specified
+            deployed_service.wait_until(service['annotations'].get('wait-until-message', 'Ready'))
+
 
     def return_environment(self):
         """ returns exported juju environment"""
@@ -273,7 +289,7 @@ class JujuEnvironment(object):
         return name in envs
 
     @staticmethod
-    def create(name, bootstrap_host, juju_config, machines):
+    def create(name, bootstrap_host, juju_config, machines, bundle):
         """Creates Juju environment, add all available machines,
         deploy juju_gui"""
         JujuEnvironment._create_env(name, bootstrap_host, juju_config)
@@ -282,10 +298,7 @@ class JujuEnvironment(object):
         sleep(20)
         environment = JujuEnvironment(name)
         environment.add_machines(machines)
-        environment.deploy_lxc_networking()
-        print("deploying openvpn")
-        environment.deploy('cs:~tengu-bot/trusty/openvpn', 'openvpn', to='0')
-        print("Creation of bare Tengu complete!")
+        environment.deploy_init_bundle(bundle)
         return environment
 
 

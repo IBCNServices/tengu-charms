@@ -37,6 +37,10 @@
     "type": "string"
     "default": !!null ""
     "description": "bundle to deploy after setup"
+  "init-bundle":
+    "type": "string"
+    "default": !!null ""
+    "description": "this replaces the default init-bundle"
   "hauchiwa-flavor":
     "type": "string"
     "default": "rest2jfed"

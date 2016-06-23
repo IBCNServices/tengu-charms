@@ -11,6 +11,10 @@ options:
     type: string
     default:
     description: bundle to deploy after setup
+  init-bundle:
+    type: string
+    default:
+    description: this replaces the default init-bundle
   user:
     type: string
     default: ubuntu

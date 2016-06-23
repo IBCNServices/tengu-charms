@@ -17,7 +17,6 @@
 #
 """ deploys a tengu env """
 from os.path import expanduser
-from distutils.util import strtobool
 
 # non-default pip dependencies
 import click
@@ -162,7 +161,7 @@ def get_data_from_bundle(bundle):
         if m_id == 0:
             annotations = machines[str(m_id)].get('annotations', dict())
             testbed = annotations.pop('testbed', 'wall1')
-            pub_ipv4 = strtobool(annotations.pop('pubipv4', 'false').lower())
+            pub_ipv4 = annotations.pop('pubipv4', False)
             for annotation in annotations:
                 print('WARNING: annotation {} unknown'.format(annotation))
     return {

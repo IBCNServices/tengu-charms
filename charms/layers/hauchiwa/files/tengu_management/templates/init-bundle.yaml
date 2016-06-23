@@ -1,0 +1,16 @@
+services:
+  lxc-networking:
+    charm: cs:~tengu-bot/trusty/lxc-networking
+    annotations:
+      order: 0
+  dhcp-server:
+    charm: cs:~tengu-bot/trusty/dhcp-server
+    to: 0
+    annotations:
+      order: 1
+  openvpn:
+    charm: cs:~tengu-bot/trusty/openvpn
+    to: 0
+    annotations:
+      order: 3
+series: trusty

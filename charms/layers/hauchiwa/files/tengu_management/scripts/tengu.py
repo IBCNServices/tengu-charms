@@ -360,6 +360,7 @@ def c_reset(name):
 @click.command(
     name='destroy',
     context_settings=CONTEXT_SETTINGS)
+@click.argument('name', type=str)
 def c_destroy(name):
     """Destroys model with given name
     NAME: name of model """

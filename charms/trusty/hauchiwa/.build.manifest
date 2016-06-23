@@ -96,7 +96,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "c3f7cf0207eb9e25260befb863eead28c286b8307dd5896d8fbf56ec23229630"
+      "927a8ebaaf2a2d5b7982cca54643713b782c8d354fd87bca43fb34b67c621dc3"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 

@@ -33,3 +33,4 @@ open-port ${PORT}/${PROTO}
 
 # Great work, go take a break.
 juju-log "Finished applying changes"
+status-set active "Ready"

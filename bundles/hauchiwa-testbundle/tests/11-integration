@@ -67,7 +67,7 @@ class TestCharm(unittest.TestCase):
         # Allow some time for Juju to provision and deploy the bundle.
         cls.deployment.setup(timeout=SECONDS_TO_WAIT)
         # Wait for the system to settle down.
-        cls.deployment.sentry.wait(timeout=2400)
+        cls.deployment.sentry.wait(timeout=4800)
 
         cls.hauchiwa = cls.deployment.sentry[cls.hauchiwa_name]
         cls.rest2jfed = cls.deployment.sentry['rest2jfed']

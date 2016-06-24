@@ -3,3 +3,4 @@ reset: false
 tests: "[0-9]*"
 makefile: ['test']
 bundle_deploy: false
+excludes: ['cassandra', 'apache-zookeeper']

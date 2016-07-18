@@ -10,11 +10,6 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
-    ], 
     "bin/layer_option": [
       "layer:basic", 
       "static", 
@@ -95,6 +90,11 @@
       "dynamic", 
       "5a3182b322a706525c46282ca6f064d27a02cffbd449f9f47416f1dc96aa71b0"
     ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
@@ -170,20 +170,20 @@
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
-    "requirements.txt": [
+    "wheelhouse/charmhelpers-0.8.0.tar.gz": [
       "layer:basic", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+      "dynamic", 
+      "355c2632049621474c50cfee6a6f7014a863f6f3bac1134ed409479cbe99b102"
     ], 
     "layer.yaml": [
       "lxc-networking", 
       "dynamic", 
       "a75a324fe4f66fc350cb59bfdd6e1877129b447f680992304e2ebb82ae016192"
     ], 
-    "lib/charms/layer/__init__.py": [
+    "hooks/config-changed": [
       "layer:basic", 
       "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     ".build.manifest": [
       "build", 
@@ -193,17 +193,17 @@
     "icon.svg": [
       "lxc-networking", 
       "static", 
-      "a7897b2c39f9918323a4680a326d1034f4a62292a76cd84f68d955b7d9eacc9c"
+      "6f3e00af08c7754976b9d83fd75ca1a2aa1b91d15a4d204ae178561381de6094"
     ], 
-    "wheelhouse/six-1.10.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
-    ], 
-    "hooks/config-changed": [
+    "requirements.txt": [
       "layer:basic", 
       "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
     ]
   }
 }

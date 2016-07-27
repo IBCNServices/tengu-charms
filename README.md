@@ -126,7 +126,8 @@ and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and l
     sudo pip2 install Flask
 
     # Dependencies of Charms so linter can check them
-    sudo pip3 install charms.reactive netifaces
+    sudo pip2 install click
+    sudo pip3 install charms.reactive netifaces amulet click
 
 When running `juju debug-hooks`, you enter a tmux session. The default tmux bindings on Ubuntu are a bit strange. ctrl-a is the default command. To enable sane mouse scrolling set `set-window-option -g mode-mouse on` in `~/.tmux.conf` of the server.
 

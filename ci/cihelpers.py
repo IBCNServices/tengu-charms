@@ -27,6 +27,7 @@ import click
 import yaml
 import requests
 
+JUJU_REPOSITORY = os.environ.get('JUJU_REPOSITORY', '.')
 FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
 logging.basicConfig(level='INFO', format=FORMAT)
 
@@ -102,7 +103,7 @@ def get_charms_from_bundle(bundle_path, namespace_whitelist=None):
 
 def push_charm(charm):
     """ pushes the local charm to the charmers personal namespace, channel 'unpublished', and grants everyone acces to the channel."""
-    charm_path = 'charms/{}/{}'.format(charm['series'], charm['name'])
+    charm_path = '{}/charms/{}/{}'.format(JUJU_REPOSITORY, charm['series'], charm['name'])
     logging.debug("pushing {}".format(charm_path))
     output = subprocess.check_output(['charm', 'push', charm_path], universal_newlines=True)
     url = yaml.safe_load(output)['url']
@@ -154,12 +155,16 @@ def bootstrap_testdir(local_bundle_path, remote_bundle_path, init_bundle_path, c
     shutil.copytree(remote_bundle_dir, "{}/remote/{}".format(tmpdir, remote_bundle_name))
     shutil.copy(init_bundle_path, "{}/remote/init-bundle.yaml".format(tmpdir))
 
-    with open('testplan.yaml', 'r+') as stream:
+    with open('testplan.yaml', 'r') as stream:
         testplan = yaml.safe_load(stream.read())
-        testplan['bundle'] = local_bundle_name
-        stream.seek(0)
+    testplan['bundle'] = local_bundle_name
+    with open('{}/testplan.yaml'.format(tmpdir), 'w') as stream:
         stream.write(yaml.dump(testplan))
-        stream.truncate()
+        testplan['bundle'] = local_bundle_name
+
+    testplan['bundle'] = remote_bundle_name
+    with open('{}/remote/testplan.yaml'.format(tmpdir), 'w') as stream:
+        stream.write(yaml.dump(testplan))
 
     replace_charm_url("{}/{}/bundle.yaml".format(tmpdir, local_bundle_name), charms_to_test)
     replace_charm_url("{}/remote/{}/bundle.yaml".format(tmpdir, remote_bundle_name), charms_to_test)
@@ -214,12 +219,14 @@ def run_tests(testdir, resultdir):
     subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
     mergecopytree('{}/remote/results'.format(testdir), '{}/{}/'.format(resultdir, bundle_name))
     logging.info('DESTROY ENVIRONMENT')
-
+    subprocess.check_call(
+        ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
+         "echo y | tengu destroy {0}".format(bundle_name[:10])])
 def test_bundles(bundles_to_test, resultdir):
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join(bundles_to_test), resultdir))
     # Get all charms that have to be pushed
-    sojobo_bundle = 'bundles/sojobo/bundle.yaml'
-    init_bundle = 'charms/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'
+    sojobo_bundle = '{}/bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY)
+    init_bundle = '{}/charms/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY)
     charms_to_push = []
     # charms in hauchiwa and init bundle need to be pushed but those bundles don't need to be tested
     for bundle in bundles_to_test + (sojobo_bundle, init_bundle):

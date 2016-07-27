@@ -73,8 +73,7 @@ I'm using Atom on Ubuntu with some extentions. Here's how I installed everything
     # Pyton linting (code checking) for both python 2 and python 3
     sudo pip2 install pylint
     sudo pip3 install pylint
-    apm install linter
-    apm install linter-pylint
+    apm install linter linter-pylint
     mkdir ~/bin
 
 `nano ~/bin/pylint` and add:
@@ -128,6 +127,10 @@ and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and l
     # Dependencies of Charms so linter can check them
     sudo pip2 install click
     sudo pip3 install charms.reactive netifaces amulet click
+
+    # Other atom packages
+    apm install language-groovy
+
 
 When running `juju debug-hooks`, you enter a tmux session. The default tmux bindings on Ubuntu are a bit strange. ctrl-a is the default command. To enable sane mouse scrolling set `set-window-option -g mode-mouse on` in `~/.tmux.conf` of the server.
 

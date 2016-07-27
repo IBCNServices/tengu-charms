@@ -1,0 +1,6 @@
+bootstrap: false
+reset: false
+tests: "[0-9]*"
+makefile: ['test']
+bundle_deploy: false
+excludes: ['apache-hadoop-namenode', 'apache-hadoop-resourcemanager', 'apache-hadoop-slave', 'apache-hadoop-plugin', 'apache-spark', 'apache-zeppelin']

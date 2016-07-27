@@ -1,0 +1,80 @@
+machines:
+  '0':
+    constraints: arch=amd64
+    series: trusty
+    annotations:
+      testbed: wall1
+      pubipv4: True
+  '1':
+    constraints: arch=amd64
+    series: trusty
+    annotations:
+      testbed: wall1
+  '2':
+    constraints: arch=amd64
+    series: trusty
+    annotations:
+      testbed: wall1
+  '3':
+    constraints: arch=amd64
+    series: trusty
+    annotations:
+      testbed: wall1
+services:
+  modelinfo:
+    charm: local:trusty/modelinfo
+    options:
+      type: "web-ui"
+      tag: "spark"
+  namenode:
+    charm: cs:trusty/apache-hadoop-namenode-2
+    num_units: 1
+    annotations:
+      gui-x: "600"
+      gui-y: "350"
+    to: lxc:0
+  resourcemanager:
+    charm: cs:trusty/apache-hadoop-resourcemanager-3
+    num_units: 1
+    annotations:
+      gui-x: "600"
+      gui-y: "100"
+    to: lxc:0
+  slave:
+    charm: cs:trusty/apache-hadoop-slave-2
+    num_units: 3
+    annotations:
+      gui-x: "250"
+      gui-y: "200"
+    to:
+      - lxc:1
+      - lxc:2
+      - lxc:3
+  plugin:
+    charm: cs:trusty/apache-hadoop-plugin-14
+    annotations:
+      gui-x: "950"
+      gui-y: "200"
+  spark:
+    charm: cs:trusty/apache-spark-9
+    num_units: 1
+    options:
+      spark_execution_mode: "yarn-client"
+    annotations:
+      gui-x: "1300"
+      gui-y: "200"
+    to: lxc:0
+  zeppelin:
+    charm: cs:trusty/apache-zeppelin-7
+    annotations:
+      gui-x: "1500"
+      gui-y: "100"
+series: trusty
+relations:
+  - [namenode, slave]
+  - [resourcemanager, slave]
+  - [resourcemanager, namenode]
+  - [plugin, namenode]
+  - [plugin, resourcemanager]
+  - [spark, plugin]
+  - [zeppelin, spark]

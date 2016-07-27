@@ -247,6 +247,7 @@ def get_changed():
 
 
 def test_bundles(bundles_to_test, resultdir):
+    subprocess.check_call(['tengu', 'reset', 'tenguci'])
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join(bundles_to_test), resultdir))
     # Get all charms that have to be pushed
     sojobo_bundle = '{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY)

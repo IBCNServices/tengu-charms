@@ -61,7 +61,7 @@ def show_pf(port_forward):
 @when('juju.repo.available')
 @when_not('tengu.repo.available')
 def download_bigfiles():
-    subprocess.check_call(['su', '-', USER, '-c', '{}/scripts/tengu.py downloadbigfiles'.format(TENGU_DIR)])
+    subprocess.check_call(['su', '-', USER, '-c', 'tengu downloadbigfiles'])
     set_state('tengu.repo.available')
 
 
@@ -139,8 +139,9 @@ def create_environment(*arg):  # pylint:disable=w0613
         chownr(bundle_dir, USER, USER)
         hostname = subprocess.getoutput(['hostname'])
         subprocess.check_call(['su', '-', USER, '-c',
-                               '{}/scripts/tengu.py create --bundle {} {}'.format(TENGU_DIR, bundle_path,
-                                                                                  hostname[2:12])]) # jfed hostname cannot be longer than 10 chars
+                               'tengu create --bundle {} {}'.format(
+                                   bundle_path,
+                                   hostname[2:12])]) # jfed hostname cannot be longer than 10 chars
     set_state('bundle.deployed')
 
 

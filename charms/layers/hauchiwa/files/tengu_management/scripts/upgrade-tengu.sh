@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #sudo pip2 install click pyyaml
-#echo '/opt/tengu/scripts/tengu.py "$@"' | sudo tee /usr/bin/tengu
+#echo '#!/bin/bash\n/opt/tengu/scripts/tengu.py "$@"' | sudo tee /usr/bin/tengu
 #sudo chmod a+x /usr/bin/tengu
 sudo cp -r /opt/tengu/scripts /opt/tengu/scripts.bak`date "+%y-%d-%m_%H:%M:%S"`
 sudo rm -r /opt/tengu/scripts/*

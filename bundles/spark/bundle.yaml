@@ -22,7 +22,7 @@ machines:
       testbed: wall1
 services:
   modelinfo:
-    charm: local:trusty/modelinfo
+    charm: cs:~tengu-bot/trusty/modelinfo
     options:
       type: "web-ui"
       tag: "spark"

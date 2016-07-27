@@ -14,13 +14,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0301,w1202
-# Creating testbundles and pushing charms to store: ./cihelpers.py push bundles/storm-testbundle
-# Running tests and putting output in resultdir: ./cihelpers.py test `cat testdir` /var/www/html
 import re
 import os
 import errno
-import logging
 import shutil
+import base64
+import logging
 import tempfile
 import subprocess
 
@@ -39,7 +38,8 @@ def get_username():
 
 USERNAME = get_username()
 
-
+class CharmUrlParsingError(Exception):
+    pass
 
 def replace_charm_url(filename, charms):
     logging.debug('replacing {} in '.format(filename))
@@ -64,6 +64,8 @@ def generate_replacers(charms):
 def parse_charm_url(url):
     logging.debug('parsing url {}'.format(url))
     result = re.search('^((cs:~[^/]+)/|(cs:))((.+)/)?(.+?)(-([0-9]+))?$', url)
+    if result is None:
+        raise CharmUrlParsingError("Cannot parse Charm url {}. Is this a local charm url? Only charmstore urls are allowed. Use CS:~{} namespace for our charms.".format(url, USERNAME))
     charm = {
         'namespace': result.group(2) if result.group(2) else result.group(3),
         'series': result.group(4),
@@ -139,7 +141,7 @@ def mergecopytree(src, dst, symlinks=False, ignore=None):
         else:
             shutil.copy2(src_item, dst_item)
 
-def bootstrap_testbundle(local_bundle_path, remote_bundle_path, init_bundle_path, charms_to_test):
+def bootstrap_testdir(local_bundle_path, remote_bundle_path, init_bundle_path, charms_to_test):
     local_bundle_dir = os.path.dirname(local_bundle_path).rstrip('/')
     remote_bundle_dir = os.path.dirname(remote_bundle_path).rstrip('/')
     local_bundle_name = os.path.basename(local_bundle_dir)
@@ -152,30 +154,32 @@ def bootstrap_testbundle(local_bundle_path, remote_bundle_path, init_bundle_path
     shutil.copytree(remote_bundle_dir, "{}/remote/{}".format(tmpdir, remote_bundle_name))
     shutil.copy(init_bundle_path, "{}/remote/init-bundle.yaml".format(tmpdir))
 
-    with open('testplan.yaml', 'r') as stream:
+    with open('testplan.yaml', 'r+') as stream:
         testplan = yaml.safe_load(stream.read())
-    testplan['bundle'] = local_bundle_name
-    with open('{}/testplan.yaml'.format(tmpdir), 'w') as stream:
+        testplan['bundle'] = local_bundle_name
+        stream.seek(0)
         stream.write(yaml.dump(testplan))
+        stream.truncate()
 
-    testplan['bundle'] = remote_bundle_name
-    with open('{}/remote/testplan.yaml'.format(tmpdir), 'w') as stream:
-        stream.write(yaml.dump(testplan))
+    replace_charm_url("{}/{}/bundle.yaml".format(tmpdir, local_bundle_name), charms_to_test)
+    replace_charm_url("{}/remote/{}/bundle.yaml".format(tmpdir, remote_bundle_name), charms_to_test)
+    replace_charm_url("{}/remote/init-bundle.yaml".format(tmpdir), charms_to_test)
+
+    with open("{}/remote/init-bundle.yaml".format(tmpdir), 'r') as stream:
+        init_bundle = stream.read()
 
     with open("{}/{}/bundle.yaml".format(tmpdir, local_bundle_name), 'r+') as stream:
         bundle = yaml.safe_load(stream)
+        bundle['services']['hauchiwa'].setdefault('options', dict())['init-bundle'] = base64.b64encode(yaml.dump(init_bundle, encoding='utf-8')).decode("utf-8")
         bundle['services']["h-{}".format(remote_bundle_name)] = bundle['services'].pop('hauchiwa')
         for relation in bundle['relations']:
             for endidx, endpoint in enumerate(relation):
                 relation[endidx] = endpoint.replace('hauchiwa:', "h-{}:".format(remote_bundle_name))
         stream.seek(0)
         stream.write(yaml.dump(bundle))
-        stream.truncate()
 
-    replace_charm_url("{}/{}/bundle.yaml".format(tmpdir, local_bundle_name), charms_to_test)
-    replace_charm_url("{}/remote/{}/bundle.yaml".format(tmpdir, remote_bundle_name), charms_to_test)
-    replace_charm_url("{}/remote/init-bundle.yaml".format(tmpdir), charms_to_test)
     return tmpdir
+
 
 def run_tests(testdir, resultdir):
     with open('{}/remote/testplan.yaml'.format(testdir), 'r') as stream:
@@ -188,12 +192,12 @@ def run_tests(testdir, resultdir):
             raise
     subprocess.check_call(['cwr', '--no-destroy', 'tenguci', 'testplan.yaml', '--no-destroy', '-l', 'DEBUG', '-o', '{}/{}/'.format(resultdir, bundle_name), '--result-output', '{}'.format(h_name)], cwd='{}'.format(testdir))
 
-    subprocess.check_call(['ln -sf `ls -v | egrep "hauchiwa_testbundle.+result\\.html" | tail -1` latest-hauchiwa.html'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
-    subprocess.check_call(['ln -sf `ls -v | egrep "hauchiwa_testbundle.+result\\.json" | tail -1` latest-hauchiwa.json'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
-    subprocess.check_call(["cat latest-hauchiwa.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
+    subprocess.check_call(['ln -sf `ls -v | egrep "sojobo.+result\\.html" | tail -1` latest-sojobo.html'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
+    subprocess.check_call(['ln -sf `ls -v | egrep "sojobo.+result\\.json" | tail -1` latest-sojobo.json'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
+    subprocess.check_call(["cat latest-sojobo.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
     unit_n = subprocess.check_output(["juju status --format oneline | grep {} | cut -d '/' -f 2 | cut -d ':' -f 1".format(h_name)], shell=True, universal_newlines=True).rstrip()
 
-    api_hostport = subprocess.check_output(['juju status --format tabular | grep h-storm-testbundle/ | egrep -o ">22 [^-]+" | sed "s/^>22 //"'], shell=True, universal_newlines=True).rstrip()
+    api_hostport = subprocess.check_output(['juju status --format tabular | grep {}/ | egrep -o ">22 [^-]+" | sed "s/^>22 //"'.format(h_name)], shell=True, universal_newlines=True).rstrip()
 
     with open('{}/remote/{}/bundle.yaml'.format(testdir, bundle_name), 'r') as bundle_file:
         bundle = bundle_file.read()
@@ -214,11 +218,11 @@ def run_tests(testdir, resultdir):
 def test_bundles(bundles_to_test, resultdir):
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join(bundles_to_test), resultdir))
     # Get all charms that have to be pushed
-    hauchiwa_bundle = 'bundles/hauchiwa-testbundle/bundle.yaml'
+    sojobo_bundle = 'bundles/sojobo/bundle.yaml'
     init_bundle = 'charms/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'
     charms_to_push = []
     # charms in hauchiwa and init bundle need to be pushed but those bundles don't need to be tested
-    for bundle in bundles_to_test + (hauchiwa_bundle, init_bundle):
+    for bundle in bundles_to_test + (sojobo_bundle, init_bundle):
         charms_to_push = charms_to_push + get_charms_from_bundle(bundle, namespace_whitelist=["cs:~" + USERNAME])
     charms_to_push = list({v['url']:v for v in charms_to_push}.values())
 
@@ -232,7 +236,7 @@ def test_bundles(bundles_to_test, resultdir):
     # Setup the directory for each bundle
     testdirs = []
     for bundle in bundles_to_test:
-        testdirs.append(bootstrap_testbundle(hauchiwa_bundle, bundle, init_bundle, charms_to_test))
+        testdirs.append(bootstrap_testdir(sojobo_bundle, bundle, init_bundle, charms_to_test))
 
     # Run tests (run_tests should throw exception if test fails)
     logging.info("Running tests in: \n\t{}\n".format("\n\t".join(testdirs)))

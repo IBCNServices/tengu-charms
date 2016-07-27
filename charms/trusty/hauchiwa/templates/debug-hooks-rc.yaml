@@ -3,5 +3,5 @@ sync_excludes:
 - '.*'
 - '*.pyc'
 import_ids: []
-auto_sync: true
+auto_sync: false
 auto_restart: true

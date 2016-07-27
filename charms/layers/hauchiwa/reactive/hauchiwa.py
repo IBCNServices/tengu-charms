@@ -125,10 +125,11 @@ def set_blocked():
 def create_environment(*arg):  # pylint:disable=w0613
     conf = hookenv.config()
     init_bundle = conf.get('init-bundle')
-    with open('{}/templates/init-bundle.yaml'.format(TENGU_DIR), 'w+') as init_bundle_file:
-        init_bundle = base64.b64decode(init_bundle).decode('utf8')
-        init_bundle_file.write(init_bundle)
     bundle = conf.get('bundle')
+    if init_bundle:
+        with open('{}/templates/init-bundle.yaml'.format(TENGU_DIR), 'w+') as init_bundle_file:
+            init_bundle = base64.b64decode(init_bundle).decode('utf8')
+            init_bundle_file.write(init_bundle)
     if bundle:
         bundle_dir = tempfile.mkdtemp()
         bundle_path = bundle_dir + '/bundle.yaml'

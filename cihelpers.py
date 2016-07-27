@@ -21,9 +21,8 @@ import shutil
 import base64
 import logging
 import tempfile
-from itertools import repeat
 import subprocess
-from multiprocessing import Process, Pool
+from multiprocessing import Pool
 
 import click
 import yaml
@@ -105,7 +104,7 @@ def get_charms_from_bundle(bundle_path, namespace_whitelist=None):
 
 def push_charm(charm):
     """ pushes the local charm to the charmers personal namespace, channel 'unpublished', and grants everyone acces to the channel."""
-    charm_path = '{}/{}/{}'.format(JUJU_REPOSITORY, charm['series'], charm['name'])
+    charm_path = '{}/../charms/{}/{}'.format(JUJU_REPOSITORY, charm['series'], charm['name'])
     logging.debug("pushing {}".format(charm_path))
     output = subprocess.check_output(['charm', 'push', charm_path], universal_newlines=True)
     url = yaml.safe_load(output)['url']
@@ -150,8 +149,6 @@ def bootstrap_testdir(local_bundle_path, remote_bundle_path, init_bundle_path, c
     local_bundle_name = os.path.basename(local_bundle_dir)
     remote_bundle_name = os.path.basename(remote_bundle_dir)
     tmpdir = tempfile.mkdtemp()
-    with open('testdir', 'w+') as stream:
-        stream.write(tmpdir)
     os.mkdir("{}/remote/".format(tmpdir))
     shutil.copytree(local_bundle_dir, "{}/{}".format(tmpdir, local_bundle_name))
     shutil.copytree(remote_bundle_dir, "{}/remote/{}".format(tmpdir, remote_bundle_name))
@@ -184,11 +181,9 @@ def bootstrap_testdir(local_bundle_path, remote_bundle_path, init_bundle_path, c
                 relation[endidx] = endpoint.replace('hauchiwa:', "h-{}:".format(remote_bundle_name))
         stream.seek(0)
         stream.write(yaml.dump(bundle))
-
     return tmpdir
 
-
-def run_tests(testdir, resultdir):
+def create_hauchiwa(testdir, resultdir):
     with open('{}/remote/testplan.yaml'.format(testdir), 'r') as stream:
         bundle_name = os.path.basename(yaml.safe_load(stream)['bundle'])
         h_name = "h-{}".format(bundle_name)
@@ -202,13 +197,18 @@ def run_tests(testdir, resultdir):
     subprocess.check_call(['ln -sf `ls -v | egrep "sojobo.+result\\.html" | tail -1` latest-sojobo.html'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
     subprocess.check_call(['ln -sf `ls -v | egrep "sojobo.+result\\.json" | tail -1` latest-sojobo.json'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
     subprocess.check_call(["cat latest-sojobo.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
+
+def run_tests(testdir, resultdir):
+    with open('{}/remote/testplan.yaml'.format(testdir), 'r') as stream:
+        bundle_name = os.path.basename(yaml.safe_load(stream)['bundle'])
+        h_name = "h-{}".format(bundle_name)
     unit_n = subprocess.check_output(["juju status --format oneline | grep {} | cut -d '/' -f 2 | cut -d ':' -f 1".format(h_name)], shell=True, universal_newlines=True).rstrip()
 
     api_hostport = subprocess.check_output(['juju status --format tabular | grep {}/ | egrep -o ">22 [^-]+" | sed "s/^>22 //"'.format(h_name)], shell=True, universal_newlines=True).rstrip()
 
     with open('{}/remote/{}/bundle.yaml'.format(testdir, bundle_name), 'r') as bundle_file:
         bundle = bundle_file.read()
-    response = requests.put('http://{}/{}/'.format(api_hostport, h_name[2:12]), data=bundle)
+    response = requests.put('http://{}/{}/'.format(api_hostport, h_name[2:12]), data=bundle, headers={'Accept': 'application/json'})
     logging.info('request to http://{}, answer status code is {}, content is {}'.format(api_hostport, response.status_code, response.text))
     subprocess.check_call(['juju', 'scp', '--', '-r', '{}/remote/.'.format(testdir), '{}/{}:~/remote'.format(h_name, unit_n)]) #/remote/. : trailing dot is to make cp idempotent:  https://unix.stackexchange.com/questions/228597/how-to-copy-a-folder-recursively-in-an-idempotent-way-using-cp
     subprocess.check_call(
@@ -218,19 +218,39 @@ def run_tests(testdir, resultdir):
     subprocess.check_call(['juju', 'scp', '--', '-r', '{}/{}:~/remote/results/.'.format(h_name, unit_n), '{}/remote/results'.format(testdir)])
     subprocess.check_call(['ln -sf `ls -v | grep result.html | tail -1` latest.html'], shell=True, cwd='{}/remote/results'.format(testdir))
     subprocess.check_call(['ln -sf `ls -v | grep result.json | tail -1` latest.json'], shell=True, cwd='{}/remote/results'.format(testdir))
-    subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
     mergecopytree('{}/remote/results'.format(testdir), '{}/{}/'.format(resultdir, bundle_name))
+    subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
     logging.info('DESTROY ENVIRONMENT')
     subprocess.check_call(
         ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
          "echo y | tengu destroy {0}".format(bundle_name[:10])])
+
+def get_changed():
+    GIT_PREVIOUS_SUCCESSFUL_COMMIT = os.environ.get('GIT_PREVIOUS_SUCCESSFUL_COMMIT') # pylint:disable=c0103
+    changed = {
+        'ci': False,
+        'charms': [],
+        'bundles': [],
+    }
+    output = subprocess.check_output(['git', 'diff', GIT_PREVIOUS_SUCCESSFUL_COMMIT, '--name-only'], universal_newlines=True)
+    for line in output.split('\n'):
+        if ['ci.sh', 'cihelpers.py', 'cihelpers.py'] in line:
+            changed['ci'] = True
+        result = re.search('/bundles/([^/])/', line)
+        if result:
+            changed['charms'].append(result.group(0))
+            return
+        result = re.search('/charms/[^/]/([^/])', line)
+        if result:
+            changed['bundles'].append(result.group(0))
+            return
 
 
 def test_bundles(bundles_to_test, resultdir):
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join(bundles_to_test), resultdir))
     # Get all charms that have to be pushed
     sojobo_bundle = '{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY)
-    init_bundle = '{}/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY)
+    init_bundle = '{}/../charms/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY)
     charms_to_push = []
     # charms in hauchiwa and init bundle need to be pushed but those bundles don't need to be tested
     for bundle in bundles_to_test + (sojobo_bundle, init_bundle):
@@ -249,11 +269,16 @@ def test_bundles(bundles_to_test, resultdir):
     for bundle in bundles_to_test:
         testdirs.append(bootstrap_testdir(sojobo_bundle, bundle, init_bundle, charms_to_test))
 
+    # Create the hauchiwas for running the tests. Running this in paralell doesn't seem to work...
+    for testdir in testdirs:
+        create_hauchiwa(testdir, resultdir)
+
+
     # Run tests (run_tests should throw exception if test fails)
     # This runs in parallell
     logging.info("Running tests in: \n\t{}\n".format("\n\t".join(testdirs)))
-    with Pool(5) as p:
-        p.map(run_tests, testdirs, repeat(resultdir))
+    with Pool(5) as pool:
+        pool.starmap(run_tests, [[testdir, resultdir] for testdir in testdirs])
 
 
     # If all tests succeed, publish all charms

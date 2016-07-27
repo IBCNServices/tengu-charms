@@ -9,4 +9,4 @@ echo "previous succesfull commit: $GIT_PREVIOUS_SUCCESSFUL_COMMIT"
 tengu downloadbigfiles
 
 # Test bundles (this script will fail if tests fail)
-./cihelpers test bundles/storm bundles/spark $RESULTS_DIR
+./cihelpers.py test bundles/storm bundles/spark $RESULTS_DIR

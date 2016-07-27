@@ -1,0 +1,60 @@
+#!/usr/bin/python3
+# Copyright (C) 2016  Ghent University
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#pylint: disable=c0111,c0103,c0301
+import os
+
+import unittest
+import amulet
+import yaml
+
+SECONDS_TO_WAIT = 1200
+
+
+class TestCharm(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        """Read the bundle in and deploy the bundle."""
+        # Get the relative bundle path from the environment variable.
+        cls.bundle = os.getenv("BUNDLE", "bundle.yaml")
+        # Create a path to the bundle based on this file's location.
+        cls.bundle_path = os.path.join(os.path.dirname(__file__),
+                                       "..",
+                                       cls.bundle)
+        # Normalize the path to the bundle.
+        cls.bundle_path = os.path.abspath(cls.bundle_path)
+
+        print("Deploying bundle: {0}".format(cls.bundle_path))
+
+        cls.deployment = amulet.Deployment()
+        with open(cls.bundle_path, "r") as bundle_file:
+            contents = yaml.safe_load(bundle_file)
+
+        cls.deployment.load(contents)
+        # Allow some time for Juju to provision and deploy the bundle.
+        cls.deployment.setup(timeout=SECONDS_TO_WAIT)
+        # Wait for the system to settle down.
+        cls.deployment.sentry.wait(timeout=4800)
+
+        cls.nimbus = cls.deployment.sentry['nimbus']
+        cls.worker = cls.deployment.sentry['worker']
+
+
+    def _get_status(self):
+        return self.deployment.sentry.wait_for_status(self.deployment.sentry.juju_env, self.deployment.services, SECONDS_TO_WAIT)
+
+
+if __name__ == '__main__':
+    unittest.main()

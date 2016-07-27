@@ -219,11 +219,11 @@ def run_tests(testdir, resultdir):
     subprocess.check_call(['ln -sf `ls -v | grep result.html | tail -1` latest.html'], shell=True, cwd='{}/remote/results'.format(testdir))
     subprocess.check_call(['ln -sf `ls -v | grep result.json | tail -1` latest.json'], shell=True, cwd='{}/remote/results'.format(testdir))
     mergecopytree('{}/remote/results'.format(testdir), '{}/{}/'.format(resultdir, bundle_name))
-    subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
     logging.info('DESTROY ENVIRONMENT')
     subprocess.check_call(
         ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
          "echo y | tengu destroy {0}".format(bundle_name[:10])])
+    subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
 
 def get_changed():
     GIT_PREVIOUS_SUCCESSFUL_COMMIT = os.environ.get('GIT_PREVIOUS_SUCCESSFUL_COMMIT') # pylint:disable=c0103

@@ -1,0 +1,12 @@
+{
+  "nodes":[
+    {"name":"Yarn", "services":[{"name":"resourcemanager"}]},
+    {"name":"HDFS", "services":[{"name":"namenode"}]},
+    {"name":"Spark", "port": "8080", "services":[{"name":"spark"}]}
+  ],
+  "relationships":[
+    {"source":"Spark","target":"Yarn"},
+    {"source":"HDFS","target":"Yarn"},
+    {"source":"HDFS","target":"Spark"}
+  ]
+}

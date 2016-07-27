@@ -23,16 +23,12 @@ once the apt.installed.{packagename} state is set.
 '''
 from charmhelpers import fetch
 from charmhelpers.core import hookenv
+from charmhelpers.core.hookenv import WARNING
+from charms import layer
 from charms import reactive
 from charms.reactive import when, when_not
 
 import charms.apt
-# Aliases for backwards compatibility
-from charms.apt import add_source, queue_install, installed, purge
-
-
-__all__ = ['add_source', 'update', 'queue_install', 'install_queued',
-           'installed', 'purge', 'ensure_package_status']
 
 
 @when('apt.needs_update')
@@ -51,12 +47,22 @@ def ensure_package_status():
     charms.apt.ensure_package_status()
 
 
+def clear_removed_package_states():
+    """On hook startup, clear install states for removed packages."""
+    removed = fetch.filter_installed_packages(charms.apt.installed())
+    if removed:
+        hookenv.log('{} missing packages ({})'.format(len(removed),
+                                                      ','.join(removed)),
+                    WARNING)
+        for package in removed:
+            reactive.remove_state('apt.installed.{}'.format(package))
+
+
 def configure_sources():
     """Add user specified package sources from the service configuration.
 
     See charmhelpers.fetch.configure_sources for details.
     """
-    hookenv.log('Initializing Apt Layer')
     config = hookenv.config()
 
     # We don't have enums, so we need to validate this ourselves.
@@ -80,7 +86,19 @@ def configure_sources():
 
     extra_packages = sorted(config.get('extra_packages', '').split())
     if extra_packages:
-        queue_install(extra_packages)
+        charms.apt.queue_install(extra_packages)
+
+
+def queue_layer_packages():
+    """Add packages listed in build-time layer options."""
+    # Both basic and apt layer. basic layer will have already installed
+    # its defined packages, but rescheduling it here gets the apt layer
+    # state set and they will pinned as any other apt layer installed
+    # package.
+    opts = layer.options()
+    for section in ['basic', 'apt']:
+        if section in opts and 'packages' in opts[section]:
+            charms.apt.queue_install(opts[section]['packages'])
 
 
 # Per https://github.com/juju-solutions/charms.reactive/issues/33,
@@ -94,5 +112,8 @@ if not hasattr(reactive, '_apt_registered'):
     # do this, then the config in the hook environment may show updates
     # to running hooks well before the config-changed hook has been invoked
     # and the intialization provided an opertunity to be run.
+    hookenv.atstart(hookenv.log, 'Initializing Apt Layer')
+    hookenv.atstart(clear_removed_package_states)
     hookenv.atstart(configure_sources)
+    hookenv.atstart(queue_layer_packages)
     reactive._apt_registered = True

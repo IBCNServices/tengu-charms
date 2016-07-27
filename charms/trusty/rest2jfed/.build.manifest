@@ -18,10 +18,10 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "lib/openjdk.py": [
-      "layer:java", 
+    "files/jfedS4/jfed_cli/lib/javax.inject-1.jar": [
+      "rest2jfed", 
       "static", 
-      "6cd604c92ceb4783595d69d34d4cdd3a6298c4eaf7ca67d649947acd42444837"
+      "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff"
     ], 
     "LICENSE": [
       "rest2jfed", 
@@ -133,15 +133,15 @@
       "static", 
       "507133d3cabd567bdf39967a44a66397fe28c2fa1dd4e983761cb995ca2e002a"
     ], 
-    "icon.svg": [
-      "rest2jfed", 
+    "files/server-jre-8u77-linux-x64.tar.gz.source": [
+      "layer:java", 
       "static", 
-      "8d8076da15ad1d045bccbabb76545712c7c93214d79281c4c338fd9b01cdce7f"
+      "832ce806d4576db6906ec7c1e0e6c3bb6dbd02bfef71e352116cbcdb5e216453"
     ], 
-    "files/jfedS4/jfed_cli/lib/jsr305-3.0.0.jar": [
+    "files/jfedS4/jfed_cli/lib/httpmime-4.2.2.jar": [
       "rest2jfed", 
       "static", 
-      "bec0b24dcb23f9670172724826584802b80ae6cbdaba03bdebdef9327b962f6a"
+      "c7dc77a65b2118eb1cb5183b1d2a05737c65c3c576f88754a5157cdf2ee231bf"
     ], 
     "config.yaml": [
       "rest2jfed", 
@@ -167,6 +167,11 @@
       "rest2jfed", 
       "static", 
       "e8c70ebd76f982c9582a82ef82cf6ce14a7d58a4a4dca5cb7b7fc988c80089b7"
+    ], 
+    "icon.svg": [
+      "rest2jfed", 
+      "static", 
+      "8d8076da15ad1d045bccbabb76545712c7c93214d79281c4c338fd9b01cdce7f"
     ], 
     "files/jfedS4/jfed_cli.tar.gz": [
       "rest2jfed", 
@@ -208,10 +213,10 @@
       "dynamic", 
       "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
     ], 
-    "files/jfedS4/jfed_cli/lib/javax.inject-1.jar": [
-      "rest2jfed", 
+    "lib/openjdk.py": [
+      "layer:java", 
       "static", 
-      "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff"
+      "6cd604c92ceb4783595d69d34d4cdd3a6298c4eaf7ca67d649947acd42444837"
     ], 
     "hooks/update-status": [
       "layer:basic", 
@@ -273,15 +278,10 @@
       "static", 
       "46fb093c2a7beb9f04e51642754471a93f1605957df7f332fe51b17d4fc06167"
     ], 
-    "lib/charms/layer/__init__.py": [
+    "hooks/config-changed": [
       "layer:basic", 
       "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
-    ], 
-    "files/jfedS4/jfed_cli/lib/geni-rspec-binding-5.6.0-SNAPSHOT.jar": [
-      "rest2jfed", 
-      "static", 
-      "7a1fab12a2338c7bf4604974e1b515359b2d9bd6e3b1f04ce4d0d6b2f437033d"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "files/jfedS4/jfed_cli/experimenter-cli.jar": [
       "rest2jfed", 
@@ -303,10 +303,10 @@
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
+    "files/jfedS4/jfed_cli/lib/geni-rspec-binding-5.6.0-SNAPSHOT.jar": [
+      "rest2jfed", 
+      "static", 
+      "7a1fab12a2338c7bf4604974e1b515359b2d9bd6e3b1f04ce4d0d6b2f437033d"
     ], 
     "hooks/relations/http/interface.yaml": [
       "interface:http", 
@@ -328,10 +328,10 @@
       "static", 
       "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
     ], 
-    "files/jfedS4/jfed_cli/lib/httpmime-4.2.2.jar": [
+    "files/jfedS4/jfed_cli/lib/jsr305-3.0.0.jar": [
       "rest2jfed", 
       "static", 
-      "c7dc77a65b2118eb1cb5183b1d2a05737c65c3c576f88754a5157cdf2ee231bf"
+      "bec0b24dcb23f9670172724826584802b80ae6cbdaba03bdebdef9327b962f6a"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -398,10 +398,10 @@
       "static", 
       "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
-    "metadata.yaml": [
-      "rest2jfed", 
-      "dynamic", 
-      "e4f9fa351d06d59ba98dc25d8f93914b47cefe77681a988aeac760a1d63a5710"
+    "reactive/java.py": [
+      "layer:java", 
+      "static", 
+      "2b6feea5c6984535d231a20a84d1e4411a8d025ee5a23e222001ad1d08b7f1b1"
     ], 
     "wheelhouse/netaddr-0.7.18.tar.gz": [
       "layer:basic", 
@@ -448,10 +448,15 @@
       "static", 
       "7c7fd0892cb3362ed2e43ce2f76c8f18f2d7ff1d371ed7490775b7368f3fee9a"
     ], 
-    "hooks/config-changed": [
+    "files/jfedS4/jfed_cli/lib/testng-6.9.4.jar": [
+      "rest2jfed", 
+      "static", 
+      "c175f0ed4681b97b09a2a5f5b8ad66dcf6e7522aaff031979f5199848e47adcf"
+    ], 
+    "lib/charms/layer/__init__.py": [
       "layer:basic", 
       "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
     ], 
     "files/rest2jfed/rest2jfed.py": [
       "rest2jfed", 
@@ -471,17 +476,12 @@
     "reactive/apt.py": [
       "layer:apt", 
       "static", 
-      "d47770a6a44c723082a6a7a658679e15b73f0f2280d4662bc80c2935823dc20a"
+      "fcbe8354c003dc9ce49de7b506f40a24aff492bd6524f36efddf1df33cec80b8"
     ], 
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
       "d52423911fcef803a418025d355ac7c2e6729c2949c68aaf01bb3f8f24b67831"
-    ], 
-    "files/jfedS4/jfed_cli/lib/testng-6.9.4.jar": [
-      "rest2jfed", 
-      "static", 
-      "c175f0ed4681b97b09a2a5f5b8ad66dcf6e7522aaff031979f5199848e47adcf"
     ], 
     "files/jfedS4/jfed_cli/lib/commons-codec-1.6.jar": [
       "rest2jfed", 
@@ -498,10 +498,10 @@
       "static", 
       "782ef04ed00f8e7b00239e29353529e650162449f78f3a1a5bdf84c5a4a28d77"
     ], 
-    "reactive/java.py": [
-      "layer:java", 
-      "static", 
-      "2b6feea5c6984535d231a20a84d1e4411a8d025ee5a23e222001ad1d08b7f1b1"
+    "metadata.yaml": [
+      "rest2jfed", 
+      "dynamic", 
+      "e4f9fa351d06d59ba98dc25d8f93914b47cefe77681a988aeac760a1d63a5710"
     ], 
     "lib/charms/__init__.py": [
       "layer:apt", 
@@ -548,15 +548,15 @@
       "dynamic", 
       "19bb3ac350ef878dda84a62d37c7d5c17a137386dde9c2ce7249c7a21d7f6ac9"
     ], 
+    "wheelhouse/charmhelpers-0.8.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "355c2632049621474c50cfee6a6f7014a863f6f3bac1134ed409479cbe99b102"
+    ], 
     "layer.yaml": [
       "rest2jfed", 
       "dynamic", 
       "a57ba40bd7b47403eacc956f257a98b82e73e5dc1542c085239d4cf1f5b838b5"
-    ], 
-    "lib/charms/apt.py": [
-      "layer:apt", 
-      "static", 
-      "a0ac50a69f3af46b5b89d0e0e39e46313417eee08e24de1f0987b81ec813b3de"
     ], 
     "files/jfedS4/jfed_cli/lib/guice-4.0.jar": [
       "rest2jfed", 
@@ -578,10 +578,10 @@
       "dynamic", 
       "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
     ], 
-    "files/server-jre-8u77-linux-x64.tar.gz.source": [
-      "layer:java", 
+    "lib/charms/apt.py": [
+      "layer:apt", 
       "static", 
-      "832ce806d4576db6906ec7c1e0e6c3bb6dbd02bfef71e352116cbcdb5e216453"
+      "1f95351be322b40cf6c01fcac128b3fe338516e96cf4314071a89d84a11387c7"
     ], 
     "files/jfedS4/jfed_cli/lib/call-log-output-5.6.0-SNAPSHOT.jar": [
       "rest2jfed", 

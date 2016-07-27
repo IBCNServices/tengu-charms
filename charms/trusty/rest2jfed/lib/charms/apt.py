@@ -65,6 +65,8 @@ def queue_install(packages, options=None):
 
     Sets the apt.queued_installs state.
     """
+    if isinstance(packages, str):
+        packages = [packages]
     # Filter installed packages.
     store = unitdata.kv()
     queued_packages = store.getrange('apt.install_queue.', strip=True)

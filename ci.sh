@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export JUJU_REPOSITORY="$(pwd)/../charms"    # Use the repository jenkins gave us
+export JUJU_REPOSITORY="$(pwd)/charms"    # Use the repository jenkins gave us
 export RESULTS_DIR="/var/www/html"      # HTML test results will be put in $RESULTS_DIR/<bundle-name>
 
 # TODO: only build affected bundles

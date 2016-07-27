@@ -104,7 +104,7 @@ def get_charms_from_bundle(bundle_path, namespace_whitelist=None):
 
 def push_charm(charm):
     """ pushes the local charm to the charmers personal namespace, channel 'unpublished', and grants everyone acces to the channel."""
-    charm_path = '{}/../charms/{}/{}'.format(JUJU_REPOSITORY, charm['series'], charm['name'])
+    charm_path = '{}/{}/{}'.format(JUJU_REPOSITORY, charm['series'], charm['name'])
     logging.debug("pushing {}".format(charm_path))
     output = subprocess.check_output(['charm', 'push', charm_path], universal_newlines=True)
     url = yaml.safe_load(output)['url']
@@ -247,11 +247,11 @@ def get_changed():
 
 
 def test_bundles(bundles_to_test, resultdir):
-    subprocess.check_call(['tengu', 'reset', 'tenguci'])
+    subprocess.check_call(['echo y | tengu reset tenguci'], shell=True)
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join(bundles_to_test), resultdir))
     # Get all charms that have to be pushed
     sojobo_bundle = '{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY)
-    init_bundle = '{}/../charms/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY)
+    init_bundle = '{}/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY)
     charms_to_push = []
     # charms in hauchiwa and init bundle need to be pushed but those bundles don't need to be tested
     for bundle in bundles_to_test + (sojobo_bundle, init_bundle):
@@ -296,7 +296,7 @@ def g_cli():
 
 @click.command(name='test')
 @click.argument(
-    'bundles', nargs=-1)
+    'bundles', type=click.Path(exists=True), nargs=-1)
 @click.argument(
     'resultdir', nargs=1)
 def c_test(bundles, resultdir):

@@ -43,13 +43,96 @@ USERNAME = get_username()
 class CharmUrlParsingError(Exception):
     pass
 
-def replace_charm_url(filename, charms):
-    logging.debug('replacing {} in '.format(filename))
+class CharmStoreObject(object):
+    def __init__(self, url=None, path=None):
+        self.series = None
+        self.revision = None
+        if url:
+            logging.debug('parsing url {}'.format(url))
+            result = re.search('^((cs:~[^/]+)/|(cs:))((.+)/)?(.+?)(-([0-9]+))?$', url)
+            if result is None:
+                raise CharmUrlParsingError("Cannot parse Charm url {}. Is this a local charm url? Only charmstore urls are allowed. Use cs:~{} namespace for our charms.".format(url, USERNAME))
+            self.namespace = result.group(2) if result.group(2) else result.group(3)
+            self.name = result.group(6)
+            self.revision = result.group(8)
+            if '/bundle/' in url:
+                self.type = 'bundle'
+            else:
+                self.type = 'charm'
+                self.series = result.group(4)
+            assert url == self.url
+        elif path:
+            if path.endswith('.yaml'):
+                path = os.path.dirname(path)
+            self.namespace = 'cs:~{}'.format(USERNAME)
+            self.name = os.path.basename(path)
+            assert self.dirpath == path
+        else:
+            assert False
+        logging.debug('charm is {}'.format(self))
+
+    def create_url(self, include_revision=True):
+        logging.debug('creating charmstore url for {}'.format(self))
+        url = self.namespace
+        if not url.endswith(':'):
+            url += "/"
+        if self.type == 'bundle':
+            url += "bundle/"
+        if self.series:
+            url += "{}/".format(self.series)
+        url += self.name
+        if include_revision and self.revision:
+            url += '-{}'.format(self.revision)
+        logging.debug('url is {}'.format(url))
+        return url
+
+    def push(self):
+        """ pushes the local charm/bundle to the charmers personal namespace, channel 'unpublished', and grants everyone acces to the channel."""
+        logging.debug("pushing {}".format(self.dirpath))
+        output = subprocess.check_output(['charm', 'push', self.dirpath], universal_newlines=True)
+        url = yaml.safe_load(output)['url']
+        charm = CharmStoreObject(url)
+        url_without_revision = self.create_url(include_revision=False)
+        subprocess.check_call(['charm', 'grant', url_without_revision, 'everyone', '--channel', 'unpublished'])
+        return charm
+
+    def publish(self, channel):
+        """publishes the charm/bundle to the specified channel of the charmers personal namespace"""
+        charm_url = self.create_url()
+        url_without_revision = self.create_url(include_revision=False)
+        logging.debug("publishing {}".format(charm_url))
+        subprocess.check_call(['charm', 'publish', charm_url, '--channel', channel])
+        subprocess.check_call(['charm', 'grant', url_without_revision, 'everyone', '--channel', channel])
+
+    @property
+    def url(self):
+        return self.create_url()
+
+    @property
+    def dirpath(self):
+        if self.type == 'charm':
+            return '{}/{}/{}'.format(JUJU_REPOSITORY, self.series, self.name)
+        if self.type == 'charm':
+            return '{}/../bundles/{}'.format(JUJU_REPOSITORY, self.name)
+        assert False
+
+    @property
+    def filepath(self):
+        if self.type == 'bundle':
+            return '{}/bundle.yaml'.format(self.dirpath)
+        assert False # Charms don't have a specific file
+
+
+
+
+
+def replace_charm_urls(filepath, charms):
+    logging.debug('replacing {} in '.format(filepath))
     replacers = generate_replacers(charms)
-    with open(filename, 'r+') as stream:
+    with open(filepath, 'r+') as stream:
         bundle = yaml.safe_load(stream)
         for (key, value) in bundle['services'].items():
-            charmname = parse_charm_url(value['charm'])['name']
+            charmname = CharmStoreObject(value['charm']).name
             candidate = replacers.get(charmname)
             if candidate:
                 bundle['services'][key]['charm'] = candidate
@@ -60,66 +143,19 @@ def replace_charm_url(filename, charms):
 def generate_replacers(charms):
     replacers = dict()
     for charm in charms:
-        replacers[charm['name']] = charm['url']
+        replacers[charm.name] = charm.url
     return replacers
 
-def parse_charm_url(url):
-    logging.debug('parsing url {}'.format(url))
-    result = re.search('^((cs:~[^/]+)/|(cs:))((.+)/)?(.+?)(-([0-9]+))?$', url)
-    if result is None:
-        raise CharmUrlParsingError("Cannot parse Charm url {}. Is this a local charm url? Only charmstore urls are allowed. Use CS:~{} namespace for our charms.".format(url, USERNAME))
-    charm = {
-        'namespace': result.group(2) if result.group(2) else result.group(3),
-        'series': result.group(4),
-        'name': result.group(6),
-        'revision': result.group(8),
-        'url': url,
-    }
-    logging.debug('charm is {}'.format(charm))
-    return charm
-
-def create_charm_url(charm, include_revision=True):
-    logging.debug('creating charm url for {}'.format(charm))
-    url = charm['namespace']
-    if not url.endswith(':'):
-        url += "/"
-    if charm.get('series'):
-        url += "{}/".format(charm['series'])
-    url += charm['name']
-    if include_revision and charm.get('revision'):
-        url += '-{}'.format(charm['revision'])
-    logging.debug('url is {}'.format(url))
-    return url
-
-def get_charms_from_bundle(bundle_path, namespace_whitelist=None):
+def get_charms_from_bundle(filepath, namespace_whitelist=None):
     """ returns a set of paths to all charms in bundle that are owned by the user from `charm whoami`."""
     charms = []
-    with open(bundle_path, 'r+') as stream:
+    with open(filepath, 'r+') as stream:
         bundle = yaml.safe_load(stream)
     for value in bundle['services'].values():
-        charm = parse_charm_url(value['charm'])
-        if namespace_whitelist is None or charm['namespace'] in namespace_whitelist:
+        charm = CharmStoreObject(value['charm'])
+        if namespace_whitelist is None or charm.namespace in namespace_whitelist:
             charms.append(charm)
     return charms
-
-def push_charm(charm):
-    """ pushes the local charm to the charmers personal namespace, channel 'unpublished', and grants everyone acces to the channel."""
-    charm_path = '{}/{}/{}'.format(JUJU_REPOSITORY, charm['series'], charm['name'])
-    logging.debug("pushing {}".format(charm_path))
-    output = subprocess.check_output(['charm', 'push', charm_path], universal_newlines=True)
-    url = yaml.safe_load(output)['url']
-    charm = parse_charm_url(url)
-    url_without_revision = create_charm_url(charm, include_revision=False)
-    subprocess.check_call(['charm', 'grant', url_without_revision, 'everyone', '--channel', 'unpublished'])
-    return charm
-
-def publish_charm(charm):
-    """ published the charm to the specified channel of the charmers personal namespace"""
-    charm_url = create_charm_url(charm)
-    url_without_revision = create_charm_url(charm, include_revision=False)
-    logging.debug("publishing {}".format(charm_url))
-    subprocess.check_call(['charm', 'publish', charm_url, '--channel', charm['channel']])
-    subprocess.check_call(['charm', 'grant', url_without_revision, 'everyone', '--channel', charm['channel']])
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):
     """"Recursive copy src to dst, mergecopy directory if dst exists.
@@ -143,42 +179,38 @@ def mergecopytree(src, dst, symlinks=False, ignore=None):
         else:
             shutil.copy2(src_item, dst_item)
 
-def bootstrap_testdir(local_bundle_path, remote_bundle_path, init_bundle_path, charms_to_test):
-    local_bundle_dir = os.path.dirname(local_bundle_path).rstrip('/')
-    remote_bundle_dir = os.path.dirname(remote_bundle_path).rstrip('/')
-    local_bundle_name = os.path.basename(local_bundle_dir)
-    remote_bundle_name = os.path.basename(remote_bundle_dir)
+def bootstrap_testdir(sojobo_bundle, remote_bundle, init_bundle, charms_to_test):
     tmpdir = tempfile.mkdtemp()
     os.mkdir("{}/remote/".format(tmpdir))
-    shutil.copytree(local_bundle_dir, "{}/{}".format(tmpdir, local_bundle_name))
-    shutil.copytree(remote_bundle_dir, "{}/remote/{}".format(tmpdir, remote_bundle_name))
-    shutil.copy(init_bundle_path, "{}/remote/init-bundle.yaml".format(tmpdir))
+    shutil.copytree(sojobo_bundle.dir, "{}/{}".format(tmpdir, sojobo_bundle.name))
+    shutil.copytree(remote_bundle.dir, "{}/remote/{}".format(tmpdir, remote_bundle.name))
+    shutil.copy(init_bundle.filepath, "{}/remote/init-bundle.yaml".format(tmpdir))
 
     with open('testplan.yaml', 'r') as stream:
         testplan = yaml.safe_load(stream.read())
-    testplan['bundle'] = local_bundle_name
+    testplan['bundle'] = sojobo_bundle.name
     with open('{}/testplan.yaml'.format(tmpdir), 'w') as stream:
         stream.write(yaml.dump(testplan))
-        testplan['bundle'] = local_bundle_name
+        testplan['bundle'] = sojobo_bundle.name
 
-    testplan['bundle'] = remote_bundle_name
+    testplan['bundle'] = remote_bundle.name
     with open('{}/remote/testplan.yaml'.format(tmpdir), 'w') as stream:
         stream.write(yaml.dump(testplan))
 
-    replace_charm_url("{}/{}/bundle.yaml".format(tmpdir, local_bundle_name), charms_to_test)
-    replace_charm_url("{}/remote/{}/bundle.yaml".format(tmpdir, remote_bundle_name), charms_to_test)
-    replace_charm_url("{}/remote/init-bundle.yaml".format(tmpdir), charms_to_test)
+    replace_charm_urls("{}/{}/bundle.yaml".format(tmpdir, sojobo_bundle.name), charms_to_test)
+    replace_charm_urls("{}/remote/{}/bundle.yaml".format(tmpdir, remote_bundle.name), charms_to_test)
+    replace_charm_urls("{}/remote/init-bundle.yaml".format(tmpdir), charms_to_test)
 
     with open("{}/remote/init-bundle.yaml".format(tmpdir), 'rb') as stream:
         init_bundle = stream.read()
 
-    with open("{}/{}/bundle.yaml".format(tmpdir, local_bundle_name), 'r+') as stream:
+    with open("{}/{}/bundle.yaml".format(tmpdir, sojobo_bundle.name), 'r+') as stream:
         bundle = yaml.safe_load(stream)
         bundle['services']['hauchiwa'].setdefault('options', dict())['init-bundle'] = base64.b64encode(init_bundle).decode("utf-8")
-        bundle['services']["h-{}".format(remote_bundle_name)] = bundle['services'].pop('hauchiwa')
+        bundle['services']["h-{}".format(remote_bundle.name)] = bundle['services'].pop('hauchiwa')
         for relation in bundle['relations']:
             for endidx, endpoint in enumerate(relation):
-                relation[endidx] = endpoint.replace('hauchiwa:', "h-{}:".format(remote_bundle_name))
+                relation[endidx] = endpoint.replace('hauchiwa:', "h-{}:".format(remote_bundle.name))
         stream.seek(0)
         stream.write(yaml.dump(bundle))
     return tmpdir
@@ -210,6 +242,8 @@ def run_tests(testdir, resultdir):
         bundle = bundle_file.read()
     response = requests.put('http://{}/{}/'.format(api_hostport, h_name[2:12]), data=bundle, headers={'Accept': 'application/json'})
     logging.info('request to http://{}, answer status code is {}, content is {}'.format(api_hostport, response.status_code, response.text))
+    if response.status_code != 200:
+        exit(1)
     subprocess.check_call(['juju', 'scp', '--', '-r', '{}/remote/.'.format(testdir), '{}/{}:~/remote'.format(h_name, unit_n)]) #/remote/. : trailing dot is to make cp idempotent:  https://unix.stackexchange.com/questions/228597/how-to-copy-a-folder-recursively-in-an-idempotent-way-using-cp
     subprocess.check_call(
         ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
@@ -262,7 +296,9 @@ def test_bundles(bundles_to_test, resultdir):
     logging.info("Pushing the following charms to 'staging': \n\t{}\n".format("\n\t".join([c['url'] for c in charms_to_push])))
     charms_to_test = []
     for charm in charms_to_push:
-        charms_to_test.append(push_charm(charm))
+        charms_to_test.append(charm.push())
+    for bundle in bundles_to_test:
+        bundle.push()
     logging.info("Pushed Charms: \n\t{}\n".format("\n\t".join([c['url'] for c in charms_to_test])))
 
     # Setup the directory for each bundle
@@ -274,19 +310,16 @@ def test_bundles(bundles_to_test, resultdir):
     for testdir in testdirs:
         create_hauchiwa(testdir, resultdir)
 
-
     # Run tests (run_tests should throw exception if test fails)
     # This runs in parallell
     logging.info("Running tests in: \n\t{}\n".format("\n\t".join(testdirs)))
     with Pool(5) as pool:
         pool.starmap(run_tests, [[testdir, resultdir] for testdir in testdirs])
 
-
     # If all tests succeed, publish all charms
-    logging.info("Publishing charms: \n\t{}\n".format("\n\t".join([c['url'] for c in charms_to_test])))
-    for charm in charms_to_test:
-        charm['channel'] = 'stable'
-        publish_charm(charm)
+    logging.info("Publishing charms/bundles: \n\t{}\n".format("\n\t".join([c['url'] for c in charms_to_test + bundles_to_test])))
+    for csobject in charms_to_test + bundles_to_test:
+        csobject.publish('stable')
 
 
 @click.group()
@@ -300,8 +333,8 @@ def g_cli():
 @click.argument(
     'resultdir', nargs=1)
 def c_test(bundles, resultdir):
-    """ publish given charm urls to revision """
-    test_bundles(bundles, resultdir)
+    """ test given bundles """
+    test_bundles([CharmStoreObject(path=bundle) for bundle in bundles], resultdir)
 
 
 g_cli.add_command(c_test)

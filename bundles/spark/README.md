@@ -1,25 +1,6 @@
 # Apache Hadoop with Spark
 
-This bundle is a 7 node cluster designed to scale out. Built around Apache
-Hadoop components, it contains the following units:
-
-* 1 HDFS Master
-* 1 HDFS Secondary Namenode
-* 1 YARN Master
-* 3 Compute Slaves
-* 1 Spark
-  - 1 Plugin (colocated on the Spark unit)
-
-
-## Usage
-Deploy this bundle using juju-quickstart:
-
-    juju quickstart apache-hadoop-spark
-
-See `juju quickstart --help` for deployment options, including machine 
-constraints and how to deploy a locally modified version of the
-apache-hadoop-spark bundle.yaml.
-
+Analyse large files with Apache Spark. Write Spark queries and visualise data using Apache Zeppelin.
 
 ## Testing the deployment
 
@@ -74,13 +55,14 @@ Or you can add multiple units at once:
 
     juju add-unit -n4 compute-slave
 
+# Contact Information
 
-## Contact Information
+## Bugs
 
-- <bigdata-dev@lists.launchpad.net>
+Report bugs on [Github](https://github.com/IBCNServices/tengu-charms/issues).
 
+## Authors
 
-## Help
+This software was created in the [IBCN research group](https://www.ibcn.intec.ugent.be/) of [Ghent University](http://www.ugent.be/en) in Belgium. This software is used in [Tengu](http://tengu.intec.ugent.be), a project that aims to make experimenting with data frameworks and tools as easy as possible.
 
-- [Juju mailing list](https://lists.ubuntu.com/mailman/listinfo/juju)
-- [Juju community](https://jujucharms.com/community)
+ - Merlijn Sebrechts <merlijn.sebrechts@gmail.com>

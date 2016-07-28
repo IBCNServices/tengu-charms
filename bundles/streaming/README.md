@@ -1,4 +1,4 @@
-# Storm Bundle
+# Streaming Bundle
 
 Process continuous streams of data with Apache Storm. Store your data in Cassandra.
 

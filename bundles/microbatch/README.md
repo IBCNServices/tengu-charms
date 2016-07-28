@@ -1,4 +1,4 @@
-# Apache Hadoop with Spark
+# Microbatch processing with Spark
 
 Analyse large files with Apache Spark. Write Spark queries and visualise data using Apache Zeppelin.
 

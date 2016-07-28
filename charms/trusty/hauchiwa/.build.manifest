@@ -73,11 +73,6 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "lib/tengu_charmhelpers/confighelpers.py": [
-      "hauchiwa", 
-      "static", 
-      "473b7c0f658fad12e4877a74ad9f0ac20b57f7746288f405630bd5e07ac84815"
-    ], 
     "requirements.txt": [
       "layer:basic", 
       "static", 
@@ -117,11 +112,6 @@
       "hauchiwa", 
       "static", 
       "88bef46a3819d1a1bd4606c15bc638e95f4cfe2c30666cd903b851929dedaafb"
-    ], 
-    "lib/tengu_charmhelpers/__init__.py": [
-      "hauchiwa", 
-      "static", 
-      "947131db8edaf76eda7341b5c422d481b3fd2ed585bc80c934633026c4822357"
     ], 
     "icon.svg": [
       "hauchiwa", 

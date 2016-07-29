@@ -17,8 +17,8 @@ services:
       type: "web-ui"
       tag: "storm"
     annotations:
-      "gui-x": "-400"
-      "gui-y": "-300"
+      "gui-x": "600"
+      "gui-y": "300"
   nimbus:
     charm: cs:~tengu-bot/trusty/storm
     num_units: 1

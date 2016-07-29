@@ -243,6 +243,10 @@ def run_tests(testdir, resultdir):
         h_name = "h-{}".format(bundle_name)
     unit_n = subprocess.check_output(["juju status --format oneline | grep {} | cut -d '/' -f 2 | cut -d ':' -f 1".format(h_name)], shell=True, universal_newlines=True).rstrip()
 
+    subprocess.check_call(
+        ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
+         "if [[ $(juju switch --list) ]]; then echo y | tengu destroy {0}; fi".format(bundle_name[:10])])
+
     api_hostport = subprocess.check_output(['juju status --format tabular | grep {}/ | egrep -o ">22 [^-]+" | sed "s/^>22 //"'.format(h_name)], shell=True, universal_newlines=True).rstrip()
 
     with open('{}/remote/{}/bundle.yaml'.format(testdir, bundle_name), 'r') as bundle_file:
@@ -261,9 +265,6 @@ def run_tests(testdir, resultdir):
     subprocess.check_call(['ln -sf `ls -v | grep result.json | tail -1` latest.json'], shell=True, cwd='{}/remote/results'.format(testdir))
     mergecopytree('{}/remote/results'.format(testdir), '{}/{}/'.format(resultdir, bundle_name))
     logging.info('DESTROY ENVIRONMENT')
-    subprocess.check_call(
-        ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
-         "echo y | tengu destroy {0}".format(bundle_name[:10])])
     subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
 
 def get_changed():

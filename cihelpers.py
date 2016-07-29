@@ -99,17 +99,18 @@ class CharmStoreObject(object):
         logging.debug("pushing {}".format(self.dirpath))
         output = subprocess.check_output(['charm', 'push', self.dirpath], universal_newlines=True)
         url = yaml.safe_load(output)['url']
-        charm = CharmStoreObject(url)
+        self.revision = url.split('-')[-1]
         url_without_revision = self.create_url(include_revision=False)
         subprocess.check_call(['charm', 'grant', url_without_revision, 'everyone', '--channel', 'unpublished'])
-        return charm
 
     def publish(self, channel):
         """publishes the charm/bundle to the specified channel of the charmers personal namespace"""
-        charm_url = self.create_url()
+        if self.name == "init-bundle": # TODO: remove this fix
+            return
+        url = self.create_url()
         url_without_revision = self.create_url(include_revision=False)
-        logging.debug("publishing {}".format(charm_url))
-        subprocess.check_call(['charm', 'publish', charm_url, '--channel', channel])
+        logging.debug("publishing {}".format(url))
+        subprocess.check_call(['charm', 'publish', url, '--channel', channel])
         subprocess.check_call(['charm', 'grant', url_without_revision, 'everyone', '--channel', channel])
 
     @property
@@ -236,7 +237,11 @@ def create_hauchiwa(testdir, resultdir):
 
     subprocess.check_call(['ln -sf `ls -v | egrep "sojobo.+result\\.html" | tail -1` latest-sojobo.html'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
     subprocess.check_call(['ln -sf `ls -v | egrep "sojobo.+result\\.json" | tail -1` latest-sojobo.json'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
-    subprocess.check_call(["cat latest-sojobo.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
+    try:
+        subprocess.check_call(["cat latest-sojobo.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
+    except subprocess.CalledProcessError:
+        return False
+    return True
 
 def run_tests(testdir, resultdir):
     with open('{}/remote/testplan.yaml'.format(testdir), 'r') as stream:
@@ -254,14 +259,17 @@ def run_tests(testdir, resultdir):
         return False
     subprocess.check_call(['juju', 'scp', '--', '-r', '{}/remote/.'.format(testdir), '{}/{}:~/remote'.format(h_name, unit_n)]) #/remote/. : trailing dot is to make cp idempotent:  https://unix.stackexchange.com/questions/228597/how-to-copy-a-folder-recursively-in-an-idempotent-way-using-cp
     subprocess.check_call(
-        ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
+        ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-Ct',
          "cd remote; cwr --no-destroy {0} testplan.yaml --no-destroy -l DEBUG --result-output {0}".format(bundle_name[:10])])
     logging.info('SCP')
     subprocess.check_call(['juju', 'scp', '--', '-r', '{}/{}:~/remote/results/.'.format(h_name, unit_n), '{}/remote/results'.format(testdir)])
     subprocess.check_call(['ln -sf `ls -v | grep result.html | tail -1` latest.html'], shell=True, cwd='{}/remote/results'.format(testdir))
     subprocess.check_call(['ln -sf `ls -v | grep result.json | tail -1` latest.json'], shell=True, cwd='{}/remote/results'.format(testdir))
     mergecopytree('{}/remote/results'.format(testdir), '{}/{}/'.format(resultdir, bundle_name))
-    subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
+    try:
+        subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
+    except subprocess.CalledProcessError:
+        return False
     return True
 
 def get_changed():
@@ -285,30 +293,30 @@ def get_changed():
             return
 
 
-def test_bundles(bundles_to_test, resultdir):
-    for bundle in bundles_to_test:
-        h_name = "h-{}".format(bundle.name)
-        unit_n = subprocess.check_output(["juju status --format oneline | grep {} | cut -d '/' -f 2 | cut -d ':' -f 1".format(h_name)], shell=True, universal_newlines=True).rstrip()
-        if unit_n:
-            subprocess.check_call(
-                ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
-                 "if [[ $(juju switch --list) ]]; then echo y | tengu destroy {0}; fi".format(bundle.name[:10])])
-    subprocess.check_call(['echo y | tengu reset tenguci'], shell=True)
+def test_bundles(bundles_to_test, resultdir, reset):
+    if reset:
+        for bundle in bundles_to_test:
+            h_name = "h-{}".format(bundle.name)
+            unit_n = subprocess.check_output(["juju status --format oneline | grep {} | cut -d '/' -f 2 | cut -d ':' -f 1".format(h_name)], shell=True, universal_newlines=True).rstrip()
+            if unit_n:
+                subprocess.check_call(
+                    ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-Ct',
+                     "if [[ $(juju switch --list) ]]; then echo y | tengu destroy {0}; fi".format(bundle.name[:10])])
+        subprocess.check_call(['echo y | tengu reset tenguci'], shell=True)
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join([b.dirpath for b in bundles_to_test]), resultdir))
     # Get all charms that have to be pushed
     sojobo_bundle = CharmStoreObject(path='{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY))
     init_bundle = CharmStoreObject(path='{}/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY))
-    charms_to_push = []
+    charms_to_test = []
     # charms in hauchiwa and init bundle need to be pushed but those bundles don't need to be tested
     for bundle in bundles_to_test + [sojobo_bundle, init_bundle]:
-        charms_to_push = charms_to_push + get_charms_from_bundle(bundle, namespace_whitelist=["cs:~" + USERNAME])
-    charms_to_push = list({v.url:v for v in charms_to_push}.values())
+        charms_to_test = charms_to_test + get_charms_from_bundle(bundle, namespace_whitelist=["cs:~" + USERNAME])
+    charms_to_test = list({v.url:v for v in charms_to_test}.values())
 
     # Push all charms that will be tested
-    logging.info("Pushing the following charms to 'staging': \n\t{}\n".format("\n\t".join([c.url for c in charms_to_push])))
-    charms_to_test = []
-    for charm in charms_to_push:
-        charms_to_test.append(charm.push())
+    logging.info("Pushing the following charms to 'staging': \n\t{}\n".format("\n\t".join([c.url for c in charms_to_test])))
+    for charm in charms_to_test:
+        charm.push()
     logging.info("Pushing the following bundles to 'staging': \n\t{}\n".format("\n\t".join([c.url for c in bundles_to_test])))
     for bundle in bundles_to_test:
         bundle.push()
@@ -319,10 +327,18 @@ def test_bundles(bundles_to_test, resultdir):
     for bundle in bundles_to_test:
         testdirs.append(bootstrap_testdir(sojobo_bundle, bundle, init_bundle, charms_to_test))
 
-    # Create the hauchiwas for running the tests. Running this in paralell doesn't seem to work...
-    logging.info("Deploying Hauchiwas from: \n\t{}\n".format("\n\t".join(testdirs)))
-    for testdir in testdirs:
-        create_hauchiwa(testdir, resultdir)
+    # # Create the hauchiwas for running the tests. Running this in paralell doesn't seem to work...
+    # logging.info("Deploying Hauchiwas from: \n\t{}\n".format("\n\t".join(testdirs)))
+    # for testdir in testdirs:
+    #     create_hauchiwa(testdir, resultdir)
+
+
+    with Pool(5) as pool:
+        result = pool.starmap(create_hauchiwa, [[testdir, resultdir] for testdir in testdirs])
+    # Due to a bug, the pool will hang if one of the run_tests functions exits, so we do it here.
+    if False in result:
+        exit(1)
+
 
     # Run tests (run_tests should throw exception if test fails)
     # This runs in parallell
@@ -349,9 +365,13 @@ def g_cli():
     'bundles', type=click.Path(exists=True), nargs=-1)
 @click.argument(
     'resultdir', nargs=1)
-def c_test(bundles, resultdir):
+@click.option(
+    '--reset/--no-reset',
+    default=True,
+    help='path to bundle that contains machines to create and services to deploy')
+def c_test(bundles, resultdir, reset):
     """ test given bundles """
-    test_bundles([CharmStoreObject(path=bundle) for bundle in bundles], resultdir)
+    test_bundles([CharmStoreObject(path=bundle) for bundle in bundles], resultdir, reset)
 
 
 g_cli.add_command(c_test)

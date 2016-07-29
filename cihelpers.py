@@ -47,6 +47,7 @@ class CharmStoreObject(object):
     def __init__(self, url=None, path=None):
         self.series = None
         self.revision = None
+        self.filename = None
         if url:
             logging.debug('parsing url {}'.format(url))
             result = re.search('^((cs:~[^/]+)/|(cs:))((.+)/)?(.+?)(-([0-9]+))?$', url)
@@ -57,15 +58,21 @@ class CharmStoreObject(object):
             self.revision = result.group(8)
             if '/bundle/' in url:
                 self.type = 'bundle'
+                self.filename = 'bundle.yaml'
             else:
                 self.type = 'charm'
-                self.series = result.group(4)
+                self.series = result.group(5)
             assert url == self.url
         elif path:
+            self.type = 'bundle'
+            path = os.path.realpath(path)
             if path.endswith('.yaml'):
+                self.filename = os.path.basename(path)
                 path = os.path.dirname(path)
+            self.filename = 'bundle.yaml'
             self.namespace = 'cs:~{}'.format(USERNAME)
             self.name = os.path.basename(path)
+            self._path = path
             assert self.dirpath == path
         else:
             assert False
@@ -89,7 +96,7 @@ class CharmStoreObject(object):
     def push(self):
         """ pushes the local charm/bundle to the charmers personal namespace, channel 'unpublished', and grants everyone acces to the channel."""
         logging.debug("pushing {}".format(self.dirpath))
-        output = subprocess.check_output(['charm', 'push', self.dirpath], universal_newlines=True)
+        output = subprocess.check_output(['charm', 'push', self.dirpath, self.create_url(include_revision=False)], universal_newlines=True)
         url = yaml.safe_load(output)['url']
         charm = CharmStoreObject(url)
         url_without_revision = self.create_url(include_revision=False)
@@ -111,15 +118,15 @@ class CharmStoreObject(object):
     @property
     def dirpath(self):
         if self.type == 'charm':
-            return '{}/{}/{}'.format(JUJU_REPOSITORY, self.series, self.name)
-        if self.type == 'charm':
-            return '{}/../bundles/{}'.format(JUJU_REPOSITORY, self.name)
+            return os.path.realpath('{}/{}/{}'.format(JUJU_REPOSITORY, self.series, self.name))
+        if self.type == 'bundle':
+            return self._path
         assert False
 
     @property
     def filepath(self):
         if self.type == 'bundle':
-            return '{}/bundle.yaml'.format(self.dirpath)
+            return '{}/{}'.format(self.dirpath, self.filename)
         assert False # Charms don't have a specific file
 
 
@@ -146,10 +153,10 @@ def generate_replacers(charms):
         replacers[charm.name] = charm.url
     return replacers
 
-def get_charms_from_bundle(filepath, namespace_whitelist=None):
+def get_charms_from_bundle(bundle, namespace_whitelist=None):
     """ returns a set of paths to all charms in bundle that are owned by the user from `charm whoami`."""
     charms = []
-    with open(filepath, 'r+') as stream:
+    with open(bundle.filepath, 'r+') as stream:
         bundle = yaml.safe_load(stream)
     for value in bundle['services'].values():
         charm = CharmStoreObject(value['charm'])
@@ -182,8 +189,8 @@ def mergecopytree(src, dst, symlinks=False, ignore=None):
 def bootstrap_testdir(sojobo_bundle, remote_bundle, init_bundle, charms_to_test):
     tmpdir = tempfile.mkdtemp()
     os.mkdir("{}/remote/".format(tmpdir))
-    shutil.copytree(sojobo_bundle.dir, "{}/{}".format(tmpdir, sojobo_bundle.name))
-    shutil.copytree(remote_bundle.dir, "{}/remote/{}".format(tmpdir, remote_bundle.name))
+    shutil.copytree(sojobo_bundle.dirpath, "{}/{}".format(tmpdir, sojobo_bundle.name))
+    shutil.copytree(remote_bundle.dirpath, "{}/remote/{}".format(tmpdir, remote_bundle.name))
     shutil.copy(init_bundle.filepath, "{}/remote/init-bundle.yaml".format(tmpdir))
 
     with open('testplan.yaml', 'r') as stream:
@@ -282,24 +289,25 @@ def get_changed():
 
 def test_bundles(bundles_to_test, resultdir):
     subprocess.check_call(['echo y | tengu reset tenguci'], shell=True)
-    logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join(bundles_to_test), resultdir))
+    logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join([b.dirpath for b in bundles_to_test]), resultdir))
     # Get all charms that have to be pushed
-    sojobo_bundle = '{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY)
-    init_bundle = '{}/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY)
+    sojobo_bundle = CharmStoreObject(path='{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY))
+    init_bundle = CharmStoreObject(path='{}/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY))
     charms_to_push = []
     # charms in hauchiwa and init bundle need to be pushed but those bundles don't need to be tested
-    for bundle in bundles_to_test + (sojobo_bundle, init_bundle):
+    for bundle in bundles_to_test + [sojobo_bundle, init_bundle]:
         charms_to_push = charms_to_push + get_charms_from_bundle(bundle, namespace_whitelist=["cs:~" + USERNAME])
-    charms_to_push = list({v['url']:v for v in charms_to_push}.values())
+    charms_to_push = list({v.url:v for v in charms_to_push}.values())
 
     # Push all charms that will be tested
-    logging.info("Pushing the following charms to 'staging': \n\t{}\n".format("\n\t".join([c['url'] for c in charms_to_push])))
+    logging.info("Pushing the following charms to 'staging': \n\t{}\n".format("\n\t".join([c.url for c in charms_to_push])))
     charms_to_test = []
     for charm in charms_to_push:
         charms_to_test.append(charm.push())
+    logging.info("Pushing the following bundles to 'staging': \n\t{}\n".format("\n\t".join([c.url for c in bundles_to_test])))
     for bundle in bundles_to_test:
         bundle.push()
-    logging.info("Pushed Charms: \n\t{}\n".format("\n\t".join([c['url'] for c in charms_to_test])))
+    logging.info("Pushed Charms: \n\t{}\n".format("\n\t".join([c.url for c in charms_to_test])))
 
     # Setup the directory for each bundle
     testdirs = []
@@ -317,7 +325,7 @@ def test_bundles(bundles_to_test, resultdir):
         pool.starmap(run_tests, [[testdir, resultdir] for testdir in testdirs])
 
     # If all tests succeed, publish all charms
-    logging.info("Publishing charms/bundles: \n\t{}\n".format("\n\t".join([c['url'] for c in charms_to_test + bundles_to_test])))
+    logging.info("Publishing charms/bundles: \n\t{}\n".format("\n\t".join([c.url for c in charms_to_test + bundles_to_test])))
     for csobject in charms_to_test + bundles_to_test:
         csobject.publish('stable')
 

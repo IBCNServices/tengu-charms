@@ -294,7 +294,7 @@ def get_changed():
 
 
 def test_bundles(bundles_to_test, resultdir, reset):
-    if reset:
+    if reset == 'FULL' or reset == 'MODEL':
         for bundle in bundles_to_test:
             h_name = "h-{}".format(bundle.name)
             unit_n = subprocess.check_output(["juju status --format oneline | grep {} | cut -d '/' -f 2 | cut -d ':' -f 1".format(h_name)], shell=True, universal_newlines=True).rstrip()
@@ -302,6 +302,7 @@ def test_bundles(bundles_to_test, resultdir, reset):
                 subprocess.check_call(
                     ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-Ct',
                      "if [[ $(juju switch --list) ]]; then echo y | tengu destroy {0}; fi".format(bundle.name[:10])])
+    if reset == 'FULL':
         subprocess.check_call(['echo y | tengu reset tenguci'], shell=True)
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join([b.dirpath for b in bundles_to_test]), resultdir))
     # Get all charms that have to be pushed
@@ -366,9 +367,9 @@ def g_cli():
 @click.argument(
     'resultdir', nargs=1)
 @click.option(
-    '--reset/--no-reset',
-    default=True,
-    help='path to bundle that contains machines to create and services to deploy')
+    '--reset',
+    default='FULL',
+    help="How to reset the system. FULL = destroy model and hauchiwa, MODEL = destroy model, NONE = don't reset anything")
 def c_test(bundles, resultdir, reset):
     """ test given bundles """
     test_bundles([CharmStoreObject(path=bundle) for bundle in bundles], resultdir, reset)

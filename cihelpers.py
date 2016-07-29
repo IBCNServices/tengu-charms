@@ -97,7 +97,7 @@ class CharmStoreObject(object):
     def push(self):
         """ pushes the local charm/bundle to the charmers personal namespace, channel 'unpublished', and grants everyone acces to the channel."""
         logging.debug("pushing {}".format(self.dirpath))
-        output = subprocess.check_output(['charm', 'push', self.dirpath, self.create_url(include_revision=False)], universal_newlines=True)
+        output = subprocess.check_output(['charm', 'push', self.dirpath], universal_newlines=True)
         url = yaml.safe_load(output)['url']
         charm = CharmStoreObject(url)
         url_without_revision = self.create_url(include_revision=False)
@@ -261,7 +261,6 @@ def run_tests(testdir, resultdir):
     subprocess.check_call(['ln -sf `ls -v | grep result.html | tail -1` latest.html'], shell=True, cwd='{}/remote/results'.format(testdir))
     subprocess.check_call(['ln -sf `ls -v | grep result.json | tail -1` latest.json'], shell=True, cwd='{}/remote/results'.format(testdir))
     mergecopytree('{}/remote/results'.format(testdir), '{}/{}/'.format(resultdir, bundle_name))
-    logging.info('DESTROY ENVIRONMENT')
     subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
     return True
 
@@ -321,6 +320,7 @@ def test_bundles(bundles_to_test, resultdir):
         testdirs.append(bootstrap_testdir(sojobo_bundle, bundle, init_bundle, charms_to_test))
 
     # Create the hauchiwas for running the tests. Running this in paralell doesn't seem to work...
+    logging.info("Deploying Hauchiwas from: \n\t{}\n".format("\n\t".join(testdirs)))
     for testdir in testdirs:
         create_hauchiwa(testdir, resultdir)
 

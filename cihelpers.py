@@ -69,7 +69,8 @@ class CharmStoreObject(object):
             if path.endswith('.yaml'):
                 self.filename = os.path.basename(path)
                 path = os.path.dirname(path)
-            self.filename = 'bundle.yaml'
+            else:
+                self.filename = 'bundle.yaml'
             self.namespace = 'cs:~{}'.format(USERNAME)
             self.name = os.path.basename(path)
             self._path = path
@@ -250,7 +251,7 @@ def run_tests(testdir, resultdir):
     response = requests.put('http://{}/{}/'.format(api_hostport, h_name[2:12]), data=bundle, headers={'Accept': 'application/json'})
     logging.info('request to http://{}, answer status code is {}, content is {}'.format(api_hostport, response.status_code, response.text))
     if response.status_code != 200:
-        exit(1)
+        return False
     subprocess.check_call(['juju', 'scp', '--', '-r', '{}/remote/.'.format(testdir), '{}/{}:~/remote'.format(h_name, unit_n)]) #/remote/. : trailing dot is to make cp idempotent:  https://unix.stackexchange.com/questions/228597/how-to-copy-a-folder-recursively-in-an-idempotent-way-using-cp
     subprocess.check_call(
         ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-C',
@@ -262,6 +263,7 @@ def run_tests(testdir, resultdir):
     mergecopytree('{}/remote/results'.format(testdir), '{}/{}/'.format(resultdir, bundle_name))
     logging.info('DESTROY ENVIRONMENT')
     subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
+    return True
 
 def get_changed():
     GIT_PREVIOUS_SUCCESSFUL_COMMIT = os.environ.get('GIT_PREVIOUS_SUCCESSFUL_COMMIT') # pylint:disable=c0103
@@ -326,7 +328,10 @@ def test_bundles(bundles_to_test, resultdir):
     # This runs in parallell
     logging.info("Running tests in: \n\t{}\n".format("\n\t".join(testdirs)))
     with Pool(5) as pool:
-        pool.starmap(run_tests, [[testdir, resultdir] for testdir in testdirs])
+        result = pool.starmap(run_tests, [[testdir, resultdir] for testdir in testdirs])
+    # Due to a bug, the pool will hang if one of the run_tests functions exits, so we do it here.
+    if False in result:
+        exit(1)
 
     # If all tests succeed, publish all charms
     logging.info("Publishing charms/bundles: \n\t{}\n".format("\n\t".join([c.url for c in charms_to_test + bundles_to_test])))

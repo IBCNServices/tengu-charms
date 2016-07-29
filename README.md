@@ -172,7 +172,8 @@ cat /var/lib/dhcp/dhcpd.leases
     tree -h --du /var | grep "G]"
     sudo du -h /var | grep '[0-9\.]\+G'
 
-
+**reconnect to screen**
+    screen -r
 
 # Default Tengu license:
 

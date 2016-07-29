@@ -1,13 +1,20 @@
 machines:
   '0':
-    constraints: 'arch=amd64 testbed=wall1'
+    constraints: 'arch=amd64'
     series: trusty
+    annotations:
+      testbed: wall1
+      pubipv4: True
   '1':
-    constraints: 'arch=amd64 testbed=wall1'
+    constraints: 'arch=amd64'
     series: trusty
+    annotations:
+      testbed: wall1
   '2':
-    constraints: 'arch=amd64 testbed=wall1'
+    constraints: 'arch=amd64'
     series: trusty
+    annotations:
+      testbed: wall1
 services:
   juju-gui:
     charm: cs:trusty/juju-gui

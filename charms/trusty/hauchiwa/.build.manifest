@@ -276,7 +276,7 @@
     "files/tengu_management/templates/bundle.yaml": [
       "hauchiwa", 
       "static", 
-      "b0d3d5d4c47cfa380a626767940a002485305c6b162b19abc5dac44cfd8a933d"
+      "bc43a0e9dfff8613ccccb1def872ce7208d8ba83a6b2e8a0692ecec4a217a22d"
     ], 
     "templates/dhc-init.sh": [
       "layer:juju-client", 

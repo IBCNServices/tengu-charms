@@ -6,11 +6,6 @@
     "build"
   ], 
   "signatures": {
-    "wheelhouse/charmhelpers-0.7.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "3327d1e3e4bcc5d22aa8cf6748cc1d7e400f8e3781755ac138229dad1390d834"
-    ], 
     "bin/layer_option": [
       "layer:basic", 
       "static", 
@@ -149,7 +144,12 @@
     "config.yaml": [
       "dhcp-server", 
       "dynamic", 
-      "ad1205243c8e4bfc943c0415d28e74c44012f5817994990c9660f36783fb81bd"
+      "574f51ecc9c7d74b8fa19957b5bc9238cf7401edbf68a5903f5a20dd40b45651"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
     ], 
     "lib/iptables.py": [
       "dhcp-server", 
@@ -184,7 +184,7 @@
     "reactive/dhcp_server.py": [
       "dhcp-server", 
       "static", 
-      "0549d20cf3a3ce22f766ce1ca23f720e5f6640dc8329433b37bfbe7e3a25b1bd"
+      "538f57eb48ec2557fa1f3f628eb0c720cf02e6c31fa09c9fba6f286ae36c77ea"
     ], 
     "hooks/relations/opened-ports/__init__.py": [
       "interface:opened-ports", 
@@ -221,11 +221,6 @@
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "hooks/config-changed": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
     "hooks/start": [
       "layer:basic", 
       "static", 
@@ -246,15 +241,20 @@
       "static", 
       "5b3ff664bf7953b7523f4e37a8f6c3870ebaefd5a265c0f1037141269f1d28d1"
     ], 
+    "wheelhouse/charmhelpers-0.8.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "355c2632049621474c50cfee6a6f7014a863f6f3bac1134ed409479cbe99b102"
+    ], 
     "layer.yaml": [
       "dhcp-server", 
       "dynamic", 
       "7359a7064f80e9a98994d6cee7aca90ec47ccb974bd4a03b36f91b7e90f0bc41"
     ], 
-    "lib/charms/layer/__init__.py": [
+    "hooks/config-changed": [
       "layer:basic", 
       "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 

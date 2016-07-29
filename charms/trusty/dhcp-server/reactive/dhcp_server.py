@@ -39,6 +39,20 @@ from iptables import update_port_forwards, configure_nat_gateway, remove_nat_gat
 def configure_port_forwards(relation):
     services = relation.opened_ports
     cfg = json.loads(config()["port-forwards"])
+    # sanity check config
+    for pf in cfg:
+        if not 0 < int(pf['public_port']) <= 65535:
+            hookenv.status_set(
+                'blocked',
+                'Requested public port {} is not between 0 and 65535.'.format(pf['public_port']))
+            return
+        # Check if port is open.
+        restricted_ports = subprocess.check_output(['ss -lntu | tr -s " " | cut -d " " -f 5 | rev | cut -d ":" -f 1 | rev | grep -E -o "[1-9][0-9]*" | sort -u'], shell=True, universal_newlines=True).split()
+        if pf['public_port'] in restricted_ports:
+            hookenv.status_set(
+                'blocked',
+                'Requested port-forward public port {} is already used by the OS. Used ports: ({})'.format(pf['public_port'], ", ".join(restricted_ports)))
+            return
     services.extend(cfg)
     update_port_forwards(services)
     services = relation.set_ready()

@@ -31,4 +31,4 @@
     "type": "int"
     "default": !!int "29000"
     "description": |
-      The start port of the range to use for dynamically assigning port forwards. When a Charm requests a port forward, it will be assigned a port starting from the portrange.
+      The start port of the range to use for dynamically assigning port forwards. When a Charm requests a port forward, it will be assigned a port starting from the portrange. Note: when the hauchiwa creates a port-forward, it will start from portrange + 1000.

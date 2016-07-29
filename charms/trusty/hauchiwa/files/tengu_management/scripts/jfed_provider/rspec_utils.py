@@ -31,6 +31,7 @@ def create_rspec(nr_nodes, userkeys, pub_ipv4, testbed):
         loader=FileSystemLoader(TEMPLATE_PATH)
     )
     nr_nodes = int(nr_nodes)
+    if nr_nodes < 2: nr_nodes = 2  # We can't have an internal network with only one machine.
     template = env.get_template('template.rspec')
     component_manager_id = "urn:publicid:IDN+{}.ilabt.iminds.be+authority+cm".format(testbed)
     sliver_type = "raw-pc"

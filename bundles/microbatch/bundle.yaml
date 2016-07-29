@@ -65,13 +65,13 @@ services:
       spark_execution_mode: "yarn-client"
     annotations:
       gui-x: "900"
-      gui-y: "100"
+      gui-y: "250"
     to: ['lxc:0']
   zeppelin:
     charm: cs:trusty/apache-zeppelin-7
     annotations:
       gui-x: "1100"
-      gui-y: "250"
+      gui-y: "100"
 series: trusty
 relations:
   - [namenode, slave]

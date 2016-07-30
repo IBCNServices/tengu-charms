@@ -15,4 +15,4 @@ tengu downloadbigfiles
 
 
 # Test bundles (this script will fail if tests fail)
-./cihelpers.py test bundles/streaming/bundle.yaml bundles/microbatch/bundle.yaml $RESULTS_DIR --reset NONE
+./cihelpers.py test bundles/streaming/bundle.yaml bundles/microbatch/bundle.yaml $RESULTS_DIR

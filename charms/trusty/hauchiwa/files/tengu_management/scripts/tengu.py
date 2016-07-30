@@ -390,6 +390,26 @@ def c_renew(name, hours):
 
 
 @click.command(
+    name='expose',
+    context_settings=CONTEXT_SETTINGS)
+@click.option(
+    '-n', '--name',
+    default=DEFAULT_ENV,
+    help='Name of model. Defaults to the active model.')
+@click.argument('servicename')
+def c_expose(name, servicename):
+    """ Expose the service so it is publicly available from the internet.
+    NAME: name of model
+    SERVICENAME: name of the service to expose"""
+    env_conf = init_environment_config(name)
+    provider_env = get_provider(env_conf).get(env_conf)
+    env_conf = init_environment_config(name)
+    env = JujuEnvironment(name)
+    service = Service(servicename, env)
+    provider_env.expose(service)
+
+
+@click.command(
     name='status',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
@@ -559,6 +579,7 @@ g_cli.add_command(c_lock)
 g_cli.add_command(c_unlock)
 g_cli.add_command(c_renew)
 g_cli.add_command(c_status)
+#g_cli.add_command(c_expose)
 g_cli.add_command(c_userinfo)
 g_cli.add_command(c_export)
 g_cli.add_command(c_import)

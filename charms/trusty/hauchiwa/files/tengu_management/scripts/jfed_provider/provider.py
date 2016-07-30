@@ -17,6 +17,7 @@
 #
 """ deploys a tengu env """
 from os.path import expanduser
+import json
 
 # non-default pip dependencies
 import click
@@ -24,6 +25,7 @@ import yaml
 
 # Own modules
 from rest2jfed_connector import Rest2jfedConnector
+import jujuhelpers # pylint: disable=E0401
 import rspec_utils
 
 TENGU_DIR = expanduser("~/.tengu")
@@ -103,6 +105,30 @@ class JfedSlice(object):
         print('Destroying jfed slice and slivers...')
         jfed = self.init_jfed()
         jfed.delete()
+
+
+    def expose(self, service):
+        next_pub_port = 30000
+        dhcp_server = jujuhelpers.Service('dhcp-server', service.env)
+        forward_config = json.loads(dhcp_server.config['settings']['port-forwards']['value'])
+        next_pub_port = int(dhcp_server.config['settings']['portrange']['value']) + 1000
+        if next_pub_port <= max([int(pf['public-port']) for pf in forward_config] or [0]):
+            next_pub_port = max([int(pf['public-port']) for pf in forward_config] or [0]) + 1
+        pf_curlist = set([(pf['private_ip'], pf['private_port'], pf['protocol']) for pf in forward_config])
+        pf_nelist = set()
+        for (unitinfo) in service.status['units'].values():
+            for port, protocol in [op.split('/') for op in unitinfo.get('open-ports')]:
+                pf_nelist.add((unitinfo['public-address'], port, protocol))
+        pf_nelist = pf_nelist - pf_curlist
+        for private_ip, private_port, protocol in pf_nelist:
+            forward_config.append({
+                'private_ip': private_ip,
+                'private_port': private_port,
+                'protocol': protocol,
+                'public_port': next_pub_port,
+            })
+            next_pub_port += 1
+        dhcp_server.set_config({'port-forwards': json.dumps(forward_config)})
 
 
     @property

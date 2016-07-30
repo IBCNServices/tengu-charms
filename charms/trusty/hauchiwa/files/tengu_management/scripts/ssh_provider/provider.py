@@ -40,6 +40,10 @@ class SSHProvider(object):
         env.create(bundle)
         return env
 
+    @property
+    def userinfo(self):
+        print("userinfo not implemented for ssh provider.")
+        assert False
 
 class SSHEnv(object):
     def __init__(self, global_conf, env_conf):
@@ -67,6 +71,9 @@ class SSHEnv(object):
     def renew(self, hours): #pylint: disable=w0613,R0201
         print('Renew unnecessary in SSH environment...')
 
+    def reload(self):
+        self.destroy()
+
     def destroy(self):
         bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']
         print('Removing Juju environment from nodes...')
@@ -77,6 +84,10 @@ class SSHEnv(object):
                                  '{}@{}:~/ssh_destroy.sh'.format(bootstrap_user, machine)])
                 subprocess.call(
                     ["ssh", '-o', 'StrictHostKeyChecking=no', '{}@{}'.format(bootstrap_user, machine), "~/ssh_destroy.sh"])
+
+    def expose(self, service):
+        print("expose not implemented for ssh provider. Cannot expose {}".format(service))
+        assert False
 
     @property
     def machines(self):

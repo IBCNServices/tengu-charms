@@ -270,7 +270,7 @@ class JujuEnvironment(object):
                 raise JujuNotFoundException("missing namespace, config not prepared")
             if "ERROR Unable to connect to environment" in ex.output:
                 raise JujuNotFoundException("ERROR Unable to connect to environment")
-            raise JujuException(ex.output)
+            raise JujuException("{}\nCOMMAND: {}".format(ex.output, " ".join(command)))
 
     @staticmethod
     def current_env():

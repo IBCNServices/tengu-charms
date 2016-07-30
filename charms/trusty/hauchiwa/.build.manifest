@@ -16,7 +16,7 @@
     "files/tengu_management/scripts/ssh_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "0ae14194f987956ea09f77f64cd30143c321112b66835725e375549c008646f6"
+      "8c8cdc2f5a4edda76b13c7423938b73767c3f45b29951c5c485d99c2ccb10a6e"
     ], 
     "bin/layer_option": [
       "layer:basic", 
@@ -61,7 +61,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "97bfb04ef5c7639fbf18ad5a2010c70a59c4669a78f6b2a5bf27b08424ea25dc"
+      "02b802003896adef3dec5feb4a552f13f64cebbd73bef5ace8c3bdf875ad0bac"
     ], 
     "copyright": [
       "layer:basic", 
@@ -91,7 +91,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "927a8ebaaf2a2d5b7982cca54643713b782c8d354fd87bca43fb34b67c621dc3"
+      "0565e2036355e1a9c616a90cd6b435ca5a3e17d3f972effcb6a97b6e1d386f06"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -381,7 +381,7 @@
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "0684720c501fbba0753a956773d57cb5412a2749602df1d204de967b1f666228"
+      "0e34b926f08665198e6021b12fbaa9aae9d20254c8f110029124642e2317ff25"
     ], 
     "templates/tengu": [
       "hauchiwa", 

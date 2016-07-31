@@ -328,14 +328,15 @@ def test_bundles(bundles_to_test, resultdir, reset):
     for bundle in bundles_to_test:
         testdirs.append(bootstrap_testdir(sojobo_bundle, bundle, init_bundle, charms_to_test))
 
-    # # Create the hauchiwas for running the tests. Running this in paralell doesn't seem to work...
-    # logging.info("Deploying Hauchiwas from: \n\t{}\n".format("\n\t".join(testdirs)))
-    # for testdir in testdirs:
-    #     create_hauchiwa(testdir, resultdir)
 
+
+
+    # First hauchiwa can't be created in parallell because bundledeployer might try to deploy
+    # rest2jfed while it already exists. (race condition because they ask for permission instead of forgiveness)
+    create_hauchiwa(testdirs[0], resultdir)
 
     with Pool(5) as pool:
-        result = pool.starmap(create_hauchiwa, [[testdir, resultdir] for testdir in testdirs])
+        result = pool.starmap(create_hauchiwa, [[testdir, resultdir] for testdir in testdirs[1:]])
     # Due to a bug, the pool will hang if one of the run_tests functions exits, so we do it here.
     if False in result:
         exit(1)

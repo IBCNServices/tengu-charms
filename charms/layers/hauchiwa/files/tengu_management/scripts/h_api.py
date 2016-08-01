@@ -65,6 +65,9 @@ APP.url_map.strict_slashes = False
 if FEATURE_FLAG_AUTH:
     @APP.before_request
     def tengu_auth():
+        # Never check ID token on OPTIONS. This will solve preflight issues.
+        if request.method == 'OPTIONS':
+            return
         id_token = request.headers.get('id-token', None)
         # Check that the ID Token is valid.
         if id_token:

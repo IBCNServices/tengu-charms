@@ -27,11 +27,9 @@
   },
   "relations": [
     [
-      "{{servicename}}",
       "rest2jfed"
     ],
     [
-      "{{servicename}}",
       "dhcp-server"
     ]
   ]

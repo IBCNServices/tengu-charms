@@ -4,7 +4,7 @@ machines:
     series: trusty
 services:
   {{servicename}}:
-    charm: local:trusty/hauchiwa
+    charm: cs:~tengu-bot/hauchiwa
     num_units: 1
     to: lxc:0
     options:
@@ -12,10 +12,10 @@ services:
       bundle: {{bundle}}
       ssh-keys: ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiF+Y54T4MySG8akVwolplZoo8+uGdWHMQtzNEwbirqW8tutHmH2osYavsWyAuIbJPMH/mEMpvWNRilqXv7aw43YcD2Ie43MiLuEV6xWuC1SwdxxfyQ7Y2e0JEKohl6Xx3lWgHpiR5EZFeJmwHazthJnt94m/mTP7sEweK1m9cbk= thomasvanhove,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2AvnkZTypu/srnyAdjHjk6x+vsre05NOwFIOieu2mcAb4aJZOLHBqEE1pxxWrvPUULFS066xgNgvKwNZOZh+OPlUdFpjY2AqN8CtNnLuQ72EPYjpV69nrtsKaJO+ZYqTnl4uZOZDeSoqK0v6RBuBfb5YcZfqpR/z/turw5yZ1H5Ju5mykhzy5wBtWMXWjnODI309Q//0+0MZTSJIYDJ05mwkM0ma1kNWEpJCw9nAvADqYZdU/8thX2j1f3KFdfupZuDIw+rvX3KgCb1cRYvfr8N165J209lxxkwJQuSVGRZ3wUytC/JkqJB1ZK5FhL9WoKD0yXDxi+5nmAQVpVPgD merlijnsebrechts,ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBrMxrgsfVrd/ufjtsSWvb/Zg9ALpW5WI3uqC0X52a7L5s7+4oZbtlAFU4ntUGfybtPUdtH7QHUgsbLyU2GsOHnRe4ZqdLryR5f4iGAFLdW0q/Bd3Wrn6m8yuWw90Et3FJQiwbj8itzMrs0sPQvdXjzX7Ts4yt4eOxV1+6xavjvNQ== gregory{{sshkeys}}
   rest2jfed:
-    charm: local:trusty/rest2jfed
+    charm: cs:~tengu-bot/rest2jfed
     num_units: 1
   dhcp-server:
-    charm: local:trusty/dhcp-server
+    charm: cs:~tengu-bot/dhcp-server
     num_units: 1
 relations:
   - [{{servicename}}, rest2jfed]

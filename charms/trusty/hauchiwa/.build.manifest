@@ -91,7 +91,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "0565e2036355e1a9c616a90cd6b435ca5a3e17d3f972effcb6a97b6e1d386f06"
+      "229b7beeeea7344fed2940901739c217a10a9e893cedf898a80e977c3c9a298d"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -381,7 +381,7 @@
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "0e34b926f08665198e6021b12fbaa9aae9d20254c8f110029124642e2317ff25"
+      "f848c3c947f6cb39b9d2429d4c4a7bf7679f4a2cffdaa5329214f065eacd8359"
     ], 
     "templates/tengu": [
       "hauchiwa", 

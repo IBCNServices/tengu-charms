@@ -112,15 +112,15 @@ class JfedSlice(object):
         dhcp_server = jujuhelpers.Service('dhcp-server', service.env)
         forward_config = json.loads(dhcp_server.config['settings']['port-forwards']['value'])
         next_pub_port = int(dhcp_server.config['settings']['portrange']['value']) + 1000
-        if next_pub_port <= max([int(pf['public-port']) for pf in forward_config] or [0]):
-            next_pub_port = max([int(pf['public-port']) for pf in forward_config] or [0]) + 1
+        if next_pub_port <= max([int(pf['public_port']) for pf in forward_config] or [0]):
+            next_pub_port = max([int(pf['public_port']) for pf in forward_config] or [0]) + 1
         pf_curlist = set([(pf['private_ip'], pf['private_port'], pf['protocol']) for pf in forward_config])
         pf_nelist = set()
         for (unitinfo) in service.status['units'].values():
             for port, protocol in [op.split('/') for op in unitinfo.get('open-ports')]:
                 pf_nelist.add((unitinfo['public-address'], port, protocol))
-        pf_nelist = pf_nelist - pf_curlist
-        for private_ip, private_port, protocol in pf_nelist:
+        pf_addlist = pf_nelist - pf_curlist
+        for private_ip, private_port, protocol in pf_addlist:
             forward_config.append({
                 'private_ip': private_ip,
                 'private_port': private_port,
@@ -128,7 +128,8 @@ class JfedSlice(object):
                 'public_port': next_pub_port,
             })
             next_pub_port += 1
-        dhcp_server.set_config({'port-forwards': json.dumps(forward_config)})
+        dhcp_server.set_config({'port-forwards': json.dumps(forward_config, indent=4)})
+        print(show_pf_result(forward_config, pf_nelist, dhcp_server.status['units'].itervalues().next()['workload-status']['message'].lstrip('Ready (').rstrip(')')))
 
 
     @property
@@ -197,8 +198,9 @@ def get_data_from_bundle(bundle):
     }
 
 
-# env = provider.get(env_conf)
-# env.create_from_bundle
-# env.delete()
-# env.status()
-# env.renew()
+def show_pf_result(forward_config, pf_nelist, public_ip):
+    output = ''
+    for pf in forward_config:
+        if (pf['private_ip'], pf['private_port'], pf['protocol']) in pf_nelist:
+            output += '{}:{} is accessible at {}:{}\n'.format(pf['private_ip'], pf['private_port'], public_ip, pf['public_port'])
+    return output

@@ -13,8 +13,9 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#pylint: disable=c0111,c0103
+#pylint: disable=c0111,c0103,c0301
 import os
+import re
 import base64
 
 import unittest
@@ -118,11 +119,21 @@ class TestCharm(unittest.TestCase):
         if "Ready pf" not in message:
             message = "No port forwards: \n{}".format(message)
             raise Exception(message)
-        match = re.search(r'(([0-9]+\.?)+):([0-9]+)\->5000', message)
-        api_ip = match.group(1)
-        api_port = match.group(3)
 
+        match = re.search(r'(([0-9]+\.?)+:[0-9]+)\->5000', message)
+        api_hostport = match.group(1)
+        response = requests.get('http://{}/'.format(api_hostport), headers={'Accept': 'application/json'})
+        if response.status_code != 200:
+            message = 'request to http://{} FAILED: answer status code is {}, content is {}'.format(api_hostport, response.status_code, response.text)
+            raise Exception(message)
 
+    # def test_tengu_expose(self):
+    #     """Check to see if tengu->rest2jfed connection is correct"""
+    #     for unit in self.hauchiwa:
+    #         output, rc = unit.run("sudo su - ubuntu -c 'tengu expose '")
+    #         if rc != 0 or 'Usage: tengu.py [OPTIONS] COMMAND [ARGS]...' not in output:
+    #             message = "tengu command not installed correctly: \n{}".format(output)
+    #             raise Exception(message)
 
 
     def _get_status(self):

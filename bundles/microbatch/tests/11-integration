@@ -20,7 +20,7 @@ import unittest
 import amulet
 import yaml
 
-SECONDS_TO_WAIT = 1200
+SECONDS_TO_WAIT = 2000
 
 
 class TestCharm(unittest.TestCase):

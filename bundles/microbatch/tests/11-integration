@@ -42,6 +42,7 @@ class TestCharm(unittest.TestCase):
         with open(cls.bundle_path, "r") as bundle_file:
             contents = yaml.safe_load(bundle_file)
 
+        # Temporary fix for https://github.com/juju/amulet/issues/148
         for service in contents['services'].values():
             service.pop("to", None)
 

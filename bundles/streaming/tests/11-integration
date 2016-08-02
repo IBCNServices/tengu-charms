@@ -14,14 +14,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pylint: disable=c0111,c0103,c0301
-import os
 import re
-import json
+import os
+import time
 import subprocess
 
 import yaml
-import amulet
 import unittest
+import amulet
 import requests
 
 SECONDS_TO_WAIT = 1200
@@ -46,6 +46,10 @@ class TestCharm(unittest.TestCase):
         with open(cls.bundle_path, "r") as bundle_file:
             contents = yaml.safe_load(bundle_file)
 
+        # Temporary fix for https://github.com/juju/amulet/issues/148
+        for service in contents['services'].values():
+            service.pop("to", None)
+
         cls.deployment.load(contents)
         # Allow some time for Juju to provision and deploy the bundle.
         cls.deployment.setup(timeout=SECONDS_TO_WAIT)
@@ -54,17 +58,20 @@ class TestCharm(unittest.TestCase):
 
         cls.nimbus = cls.deployment.sentry['nimbus']
         cls.worker = cls.deployment.sentry['worker']
+        cls.dhcp_server = cls.deployment.sentry['dhcp-server']
 
     def test_expose_and_ui(self):
         """Check to see if tengu->rest2jfed connection is correct. This will only work if the machine running these tests is a Hauchiwa"""
         output = subprocess.check_output(['tengu', 'expose', 'nimbus'], universal_newlines=True)
         match = re.search(r'^([0-9]+\.?)+:8080.*?(([0-9]+\.?)+:[0-9]+)', output)
         nimbus_hostport = match.group(2)
+        # Wait for the dhcp-server to make the changes
+        time.sleep(10)
         response = requests.get('http://{}/api/v1/cluster/summary'.format(nimbus_hostport), headers={'Accept': 'application/json'})
         if response.status_code != 200:
             message = 'request to http://{}/api/v1/cluster/summary FAILED: answer status code is {}, content is {}'.format(nimbus_hostport, response.status_code, response.text)
             raise Exception(message)
-        summary = json.loads(response)
+        summary = response.json()
         if summary['slotsTotal'] < 4:
             message = 'slotsTotal ({}) < 4'.format(summary['slotstotal'])
             raise Exception(message)

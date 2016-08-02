@@ -339,20 +339,20 @@ def test_bundles(bundles_to_test, resultdir, reset):
     # First hauchiwa can't be created in parallell because bundledeployer might try to deploy
     # rest2jfed while it already exists. (race condition because they ask for permission instead of forgiveness)
     create_hauchiwa(testdirs[0], resultdir)
-    sleeptime = 0
 
     with Pool(5) as pool:
-        result = pool.starmap(create_hauchiwa, [[testdir, resultdir, operator.iadd(sleeptime, 20)] for testdir in testdirs[1:]])
+        result = pool.starmap(create_hauchiwa, [[testdir, resultdir] for testdir in testdirs[1:]])
     # Due to a bug, the pool will hang if one of the run_tests functions exits, so we do it here.
     if False in result:
         exit(1)
 
+    sleeptime = 0
 
     # Run tests (run_tests should throw exception if test fails)
     # This runs in parallell
     logging.info("Running tests in: \n\t{}\n".format("\n\t".join(testdirs)))
     with Pool(5) as pool:
-        result = pool.starmap(run_tests, [[testdir, resultdir] for testdir in testdirs])
+        result = pool.starmap(run_tests, [[testdir, resultdir, operator.iadd(sleeptime, 20)] for testdir in testdirs])
     # Due to a bug, the pool will hang if one of the run_tests functions exits, so we do it here.
     if False in result:
         exit(1)

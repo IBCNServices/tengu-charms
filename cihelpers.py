@@ -272,7 +272,7 @@ def run_tests(testdir, resultdir, sleeptime):
     subprocess.check_call(['ln -sf `ls -v | grep result.html | tail -1` latest.html'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
     subprocess.check_call(['ln -sf `ls -v | grep result.json | tail -1` latest.json'], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
     try:
-        subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/remote/results'.format(testdir))
+        subprocess.check_call(["cat latest.json | grep -q '\"test_outcome\": \"All Passed\"'"], shell=True, cwd='{}/{}/'.format(resultdir, bundle_name))
     except subprocess.CalledProcessError:
         return False
     return True

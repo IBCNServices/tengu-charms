@@ -20,6 +20,7 @@ import errno
 import shutil
 import base64
 import logging
+import operator
 import tempfile
 import subprocess
 from multiprocessing import Pool
@@ -243,13 +244,17 @@ def create_hauchiwa(testdir, resultdir):
         return False
     return True
 
-def run_tests(testdir, resultdir):
+def run_tests(testdir, resultdir, sleeptime):
     with open('{}/remote/testplan.yaml'.format(testdir), 'r') as stream:
         bundle_name = os.path.basename(yaml.safe_load(stream)['bundle'])
         h_name = "h-{}".format(bundle_name)
     unit_n = subprocess.check_output(["juju status --format oneline | grep {} | cut -d '/' -f 2 | cut -d ':' -f 1".format(h_name)], shell=True, universal_newlines=True).rstrip()
 
     api_hostport = subprocess.check_output(['juju status --format tabular | grep {}/ | egrep -o ">22 [^-]+" | sed "s/^>22 //"'.format(h_name)], shell=True, universal_newlines=True).rstrip()
+
+    from time import sleep
+
+    sleep(sleeptime)
 
     with open('{}/remote/{}/bundle.yaml'.format(testdir, bundle_name), 'r') as bundle_file:
         bundle = bundle_file.read()
@@ -334,9 +339,10 @@ def test_bundles(bundles_to_test, resultdir, reset):
     # First hauchiwa can't be created in parallell because bundledeployer might try to deploy
     # rest2jfed while it already exists. (race condition because they ask for permission instead of forgiveness)
     create_hauchiwa(testdirs[0], resultdir)
+    sleeptime = 0
 
     with Pool(5) as pool:
-        result = pool.starmap(create_hauchiwa, [[testdir, resultdir] for testdir in testdirs[1:]])
+        result = pool.starmap(create_hauchiwa, [[testdir, resultdir, operator.iadd(sleeptime, 20)] for testdir in testdirs[1:]])
     # Due to a bug, the pool will hang if one of the run_tests functions exits, so we do it here.
     if False in result:
         exit(1)

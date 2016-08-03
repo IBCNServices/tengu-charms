@@ -29,7 +29,7 @@
   {% endfor %}
   {% for node in nodes %}
     {% if node.pubipv4 %}
-  <emulab:routable_pool client_id="pubipv4-{{ node.name }}" count="1" type="any"/>
+  <emulab:routable_pool component_manager_id="{{ node.component_manager_id }}" client_id="pubipv4-{{ node.name }}" count="1" type="any"/>
     {% endif %}
   {% endfor %}
 </rspec>

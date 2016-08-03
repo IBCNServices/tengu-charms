@@ -311,7 +311,7 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "5872d88f1455ebc40480c2b22a28afa498567ea79b029585bb429071f8612a8f"
+      "6adabb4b9358b7e8337b0d2e4409830b89ce1436444ce9ff34daa6233c121a8a"
     ], 
     "files/tengu_management/scripts/ssh_provider/ssh_destroy.sh": [
       "hauchiwa", 
@@ -366,7 +366,7 @@
     "files/tengu_management/scripts/jfed_provider/templates/template.rspec": [
       "hauchiwa", 
       "static", 
-      "2a498ec0351a16b5189ec956f412982490a046127ea2bee9b28c4c3d47a84ecb"
+      "cba962110f566f8a35a3334801e03a0715764d113b9d673043f32e88df9f1693"
     ], 
     "metadata.yaml": [
       "hauchiwa", 

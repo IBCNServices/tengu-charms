@@ -2,24 +2,16 @@ options:
   type:
     type: string
     default: "default"
-    description: "type of the model"
+    description: "Type of the model."
+  mapping:
+    type: string
+    default: ""
+    description: "Mapping of the model in json."
   tag:
     type: string
     default: ""
-    description: "tag of the model"
-  property:
-    type: string
-    default: ""
-    description: "Property"
-  moreinfo:
-    type: string
-    default: ""
-    description: "More info about the model"
-  model-version:
-    type: string
-    default: "0.0.0"
-    description: "Version of the model. See semver.org"
+    description: "List of tags separated by spaces."
   modelinfo-version:
     type: string
-    default: "1.1.0"
-    description: "Version of this modelinfo charm. See semver.org"
+    default: "2.0.0"
+    description: "Version of this modelinfo charm. See semver.org."

@@ -1,16 +1,8 @@
 options:
-  type:
-    type: string
-    default: "default"
-    description: "Type of the model."
   mapping:
     type: string
     default: ""
     description: "Mapping of the model in json."
-  tag:
-    type: string
-    default: ""
-    description: "List of tags separated by spaces."
   modelinfo-version:
     type: string
     default: "2.0.0"

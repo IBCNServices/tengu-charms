@@ -13,9 +13,6 @@ machines:
 services:
   modelinfo:
     charm: cs:~tengu-bot/trusty/modelinfo
-    options:
-      type: "web-ui"
-      tag: "storm"
     annotations:
       "gui-x": "600"
       "gui-y": "300"

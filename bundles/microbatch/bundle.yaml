@@ -23,9 +23,6 @@ machines:
 services:
   modelinfo:
     charm: cs:~tengu-bot/trusty/modelinfo
-    options:
-      type: "web-ui"
-      tag: "spark"
     annotations:
       gui-x: "1100"
       gui-y: "400"

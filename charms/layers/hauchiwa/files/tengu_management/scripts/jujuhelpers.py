@@ -325,7 +325,8 @@ class JujuEnvironment(object):
             env.set_active()
             print "bootstrapping juju environment"
             sleep(5) # otherwise we get a weird error
-            env.do('bootstrap')
+            output = env.do('bootstrap', "--debug")
+            print output
         except CalledProcessError as ex:
             raise JujuException(ex.output)
 

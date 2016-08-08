@@ -61,7 +61,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "02b802003896adef3dec5feb4a552f13f64cebbd73bef5ace8c3bdf875ad0bac"
+      "b91483053fb7c992cb312e2fb65c3bc231c72d2dd6e6f70cdba576545b34581c"
     ], 
     "copyright": [
       "layer:basic", 
@@ -436,7 +436,7 @@
     "files/tengu_management/templates/env-conf.yaml.template": [
       "hauchiwa", 
       "static", 
-      "c0069ef26efcdb1b9163e397984edfc2e1dd8cab4a30a5e6b9c9b61c396bf136"
+      "f49ff8ad9f7b636c3fbefaf5fc2ff426ed32bdd7763f1056c2c4cf4e1c5fbba0"
     ], 
     "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 

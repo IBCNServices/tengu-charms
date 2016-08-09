@@ -310,7 +310,7 @@ def test_bundles(bundles_to_test, resultdir, reset):
     if reset == 'FULL':
         services_to_destroy = ["h-{}".format(bundle.name) for bundle in bundles_to_test] + ['rest2jfed']
         if services_to_destroy:
-            subprocess.check_call(['echo y | tengu reset tenguci {}'.format(services_to_destroy)], shell=True)
+            subprocess.check_call(['echo y | tengu reset tenguci {}'.format(" ".join(services_to_destroy))], shell=True)
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join([b.dirpath for b in bundles_to_test]), resultdir))
     # Get all charms that have to be pushed
     sojobo_bundle = CharmStoreObject(path='{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY))

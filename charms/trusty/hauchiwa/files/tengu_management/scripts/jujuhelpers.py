@@ -106,8 +106,25 @@ class Service(object):
         """ Add unit to existing Charm"""
         self.env.do('add-unit', self.name, **options)
 
-    def destroy(self):
+    def destroy(self, force=False):
+        machines_to_destroy = [u['machine'] for u in self.status['units'].values()]
         self.env.do('destroy-service', self.name)
+        if force:
+            for machinename in machines_to_destroy:
+                if not any(x in machinename for x in ['/lxc/', 'kvm/']): # only destroy containers
+                    print("not destroying {} because it is a physical machine".format(machinename))
+                    machines_to_destroy.remove(machinename)
+            machine_unit_map = self.env.machine_unit_map
+            import re
+            pattern = re.compile("^{}/[0-9]*".format(self.name))
+            for machinename in machines_to_destroy:
+                for unit in machine_unit_map[machinename]:
+                    if not pattern.match(unit): # Remove machines if unit from other service is still using machine
+                        machines_to_destroy.remove(machinename)
+                        break
+            print('destroying machines {}'.format(machines_to_destroy))
+            for machinename in machines_to_destroy:
+                self.env.do('destroy-machine', machinename, '--force')
 
 
 class JujuEnvironment(object):
@@ -122,6 +139,17 @@ class JujuEnvironment(object):
     def machines(self):
         """ Return machines"""
         return self.status['machines'].keys()
+
+    @property
+    def machine_unit_map(self):
+        """ Return dictionary with keys = machines, value = list of units deployed on that machine"""
+        mu_map = {}
+        status = self.status
+        for service in status['services'].values():
+            for unitname, unit in service['units'].items():
+                mu_map.setdefault(unit['machine'], []).append(unitname)
+        return mu_map
+
 
     @property
     def services(self):

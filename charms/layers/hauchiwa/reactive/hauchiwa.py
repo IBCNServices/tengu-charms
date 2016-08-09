@@ -170,6 +170,7 @@ def install_tengu():
     """ Installs tengu management tools """
     packages = ['python-pip', 'tree', 'python-dev', 'unzip', 'make']
     fetch.apt_install(fetch.filter_installed_packages(packages))
+    fetch.add_source('ppa:tvansteenburgh/ppa')
     subprocess.check_call(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client', 'cloud-weather-report'])
     # Install Tengu. Existing /etc files don't get overwritten.
     t_dir = None

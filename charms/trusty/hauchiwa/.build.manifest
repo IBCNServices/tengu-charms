@@ -41,7 +41,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "a03eb219caa314cbdb2a4e7f4d8339dce55f5ac839ba55f5e5c15e9875a043cb"
+      "286e41981a9e535d746196511183634290448c4049a68cece9589dca42990a94"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -61,7 +61,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "b91483053fb7c992cb312e2fb65c3bc231c72d2dd6e6f70cdba576545b34581c"
+      "61352f7ef17fcebd2e6b621406595baed14aa9ee7e7c97922ec1fd87961b090a"
     ], 
     "copyright": [
       "layer:basic", 
@@ -91,7 +91,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "229b7beeeea7344fed2940901739c217a10a9e893cedf898a80e977c3c9a298d"
+      "90c1b8aff7a86167024b7307e859ceddff378ad6a0f620e4c66e46fb11fe4eed"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 

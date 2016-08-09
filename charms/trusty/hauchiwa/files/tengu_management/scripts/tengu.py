@@ -340,21 +340,26 @@ def c_reload(name):
 @click.command(
     name='reset',
     context_settings=CONTEXT_SETTINGS)
-@click.argument('name', type=str)
-def c_reset(name):
-    """ Destroys the model's services and containers except for lxc-networking and dhcp-server
+@click.argument('modelname', type=str)
+@click.argument('whitelist', nargs=-1)
+def c_reset(modelname, whitelist):
+    """ Destroys the model's services and containers except for lxc-networking, dhcp-server and openvpn.
+    if whitelist is provided, only services in whitelist will be destroyed.
     NAME: name of model
+    WHITELIST: names of charms to destroy
     """
-    if click.confirm('Warning! This will remove all services and containers of the model "{}". Are you sure you want to continue?'.format(name)):
-        env_conf = init_environment_config(name)
+    if click.confirm('Warning! This will remove all services and containers of the model "{}". Are you sure you want to continue?'.format(modelname)):
+        env_conf = init_environment_config(modelname)
         if env_conf['locked']:
             fail('Cannot reset locked environment')
         else:
-            jujuenv = JujuEnvironment(name)
-            for service in jujuenv.status['services'].keys():
-                if service not in ['lxc-networking', 'dhcp-server', 'openvpn']:
-                    Service(service, jujuenv).destroy()
-            jujuenv.destroy_containers()
+            jujuenv = JujuEnvironment(modelname)
+            for servicename in jujuenv.status['services'].keys():
+                if whitelist:
+                    if servicename in whitelist:
+                        Service(servicename, jujuenv).destroy(force=True)
+                elif servicename not in ['lxc-networking', 'dhcp-server', 'openvpn']: # We should get these services from the init bundle...
+                    Service(servicename, jujuenv).destroy(force=True)
 
 
 @click.command(

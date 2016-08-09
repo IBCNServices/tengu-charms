@@ -86,6 +86,7 @@ def add_key(key):
 def install_packages():
     fetch.apt_install(fetch.filter_installed_packages(['software-properties-common']))
     fetch.add_source('ppa:juju/stable')
+    fetch.add_source('ppa:tvansteenburgh/ppa')
     fetch.apt_update()
     packages = ['juju', 'juju-core', 'juju-deployer',
                 'git', 'python-yaml', 'python-jujuclient', 'charm-tools']

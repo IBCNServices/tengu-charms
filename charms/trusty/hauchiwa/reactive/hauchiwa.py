@@ -17,10 +17,11 @@
 import base64
 import os
 from os.path import expanduser
-import shutil
-import tempfile
 import pwd
 import grp
+import json
+import shutil
+import tempfile
 import subprocess
 #import re
 
@@ -38,7 +39,6 @@ GLOBAL_CONF_PATH = TENGU_DIR + '/etc/global-conf.yaml'
 KEY_PATH = TENGU_DIR + '/etc/jfed_cert.crt'
 S4_CERT_PATH = TENGU_DIR + '/etc/s4_cert.pem.xml'
 USER = config()['user']
-FLAVOR = config()['hauchiwa-flavor']
 HOME = expanduser('~{}'.format(USER))
 SSH_DIR = HOME + '/.ssh'
 
@@ -78,7 +78,6 @@ def install():
     install_tengu()
     set_state('tengu.installed')
     open_port('22')
-    config_changed()
 
 
 @when('tengu.installed')
@@ -91,8 +90,66 @@ def feature_flags_changed():
 
 
 @when('tengu.installed')
+@when_any('config.changed.hauchiwa-flavor', 'config.changed.providerconfig')
+def set_flavor():
+    '''possible flavors: hauchiwa.flavor.ssh, hauchiwa.flavor.jfed, hauchiwa.flavor.juju-powered'''
+
+    flavor = config()['hauchiwa-flavor']  # depricated flavor option (jfed)
+    if not flavor:
+        providerconfig = json.loads(config('providerconfig') or '{}')
+        if providerconfig['env-configs']:
+            flavor = 'juju-powered'
+
+    set_state("hauchiwa.flavor.{}".format(flavor))
+    if not flavor:
+        hookenv.status_set('blocked', 'Waiting for provider config.')
+    templating.render(
+        source='global-conf.yaml',
+        target=GLOBAL_CONF_PATH,
+        perms=493,
+        context={
+            's4_cert_path': S4_CERT_PATH,
+            'key_path': KEY_PATH,
+            'provider': provider,
+        }
+    )
+
+
+################################################################################
+#
+# REST2JFED PROVIDER
+#
+################################################################################
+
+@when('hauchiwa.flavor.jfed')
+@when('tengu.installed')
+@when_not('rest2jfed.available')
+def set_blocked_jfed():
+    hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
+
+@when('rest2jfed.available')
+@when_not('rest2jfed.configured')
+def setup_rest2jfed(rest2jfed):
+    hostname = rest2jfed.services()[0]['hosts'][0]['hostname']
+    port = rest2jfed.services()[0]['hosts'][0]['port']
+    with open(GLOBAL_CONF_PATH, 'r') as infile:
+        content = yaml.load(infile)
+    content['rest2jfed-hostname'] = str(hostname)
+    content['rest2jfed-port'] = str(port)
+    with open(GLOBAL_CONF_PATH, 'w') as config_file:
+        config_file.write(yaml.dump(content, default_flow_style=False))
+    set_state('rest2jfed.configured')
+    set_state('hauchiwa.provider.configured')
+
+@when('rest2jfed.configured')
+@when_not('rest2jfed.available')
+def remove_rest2jfed():
+    remove_state('rest2jfed.configured')
+
+@when('hauchiwa.flavor.jfed')
+@when('tengu.installed')
 @when_any('config.changed.project-name', 'config.changed.s4-cert-path', 'config.changed.pubkey')
-def config_changed():
+def configure_jfed():
     conf = hookenv.config()
     with open(S4_CERT_PATH, 'wb+') as certfile:
         certfile.write(base64.b64decode(conf['emulab-s4-cert']))
@@ -105,29 +162,46 @@ def config_changed():
     with open(GLOBAL_CONF_PATH, 'w') as config_file:
         config_file.write(yaml.dump(content, default_flow_style=False))
     chownr(os.path.dirname(GLOBAL_CONF_PATH), USER, USER)
-    set_state('tengu.configured')
+    set_state('hauchiwa.provider.configured')
 
+################################################################################
+#
+# SSH PROVIDER
+#
+################################################################################
 
+@when('hauchiwa.flavor.ssh')
 @when('tengu.installed')
-@when_not('rest2jfed.available')
-def set_blocked():
-    if FLAVOR == 'rest2jfed':
-        hookenv.status_set('blocked', 'Waiting for connection to rest2jfed')
-    elif FLAVOR == 'ssh' or FLAVOR == 'tokin':
-        set_state('hauchiwa.provider.configured')
-        hookenv.status_set('active', 'Ready')
-    else:
-        hookenv.status_set('blocked', 'Hauchiwa flavor {} not recognized'.format(FLAVOR))
+def configure_ssh():
+    set_state('hauchiwa.provider.configured')
+    with open('{}/scripts/juju_powered_provider/templates/env-configs.yaml'.format(TENGU_DIR), 'w+') as env_configs_file:
+        env_configs_file.write(json.loads(config('providerconfig'))['env-configs'])
 
+################################################################################
+#
+# MAAS PROVIDER
+#
+################################################################################
 
-@when_all('tengu.configured', 'hauchiwa.provider.configured', 'hauchiwa-port-forward.shown')
+@when('hauchiwa.flavor.juju-powered')
+@when('tengu.installed', 'config.changed.providerconfig')
+def configure_maas():
+    set_state('hauchiwa.provider.configured')
+
+################################################################################
+#
+# ALL PROVIDERS
+#
+################################################################################
+
+@when_all('hauchiwa.provider.configured', 'hauchiwa-port-forward.shown')
 @when_not('bundle.deployed')
 def create_environment(*arg):  # pylint:disable=w0613
     conf = hookenv.config()
     init_bundle = conf.get('init-bundle')
     bundle = conf.get('bundle')
     if init_bundle:
-        with open('{}/templates/init-bundle.yaml'.format(TENGU_DIR), 'w+') as init_bundle_file:
+        with open('{}/templates/init-bundle/bundle.yaml'.format(TENGU_DIR), 'w+') as init_bundle_file:
             init_bundle = base64.b64decode(init_bundle).decode('utf8')
             init_bundle_file.write(init_bundle)
     if bundle:
@@ -145,25 +219,7 @@ def create_environment(*arg):  # pylint:disable=w0613
     set_state('bundle.deployed')
 
 
-@when('rest2jfed.available')
-@when_not('rest2jfed.configured')
-def setup_rest2jfed(rest2jfed):
-    hostname = rest2jfed.services()[0]['hosts'][0]['hostname']
-    port = rest2jfed.services()[0]['hosts'][0]['port']
-    with open(GLOBAL_CONF_PATH, 'r') as infile:
-        content = yaml.load(infile)
-    content['rest2jfed-hostname'] = str(hostname)
-    content['rest2jfed-port'] = str(port)
-    with open(GLOBAL_CONF_PATH, 'w') as config_file:
-        config_file.write(yaml.dump(content, default_flow_style=False))
-    set_state('rest2jfed.configured')
-    set_state('hauchiwa.provider.configured')
 
-
-@when('rest2jfed.configured')
-@when_not('rest2jfed.available')
-def remove_rest2jfed():
-    remove_state('rest2jfed.configured')
 
 
 def install_tengu():
@@ -180,15 +236,6 @@ def install_tengu():
         mergecopytree(t_dir, TENGU_DIR + '/etc')
     else:
         mergecopytree('files/tengu_management', TENGU_DIR)
-        templating.render(
-            source='global-conf.yaml',
-            target=GLOBAL_CONF_PATH,
-            perms=493,
-            context={
-                's4_cert_path': S4_CERT_PATH,
-                'key_path': KEY_PATH
-            }
-        )
     templating.render(
         source='tengu',
         target='/usr/bin/tengu',

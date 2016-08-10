@@ -41,17 +41,12 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "a03eb219caa314cbdb2a4e7f4d8339dce55f5ac839ba55f5e5c15e9875a043cb"
+      "e9c87fd33ed77e27734237bd33c3b5bbe65d14e8885cc55e8bf24e8b8dfe0237"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "files/tengu_management/templates/init-bundle.yaml": [
-      "hauchiwa", 
-      "static", 
-      "52dfb7df232e5a599e92229e78a68cc635d2761576b69c102c67b82afdfbb945"
     ], 
     "wheelhouse/charms.reactive-0.4.4.tar.gz": [
       "layer:basic", 
@@ -61,7 +56,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "61352f7ef17fcebd2e6b621406595baed14aa9ee7e7c97922ec1fd87961b090a"
+      "61c3be3d23c1f434f78fb8cc01caaf7fbe103d9c0bdc118672ae474e25344ae1"
     ], 
     "copyright": [
       "layer:basic", 
@@ -91,7 +86,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "90c1b8aff7a86167024b7307e859ceddff378ad6a0f620e4c66e46fb11fe4eed"
+      "be42b58b8e2df2f3e782f7f8d3a718a3c6558a0f666fc9b9a63ebc7ae47d0a8a"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -103,10 +98,10 @@
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
-    "hooks/relations/opened-ports/provides.py": [
-      "interface:opened-ports", 
+    "files/tengu_management/scripts/ssh_provider/__init__.py": [
+      "hauchiwa", 
       "static", 
-      "1b46d8fc7ce81627e769c6cecb2b24c3b1c678206a8bb9690ce50f246553bcf4"
+      "cc2ae0dbd0bff58e35ab61f07d0d43875b4ef539e82a75eddd03b319c0864d3d"
     ], 
     "files/tengu_management/scripts/jfed_provider/get_pubipv4.py": [
       "hauchiwa", 
@@ -121,7 +116,12 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "745ff0cab8649609c7b22894f93b7e9c3f538f0dca32ff7a7c9a25079b636911"
+      "16b1f81645db2500dba8f8353eb2b4ce037c9ab54fc283a5ab061cf6d9855fb1"
+    ], 
+    "hooks/relations/opened-ports/provides.py": [
+      "interface:opened-ports", 
+      "static", 
+      "1b46d8fc7ce81627e769c6cecb2b24c3b1c678206a8bb9690ce50f246553bcf4"
     ], 
     "files/tengu_management/scripts/jfed_provider/__init__.py": [
       "hauchiwa", 
@@ -138,10 +138,10 @@
       "static", 
       "d54a0eddc8bfa402e56ad5f4bd1bd93043c57382059cfc4cce8c4e5be95a7093"
     ], 
-    "hooks/relations/opened-ports/__init__.py": [
-      "interface:opened-ports", 
+    "files/tengu_management/templates/init-bundle/bundle.yaml": [
+      "hauchiwa", 
       "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "52dfb7df232e5a599e92229e78a68cc635d2761576b69c102c67b82afdfbb945"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
@@ -288,10 +288,10 @@
       "static", 
       "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
-    "hooks/relations/opened-ports/requires.py": [
-      "interface:opened-ports", 
-      "static", 
-      "99bafc8e334d469ef59d5fd51a04e9648698c5faa9ba869b365c60629a70762b"
+    "metadata.yaml": [
+      "hauchiwa", 
+      "dynamic", 
+      "f0905fa5463ac289bd68e5bbf8a3d880c527c73ec32fc49c201d5c0f1d4229d8"
     ], 
     "files/tengu_management/scripts/jfed_provider/rspec_utils.py": [
       "hauchiwa", 
@@ -317,6 +317,11 @@
       "hauchiwa", 
       "static", 
       "96d7c934123c950b3fc340fbe70efb233d4bb197c15b1ac9649432be0424967d"
+    ], 
+    "files/tengu_management/scripts/juju_powered_provider/templates/env-configs.yaml": [
+      "hauchiwa", 
+      "static", 
+      "319fe3a20d9b9591b8886b636e9be35f0aee8327edd23e04900c1b77509a6b65"
     ], 
     "templates/global-conf.yaml": [
       "hauchiwa", 
@@ -368,10 +373,15 @@
       "static", 
       "cba962110f566f8a35a3334801e03a0715764d113b9d673043f32e88df9f1693"
     ], 
-    "metadata.yaml": [
-      "hauchiwa", 
-      "dynamic", 
-      "f0905fa5463ac289bd68e5bbf8a3d880c527c73ec32fc49c201d5c0f1d4229d8"
+    "hooks/relations/opened-ports/__init__.py": [
+      "interface:opened-ports", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/opened-ports/requires.py": [
+      "interface:opened-ports", 
+      "static", 
+      "99bafc8e334d469ef59d5fd51a04e9648698c5faa9ba869b365c60629a70762b"
     ], 
     "wheelhouse/Pygments-2.1.3.tar.gz": [
       "hauchiwa", 
@@ -381,7 +391,7 @@
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "f848c3c947f6cb39b9d2429d4c4a7bf7679f4a2cffdaa5329214f065eacd8359"
+      "91e3aa05338ae49220013688f155a1a1af79caaba85a58f2aec40a039da00cc4"
     ], 
     "templates/tengu": [
       "hauchiwa", 
@@ -392,11 +402,6 @@
       "interface:opened-ports", 
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "files/tengu_management/scripts/ssh_provider/__init__.py": [
-      "hauchiwa", 
-      "static", 
-      "cc2ae0dbd0bff58e35ab61f07d0d43875b4ef539e82a75eddd03b319c0864d3d"
     ], 
     "templates/upstart.conf": [
       "hauchiwa", 
@@ -418,6 +423,11 @@
       "dynamic", 
       "19bb3ac350ef878dda84a62d37c7d5c17a137386dde9c2ce7249c7a21d7f6ac9"
     ], 
+    "files/tengu_management/scripts/juju_powered_provider/provider.py": [
+      "hauchiwa", 
+      "static", 
+      "a291d9dadf89880dc45ca3aea5f684333ffc4d258265ac128758ae2cd7e45eff"
+    ], 
     "wheelhouse/charmhelpers-0.8.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
@@ -428,6 +438,11 @@
       "dynamic", 
       "64e7b2e2acbcf39928e5f95026cd61a39be1d67c41aa429752bbbbaa284987f6"
     ], 
+    "files/tengu_management/scripts/juju_powered_provider/__init__.py": [
+      "hauchiwa", 
+      "static", 
+      "9fd3e1e836e4928b02d74840783da32c611fbdedc78ac676c051f24e4876b69c"
+    ], 
     "hooks/rest2jfed-relation-changed": [
       "interface:http", 
       "dynamic", 
@@ -436,7 +451,12 @@
     "files/tengu_management/templates/env-conf.yaml.template": [
       "hauchiwa", 
       "static", 
-      "f49ff8ad9f7b636c3fbefaf5fc2ff426ed32bdd7763f1056c2c4cf4e1c5fbba0"
+      "dcfbf3418f761e4bba04282e61fbf21f25c5d84169bb21c0b5a37f5cf75d978c"
+    ], 
+    "files/tengu_management/scripts/juju_powered_provider/templates/init-bundle/bundle.yaml": [
+      "hauchiwa", 
+      "static", 
+      "3d3d3d4e08884b37b3028fdcb6caea3840b13c0fcaee641d07ce2f26ba184584"
     ], 
     "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 

@@ -21,10 +21,8 @@ import shutil
 import subprocess
 import urllib
 import tarfile
-import sys
 import base64
 import pprint
-from time import sleep
 # import json
 # import datetime
 # from datetime import tzinfo, timedelta, datetime
@@ -40,21 +38,24 @@ from config import Config, script_dir, tengu_dir
 from jujuhelpers import JujuEnvironment, Service
 import jfed_provider
 import ssh_provider
+import juju_powered_provider
 
 
-global_conf = Config(realpath(script_dir() + "/../etc/global-conf.yaml")) # pylint: disable=c0103
+GLOBAL_CONF = Config(realpath(script_dir() + "/../etc/global-conf.yaml")) # pylint: disable=c0103
 DEFAULT_ENV_CONF = realpath(script_dir() + "/../templates/env-conf.yaml.template")
 ENV_CONF_NAME = "env-conf.yaml"
 PPRINTER = pprint.PrettyPrinter()
 DEFAULT_ENV = JujuEnvironment.current_env()
 
 
-def get_provider(config=global_conf):
+def get_provider(config=GLOBAL_CONF):
     provider = config.get('provider', 'jfed')
     if provider == "ssh":
-        return ssh_provider.SSHProvider(global_conf)
+        return ssh_provider.SSHProvider(GLOBAL_CONF)
     elif provider == "jfed":
-        return jfed_provider.JfedProvider(global_conf)
+        return jfed_provider.JfedProvider(GLOBAL_CONF)
+    elif provider == "juju-powered":
+        return juju_powered_provider.JujuPoweredProvider(GLOBAL_CONF)
     else:
         fail("No provider of type {} found".format(provider))
 
@@ -68,45 +69,13 @@ def init_environment_config(env_name):
     return config
 
 
-def wait_for_init(env_conf):
-    """Waits until the init script has run"""
-    bootstrap_host = env_conf['juju-env-conf']['bootstrap-host']
-    bootstrap_user = env_conf['juju-env-conf']['bootstrap-user']
-    okwhite('Waiting for {} to finish partition resize'.format(bootstrap_host))
-    output = None
-    while True:
-        sys.stdout.write('.')
-        sys.stdout.flush()
-        try:
-            output = subprocess.check_output([
-                'ssh',
-                '-o',
-                'StrictHostKeyChecking=no',
-                '{}@{}'.format(bootstrap_user, bootstrap_host),
-                '[[ -f /var/log/tengu-init-done ]] && echo "1"'
-            ])
-        except subprocess.CalledProcessError:
-            pass
-        if output and output.rstrip() == '1':
-            break
-        sleep(5)
-    sys.stdout.write('\n')
-
-
 def create_juju(env_conf, provider_env, init_bundle):
     if JujuEnvironment.env_exists(env_conf['env-name']):
         fail("Juju environment already exists. Remove it first with 'tengu destroy {}'".format(env_conf['env-name']))
-    try:
-        machines = provider_env.machines
-    except Exception as ex:
-        fail("Could not get machines from provider", ex)
+    machines = provider_env.machines
     # Create Juju environment
-    env_conf['juju-env-conf']['bootstrap-host'] = machines.pop(0)
-    env_conf.save()
-    wait_for_init(env_conf)
     return JujuEnvironment.create(
         env_conf['env-name'],
-        env_conf['juju-env-conf']['bootstrap-host'],
         env_conf['juju-env-conf'],
         machines,
         init_bundle,
@@ -263,16 +232,11 @@ def g_cli():
     default='/opt/tengu/templates/bundle.yaml',
     help='path to bundle that contains machines to create and services to deploy')
 @click.option(
-    '--init-bundle',
-    type=click.Path(exists=True, readable=True),
-    default='/opt/tengu/templates/init-bundle.yaml',
-    help='path to the bundle to use to setup a bare model')
-@click.option(
     '--create-machines/--no-create-machines',
     default=True,
     help='skip creation of provider environment')
 @click.argument('name')
-def c_create(bundle, init_bundle, name, create_machines):
+def c_create(bundle, name, create_machines):
     """Create a model with given name. Skips slice creation if it already exists.
     NAME: name of model """
     env_conf = init_environment_config(name)
@@ -286,7 +250,7 @@ def c_create(bundle, init_bundle, name, create_machines):
         provider_env = get_provider(env_conf).create_from_bundle(env_conf, bundledict)
     else:
         provider_env = get_provider(env_conf).get(env_conf)
-    juju_env = create_juju(env_conf, provider_env, init_bundle)
+    juju_env = create_juju(provider_env.env_conf, provider_env, env_conf['init-bundle'])
     juju_env.deploy_bundle(bundle)
 
 
@@ -468,7 +432,7 @@ def c_export(name, path):
     for f_name, f_path in files.iteritems():
         with open(f_path, 'r') as f_file:
             config[f_name] = base64.b64encode(f_file.read())
-    config['emulab-project-name'] = global_conf['project-name']
+    config['emulab-project-name'] = GLOBAL_CONF['project-name']
     export = {
         str(name) : config
     }
@@ -501,8 +465,8 @@ def c_import(path):
     for f_key, f_path in files.iteritems():
         with open(f_path, 'w+') as f_file:
             f_file.write(base64.b64decode(config[f_key]))
-    global_conf['project_name'] = config['emulab-project-name']
-    global_conf.save()
+    GLOBAL_CONF['project_name'] = config['emulab-project-name']
+    GLOBAL_CONF.save()
     JujuEnvironment.import_environment(config)
 
 
@@ -545,7 +509,7 @@ def c_downloadbigfiles():
 #             return ZERO
 #     utc = UTC()
 #
-#     jfed = init_jfed(name, global_conf)
+#     jfed = init_jfed(name, GLOBAL_CONF)
 #     status = jfed.get_full_status()
 #     if status.lstrip().rstrip() != 'DOES_NOT_EXIST':
 #         try:
@@ -558,7 +522,7 @@ def c_downloadbigfiles():
 #             if difference.days < mindays:
 #                 hourstorenew = 800
 #                 print('renewing slice for {} hours'.format(hourstorenew))
-#                 jfed = init_jfed(name, global_conf)
+#                 jfed = init_jfed(name, GLOBAL_CONF)
 #                 try:
 #                     jfed.renew(hourstorenew)
 #                 except Exception as ex: #pylint:disable=W0703

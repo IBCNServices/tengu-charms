@@ -317,10 +317,10 @@ class JujuEnvironment(object):
         return name in envs
 
     @staticmethod
-    def create(name, bootstrap_host, juju_config, machines, bundle):
+    def create(name, juju_config, machines, bundle):
         """Creates Juju environment, add all available machines,
         deploy juju_gui"""
-        JujuEnvironment._create_env(name, bootstrap_host, juju_config)
+        JujuEnvironment._create_env(name, juju_config)
         # Wait 5 seconds before adding machines because python
         # is too fast for juju
         sleep(20)
@@ -331,12 +331,11 @@ class JujuEnvironment(object):
 
 
     @staticmethod
-    def _create_env(name, bootstrap_host, juju_config):
+    def _create_env(name, juju_config):
         """ Add new Juju environment with name = name
         and bootstrap this environment """
         print "adding juju environment %s" % name
         name = str(name)
-        juju_config['bootstrap-host'] = bootstrap_host
         # get original environments config
         with open("{}/.juju/environments.yaml".format(HOME), 'r') as config_file:
             config = yaml.load(config_file)

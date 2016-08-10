@@ -16,8 +16,11 @@
 # pylint: disable=C0111,c0321,c0301,c0325
 #
 """ deploys a tengu env """
+from time import sleep
 from os.path import expanduser
+import sys
 import json
+import subprocess
 
 # non-default pip dependencies
 import click
@@ -37,7 +40,6 @@ class ProviderException(click.ClickException):
 class JfedProvider(object):
     def __init__(self, global_conf):
         self.global_conf = global_conf
-
 
     def get(self, env_conf):
         return JfedSlice(self.global_conf, env_conf)
@@ -80,11 +82,13 @@ class JfedSlice(object):
             "emulab-s4-cert" : self.global_conf['s4-cert-path'],
         }
 
-
     def create(self):
         print('Creating jfed slice and slivers, this might take a while...')
         jfed = self.init_jfed()
         jfed.create(self.rspec_path, self.manifest_path)
+        self.env_conf['juju-env-conf']['bootstrap-host'] = self.machines.pop(0)
+        self.env_conf.save()
+        self.wait_for_init()
 
 
     def renew(self, hours):
@@ -130,6 +134,31 @@ class JfedSlice(object):
             next_pub_port += 1
         dhcp_server.set_config({'port-forwards': json.dumps(forward_config, indent=4)})
         print(show_pf_result(forward_config, pf_nelist, dhcp_server.status['units'].itervalues().next()['workload-status']['message'].lstrip('Ready (').rstrip(')')))
+
+
+    def wait_for_init(self):
+        """Waits until the init script has run"""
+        bootstrap_host = self.env_conf['juju-env-conf']['bootstrap-host']
+        bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']
+        print('Waiting for {} to finish partition resize'.format(bootstrap_host))
+        output = None
+        while True:
+            sys.stdout.write('.')
+            sys.stdout.flush()
+            try:
+                output = subprocess.check_output([
+                    'ssh',
+                    '-o',
+                    'StrictHostKeyChecking=no',
+                    '{}@{}'.format(bootstrap_user, bootstrap_host),
+                    '[[ -f /var/log/tengu-init-done ]] && echo "1"'
+                ])
+            except subprocess.CalledProcessError:
+                pass
+            if output and output.rstrip() == '1':
+                break
+            sleep(5)
+        sys.stdout.write('\n')
 
 
     @property
@@ -200,7 +229,7 @@ def get_data_from_bundle(bundle):
 
 def show_pf_result(forward_config, pf_nelist, public_ip):
     output = ''
-    for pf in forward_config:
-        if (pf['private_ip'], pf['private_port'], pf['protocol']) in pf_nelist:
-            output += '{}:{} is accessible at {}:{}\n'.format(pf['private_ip'], pf['private_port'], public_ip, pf['public_port'])
+    for port_forward in forward_config:
+        if (port_forward['private_ip'], port_forward['private_port'], port_forward['protocol']) in pf_nelist:
+            output += '{}:{} is accessible at {}:{}\n'.format(port_forward['private_ip'], port_forward['private_port'], public_ip, port_forward['public_port'])
     return output

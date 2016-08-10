@@ -28,11 +28,12 @@
   "emulab-s4-cert":
     "type": "string"
     "default": "VGhpcyBpcyB0aGUgZGVmYXVsdCBjZXJ0aWZpY2F0ZSB2YWx1ZS4gUGxlYXNlIGNoYW5nZSBtZSBiZWZvcmUgdXNlCg=="
-    "description": "Emulab speaksfor certificate (BASE64 encoded)"
+    "description": "Emulab speaksfor certificate (BASE64 encoded).  This config value\
+      \ is being deprecated."
   "emulab-project-name":
     "type": "string"
     "default": "tengu"
-    "description": "Name of the emulab project"
+    "description": "Name of the emulab project.  This config value is being deprecated."
   "bundle":
     "type": "string"
     "default": !!null ""
@@ -45,7 +46,7 @@
     "type": "string"
     "default": "rest2jfed"
     "description": |
-      flavor of the installed hauchiwa. Possible values: ['rest2jfed', 'ssh']
+      flavor of the installed hauchiwa. Possible values: ['rest2jfed', 'ssh']. This config value is being deprecated.
   "feature-flags":
     "type": "string"
     "default": ""
@@ -53,3 +54,12 @@
       Comma-delimited list of feature flags to be used. Each feature flag specified is set to 'True'. Example: 'DEBUG,FEATURE_FLAG_AUTH'. (non-conclusive) List of supported flags:
         - DEBUG: run h_api in debug mode
         - FEATURE_FLAG_AUTH: Turn on authentication on h_api
+  "providerconfig":
+    "type": "string"
+    "default": ""
+    "description": |
+      Json object that contains the authentication and provider config that this hauchiwa will use. Example:
+        {
+            'maas-oauth': 'MAAS-API-KEY'
+            'maas-server': 'http://<my-maas-server>:80/MAAS'
+        }

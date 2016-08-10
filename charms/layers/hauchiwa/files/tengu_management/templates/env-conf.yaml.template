@@ -8,3 +8,4 @@ juju-env-conf:
     bootstrap-user: jujuuser
     logging-config: <root>=TRACE
 locked: False
+init-bundle: /opt/tengu/scripts/templates/init-bundle/bundle.yaml

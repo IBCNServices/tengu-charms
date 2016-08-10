@@ -108,8 +108,6 @@ class CharmStoreObject(object):
 
     def publish(self, channel):
         """publishes the charm/bundle to the specified channel of the charmers personal namespace"""
-        if self.name == "init-bundle": # TODO: remove this fix
-            return
         url = self.create_url()
         url_without_revision = self.create_url(include_revision=False)
         logging.debug("publishing {}".format(url))
@@ -199,20 +197,15 @@ def bootstrap_testdir(sojobo_bundle, remote_bundle, init_bundle, charms_to_test)
     tmpdir = tempfile.mkdtemp()
     os.mkdir("{}/remote/".format(tmpdir))
 
-     # We don't want to change the original sojobo_bundle object
+     # We don't want to change the original sojobo_bundle and init_bundle objects
      # so we make a deep copy. (python is call by object reference)
-     # This means that the sojobo bundle that will be pushed will not contain
-     # explicit revisions
     sojobo_bundle = copy.deepcopy(sojobo_bundle)
     sojobo_bundle.copyto("{}/{}".format(tmpdir, sojobo_bundle.name))
+    init_bundle = copy.deepcopy(sojobo_bundle)
+    init_bundle.copyto("{}/{}".format(tmpdir, "{}/remote/init-bundle/".format(tmpdir)))
     # But we do want to change the original remote_bundle object so it points
     # to the bundle that explicitly specifies revision numbers.
     remote_bundle.copyto("{}/remote/{}".format(tmpdir, remote_bundle.name))
-
-    # The init bundle is a dick so we have to use a workaround. Ideally, the
-    # init bundle should get its own bundle directory so we can handle it like
-    # the sojobo bundle.
-    shutil.copy(init_bundle.filepath, "{}/remote/init-bundle.yaml".format(tmpdir))
 
     with open('testplan.yaml', 'r') as stream:
         testplan = yaml.safe_load(stream.read())
@@ -227,9 +220,9 @@ def bootstrap_testdir(sojobo_bundle, remote_bundle, init_bundle, charms_to_test)
 
     replace_charm_urls(sojobo_bundle.filepath, charms_to_test)
     replace_charm_urls(remote_bundle.filepath, charms_to_test)
-    replace_charm_urls("{}/remote/init-bundle.yaml".format(tmpdir), charms_to_test)
+    replace_charm_urls(init_bundle.filepath, charms_to_test)
 
-    with open("{}/remote/init-bundle.yaml".format(tmpdir), 'rb') as stream:
+    with open(init_bundle.filepath, 'rb') as stream:
         init_bundle = stream.read()
 
     with open(sojobo_bundle.filepath, 'r+') as stream:
@@ -336,7 +329,7 @@ def test_bundles(bundles_to_test, resultdir, reset):
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join([b.dirpath for b in bundles_to_test]), resultdir))
     # Get all charms that have to be pushed
     sojobo_bundle = CharmStoreObject(path='{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY))
-    init_bundle = CharmStoreObject(path='{}/trusty/hauchiwa/files/tengu_management/templates/init-bundle.yaml'.format(JUJU_REPOSITORY))
+    init_bundle = CharmStoreObject(path='{}/trusty/hauchiwa/files/tengu_management/templates/init-bundle/bundle.yaml'.format(JUJU_REPOSITORY))
     charms_to_test = []
     # charms in hauchiwa and init bundle need to be pushed but those bundles don't need to be tested
     for bundle in bundles_to_test + [sojobo_bundle, init_bundle]:

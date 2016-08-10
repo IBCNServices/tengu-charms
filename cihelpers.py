@@ -16,6 +16,8 @@
 # pylint: disable=c0111,c0301,w1202
 import re
 import os
+import copy
+import json
 import errno
 import shutil
 import base64
@@ -114,6 +116,10 @@ class CharmStoreObject(object):
         subprocess.check_call(['charm', 'publish', url, '--channel', channel])
         subprocess.check_call(['charm', 'grant', url_without_revision, 'everyone', '--channel', channel])
 
+    def copyto(self, destination):
+        shutil.copytree(self.dirpath, destination)
+        self._path = destination
+
     @property
     def url(self):
         return self.create_url()
@@ -147,7 +153,7 @@ def replace_charm_urls(filepath, charms):
             if candidate:
                 bundle['services'][key]['charm'] = candidate
         stream.seek(0)
-        stream.write(yaml.dump(bundle))
+        stream.write(json.dumps(bundle))
         stream.truncate()
 
 def generate_replacers(charms):
@@ -192,8 +198,20 @@ def mergecopytree(src, dst, symlinks=False, ignore=None):
 def bootstrap_testdir(sojobo_bundle, remote_bundle, init_bundle, charms_to_test):
     tmpdir = tempfile.mkdtemp()
     os.mkdir("{}/remote/".format(tmpdir))
-    shutil.copytree(sojobo_bundle.dirpath, "{}/{}".format(tmpdir, sojobo_bundle.name))
-    shutil.copytree(remote_bundle.dirpath, "{}/remote/{}".format(tmpdir, remote_bundle.name))
+
+     # We don't want to change the original sojobo_bundle object
+     # so we make a deep copy. (python is call by object reference)
+     # This means that the sojobo bundle that will be pushed will not contain
+     # explicit revisions
+    sojobo_bundle = copy.deepcopy(sojobo_bundle)
+    sojobo_bundle.copyto("{}/{}".format(tmpdir, sojobo_bundle.name))
+    # But we do want to change the original remote_bundle object so it points
+    # to the bundle that explicitly specifies revision numbers.
+    remote_bundle.copyto("{}/remote/{}".format(tmpdir, remote_bundle.name))
+
+    # The init bundle is a dick so we have to use a workaround. Ideally, the
+    # init bundle should get its own bundle directory so we can handle it like
+    # the sojobo bundle.
     shutil.copy(init_bundle.filepath, "{}/remote/init-bundle.yaml".format(tmpdir))
 
     with open('testplan.yaml', 'r') as stream:
@@ -207,14 +225,14 @@ def bootstrap_testdir(sojobo_bundle, remote_bundle, init_bundle, charms_to_test)
     with open('{}/remote/testplan.yaml'.format(tmpdir), 'w') as stream:
         stream.write(yaml.dump(testplan))
 
-    replace_charm_urls("{}/{}/bundle.yaml".format(tmpdir, sojobo_bundle.name), charms_to_test)
-    replace_charm_urls("{}/remote/{}/bundle.yaml".format(tmpdir, remote_bundle.name), charms_to_test)
+    replace_charm_urls(sojobo_bundle.filepath, charms_to_test)
+    replace_charm_urls(remote_bundle.filepath, charms_to_test)
     replace_charm_urls("{}/remote/init-bundle.yaml".format(tmpdir), charms_to_test)
 
     with open("{}/remote/init-bundle.yaml".format(tmpdir), 'rb') as stream:
         init_bundle = stream.read()
 
-    with open("{}/{}/bundle.yaml".format(tmpdir, sojobo_bundle.name), 'r+') as stream:
+    with open(sojobo_bundle.filepath, 'r+') as stream:
         bundle = yaml.safe_load(stream)
         bundle['services']['hauchiwa'].setdefault('options', dict())['init-bundle'] = base64.b64encode(init_bundle).decode("utf-8")
         bundle['services']["h-{}".format(remote_bundle.name)] = bundle['services'].pop('hauchiwa')
@@ -311,6 +329,10 @@ def test_bundles(bundles_to_test, resultdir, reset):
         services_to_destroy = ["h-{}".format(bundle.name) for bundle in bundles_to_test] + ['rest2jfed']
         if services_to_destroy:
             subprocess.check_call(['echo y | tengu reset tenguci {}'.format(" ".join(services_to_destroy))], shell=True)
+        try:
+            subprocess.check_call(['juju', 'cached-images', 'delete', '--kind', 'lxc', '--series', 'trusty', '--arch', 'amd64'])
+        except subprocess.CalledProcessError:
+            pass
     logging.info("testing bundles at \n\t{}\nWriting results to {}".format("\n\t".join([b.dirpath for b in bundles_to_test]), resultdir))
     # Get all charms that have to be pushed
     sojobo_bundle = CharmStoreObject(path='{}/../bundles/sojobo/bundle.yaml'.format(JUJU_REPOSITORY))
@@ -325,9 +347,6 @@ def test_bundles(bundles_to_test, resultdir, reset):
     logging.info("Pushing the following charms to 'staging': \n\t{}\n".format("\n\t".join([c.url for c in charms_to_test])))
     for charm in charms_to_test:
         charm.push()
-    logging.info("Pushing the following bundles to 'staging': \n\t{}\n".format("\n\t".join([c.url for c in bundles_to_test])))
-    for bundle in bundles_to_test:
-        bundle.push()
     logging.info("Pushed Charms: \n\t{}\n".format("\n\t".join([c.url for c in charms_to_test])))
 
     # Setup the directory for each bundle
@@ -335,7 +354,9 @@ def test_bundles(bundles_to_test, resultdir, reset):
     for bundle in bundles_to_test:
         testdirs.append(bootstrap_testdir(sojobo_bundle, bundle, init_bundle, charms_to_test))
 
-
+    logging.info("Pushing the following bundles to 'staging': \n\t{}\n".format("\n\t".join([c.url for c in bundles_to_test])))
+    for bundle in bundles_to_test:
+        bundle.push()
 
 
     # First hauchiwa can't be created in parallell because bundledeployer might try to deploy

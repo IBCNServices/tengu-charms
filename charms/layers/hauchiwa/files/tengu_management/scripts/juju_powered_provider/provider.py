@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=C0111,c0321,c0301,c0325
 #
-""" deploys a tengu env on a general ssh reachable cluster"""
+""" deploys a tengu model on a general ssh reachable cluster"""
 import yaml
 
 

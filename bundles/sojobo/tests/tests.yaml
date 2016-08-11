@@ -2,5 +2,4 @@ bootstrap: false
 reset: false
 tests: "[0-9]*"
 makefile: ['test']
-teardown: "teardown.sh"
 bundle_deploy: false

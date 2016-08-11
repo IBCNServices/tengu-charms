@@ -151,7 +151,7 @@ def api_model_update(modelname):
         output = env.deploy_bundle(bundle_path, '--skip-unit-wait')
     else:
         try:
-            output = subprocess.check_output(['tengu', 'create', '--bundle', bundle_path, modelname], stderr=subprocess.STDOUT)
+            output = subprocess.check_output(['tengu', 'create-model', '--bundle', bundle_path, modelname], stderr=subprocess.STDOUT)
         except CalledProcessError as process_error:
             return create_response(500, {"msg": "Failed to deploy bundle to environment {}. Output: {}".format(modelname, process_error.output)})
     return create_response(200, {"msg": "Sucessfully deployed bundle to environment {}. Output: {}".format(modelname, output)})

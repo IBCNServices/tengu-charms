@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=C0111,c0321,c0301,c0325
 #
-""" deploys a tengu env on a general ssh reachable cluster"""
+""" deploys a tengu model on a general ssh reachable cluster"""
 import subprocess
 
 import click
@@ -61,7 +61,7 @@ class SSHEnv(object):
         bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']
         with open("{}/bundle.yaml".format(self.env_conf.dir), 'w') as outfile:
             outfile.write(yaml.dump(bundle, default_flow_style=True))
-        machine_list = self.machines
+        machine_list = self.get_machines(include_bootstrap_host=True)
         for machine in machine_list:
             subprocess.call(["scp", '-o', 'StrictHostKeyChecking=no', "%s/ssh_provider/ssh_prepare.sh" % script_dir(),
                              '{}@{}:~/ssh_prepare.sh'.format(bootstrap_user, machine)])
@@ -77,7 +77,7 @@ class SSHEnv(object):
     def destroy(self):
         bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']
         print('Removing Juju environment from nodes...')
-        machine_list = self.machines
+        machine_list = self.get_machines(include_bootstrap_host=True)
         if click.confirm('Warning! I will ssh to [{}] and start deleting very important files. Are you sure you want to continue?'.format(machine_list)):
             for machine in machine_list:
                 subprocess.call(["scp", '-o', 'StrictHostKeyChecking=no', "%s/ssh_provider/ssh_destroy.sh" % script_dir(),
@@ -89,18 +89,24 @@ class SSHEnv(object):
         print("expose not implemented for ssh provider. Cannot expose {}".format(service))
         assert False
 
-    @property
-    def machines(self):
+    def get_machines(self, include_bootstrap_host=False):
         try:
             with open(self.bundle_path, 'r') as bundle_file:
                 bundle = yaml.load(bundle_file)
-            return get_machines_from_bundle(bundle)
+                if include_bootstrap_host:
+                    return get_machines_from_bundle(bundle)
+                else:
+                    return get_machines_from_bundle(bundle)[1:]
         except IOError:
             raise ProviderException('Bundle not found')
 
     @property
+    def machines(self):
+        return self.get_machines()
+
+    @property
     def status(self):
-        machine_list = self.machines
+        machine_list = self.get_machines(include_bootstrap_host=True)
         for machine in machine_list:
             print(machine)
         return 'TODO Status'

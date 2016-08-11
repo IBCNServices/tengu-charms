@@ -16,7 +16,7 @@
     "files/tengu_management/scripts/ssh_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "8c8cdc2f5a4edda76b13c7423938b73767c3f45b29951c5c485d99c2ccb10a6e"
+      "27637768ebccdae1982e5eba1b68c5e9c1dbcc14bc509d02b88647a9157ce32d"
     ], 
     "bin/layer_option": [
       "layer:basic", 
@@ -41,7 +41,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "45983e8f5fb6a7c7a423ac1720ade7a0f690aef1560fa412122ba37d1583dd75"
+      "9d378a0c8ff7dbafc21af336b11a2b7340886a3403008d12ce850c42e69c7269"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -61,7 +61,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "deac8c98f8cb7248449d2e2f37ac56fb75930309ef4fcff5c6267311174553ab"
+      "d970273bf1d962b47062a7b16ba2c80a0b4fccf1b06302d822b295993aee4eb3"
     ], 
     "copyright": [
       "layer:basic", 
@@ -91,7 +91,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "c68e35df739e24475d9da69ed16c39f82cd36b1c33bf86455d42fa034fbabc7b"
+      "d76c1f05d9b14a5b3e3cd9ad9a9d2697991ac7a6c384784bd9589b0aac825c08"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -316,7 +316,7 @@
     "files/tengu_management/scripts/h_api.py": [
       "hauchiwa", 
       "static", 
-      "6adabb4b9358b7e8337b0d2e4409830b89ce1436444ce9ff34daa6233c121a8a"
+      "9049a57a2aeb2b0ad1fb263327ce9bb2da3f1847b6389a06d7616f44df584d04"
     ], 
     "files/tengu_management/scripts/ssh_provider/ssh_destroy.sh": [
       "hauchiwa", 
@@ -356,7 +356,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "d52423911fcef803a418025d355ac7c2e6729c2949c68aaf01bb3f8f24b67831"
+      "32204327952d4ea4ef1063f45bdbe7be379a7a7b8220f3e5f2f5e11003b25654"
     ], 
     "files/tengu_management/scripts/output.py": [
       "hauchiwa", 
@@ -391,7 +391,7 @@
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "91e3aa05338ae49220013688f155a1a1af79caaba85a58f2aec40a039da00cc4"
+      "ef84a411add1146c21ff9c352dd43c5be9e64a8f3c006e90b3b10abbd0be926b"
     ], 
     "templates/tengu": [
       "hauchiwa", 
@@ -426,7 +426,7 @@
     "files/tengu_management/scripts/juju_powered_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "a291d9dadf89880dc45ca3aea5f684333ffc4d258265ac128758ae2cd7e45eff"
+      "abb56d21904ac3dd12e1c992f8487f3cba4ea456cad4a7b7597e0526bdead70a"
     ], 
     "wheelhouse/charmhelpers-0.8.0.tar.gz": [
       "layer:basic", 

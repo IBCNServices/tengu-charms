@@ -101,15 +101,15 @@ class TestCharm(unittest.TestCase):
     def test_hauchiwa_rest2jfed_connection(self):
         """Check to see if tengu->rest2jfed connection is correct"""
         for unit in self.hauchiwa:
-            output, rc = unit.run("sudo su - ubuntu -c 'tengu userinfo'")
+            output, rc = unit.run("sudo su - ubuntu -c 'tengu show userinfo'")
             if rc != 0:
-                message = "tengu userinfo failed: \n{}".format(output)
+                message = "tengu show-userinfo failed: \n{}".format(output)
                 raise Exception(message)
             if "'is_exit_code_error': False" not in output:
-                message = "tengu userinfo got error response from jfed: \n{}".format(output)
+                message = "tengu show-userinfo got error response from jfed: \n{}".format(output)
                 raise Exception(message)
             if " u's4cred': u'urn:publicid:IDN+wall2.ilabt.iminds.be+user+tenguci'" not in output:
-                message = "tengu userinfo got wrong response: \n{}".format(output)
+                message = "tengu show-userinfo got wrong response: \n{}".format(output)
                 raise Exception(message)
 
     def test_hauchiwa_port_forward(self):
@@ -130,7 +130,7 @@ class TestCharm(unittest.TestCase):
     # def test_tengu_expose(self):
     #     """Check to see if tengu->rest2jfed connection is correct"""
     #     for unit in self.hauchiwa:
-    #         output, rc = unit.run("sudo su - ubuntu -c 'tengu expose '")
+    #         output, rc = unit.run("sudo su - ubuntu -c 'tengu expose-service '")
     #         if rc != 0 or 'Usage: tengu.py [OPTIONS] COMMAND [ARGS]...' not in output:
     #             message = "tengu command not installed correctly: \n{}".format(output)
     #             raise Exception(message)

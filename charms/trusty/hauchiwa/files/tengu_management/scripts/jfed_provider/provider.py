@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=C0111,c0321,c0301,c0325
 #
-""" deploys a tengu env """
+""" deploys a tengu model """
 from time import sleep
 from os.path import expanduser
 import sys
@@ -86,7 +86,7 @@ class JfedSlice(object):
         print('Creating jfed slice and slivers, this might take a while...')
         jfed = self.init_jfed()
         jfed.create(self.rspec_path, self.manifest_path)
-        self.env_conf['juju-env-conf']['bootstrap-host'] = self.machines.pop(0)
+        self.env_conf['juju-env-conf']['bootstrap-host'] = self.get_machines(include_bootstrap_host=True).pop(0)
         self.env_conf.save()
         self.wait_for_init()
 
@@ -160,13 +160,19 @@ class JfedSlice(object):
             sleep(5)
         sys.stdout.write('\n')
 
+    def get_machines(self, include_bootstrap_host=False):
+        try:
+            if include_bootstrap_host:
+                return rspec_utils.get_machines(self.manifest_path)
+            else:
+                return rspec_utils.get_machines(self.manifest_path)[1:]
+        except IOError:
+            raise ProviderException('Manifest not found')
 
     @property
     def machines(self):
-        try:
-            return rspec_utils.get_machines(self.manifest_path)
-        except IOError:
-            raise ProviderException('Manifest not found')
+        return self.get_machines()
+
 
     @property
     def status(self):

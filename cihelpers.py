@@ -317,11 +317,11 @@ def test_bundles(bundles_to_test, resultdir, reset):
             if unit_n:
                 subprocess.check_call(
                     ['juju', 'ssh', '{}/{}'.format(h_name, unit_n), '-Ct',
-                     "if [[ $(juju switch --list) ]]; then echo y | tengu destroy {0}; fi".format(bundle.name[:10])])
+                     "if [[ $(juju switch --list) ]]; then echo y | tengu destroy-model {0}; fi".format(bundle.name[:10])])
     if reset == 'FULL':
         services_to_destroy = ["h-{}".format(bundle.name) for bundle in bundles_to_test] + ['rest2jfed']
         if services_to_destroy:
-            subprocess.check_call(['echo y | tengu reset tenguci {}'.format(" ".join(services_to_destroy))], shell=True)
+            subprocess.check_call(['echo y | tengu destroy-service tenguci {}'.format(" ".join(services_to_destroy))], shell=True)
         try:
             subprocess.check_call(['juju', 'cached-images', 'delete', '--kind', 'lxc', '--series', 'trusty', '--arch', 'amd64'])
         except subprocess.CalledProcessError:

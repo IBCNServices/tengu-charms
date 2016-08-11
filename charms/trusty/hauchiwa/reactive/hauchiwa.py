@@ -283,7 +283,7 @@ def create_environment(*arg):  # pylint:disable=w0613
         chownr(bundle_dir, USER, USER)
         hostname = subprocess.getoutput(['hostname'])
         subprocess.check_call(['su', '-', USER, '-c',
-                               'tengu create --bundle {} {}'.format(
+                               'tengu create-model --bundle {} {}'.format(
                                    bundle_path,
                                    hostname[2:12])]) # jfed hostname cannot be longer than 10 chars
     set_state('bundle.deployed')

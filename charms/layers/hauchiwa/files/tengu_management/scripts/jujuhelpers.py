@@ -16,7 +16,7 @@
 #
 """ Handles communication to Juju """
 
-from subprocess import CalledProcessError, Popen, PIPE
+from subprocess import CalledProcessError, Popen, PIPE, check_call
 from time import sleep
 import json
 import sys
@@ -27,6 +27,8 @@ import os
 
 # non standard pip dependencies
 import yaml
+
+from output import fail
 
 
 USER = getpass.getuser()
@@ -193,7 +195,7 @@ class JujuEnvironment(object):
 
     def set_active(self):
         """switch active juju environment to self"""
-        JujuEnvironment.juju_do('switch', self.name)
+        JujuEnvironment.juju_do_call('switch', self.name)
 
     def add_machines(self, machines):
         """ Add all machines received from provider to Juju environment"""
@@ -215,16 +217,16 @@ class JujuEnvironment(object):
 
     def deploy(self, charm, name, **options):
         """ Deploy <charm> as <name> with config in <config_path> """
-        self.do('deploy', charm, name, **options)
+        self.do_call('deploy', charm, name, **options)
         return Service(name, self)
 
     def deploy_bundle(self, bundle_path, *args, **options):
         """ Deploy Juju bundle """
-        return self.do('deployer', '-c', bundle_path, *args, **options)
+        return self.do_call('deployer', '-c', bundle_path, *args, **options)
 
     def add_relation(self, charm1, charm2):
         """ add relation between two charms """
-        self.do('add-relation', charm1, charm2)
+        self.do_call('add-relation', charm1, charm2)
 
     def action_do(self, unit, action, **options):
         return self.do('action do', unit, action, **options)
@@ -232,6 +234,10 @@ class JujuEnvironment(object):
     def do(self, action, *args, **kwargs): #pylint: disable=c0103
         args += ('-e', self.name)
         return JujuEnvironment.juju_do(action, *args, **kwargs)
+
+    def do_call(self, action, *args, **kwargs): #pylint: disable=c0103
+        args += ('-e', self.name)
+        JujuEnvironment.juju_do_call(action, *args, **kwargs)
 
     #
     # Tengu specific methods
@@ -284,7 +290,7 @@ class JujuEnvironment(object):
         for machine in self.status['machines'].values():
             if machine.get('containers'):
                 for container in machine['containers'].keys():
-                    self.do('destroy-machine', container, '--force')
+                    self.do_call('destroy-machine', container, '--force')
 
     #
     # Static methods
@@ -292,6 +298,9 @@ class JujuEnvironment(object):
 
     @staticmethod
     def juju_do(action, *args, **kwargs):
+        """Juju sometimes spits warnings to stderr that could fuck up parsing of
+        the output. Use this function when you want to parse Juju output. Throws
+        exception when returncode is not 0. Exception also includes stderr"""
         command = ['juju', action]
         # Add all the arguments to the command
         command.extend(args)
@@ -301,8 +310,29 @@ class JujuEnvironment(object):
         # convert all elements in command to string
         command = [str(i) for i in command]
         try:
-            output = check_output_error(command)
+            output = check_stdout(command)
             return output
+        except CalledProcessError as ex:
+            if 'missing namespace, config not prepared' in ex.output:
+                raise JujuNotFoundException("missing namespace, config not prepared")
+            if "ERROR Unable to connect to environment" in ex.output:
+                raise JujuNotFoundException("ERROR Unable to connect to environment")
+            raise JujuException("{}\nCOMMAND: {}".format(ex.output, " ".join(command)))
+
+    @staticmethod
+    def juju_do_call(action, *args, **kwargs):
+        """Use this function when you want Juju to do something but you don't
+        need to parse the output."""
+        command = ['juju', action]
+        # Add all the arguments to the command
+        command.extend(args)
+        # Ad all the keyword arguments to the command
+        for key, value in kwargs.iteritems():
+            command.extend(['--{}'.format(key), value])
+        # convert all elements in command to string
+        command = [str(i) for i in command]
+        try:
+            check_call(command)
         except CalledProcessError as ex:
             if 'missing namespace, config not prepared' in ex.output:
                 raise JujuNotFoundException("missing namespace, config not prepared")
@@ -328,8 +358,9 @@ class JujuEnvironment(object):
 
     @staticmethod
     def create(name, juju_config, machines, bundle):
-        """Creates Juju environment, add all available machines,
-        deploy juju_gui"""
+        """Creates Juju environment and deploy the init bundle."""
+        if JujuEnvironment.env_exists(name):
+            fail("Juju environment already exists. Remove it first with 'tengu destroy-model {}'".format(name))
         JujuEnvironment._create_env(name, juju_config)
         # Wait 5 seconds before adding machines because python
         # is too fast for juju
@@ -342,8 +373,7 @@ class JujuEnvironment(object):
 
     @staticmethod
     def _create_env(name, juju_config):
-        """ Add new Juju environment with name = name
-        and bootstrap this environment """
+        """ Add new Juju environment and bootstrap it """
         print "adding juju environment %s" % name
         name = str(name)
         # get original environments config
@@ -362,8 +392,7 @@ class JujuEnvironment(object):
             env.set_active()
             print "bootstrapping juju environment"
             sleep(5) # otherwise we get a weird error
-            output = env.do('bootstrap', "--debug")
-            print output
+            env.do_call('bootstrap', "--debug")
         except CalledProcessError as ex:
             raise JujuException(ex.output)
 
@@ -384,13 +413,14 @@ class JujuEnvironment(object):
         env.set_active()
 
 
-def check_output_error(*popenargs, **kwargs):
+def check_stdout(*popenargs, **kwargs):
+    """Return stdout. Throw error that includes stderr."""
     process = Popen(stdout=PIPE, stderr=PIPE, *popenargs, **kwargs)
-    output, stderr = process.communicate()
+    stdout, stderr = process.communicate()
     retcode = process.poll()
     if retcode:
         cmd = kwargs.get("args")
         if cmd is None:
             cmd = popenargs[0]
-        raise CalledProcessError(retcode, cmd, output=stderr)
-    return output
+        raise CalledProcessError(retcode, cmd, output=stdout + stderr)
+    return stdout

@@ -62,7 +62,7 @@ class TestCharm(unittest.TestCase):
 
     def test_expose_and_ui(self):
         """Check to see if tengu->rest2jfed connection is correct. This will only work if the machine running these tests is a Hauchiwa"""
-        output = subprocess.check_output(['tengu', 'expose', 'nimbus'], universal_newlines=True)
+        output = subprocess.check_output(['tengu', 'expose-service', 'nimbus'], universal_newlines=True)
         match = re.search(r'^([0-9]+\.?)+:8080.*?(([0-9]+\.?)+:[0-9]+)', output)
         nimbus_hostport = match.group(2)
         # Wait for the dhcp-server to make the changes

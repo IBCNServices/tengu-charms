@@ -60,26 +60,16 @@ def get_provider(config=GLOBAL_CONF):
         fail("No provider of type {} found".format(provider))
 
 
+def env_conf_path(name):
+    """ Returns path of environment config of environment with given name"""
+    return tengu_dir() + "/" + name +"/"+ ENV_CONF_NAME
+
 def init_environment_config(env_name):
-    """ Inits environment config.
-        Does not override environment config if it exists """
+    """ Returns environment config. Creates config if it doesn't exist yet."""
     config = Config(env_conf_path(env_name), default_path=DEFAULT_ENV_CONF)
     config['env-name'] = env_name
     config.save()
     return config
-
-
-def create_juju(env_conf, provider_env, init_bundle):
-    if JujuEnvironment.env_exists(env_conf['env-name']):
-        fail("Juju environment already exists. Remove it first with 'tengu destroy {}'".format(env_conf['env-name']))
-    machines = provider_env.machines
-    # Create Juju environment
-    return JujuEnvironment.create(
-        env_conf['env-name'],
-        env_conf['juju-env-conf'],
-        machines,
-        init_bundle,
-    )
 
 
 def lock_environment(env_name, lock_status):
@@ -96,11 +86,6 @@ def lock_environment(env_name, lock_status):
 #    cron = tab.new(command='/foo/bar')
 #    cron.every_reboot()
 #    tab.write()
-
-
-def env_conf_path(name):
-    """ Returns path of environment config of environment with given name"""
-    return tengu_dir() + "/" + name +"/"+ ENV_CONF_NAME
 
 
 def destroy_juju_environment(name):
@@ -185,7 +170,7 @@ def g_juju():
     name='add-machines',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
-    '-n', '--name',
+    '-m', '--model',
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
 def c_add_machines(name):
@@ -202,7 +187,7 @@ def c_add_machines(name):
     name='export',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
-    '-n', '--name',
+    '-m', '--model',
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
 @click.argument('filename')
@@ -224,7 +209,7 @@ def g_cli():
     pass
 
 @click.command(
-    name='create',
+    name='create-model',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '--bundle',
@@ -236,7 +221,7 @@ def g_cli():
     default=True,
     help='skip creation of provider environment')
 @click.argument('name')
-def c_create(bundle, name, create_machines):
+def c_create_model(bundle, name, create_machines):
     """Create a model with given name. Skips slice creation if it already exists.
     NAME: name of model """
     env_conf = init_environment_config(name)
@@ -250,19 +235,12 @@ def c_create(bundle, name, create_machines):
         provider_env = get_provider(env_conf).create_from_bundle(env_conf, bundledict)
     else:
         provider_env = get_provider(env_conf).get(env_conf)
-    juju_env = create_juju(provider_env.env_conf, provider_env, env_conf['init-bundle'])
-    juju_env.deploy_bundle(bundle)
-
-
-@click.command(
-    name='deploy',
-    context_settings=CONTEXT_SETTINGS)
-@click.argument('name')
-def c_deploy(bundle, name):
-    """Create a model with given name. Skips slice creation of the model's underlying jFed experiment if the slice already exists.
-    NAME: name of model """
-    downloadbigfiles(os.environ.get('JUJU_REPOSITORY', ''))
-    juju_env = JujuEnvironment(name)
+    juju_env = JujuEnvironment.create(
+        env_conf['env-name'],
+        env_conf['juju-env-conf'],
+        provider_env.machines,
+        env_conf['init-bundle'],
+    )
     juju_env.deploy_bundle(bundle)
 
 
@@ -270,7 +248,7 @@ def c_deploy(bundle, name):
     name='lock',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('name', type=str)
-def c_lock(name):
+def c_lock_model(name):
     """Lock destructive actions (such as destroy and reload) for given model.
     NAME: name of model """
     lock_environment(name, True)
@@ -280,7 +258,7 @@ def c_lock(name):
     name='unlock',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('name', type=str)
-def c_unlock(name):
+def c_unlock_model(name):
     """Unlock destructive actions (such as destroy, reload) for given model.
     NAME: name of model """
     lock_environment(name, False)
@@ -290,7 +268,7 @@ def c_unlock(name):
     name='reload',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('name', type=str)
-def c_reload(name):
+def c_reload_model(name):
     """ Reload the model's machines. This will completely wipe the disk of the machines and put a new OS on them.
     NAME: name of model
     """
@@ -305,8 +283,7 @@ def c_reload(name):
     name='reset',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('modelname', type=str)
-@click.argument('whitelist', nargs=-1)
-def c_reset(modelname, whitelist):
+def c_reset_model(modelname):
     """ Destroys the model's services and containers except for lxc-networking, dhcp-server and openvpn.
     if whitelist is provided, only services in whitelist will be destroyed.
     NAME: name of model
@@ -319,18 +296,15 @@ def c_reset(modelname, whitelist):
         else:
             jujuenv = JujuEnvironment(modelname)
             for servicename in jujuenv.status['services'].keys():
-                if whitelist:
-                    if servicename in whitelist:
-                        Service(servicename, jujuenv).destroy(force=True)
-                elif servicename not in ['lxc-networking', 'dhcp-server', 'openvpn']: # We should get these services from the init bundle...
+                if servicename not in ['lxc-networking', 'dhcp-server', 'openvpn']: # We should get these services from the init bundle...
                     Service(servicename, jujuenv).destroy(force=True)
 
 
 @click.command(
-    name='destroy',
+    name='destroy-model',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('name', type=str)
-def c_destroy(name):
+def c_destroy_model(name):
     """Destroys model with given name
     NAME: name of model """
     if click.confirm('Warning! This will destroy both the Juju environment and the jFed experiment of the model "{}". Are you sure you want to continue?'.format(name)):
@@ -341,14 +315,29 @@ def c_destroy(name):
 
 
 @click.command(
+    name='destroy-service',
+    context_settings=CONTEXT_SETTINGS)
+@click.argument('modelname', type=str)
+@click.argument('services', nargs=-1)
+def c_destroy_service(modelname, services):
+    """Destroys given services
+    MODELNAME: name of the model
+    SERVICES: services to destroy"""
+    jujuenv = JujuEnvironment(modelname)
+    for servicename in jujuenv.status['services'].keys():
+        if servicename in services:
+            Service(servicename, jujuenv).destroy(force=True)
+
+
+@click.command(
     name='renew',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
-    '-n', '--name',
+    '-m', '--model',
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
 @click.argument('hours', type=int, default=800)
-def c_renew(name, hours):
+def c_renew_model(name, hours):
     """ Set expiration date of the model's underlying jFed experiment to now + given hours
     NAME: name of model
     HOURS: requested expiration hours"""
@@ -359,14 +348,14 @@ def c_renew(name, hours):
 
 
 @click.command(
-    name='expose',
+    name='expose-service',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
-    '-n', '--name',
+    '-m', '--model',
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
 @click.argument('servicename')
-def c_expose(name, servicename):
+def c_expose_service(name, servicename):
     """ Expose the service so it is publicly available from the internet.
     NAME: name of model
     SERVICENAME: name of the service to expose"""
@@ -382,26 +371,27 @@ def c_expose(name, servicename):
     name='get-config',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
-    '-n', '--name',
+    '-m', '--model',
     default=DEFAULT_ENV,
     help='Get the config of a service in a format that can be used to set the config of a service.')
 @click.argument('servicename')
-def c_get_config(name, servicename):
-    """ Expose the service so it is publicly available from the internet.
+def c_show_config(name, servicename):
+    """Get the config of a service in a format that can be used to set the config of a service.
     NAME: name of model
-    SERVICENAME: name of the service to expose"""
+    SERVICENAME: name of the service"""
     env = JujuEnvironment(name)
     service = Service(servicename, env)
     print(yaml.dump({str(servicename): service.get_config()}, default_flow_style=False))
 
+
 @click.command(
-    name='status',
+    name='show-status',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
-    '-n', '--name',
+    '-m', '--model',
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
-def c_status(name):
+def c_show_status(name):
     """Show status of model with given name
     NAME: name of model """
     env_conf = init_environment_config(name)
@@ -426,16 +416,16 @@ def c_status(name):
 
 
 @click.command(
-    name='export',
+    name='export-model',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
-    '-n', '--name',
+    '-m', '--model',
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
 @click.argument(
     'path',
     type=click.Path(writable=True))
-def c_export(name, path):
+def c_export_model(name, path):
     """Export the config of the model with given NAME"""
     jujuenv = JujuEnvironment(name)
     config = jujuenv.return_environment()
@@ -457,12 +447,12 @@ def c_export(name, path):
 
 
 @click.command(
-    name='import',
+    name='import-model',
     context_settings=CONTEXT_SETTINGS)
 @click.argument(
     'path',
     type=click.Path(exists=True, readable=True))
-def c_import(path):
+def c_import_model(path):
     """Import model config from config file"""
     with open(path, 'r') as stream:
         export = yaml.load(stream)
@@ -487,9 +477,9 @@ def c_import(path):
 
 
 @click.command(
-    name='userinfo',
+    name='show-userinfo',
     context_settings=CONTEXT_SETTINGS)
-def c_userinfo():
+def c_show_userinfo():
     """ Print info of configured jfed user """
     PPRINTER.pprint(get_provider().userinfo)
 
@@ -505,7 +495,7 @@ def c_downloadbigfiles():
 #     name='c_renew_if_closer_than'
 # )
 # @click.option(
-#     '-n', '--name',
+#     '-m', '--model',
 #     default=DEFAULT_ENV,
 #     help='Name of model. Defaults to the active model.')
 # @click.argument(
@@ -555,20 +545,20 @@ def c_downloadbigfiles():
 
 
 
-g_cli.add_command(c_create)
-g_cli.add_command(c_deploy)
-g_cli.add_command(c_destroy)
-g_cli.add_command(c_reload)
-g_cli.add_command(c_reset)
-g_cli.add_command(c_lock)
-g_cli.add_command(c_unlock)
-g_cli.add_command(c_renew)
-g_cli.add_command(c_status)
-g_cli.add_command(c_expose)
-g_cli.add_command(c_userinfo)
-g_cli.add_command(c_export)
-g_cli.add_command(c_get_config)
-g_cli.add_command(c_import)
+g_cli.add_command(c_create_model)
+g_cli.add_command(c_destroy_model)
+g_cli.add_command(c_destroy_service)
+g_cli.add_command(c_reload_model)
+g_cli.add_command(c_reset_model)
+g_cli.add_command(c_lock_model)
+g_cli.add_command(c_unlock_model)
+g_cli.add_command(c_renew_model)
+g_cli.add_command(c_show_status)
+g_cli.add_command(c_show_userinfo)
+g_cli.add_command(c_show_config)
+g_cli.add_command(c_expose_service)
+g_cli.add_command(c_export_model)
+g_cli.add_command(c_import_model)
 g_cli.add_command(c_downloadbigfiles)
 #g_cli.add_command(c_renew_if_closer_than)
 g_cli.add_command(g_juju)

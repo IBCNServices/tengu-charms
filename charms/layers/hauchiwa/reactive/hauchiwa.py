@@ -63,8 +63,8 @@ def upgrade_charm():
 def install_tengu():
     """ Installs tengu management tools """
     packages = ['python-pip', 'tree', 'python-dev', 'unzip', 'make']
-    fetch.apt_install(fetch.filter_installed_packages(packages))
-    subprocess.check_call(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client', 'cloud-weather-report'])
+    #fetch.apt_install(fetch.filter_installed_packages(packages))
+    #subprocess.check_call(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client', 'cloud-weather-report'])
     # Install Tengu. Existing /etc files don't get overwritten.
     t_dir = None
     if os.path.isdir(TENGU_DIR + '/etc'):
@@ -81,7 +81,7 @@ def install_tengu():
         context={'tengu_dir': TENGU_DIR}
     )
 
-    with open(GLOBAL_CONF_PATH, 'w+') as config_file:
+    with open(GLOBAL_CONF_PATH, 'r+') as config_file:
         content = yaml.load(config_file) or {}
         content['pubkey'] = get_or_create_ssh_key(SSH_DIR, USER, USER)
         config_file.seek(0)
@@ -141,16 +141,16 @@ def feature_flags_changed():
 @when('tengu.installed')
 @when_any('config.changed.hauchiwa-flavor', 'config.changed.providerconfig')
 def set_flavor():
-    '''possible flavors: hauchiwa.provider.ssh, hauchiwa.provider.jfed, hauchiwa.provider.juju-powered'''
+    '''possible flavors: hauchiwa.provider.ssh, hauchiwa.provider.rest2jfed, hauchiwa.provider.juju-powered'''
     flavors = [config()['hauchiwa-flavor']]  # depricated flavor option (jfed)
     providerconfig = json.loads(config('providerconfig') or '{}')
-    if providerconfig['env-configs']:
+    if providerconfig.get('env-configs'):
         flavors.append('juju-powered')
     if flavors:
         for flavor in flavors:
             set_state("hauchiwa.provider.{}".format(flavor))
             remove_state("hauchiwa.provider.{}.configured".format(flavor)) # trigger a reconfiguration
-        with open(GLOBAL_CONF_PATH, 'w+') as config_file:
+        with open(GLOBAL_CONF_PATH, 'r+') as config_file:
             content = yaml.load(config_file)
             content['provider'] = flavors[0] # first flavor is default
             config_file.seek(0)
@@ -166,7 +166,7 @@ def set_flavor():
 #
 ################################################################################
 
-@when('hauchiwa.provider.jfed')
+@when('hauchiwa.provider.rest2jfed')
 @when('tengu.installed')
 @when_not('rest2jfed.available')
 def set_blocked_jfed():
@@ -177,7 +177,7 @@ def set_blocked_jfed():
 def setup_rest2jfed(rest2jfed):
     hostname = rest2jfed.services()[0]['hosts'][0]['hostname']
     port = rest2jfed.services()[0]['hosts'][0]['port']
-    with open(GLOBAL_CONF_PATH, 'w+') as config_file:
+    with open(GLOBAL_CONF_PATH, 'r+') as config_file:
         content = yaml.load(config_file)
         content['rest2jfed-hostname'] = str(hostname)
         content['rest2jfed-port'] = str(port)
@@ -192,15 +192,15 @@ def remove_rest2jfed():
     remove_state('rest2jfed.configured')
     remove_state('provider.configured')
 
-@when('hauchiwa.provider.jfed')
+@when('hauchiwa.provider.rest2jfed')
 @when('rest2jfed.configured')
-@when_not('hauchiwa.provider.jfed.configured')
+@when_not('hauchiwa.provider.rest2jfed.configured')
 def configure_jfed():
     conf = hookenv.config()
     with open(TENGU_DIR + '/etc/s4_cert.pem.xml', 'wb+') as certfile:
         certfile.write(base64.b64decode(conf['emulab-s4-cert']))
         certfile.truncate()
-    with open(GLOBAL_CONF_PATH, 'w+') as config_file:
+    with open(GLOBAL_CONF_PATH, 'r+') as config_file:
         content = yaml.load(config_file)
         content['project-name'] = str(conf['emulab-project-name'])
         content['s4-cert-path'] = TENGU_DIR + '/etc/s4_cert.pem.xml'
@@ -208,7 +208,7 @@ def configure_jfed():
         config_file.seek(0)
         config_file.write(yaml.dump(content, default_flow_style=False))
         config_file.truncate()
-    set_state('hauchiwa.provider.jfed.configured')
+    set_state('hauchiwa.provider.rest2jfed.configured')
 
 ################################################################################
 #
@@ -242,11 +242,11 @@ def configure_maas():
 #
 ################################################################################
 
-@when_any('hauchiwa.provider.jfed.configured', 'hauchiwa.provider.ssh.configured', 'hauchiwa.provider.juju-powered.configured')
+@when_any('hauchiwa.provider.rest2jfed.configured', 'hauchiwa.provider.ssh.configured', 'hauchiwa.provider.juju-powered.configured')
 def set_provider_configured():
     set_state('hauchiwa.provider.configured')
 
-@when_none('hauchiwa.provider.jfed.configured', 'hauchiwa.provider.ssh.configured', 'hauchiwa.provider.juju-powered.configured')
+@when_none('hauchiwa.provider.rest2jfed.configured', 'hauchiwa.provider.ssh.configured', 'hauchiwa.provider.juju-powered.configured')
 def remove_provider_configured():
     remove_state('hauchiwa.provider.configured')
 
@@ -345,7 +345,7 @@ def get_or_create_ssh_key(keysdir, user, group):
         subprocess.check_call(['ssh-keygen', '-t', 'rsa', '-N', '', '-f', ssh_priv_keypath])
         with open(ssh_pub_keypath, 'r') as pubkeyfile:
             pubkey = pubkeyfile.read().rstrip()
-        with open(authorized_keys, 'a') as auth_keyfile:
+        with open(authorized_keys, 'a+') as auth_keyfile:
             auth_keyfile.write(pubkey + "\n")
         chownr(keysdir, user, group)
     with open(ssh_pub_keypath, 'r') as pubkeyfile:

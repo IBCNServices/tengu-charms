@@ -67,9 +67,19 @@ class Service(object):
             raise JujuNotFoundException('service {} not found'.format(self.name))
         return info
 
+    def get_config(self):
+        """ Return dictionary with config of service"""
+        config = self.config
+        export = {}
+        for name, option in config['settings'].iteritems():
+            if option.get('value'):
+                export[name] = option['value']
+        return export
+
+
     @property
     def config(self):
-        """ Return dictionary with configuration of deployed service"""
+        """ Return dictionary with output of 'juju get <servicename>'"""
         output = self.env.do('get', self.name, format='yaml')
         return yaml.load(output)
 

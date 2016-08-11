@@ -379,6 +379,22 @@ def c_expose(name, servicename):
 
 
 @click.command(
+    name='get-config',
+    context_settings=CONTEXT_SETTINGS)
+@click.option(
+    '-n', '--name',
+    default=DEFAULT_ENV,
+    help='Get the config of a service in a format that can be used to set the config of a service.')
+@click.argument('servicename')
+def c_get_config(name, servicename):
+    """ Expose the service so it is publicly available from the internet.
+    NAME: name of model
+    SERVICENAME: name of the service to expose"""
+    env = JujuEnvironment(name)
+    service = Service(servicename, env)
+    print(yaml.dump({str(servicename): service.get_config()}, default_flow_style=False))
+
+@click.command(
     name='status',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
@@ -551,6 +567,7 @@ g_cli.add_command(c_status)
 g_cli.add_command(c_expose)
 g_cli.add_command(c_userinfo)
 g_cli.add_command(c_export)
+g_cli.add_command(c_get_config)
 g_cli.add_command(c_import)
 g_cli.add_command(c_downloadbigfiles)
 #g_cli.add_command(c_renew_if_closer_than)

@@ -56,7 +56,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "61c3be3d23c1f434f78fb8cc01caaf7fbe103d9c0bdc118672ae474e25344ae1"
+      "deac8c98f8cb7248449d2e2f37ac56fb75930309ef4fcff5c6267311174553ab"
     ], 
     "copyright": [
       "layer:basic", 
@@ -86,7 +86,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "be42b58b8e2df2f3e782f7f8d3a718a3c6558a0f666fc9b9a63ebc7ae47d0a8a"
+      "c68e35df739e24475d9da69ed16c39f82cd36b1c33bf86455d42fa034fbabc7b"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 

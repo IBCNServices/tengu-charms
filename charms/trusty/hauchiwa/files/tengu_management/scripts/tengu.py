@@ -245,7 +245,7 @@ def c_create_model(bundle, name, create_machines):
 
 
 @click.command(
-    name='lock',
+    name='lock-model',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('name', type=str)
 def c_lock_model(name):
@@ -255,7 +255,7 @@ def c_lock_model(name):
 
 
 @click.command(
-    name='unlock',
+    name='unlock-model',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('name', type=str)
 def c_unlock_model(name):
@@ -265,7 +265,7 @@ def c_unlock_model(name):
 
 
 @click.command(
-    name='reload',
+    name='reload-model',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('name', type=str)
 def c_reload_model(name):
@@ -280,7 +280,7 @@ def c_reload_model(name):
 
 
 @click.command(
-    name='reset',
+    name='reset-model',
     context_settings=CONTEXT_SETTINGS)
 @click.argument('modelname', type=str)
 def c_reset_model(modelname):
@@ -330,7 +330,7 @@ def c_destroy_service(modelname, services):
 
 
 @click.command(
-    name='renew',
+    name='renew-model',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-m', '--model',

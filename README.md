@@ -136,6 +136,10 @@ When running `juju debug-hooks`, you enter a tmux session. The default tmux bind
 
 ## Handy commands
 
+debug reactive framework
+
+charms.reactive -p get_states
+
 pull PR from github
 
     git pull origin pull/$PR_NUM/head

@@ -49,10 +49,10 @@ DEFAULT_ENV = JujuEnvironment.current_env()
 
 
 def get_provider(config=GLOBAL_CONF):
-    provider = config.get('provider', 'jfed')
+    provider = config.get('provider', 'rest2jfed')
     if provider == "ssh":
         return ssh_provider.SSHProvider(GLOBAL_CONF)
-    elif provider == "jfed":
+    elif provider == "rest2jfed":
         return jfed_provider.JfedProvider(GLOBAL_CONF)
     elif provider == "juju-powered":
         return juju_powered_provider.JujuPoweredProvider(GLOBAL_CONF)

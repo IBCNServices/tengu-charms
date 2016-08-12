@@ -30,6 +30,7 @@ import yaml
 from rest2jfed_connector import Rest2jfedConnector
 import jujuhelpers # pylint: disable=E0401
 import rspec_utils
+from output import fail # pylint: disable=E0401
 
 TENGU_DIR = expanduser("~/.tengu")
 
@@ -99,16 +100,22 @@ class JfedSlice(object):
 
 
     def reload(self):
-        print('Reloading jfed slivers...')
-        jfed = self.init_jfed()
-        jfed.reload()
-        print('renewed reloaded succesfully')
+        if self.locked:
+            fail('Cannot reload locked model')
+        else:
+            print('Reloading jfed slivers...')
+            jfed = self.init_jfed()
+            jfed.reload()
+            print('renewed reloaded succesfully')
 
 
     def destroy(self):
-        print('Destroying jfed slice and slivers...')
-        jfed = self.init_jfed()
-        jfed.delete()
+        if self.locked:
+            fail('Cannot destroy locked model')
+        else:
+            print('Destroying jfed slice and slivers...')
+            jfed = self.init_jfed()
+            jfed.delete()
 
 
     def expose(self, service):

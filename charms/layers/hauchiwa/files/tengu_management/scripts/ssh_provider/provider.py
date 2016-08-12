@@ -21,6 +21,7 @@ import subprocess
 import click
 import yaml
 
+from output import fail #pylint: disable=E0401
 from config import script_dir # pylint: disable=E0401
 
 
@@ -52,6 +53,9 @@ class SSHEnv(object):
         self.global_conf = global_conf
         self.env_conf = env_conf
 
+        self.name = self.env_conf['env-name']
+        self.locked = env_conf['locked']
+
         self.files = {
             "bundle": self.bundle_path
         }
@@ -72,18 +76,24 @@ class SSHEnv(object):
         print('Renew unnecessary in SSH environment...')
 
     def reload(self):
-        self.destroy()
+        if self.locked:
+            fail('Cannot reload locked model')
+        else:
+            self.destroy()
 
     def destroy(self):
-        bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']
-        print('Removing Juju environment from nodes...')
-        machine_list = self.get_machines(include_bootstrap_host=True)
-        if click.confirm('Warning! I will ssh to [{}] and start deleting very important files. Are you sure you want to continue?'.format(machine_list)):
-            for machine in machine_list:
-                subprocess.call(["scp", '-o', 'StrictHostKeyChecking=no', "%s/ssh_provider/ssh_destroy.sh" % script_dir(),
-                                 '{}@{}:~/ssh_destroy.sh'.format(bootstrap_user, machine)])
-                subprocess.call(
-                    ["ssh", '-o', 'StrictHostKeyChecking=no', '{}@{}'.format(bootstrap_user, machine), "~/ssh_destroy.sh"])
+        if self.locked:
+            fail('Cannot destroy locked model')
+        else:
+            bootstrap_user = self.env_conf['juju-env-conf']['bootstrap-user']
+            print('Removing Juju environment from nodes...')
+            machine_list = self.get_machines(include_bootstrap_host=True)
+            if click.confirm('Warning! I will ssh to [{}] and start deleting very important files. Are you sure you want to continue?'.format(machine_list)):
+                for machine in machine_list:
+                    subprocess.call(["scp", '-o', 'StrictHostKeyChecking=no', "%s/ssh_provider/ssh_destroy.sh" % script_dir(),
+                                     '{}@{}:~/ssh_destroy.sh'.format(bootstrap_user, machine)])
+                    subprocess.call(
+                        ["ssh", '-o', 'StrictHostKeyChecking=no', '{}@{}'.format(bootstrap_user, machine), "~/ssh_destroy.sh"])
 
     def expose(self, service):
         print("expose not implemented for ssh provider. Cannot expose {}".format(service))

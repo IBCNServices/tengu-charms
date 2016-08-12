@@ -63,8 +63,8 @@ def upgrade_charm():
 def install_tengu():
     """ Installs tengu management tools """
     packages = ['python-pip', 'tree', 'python-dev', 'unzip', 'make']
-    #fetch.apt_install(fetch.filter_installed_packages(packages))
-    #subprocess.check_call(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client', 'cloud-weather-report'])
+    fetch.apt_install(fetch.filter_installed_packages(packages))
+    subprocess.check_call(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client', 'cloud-weather-report'])
     # Install Tengu. Existing /etc files don't get overwritten.
     t_dir = None
     if os.path.isdir(TENGU_DIR + '/etc'):
@@ -209,6 +209,12 @@ def configure_jfed():
         config_file.write(yaml.dump(content, default_flow_style=False))
         config_file.truncate()
     set_state('hauchiwa.provider.rest2jfed.configured')
+
+@when('hauchiwa.provider.rest2jfed.configured')
+@when_any('config.changed.emulab-s4-cert', 'config.changed.emulab-project-name')
+def trigger_reconfigure_jfed():
+    remove_state('hauchiwa.provider.rest2jfed.configured')
+
 
 ################################################################################
 #

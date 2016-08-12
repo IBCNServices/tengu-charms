@@ -357,7 +357,7 @@ class JujuEnvironment(object):
         return name in envs
 
     @staticmethod
-    def create(name, juju_config, machines, bundle):
+    def create(name, juju_config, machines, init_bundle):
         """Creates Juju environment and deploy the init bundle."""
         if JujuEnvironment.env_exists(name):
             fail("Juju environment already exists. Remove it first with 'tengu destroy-model {}'".format(name))
@@ -367,7 +367,7 @@ class JujuEnvironment(object):
         sleep(20)
         environment = JujuEnvironment(name)
         environment.add_machines(machines)
-        environment.deploy_init_bundle(bundle)
+        environment.deploy_init_bundle(init_bundle)
         return environment
 
 

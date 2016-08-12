@@ -173,14 +173,14 @@ def g_juju():
     '-m', '--model',
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
-def c_add_machines(name):
+def c_add_machines(model):
     """Add machines of jfed experiment to Juju environment
     NAME: name of model """
-    env_conf = init_environment_config(name)
+    env_conf = init_environment_config(model)
     env = get_provider(env_conf).get(env_conf)
     machines = env.machines
     machines.pop(0)
-    jujuenv = JujuEnvironment(name)
+    jujuenv = JujuEnvironment(model)
     jujuenv.add_machines(machines)
 
 @click.command(
@@ -191,9 +191,9 @@ def c_add_machines(name):
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
 @click.argument('filename')
-def c_export_juju_env(name, filename):
+def c_export_juju_env(model, filename):
     """export juju environment to given yaml file """
-    jujuenv = JujuEnvironment(name)
+    jujuenv = JujuEnvironment(model)
     environment = {}
     environment['environment'] = jujuenv.return_environment()
     with open(filename, 'w+') as o_file:
@@ -337,12 +337,12 @@ def c_destroy_service(modelname, services):
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
 @click.argument('hours', type=int, default=800)
-def c_renew_model(name, hours):
+def c_renew_model(model, hours):
     """ Set expiration date of the model's underlying jFed experiment to now + given hours
     NAME: name of model
     HOURS: requested expiration hours"""
-    okwhite('renewing slice {} for {} hours'.format(name, hours))
-    env_conf = init_environment_config(name)
+    okwhite('renewing slice {} for {} hours'.format(model, hours))
+    env_conf = init_environment_config(model)
     env = get_provider(env_conf).get(env_conf)
     env.renew(hours)
 
@@ -355,31 +355,31 @@ def c_renew_model(name, hours):
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
 @click.argument('servicename')
-def c_expose_service(name, servicename):
+def c_expose_service(model, servicename):
     """ Expose the service so it is publicly available from the internet.
     NAME: name of model
     SERVICENAME: name of the service to expose"""
-    env_conf = init_environment_config(name)
+    env_conf = init_environment_config(model)
     provider_env = get_provider(env_conf).get(env_conf)
-    env_conf = init_environment_config(name)
-    env = JujuEnvironment(name)
+    env_conf = init_environment_config(model)
+    env = JujuEnvironment(model)
     service = Service(servicename, env)
     provider_env.expose(service)
 
 
 @click.command(
-    name='get-config',
+    name='show-config',
     context_settings=CONTEXT_SETTINGS)
 @click.option(
     '-m', '--model',
     default=DEFAULT_ENV,
     help='Get the config of a service in a format that can be used to set the config of a service.')
 @click.argument('servicename')
-def c_show_config(name, servicename):
+def c_show_config(model, servicename):
     """Get the config of a service in a format that can be used to set the config of a service.
     NAME: name of model
     SERVICENAME: name of the service"""
-    env = JujuEnvironment(name)
+    env = JujuEnvironment(model)
     service = Service(servicename, env)
     print(yaml.dump({str(servicename): service.get_config()}, default_flow_style=False))
 
@@ -391,10 +391,10 @@ def c_show_config(name, servicename):
     '-m', '--model',
     default=DEFAULT_ENV,
     help='Name of model. Defaults to the active model.')
-def c_show_status(name):
+def c_show_status(model):
     """Show status of model with given name
     NAME: name of model """
-    env_conf = init_environment_config(name)
+    env_conf = init_environment_config(model)
     env = get_provider(env_conf).get(env_conf)
     responsedict = env.status
     if responsedict['short_status'] == 'READY':
@@ -409,7 +409,7 @@ def c_show_status(name):
     else:
         okwhite("Status of jfed slice is {}. responsedict: ".format(responsedict['short_status']))
         PPRINTER.pprint(responsedict)
-    if JujuEnvironment.env_exists(name):
+    if JujuEnvironment.env_exists(model):
         okblue('Juju environment exists')
     else:
         okwhite("Juju environment doesn't exist")
@@ -425,14 +425,14 @@ def c_show_status(name):
 @click.argument(
     'path',
     type=click.Path(writable=True))
-def c_export_model(name, path):
+def c_export_model(model, path):
     """Export the config of the model with given NAME"""
-    jujuenv = JujuEnvironment(name)
+    jujuenv = JujuEnvironment(model)
     config = jujuenv.return_environment()
     files = {
-        "tengu-env-conf" : env_conf_path(name),
+        "tengu-env-conf" : env_conf_path(model),
     }
-    env_conf = init_environment_config(name)
+    env_conf = init_environment_config(model)
     env = get_provider(env_conf).get(env_conf)
     files.update(env.files)
     for f_name, f_path in files.iteritems():
@@ -440,7 +440,7 @@ def c_export_model(name, path):
             config[f_name] = base64.b64encode(f_file.read())
     config['emulab-project-name'] = GLOBAL_CONF['project-name']
     export = {
-        str(name) : config
+        str(model) : config
     }
     with open(path, 'w+') as outfile:
         outfile.write(yaml.dump(export))

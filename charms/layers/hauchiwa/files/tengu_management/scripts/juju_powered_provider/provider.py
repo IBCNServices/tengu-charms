@@ -18,7 +18,7 @@
 """ deploys a tengu model on a general ssh reachable cluster"""
 import yaml
 
-
+from output import fail #pylint: disable=E0401
 from config import  script_dir # pylint:disable=E0401
 
 class ProviderException(Exception):
@@ -44,8 +44,12 @@ class JujuPoweredProvider(object):
 
 class JujuPoweredEnv(object):
     def __init__(self, global_conf, env_conf):
-        self.global_conf = global_conf
         self.env_conf = env_conf
+        self.global_conf = global_conf
+
+        self.name = self.env_conf['env-name']
+        self.locked = env_conf['locked']
+
         self.files = {}
 
     def create(self, bundle): # pylint:disable=W0613,R0201
@@ -61,10 +65,16 @@ class JujuPoweredEnv(object):
         print('Renew unnecessary in Juju powered environment...')
 
     def reload(self): # pylint:disable=W0613,R0201
-        self.destroy()
+        if self.locked:
+            fail('Cannot reload locked model')
+        else:
+            self.destroy()
 
     def destroy(self): # pylint:disable=W0613,R0201
-        print('Destroying Juju powered environment')
+        if self.locked:
+            fail('Cannot destroy locked model')
+        else:
+            print('Destroying Juju powered environment')
 
     def expose(self, service): # pylint:disable=W0613,R0201
         print("expose not implemented for Juju powered environment. Cannot expose {}".format(service))

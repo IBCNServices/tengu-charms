@@ -231,7 +231,7 @@ def configure_ssh():
 
 ################################################################################
 #
-# MAAS PROVIDER
+# JUJU POWERED PROVIDER
 #
 ################################################################################
 
@@ -239,7 +239,8 @@ def configure_ssh():
 @when_not('hauchiwa.provider.juju-powered.configured')
 def configure_maas():
     with open('{}/scripts/juju_powered_provider/templates/env-configs.yaml'.format(TENGU_DIR), 'w+') as env_configs_file:
-        env_configs_file.write(json.loads(config('providerconfig'))['env-configs'])
+        provider_config = json.loads(config('providerconfig'))
+        env_configs_file.write(yaml.dump(provider_config['env-configs']))
     set_state('hauchiwa.provider.juju-powered.configured')
 
 ################################################################################

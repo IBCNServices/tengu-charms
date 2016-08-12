@@ -199,12 +199,16 @@ def import_environment(env_conf):
     with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
         e_content = yaml.load(e_file) or {}
     with open('{}/.juju/environments.yaml'.format(HOME), 'w+') as e_file:
-        e_content.setdefault('environments', {})[name] = conf
+        e_content.setdefault('environments', {name: None})[name] = conf
         e_file.write(yaml.dump(e_content, default_flow_style=False))
     with open('{}/.juju/environments/{}.jenv'.format(HOME, name), 'wb+') as e_file:
         e_file.write(jenv)
     switch_env(name)
-
+    with open("{}/.ssh/id_rsa.pub".format(HOME), 'r') as key_file:
+        key = key_file.read().rstrip()
+    subprocess.check_call([
+        'su', USER, '-c',
+        'juju authorized-keys add "{}"'.format(key)])
 
 def switch_env(name):
     """switch to environment with given name"""

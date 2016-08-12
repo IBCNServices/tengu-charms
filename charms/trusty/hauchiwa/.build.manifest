@@ -11,7 +11,7 @@
     "reactive/juju-client.py": [
       "layer:juju-client", 
       "static", 
-      "1cf32e1b9e0ad639ec618c822794acd43a8abab3eaba808c8ebadf57dc3bdc50"
+      "df9517beb38e53456bd7761e3b1b887eb638b2f23b826578087b92a549e4f082"
     ], 
     "files/tengu_management/scripts/ssh_provider/provider.py": [
       "hauchiwa", 
@@ -41,7 +41,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "8a02022ad144bdbb14bd3d86aeb132c05a0c5e15bb234c3b5de2f14512aaa343"
+      "a612448e7d64bbb597064c2804ee33767e9e75b414270acf12c5ba58ca881857"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -116,7 +116,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "16b1f81645db2500dba8f8353eb2b4ce037c9ab54fc283a5ab061cf6d9855fb1"
+      "a40f8b58821dab0e90789583f4a6927336d050d34fb476e799cce4396b1623e2"
     ], 
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 

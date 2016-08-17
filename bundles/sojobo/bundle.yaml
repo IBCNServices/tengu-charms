@@ -23,8 +23,8 @@ services:
       "gui-y": "300"
     to:
       - "lxc:0"
-  dhcp-server:
-    charm: "cs:~tengu-bot/trusty/dhcp-server"
+  network-agent:
+    charm: "cs:~tengu-bot/trusty/network-agent"
     num_units: 1
     annotations:
       "gui-x": "300"
@@ -35,4 +35,4 @@ relations:
   - - "hauchiwa:rest2jfed"
     - "rest2jfed:rest2jfed"
   - - "hauchiwa:hauchiwa-port-forward"
-    - "dhcp-server:opened-ports"
+    - "network-agent:opened-ports"

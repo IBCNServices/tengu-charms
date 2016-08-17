@@ -1,0 +1,27 @@
+series: trusty
+machines:
+  '0':
+    series: trusty
+    constraints: "arch=amd64 networks=maas-eth0-28"
+    annotations:
+      testbed: wall1
+      pubipv4: True
+services:
+  hauchiwa:
+    charm: "cs:~tengu-bot/trusty/hauchiwa"
+    num_units: 1
+    annotations:
+      "gui-x": "300"
+      "gui-y": "300"
+    to:
+      - "lxc:0"
+    options:
+      hauchiwa-flavor: ''
+      providerconfig: |
+        {
+          "env-configs": {
+            "type": "maas",
+            "maas-oauth": "SKLRQchaDgQDGVbPxW:vhLuB3RzAZs6Y3fQbx:7J23etjr5gmAL2mjAqJBAUEa8b2EtAgm",
+            "maas-server": "http://193.190.127.150:80/MAAS"
+          }
+        }

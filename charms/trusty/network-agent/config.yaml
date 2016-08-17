@@ -12,7 +12,7 @@
     "type": "string"
     "description": |
       json object that specifies what ports should be forwarded. Example config file:
-      dhcp-server:
+      network-agent:
         port-forwards: |
           [{
             "public_port": "9999",

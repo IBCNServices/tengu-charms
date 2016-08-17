@@ -3,8 +3,8 @@ services:
     charm: cs:~tengu-bot/trusty/lxc-networking
     annotations:
       order: 0
-  dhcp-server:
-    charm: cs:~tengu-bot/trusty/dhcp-server
+  network-agent:
+    charm: cs:~tengu-bot/trusty/network-agent
     to: ['0']
     annotations:
       order: 1

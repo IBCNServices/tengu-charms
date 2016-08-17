@@ -17,10 +17,11 @@
 import re
 import os
 import time
+import itertools
 import subprocess
 
-import yaml
 import unittest
+import yaml
 import amulet
 import requests
 
@@ -58,14 +59,14 @@ class TestCharm(unittest.TestCase):
 
         cls.nimbus = cls.deployment.sentry['nimbus']
         cls.worker = cls.deployment.sentry['worker']
-        cls.dhcp_server = cls.deployment.sentry['dhcp-server']
+        cls.dhcp_server = cls.deployment.sentry['network-agent']
 
     def test_expose_and_ui(self):
         """Check to see if tengu->rest2jfed connection is correct. This will only work if the machine running these tests is a Hauchiwa"""
         output = subprocess.check_output(['tengu', 'expose-service', 'nimbus'], universal_newlines=True)
         match = re.search(r'^([0-9]+\.?)+:8080.*?(([0-9]+\.?)+:[0-9]+)', output)
         nimbus_hostport = match.group(2)
-        # Wait for the dhcp-server to make the changes
+        # Wait for the network-agent to make the changes
         time.sleep(10)
         response = requests.get('http://{}/api/v1/cluster/summary'.format(nimbus_hostport), headers={'Accept': 'application/json'})
         if response.status_code != 200:
@@ -78,6 +79,46 @@ class TestCharm(unittest.TestCase):
         if summary['supervisors'] < 1:
             message = 'supervisors ({}) < 1'.format(summary['supervisors'])
             raise Exception(message)
+
+
+    def test_hauchiwa_lock(self):
+        model_name = subprocess.check_output(['juju', 'switch'], universal_newlines=True).rstrip()
+        subprocess.check_call(['tengu', 'lock-model', model_name])
+        locked_commands = [
+            'echo y | tengu destroy-model {}'.format(model_name),
+            'echo y | tengu reload-model {}'.format(model_name),
+            'echo y | tengu reset-model {}'.format(model_name),
+        ]
+        for command in locked_commands:
+            try:
+                subprocess.check_call([command], shell=True)
+                # This command is not allowed to succeed
+                raise Exception('command "{}" didn\'t fail in a locked environment but it should. '.format(command))
+            except subprocess.CalledProcessError:
+                pass
+        subprocess.check_call(['tengu', 'unlock-model', model_name])
+
+
+    def test_hauchiwa_destroy_service(self):
+        model_name = subprocess.check_output(['juju', 'switch'], universal_newlines=True).rstrip()
+        subprocess.check_call(['tengu', 'destroy-service', model_name, 'cassandra'])
+        for _ in itertools.repeat(None, 10):
+            if subprocess.check_output(['juju status --format tabular | grep cassandra'], shell=True, universal_newlines=True).rstrip() == "":
+                return
+            time.sleep(2)
+        raise Exception('service "cassandra" wasn\'t destroyed correctly using tengu destroy-service')
+
+
+
+    def test_hauchiwa_destroy_model(self):
+        model_name = subprocess.check_output(['juju', 'switch'], universal_newlines=True).rstrip()
+        subprocess.check_call(['echo y | tengu destroy-model {}'.format(model_name)])
+        for _ in itertools.repeat(None, 10):
+            if subprocess.check_output(['switch --list'], shell=True, universal_newlines=True).rstrip() == "":
+                return
+            time.sleep(2)
+        raise Exception('model "{}" wasn\'t destroyed correctly using tengu destroy-model'.format(model_name))
+
 
     def _get_status(self):
         return self.deployment.sentry.wait_for_status(self.deployment.sentry.juju_env, self.deployment.services, SECONDS_TO_WAIT)

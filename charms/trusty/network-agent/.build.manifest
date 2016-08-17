@@ -149,7 +149,7 @@
     "config.yaml": [
       "network-agent", 
       "dynamic", 
-      "73e11f78e94e5a50b4d87ae1138f25d3ec3e044b7ac61e13b70c0ae2099b66f5"
+      "7b502e99a917261a09e52e12cdd982e324b1f3405774d9f89c4a2ca470e036b5"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 

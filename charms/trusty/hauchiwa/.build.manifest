@@ -86,7 +86,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "6f3c5d9153e0300c4bacd01894b5efba713e4b1248770f9c4478e933221e00f8"
+      "11fc8ae043bb39ed940811ed61329748d9b7f55829c100a67e65e56375a73c62"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -141,7 +141,7 @@
     "files/tengu_management/templates/init-bundle/bundle.yaml": [
       "hauchiwa", 
       "static", 
-      "52dfb7df232e5a599e92229e78a68cc635d2761576b69c102c67b82afdfbb945"
+      "676231cf24e7759f9bceb8213d0f8d45942e9e25bb39cc42a8292784bdd389c6"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
@@ -391,7 +391,7 @@
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "f2b640f48cbe177dbcf2c6bc2316735eae257a171142bbd9c442aa0913b2c0b5"
+      "b9c96da0bc19b56d05a18efb8c8313fe2ea5b945b6c5fa2ac3797e241d27a927"
     ], 
     "templates/tengu": [
       "hauchiwa", 

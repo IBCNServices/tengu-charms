@@ -120,7 +120,7 @@ class JfedSlice(object):
 
     def expose(self, service):
         next_pub_port = 30000
-        dhcp_server = jujuhelpers.Service('dhcp-server', service.env)
+        dhcp_server = jujuhelpers.Service('network-agent', service.env)
         forward_config = json.loads(dhcp_server.config['settings']['port-forwards']['value'])
         next_pub_port = int(dhcp_server.config['settings']['portrange']['value']) + 1000
         if next_pub_port <= max([int(pf['public_port']) for pf in forward_config] or [0]):

@@ -75,6 +75,8 @@ I'm using Atom on Ubuntu with some extentions. Here's how I installed everything
     sudo pip3 install pylint
     apm install linter linter-pylint
     mkdir ~/bin
+    # add lib directory of charms to pylint path
+    # %f/../lib
 
 `nano ~/bin/pylint` and add:
 

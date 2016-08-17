@@ -136,6 +136,12 @@ def configure():
     remove_state('dhcp-server.configured')
 
 
+@when('gateway.installed')
+@when_not('role.dhcp-server')
+def set_status():
+    hookenv.status_set('active', 'Ready ({})'.format(get_pub_ip()))
+
+
 ################################################################################
 #
 #  DHCP SERVER FUNCTIONALITY

@@ -288,14 +288,31 @@ def rule_equals(rule1, rule2):
     return True
 
 
-def get_source_ip(host, port, protocol):
+def get_source_ip(host, port, protocol, recursive=True):
     port = int(port)
     if protocol == "tcp":
         protocol = socket.SOCK_STREAM
     else:
         protocol = socket.SOCK_DGRAM
     sock = socket.socket(socket.AF_INET, protocol)
-    sock.connect((host, port))
+    sock.settimeout(10)
+    try:
+        sock.connect((host, port))
+    except (ConnectionRefusedError, socket.timeout):
+        # It doesn't matter if we were actually able to connect. We just want to
+        # know what source IP the OS tried to use to connect.
+        # Note: port-forward won't work if we can't connect at this phase, but
+        # crashing here seems a bit overkill.
+        print("Failed to connect to {}:{}, but will continue anyways.".format(host, port))
     source_ip = sock.getsockname()[0]
     sock.close()
+    if source_ip == "0.0.0.0" and recursive:
+        print("Source IP == 0.0.0.0. Will try default gateway source ip.")
+        source_ip = get_pub_ip()
+    print("Got IP = {}".format(source_ip))
+    assert(source_ip != "0.0.0.0")
     return source_ip
+
+
+def get_pub_ip():
+    return get_source_ip("8.8.8.8", 80, 'udp', recursive=False)

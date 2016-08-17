@@ -17,7 +17,6 @@
 # pylint: disable=c0111,c0103,c0301,c0325
 import os
 import json
-import socket
 import subprocess
 
 from charmhelpers.core import hookenv, templating, host
@@ -32,29 +31,29 @@ import netifaces
 import netaddr
 
 # Own modules
-from iptables import update_port_forwards, configure_nat_gateway
+from iptables import update_port_forwards, configure_nat_gateway, get_pub_ip
 
 @hook('upgrade-charm')
 def upgrade_charm():
     remove_state('dhcp-server.installed')
     remove_state('dhcp-server.configured')
-    remove_state('iptables-persistent.installed')
+    remove_state('dependencies.installed')
 
 
-@when_not('iptables-persistent.installed')
+@when_not('dependencies.installed')
 def install_iptables_persistent():
     hookenv.log('Installing iptables-persistent')
     fetch.apt_update()
     fetch.apt_install(fetch.filter_installed_packages(
-        ['iptables-persistent']
+        ['iptables-persistent', 'nmap']
     ))
-    set_state('iptables-persistent.installed')
+    set_state('dependencies.installed')
 
 
 @when(
     'config.changed.managed-network'
 )
-@when('iptables-persistent.installed')
+@when('dependencies.installed')
 def configure():
     hookenv.log('Configuring isc-dhcp')
     managed_network = netaddr.IPNetwork(config()["managed-network"])
@@ -122,10 +121,10 @@ def configure():
     # Otherwise, just pass our default gateway to the clients.
     gateway_if, gateway_ip = get_gateway()
     if gateway_if != mn_iface:
-        print('Default gateway is NOT in the managed network, tell clients we are their default gateway.')
+        print('Default gateway is NOT in the managed network so we tell potential clients we are their default gateway.')
         gateway_ip = mn_iface_ip
     else:
-        print('Default gateway is on managed network, just pass our default gateway to the clients.')
+        print('Default gateway is on the managed network so we pass our default gateway to potential clients.')
 
 
     # Save these values so other handlers can use them.
@@ -203,7 +202,13 @@ def configure_dhcp_server(mn_iface, mn_gateway):
 @when('gateway.installed')
 def forward_from_config():
     """Only forward ports from config if no opened-ports relation is available"""
-    cfg = json.loads(config()["port-forwards"])
+    try:
+        cfg = json.loads(config()["port-forwards"])
+    except ValueError:
+        hookenv.status_set(
+            'blocked',
+            'Failed to parse "port-forwards". Please make sure this is valid json.')
+        exit()
     if not sanity_check_cfg(cfg):
         return
     update_port_forwards(cfg)
@@ -279,11 +284,3 @@ def get_gateway():
     for route in routes:
         if route['destination'] == '0.0.0.0':
             return (route['iface'], route['gateway'])
-
-
-def get_pub_ip():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.connect(("google.com", 80))
-    public_address = sock.getsockname()[0]
-    sock.close()
-    return public_address

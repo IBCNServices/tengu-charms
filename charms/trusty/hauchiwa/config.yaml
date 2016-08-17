@@ -61,8 +61,10 @@
       Json object that contains the authentication and provider config that this hauchiwa will use. Example:
         {
           "env-configs": {
-            "type": "maas",
-            "maas-oauth": "MAAS-API-KEY",
-            "maas-server": "http://<my-maas-server>:80/MAAS"
+            "maas1": {
+              "type": "maas",
+              "maas-oauth" : "MAAS-API-KEY",
+              "maas-server": "http://<my-maas-server>:80/MAAS"
+            }
           }
         }

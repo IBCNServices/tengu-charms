@@ -16,10 +16,12 @@
 # pylint: disable=C0111,c0321,c0301,c0325
 #
 """ deploys a tengu model on a general ssh reachable cluster"""
+import os
+
+
 import yaml
 
 from output import fail #pylint: disable=E0401
-from config import  script_dir # pylint:disable=E0401
 
 class ProviderException(Exception):
     pass
@@ -54,11 +56,14 @@ class JujuPoweredEnv(object):
 
     def create(self, bundle): # pylint:disable=W0613,R0201
         print('Creating Juju powered environment...')
-        with open("templates/env-configs.yaml", 'r') as configs_file:
+        with open("{}/templates/env-configs.yaml".format(os.path.realpath(os.path.dirname(__file__))), 'r') as configs_file:
             configs = yaml.load(configs_file.read())
-        for key, value in configs.itervalues().next():
+        # We currently have no way to select another env-config so we just take
+        # the first item.
+        env_config = configs.itervalues().next()
+        for key, value in env_config.iteritems():
             self.env_conf['juju-env-conf'][key] = value
-        self.env_conf['init-bundle'] = '{}/juju_powered_provider/templates/init-bundle/bundle.yaml'.format(script_dir)
+        self.env_conf['init-bundle'] = '{}/templates/init-bundle/bundle.yaml'.format(os.path.realpath(os.path.dirname(__file__)))
         self.env_conf.save()
 
     def renew(self, hours): #pylint: disable=w0613,R0201

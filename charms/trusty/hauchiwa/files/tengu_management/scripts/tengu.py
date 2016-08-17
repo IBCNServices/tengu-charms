@@ -16,7 +16,7 @@
 # pylint: disable=C0111,c0321,c0301,c0325
 #
 import os
-from os.path import expanduser, realpath
+from os.path import realpath
 import shutil
 import subprocess
 import urllib
@@ -49,6 +49,10 @@ DEFAULT_ENV = JujuEnvironment.current_env()
 
 
 def get_provider(config=GLOBAL_CONF):
+    """ Gets the provider. The idea is that every environment can have a
+    different provider, but we still want a default provider. This means that
+    provider will be saved in both env_conf(different for each environment) and
+    global_conf (the default provider for new environments)"""
     provider = config.get('provider', 'rest2jfed')
     if provider == "ssh":
         return ssh_provider.SSHProvider(GLOBAL_CONF)
@@ -86,24 +90,6 @@ def lock_environment(env_name, lock_status):
 #    cron = tab.new(command='/foo/bar')
 #    cron.every_reboot()
 #    tab.write()
-
-
-def destroy_juju_environment(name):
-    """ Destroy Juju environment and destroy Juju environment config files """
-    env_conf = init_environment_config(name)
-    if env_conf['locked']:
-        fail('Cannot destroy locked environment')
-    else:
-        okwhite("removing juju environment from juju config files")
-        with open(expanduser("~/.juju/environments.yaml"), 'r') as config_file:
-            config = yaml.load(config_file)
-        if config['environments'] is not None:
-            config['environments'].pop(name, None)
-        with open(expanduser("~/.juju/environments.yaml"), 'w') as config_file:
-            config_file.write(yaml.dump(config, default_flow_style=False))
-        okwhite("removing juju environment from juju environment folder")
-        if os.path.isfile(expanduser("~/.juju/environments/%s.jenv" % name)):
-            os.remove(expanduser("~/.juju/environments/%s.jenv" % name))
 
 
 def ensure_exists(default, dest):
@@ -308,10 +294,11 @@ def c_destroy_model(name):
     """Destroys model with given name
     NAME: name of model """
     if click.confirm('Warning! This will destroy both the Juju environment and the jFed experiment of the model "{}". Are you sure you want to continue?'.format(name)):
-        destroy_juju_environment(name)
+        jujuenv = JujuEnvironment(name)
         env_conf = init_environment_config(name)
-        env = get_provider(env_conf).get(env_conf)
-        env.destroy()
+        jujuenv.destroy(env_conf['locked'])
+        provider_env = get_provider(env_conf).get(env_conf)
+        provider_env.destroy()
 
 
 @click.command(

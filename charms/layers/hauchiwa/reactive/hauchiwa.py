@@ -66,12 +66,14 @@ def install_tengu():
     fetch.apt_install(fetch.filter_installed_packages(packages))
     subprocess.check_call(['pip2', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'python-dateutil', 'oauth2client', 'cloud-weather-report'])
     # Install Tengu. Existing /etc files don't get overwritten.
-    t_dir = None
     if os.path.isdir(TENGU_DIR + '/etc'):
-        t_dir = tempfile.mkdtemp()
-        mergecopytree(TENGU_DIR + '/etc', t_dir)
+        t_etc_dir = tempfile.mkdtemp()
+        t_templ_dir = tempfile.mkdtemp()
+        mergecopytree(TENGU_DIR + '/etc', t_etc_dir)
+        mergecopytree(TENGU_DIR + '/templates', t_templ_dir)
         mergecopytree('files/tengu_management', TENGU_DIR)
-        mergecopytree(t_dir, TENGU_DIR + '/etc')
+        mergecopytree(t_etc_dir, TENGU_DIR + '/etc')
+        mergecopytree(t_templ_dir, TENGU_DIR + '/templates')
     else:
         mergecopytree('files/tengu_management', TENGU_DIR)
     templating.render(
@@ -142,7 +144,9 @@ def feature_flags_changed():
 @when_any('config.changed.hauchiwa-flavor', 'config.changed.providerconfig')
 def set_flavor():
     '''possible flavors: hauchiwa.provider.ssh, hauchiwa.provider.rest2jfed, hauchiwa.provider.juju-powered'''
-    flavors = [config()['hauchiwa-flavor']]  # depricated flavor option (jfed)
+    flavors = []
+    if config()['hauchiwa-flavor']:
+        flavors.append(config()['hauchiwa-flavor'])
     providerconfig = json.loads(config('providerconfig') or '{}')
     if providerconfig.get('env-configs'):
         flavors.append('juju-powered')
@@ -150,7 +154,8 @@ def set_flavor():
         for flavor in flavors:
             set_state("hauchiwa.provider.{}".format(flavor))
             remove_state("hauchiwa.provider.{}.configured".format(flavor)) # trigger a reconfiguration
-        with open(GLOBAL_CONF_PATH, 'r+') as config_file:
+
+        with open(TENGU_DIR + '/templates/env-conf.yaml.template', 'r+') as config_file:
             content = yaml.load(config_file)
             content['provider'] = flavors[0] # first flavor is default
             config_file.seek(0)
@@ -240,7 +245,7 @@ def configure_ssh():
 def configure_maas():
     with open('{}/scripts/juju_powered_provider/templates/env-configs.yaml'.format(TENGU_DIR), 'w+') as env_configs_file:
         provider_config = json.loads(config('providerconfig'))
-        env_configs_file.write(yaml.dump(provider_config['env-configs']))
+        env_configs_file.write(yaml.dump(provider_config['env-configs'], default_flow_style=False))
     set_state('hauchiwa.provider.juju-powered.configured')
 
 ################################################################################

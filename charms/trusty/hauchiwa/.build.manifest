@@ -11,7 +11,7 @@
     "reactive/juju-client.py": [
       "layer:juju-client", 
       "static", 
-      "df9517beb38e53456bd7761e3b1b887eb638b2f23b826578087b92a549e4f082"
+      "156126613d189a7a8cdff0f4f9707d47fe506dbd0efa1cae7b1b567a577204c9"
     ], 
     "files/tengu_management/scripts/ssh_provider/provider.py": [
       "hauchiwa", 
@@ -41,7 +41,7 @@
     "reactive/hauchiwa.py": [
       "hauchiwa", 
       "static", 
-      "a612448e7d64bbb597064c2804ee33767e9e75b414270acf12c5ba58ca881857"
+      "890c8fe59579364d60ea66759305ed3b74e8a9ef91e96a1eba39d7134440c539"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -56,7 +56,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "956d1274dcaf3fc1dafa89f2f0c7db7c3870eafc8be842da58099cd400766b34"
+      "489e5d9a548864125f177aaf42876289b9952929fa12c41adc11d249b7b8afaa"
     ], 
     "copyright": [
       "layer:basic", 
@@ -86,7 +86,7 @@
     "files/tengu_management/scripts/tengu.py": [
       "hauchiwa", 
       "static", 
-      "499438417f3096f0ce436949453b86e78553e67b6478218ac676ef41c4bad3ff"
+      "6f3c5d9153e0300c4bacd01894b5efba713e4b1248770f9c4478e933221e00f8"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -116,7 +116,7 @@
     "config.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "a40f8b58821dab0e90789583f4a6927336d050d34fb476e799cce4396b1623e2"
+      "069f29494999c145398f228909c7827a4843870bd9f7dd1655e6475f8aa13fed"
     ], 
     "hooks/relations/opened-ports/provides.py": [
       "interface:opened-ports", 
@@ -426,7 +426,7 @@
     "files/tengu_management/scripts/juju_powered_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "88a8ed903b452e36bbc824c658a088ea95666795fa291af41f815082fb556175"
+      "63b9f7455ffb4f9c8b5681c2be4f882609a0465b2c27456661f07777982e57ff"
     ], 
     "wheelhouse/charmhelpers-0.8.0.tar.gz": [
       "layer:basic", 

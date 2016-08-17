@@ -196,10 +196,9 @@ def import_environment(env_conf):
     name = env_conf['environment-name']
     conf = yaml.load(b64decode(env_conf['environment-config']))
     jenv = b64decode(env_conf['environment-jenv'])
-    with open('{}/.juju/environments.yaml'.format(HOME), 'r') as e_file:
-        e_content = yaml.load(e_file) or {}
     with open('{}/.juju/environments.yaml'.format(HOME), 'w+') as e_file:
-        e_content.setdefault('environments', {name: None})[name] = conf
+        e_content = yaml.load(e_file) or {}
+        e_content.setdefault('environments', {})[name] = conf
         e_file.write(yaml.dump(e_content, default_flow_style=False))
     with open('{}/.juju/environments/{}.jenv'.format(HOME, name), 'wb+') as e_file:
         e_file.write(jenv)

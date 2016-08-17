@@ -16,14 +16,16 @@
 #
 """ Handles communication to Juju """
 
-from subprocess import CalledProcessError, Popen, PIPE, check_call
-from time import sleep
-import json
+import os
 import sys
-from base64 import b64encode, b64decode
+import json
+import signal
 import getpass
 import tempfile
-import os
+from base64 import b64encode, b64decode
+from time import sleep
+from subprocess import CalledProcessError, Popen, PIPE, check_call
+
 
 # non standard pip dependencies
 import yaml
@@ -246,8 +248,10 @@ class JujuEnvironment(object):
     def deploy_init_bundle(self, bundle_path):
         with open(bundle_path, 'r') as stream:
             bundle = yaml.load(stream.read())
-        services = bundle['services']
-
+        services = bundle.get('services')
+        if not services:
+            print("no services found in init bundle so I'm not deploying anything.")
+            return
         def custom_sorting_key(service):
             return (service[1]['annotations']['order'])
         services = sorted(services.items(), key=custom_sorting_key)
@@ -291,6 +295,39 @@ class JujuEnvironment(object):
             if machine.get('containers'):
                 for container in machine['containers'].keys():
                     self.do_call('destroy-machine', container, '--force')
+
+
+    # TODO: please fix up this "locked" mess properly... -_-
+    def destroy(self, locked=True):
+        """ Destroy Juju environment and destroy Juju environment config files """
+        if locked:
+            print("Error: cannot destroy locked environment!")
+            exit(1)
+        print("trying to remove environment the normal way")
+
+        # all this "alarm" cruft can be removed when we switch to python3
+        # see: https://stackoverflow.com/questions/1191374/using-module-subprocess-with-timeout
+        class Alarm(Exception):
+            pass
+        def alarm_handler(signum, frame): # pylint:disable=W0613
+            raise Alarm
+        signal.signal(signal.SIGALRM, alarm_handler)
+        signal.alarm(10)
+        try:
+            check_call(['juju', 'destroy-environment', '--force', self.name])
+            signal.alarm(0)  # reset the alarm
+        except Alarm:
+            print "Destroying environment took too long and I don't want to wait for it. Continuing without waiting but resources might not have been cleaned up properly."
+        print("removing juju environment from juju config files")
+        with open(os.path.expanduser("~/.juju/environments.yaml"), 'r') as config_file:
+            config = yaml.load(config_file)
+        if config['environments'] is not None:
+            config['environments'].pop(self.name, None)
+        with open(os.path.expanduser("~/.juju/environments.yaml"), 'w') as config_file:
+            config_file.write(yaml.dump(config, default_flow_style=False))
+        print("removing juju environment from juju environment folder")
+        if os.path.isfile(os.path.expanduser("~/.juju/environments/%s.jenv" % self.name)):
+            os.remove(os.path.expanduser("~/.juju/environments/%s.jenv" % self.name))
 
     #
     # Static methods

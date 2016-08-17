@@ -1,0 +1,2 @@
+includes: ['layer:basic', 'interface:opened-ports']
+repo: git@github.com:IBCNServices/tengu-charms.git

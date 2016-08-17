@@ -1,0 +1,12 @@
+name: network-agent
+summary: A network agent that provides a gateway and/or dhcp service.
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+description: |
+  Depending on the network this agent manages, the agent will configure the server as a gateway and/or a dhcp-server.
+tags:
+  - network
+subordinate: false
+requires:
+  opened-ports:
+    interface: opened-ports
+series: ['trusty']

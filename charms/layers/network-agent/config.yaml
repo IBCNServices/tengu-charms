@@ -1,0 +1,34 @@
+options:
+  managed-network:
+    type: string
+    description: Network the charm manages. This is the 'internal network' for the NAT gateway and the network the dhcp-server should broadcast to (if applicable).
+    default: '192.168.14.0/24'
+  dhcp-range:
+    type: string
+    description: Range that dhcp-server should distribute.
+    default: '192.168.14.50 192.168.14.253'
+  port-forwards:
+    type: string
+    description: |
+      json object that specifies what ports should be forwarded. Example config file:
+      dhcp-server:
+        port-forwards: |
+          [{
+            "public_port": "9999",
+            "private_port": "21",
+            "private_ip": "192.168.14.2",
+            "protocol": "tcp"
+          },
+          {
+            "public_port": "5001",
+            "private_port": "5000",
+            "private_ip": "192.168.14.152",
+            "protocol": "tcp"
+          }]
+    default: |
+      []
+  portrange:
+    type: int
+    default: 29000
+    description: |
+      The start port of the range to use for dynamically assigning port forwards. When a Charm requests a port forward, it will be assigned a port starting from the portrange. Note: when the hauchiwa creates a port-forward, it will start from portrange + 1000.

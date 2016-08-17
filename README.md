@@ -128,7 +128,7 @@ and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and l
 
     # Dependencies of Charms so linter can check them
     sudo pip2 install click
-    sudo pip3 install charms.reactive netifaces amulet click
+    sudo pip3 install charms.reactive netifaces amulet click Flask
 
     # Other atom packages
     apm install language-groovy
@@ -157,7 +157,7 @@ grep and get text around match
 
 Debug IP traffic:
 
-iptables -I INPUT -j LOG --log-prefix "Connection: "
+iptables -t mangle -I PREROUTING -p icmp --icmp-type 8 -j LOG --log-prefix "ICMP ON MANGLE: "
 
 
 Mongo

@@ -314,7 +314,8 @@ class JujuEnvironment(object):
         signal.signal(signal.SIGALRM, alarm_handler)
         signal.alarm(10)
         try:
-            check_call(['juju', 'destroy-environment', '--force', self.name])
+            # If you use --force here, maas machines won't get properly released
+            check_call(['juju', 'destroy-environment', self.name])
             signal.alarm(0)  # reset the alarm
         except Alarm:
             print "Destroying environment took too long and I don't want to wait for it. Continuing without waiting but resources might not have been cleaned up properly."

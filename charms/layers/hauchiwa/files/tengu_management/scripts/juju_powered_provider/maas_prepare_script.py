@@ -21,7 +21,7 @@ interfaces = subprocess.check_output(['cat /etc/network/interfaces | grep iface 
 for interface in interfaces.split('\n'):
     interface = interface.split('@')[0]
     # Note: this awk for some reason does not recognize \s
-    ip = subprocess.check_output(["awk -v par='%s' '/^iface/ && $2==par {f=1} f && /^[\t ]*address/ {print $2; f=0}' /etc/network/interfaces" % interface], shell=True, universal_newlines=True).rstrip()
+    ip = subprocess.check_output(["awk -v par='%s' '/^iface/ && $2==par {f=1} /^iface/ && $2!=par {f=0} f && /^[\\t ]*address/ {print $2; f=0}' /etc/network/interfaces" % interface], shell=True, universal_newlines=True).rstrip()
     if ip:
         print(ip + "wololo")
         network = IPv4Network(ip, strict=False)

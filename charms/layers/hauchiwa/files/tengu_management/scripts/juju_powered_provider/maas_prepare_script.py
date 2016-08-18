@@ -9,10 +9,19 @@ upcommands = """
 """
 GATEWAY = IPv4Address('193.190.127.129')
 
-interfaces = subprocess.check_output(['ip link show | cut -d " " -f 2 | sed "s/://" | sed "/^$/d" | grep -v lo'], shell=True, universal_newlines=True).rstrip()
+# This script will run in a chroot from the installation environment into the
+# actual installed os. This means that the filesystem will be that of the
+# installed OS but the kernel is from the installation environment.
+# `/etc/network/interfaces` will be that of the installed os but `ifconfig` will
+# show the network setup of the installation environment.
+#
+found = False
+
+interfaces = subprocess.check_output(['cat /etc/network/interfaces | grep iface | cut -d " " -f 2 | grep -v lo'], shell=True, universal_newlines=True).rstrip()
 for interface in interfaces.split('\n'):
     interface = interface.split('@')[0]
-    ip = subprocess.check_output(["ip addr show {interface} | grep -v secondary | awk '/inet/ && /{interface}/{{print $2}}'".format(interface=interface)], shell=True, universal_newlines=True).rstrip()
+    # Note: this awk for some reason does not recognize \s
+    ip = subprocess.check_output(["awk -v par='%s' '/^iface/ && $2==par {f=1} f && /^[\t ]*address/ {print $2; f=0}' /etc/network/interfaces" % interface], shell=True, universal_newlines=True).rstrip()
     if ip:
         print(ip + "wololo")
         network = IPv4Network(ip, strict=False)
@@ -26,7 +35,7 @@ for interface in interfaces.split('\n'):
                 m = None
                 for m in matches:
                     match_found = True
-                assert(match_found)
+                assert match_found
                 m.start()
                 m.end()
                 interfaces = interfaces[0:m.end()] + filled_in_upcommands + interfaces[(m.end()+1):]
@@ -35,7 +44,10 @@ for interface in interfaces.split('\n'):
                 interfaces_file.write(interfaces)
                 interfaces_file.truncate()
             subprocess.check_call(["echo 200 isp2 >> /etc/iproute2/rt_tables"], shell=True, universal_newlines=True)
-            for command in filled_in_upcommands.rstrip().split("\n"):
-                command = command.lstrip(' ').replace('post-up ', "", 1)
-                subprocess.check_call([command], shell=True, universal_newlines=True)
+            # We don't run the commands because we're not actually in that system.
+            #for command in filled_in_upcommands.rstrip().split("\n"):
+            #    command = command.lstrip(' ').replace('post-up ', "", 1)
+            #    subprocess.check_call([command], shell=True, universal_newlines=True)
+            found = True
             break
+assert found

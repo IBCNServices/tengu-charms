@@ -1,0 +1,15 @@
+"name": "tengu-ui"
+"summary": "The Tengu web ui allows you to create hauchiwas and models on the Tengu\
+  \ platform."
+"maintainer": "Gregory Van Seghbroeck <gregory.vanseghbroeck@intec.ugent.be>"
+"description": |
+  The Tengu web ui can be used to create hauchiwas and models on the Tengu platform.
+"tags":
+- "big_data"
+- "web_server"
+"requires":
+  "sojobo":
+    "interface": "http"
+"provides":
+  "website":
+    "interface": "http"

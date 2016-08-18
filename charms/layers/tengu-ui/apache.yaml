@@ -1,0 +1,8 @@
+packages:
+  - 'php5-mysql'
+  - 'php5-gd'
+sites:
+  web-ui:
+    options: 'Indexes FollowSymLinks MultiViews'
+    install_from:
+      source: http://193.190.127.184:8088/job/Tengu%20web-ui/lastSuccessfulBuild/artifact/dist/tengu-browser_2.0.0.tar.gz

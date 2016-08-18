@@ -1,0 +1,10 @@
+"options":
+  "tengu-ui": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:apache-php"
+"repo": "git@github.com:IBCNServices/tengu-charms.git"
+"is": "tengu-ui"

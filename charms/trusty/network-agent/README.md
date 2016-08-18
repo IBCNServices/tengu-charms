@@ -1,20 +1,25 @@
 # Overview
 
-This Charm manages a network. It will configure itsel
+This Charm manages a network. It will do the following things to the network it manages:
 
 
+ - Configure itself as NAT gateway
+ - Forward the ports requested in the `port-forwards` config option and from the `port-forwards` relations.
+ - Create a dhcp-server ([ISC dhcp-server](https://www.isc.org/downloads/dhcp/)) if there isn't one present. Tell the clients he is the default gateway if there isn't one present on the network.
 
-This Charm configures a server to act as an [ISC dhcp-server](https://www.isc.org/downloads/dhcp/). If the dhcp broadcast interface is different from the interface the default gateway is on, then this Charm configures the host as a NAT gateway for the dhcp network.
+It will also display its public IP (or the source ip of the default-gateway interface if no public ip was found).
+
+*Note: this charm requires a working connection to the internet*
 
 # Usage
 
 To add te gateway to your environment:
 
-    juju deploy dhcp-server
+    juju deploy cs:~tengu-bot/trusty/network-agent
 
 # Configuration
 
- -  **dhcp-network**: Network the dhcp-server should broadcast to. It will decide what interface to broadcast to based on this network. *default: '192.168.14.0/24'*
+ -  **managed-network**: Network the dhcp-server should broadcast to. It will decide what interface to broadcast to based on this network. *default: '192.168.14.0/24'*
 
  -  **dhcp-range**: Range that dhcp-server should distribute. *default: '192.168.14.50 192.168.14.253'*
 
@@ -23,7 +28,7 @@ To add te gateway to your environment:
  Example configuration:
 
  ```
- dhcp-server:
+ network-agent:
     port-forwards: |
       [{
         "public_port": "9999",

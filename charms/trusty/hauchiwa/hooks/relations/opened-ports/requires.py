@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import json
-import socket
 
 from charmhelpers.core import unitdata
 
@@ -38,10 +37,7 @@ class OpenedPortsRequires(RelationBase):
             opened_ports = json.loads(conv.get_remote('opened-ports'))
             port_forwards = conv.get_local('port-forwards', [])
             # Get public ip address
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.connect(("google.com", 80))
-            public_address = sock.getsockname()[0]
-            sock.close()
+            public_address = KV.get('public-ip')
             for portproto in opened_ports:
                 if not any(
                         (pf['private_port'] == portproto['port']) and

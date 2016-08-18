@@ -308,11 +308,11 @@ def get_source_ip(host, port, protocol, recursive=True):
     sock.close()
     if source_ip == "0.0.0.0" and recursive:
         print("Source IP == 0.0.0.0. Will try default gateway source ip.")
-        source_ip = get_pub_ip()
+        source_ip = get_gateway_source_ip()
     print("Got IP = {}".format(source_ip))
     assert(source_ip != "0.0.0.0")
     return source_ip
 
 
-def get_pub_ip():
+def get_gateway_source_ip():
     return get_source_ip("8.8.8.8", 80, 'udp', recursive=False)

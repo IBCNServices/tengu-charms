@@ -18,20 +18,21 @@
 import os
 import json
 import subprocess
+from ipaddress import IPv4Network, IPv4Address
 
-from charmhelpers.core import hookenv, templating, host
+from charmhelpers.core import hookenv, templating, host, unitdata
 from charmhelpers.core.hookenv import config
 from charmhelpers import fetch
 from charms.reactive import hook, when, when_not, when_all, set_state, remove_state
+from charms.reactive.bus import get_states
 #from charms.reactive.helpers import data_changed
 
 # modules from Pip dependencies
 from netifaces import AF_INET
 import netifaces
-import netaddr
 
 # Own modules
-from iptables import update_port_forwards, configure_nat_gateway, get_pub_ip
+from iptables import update_port_forwards, configure_nat_gateway, get_gateway_source_ip
 
 @hook('upgrade-charm')
 def upgrade_charm():
@@ -56,19 +57,20 @@ def install_iptables_persistent():
 @when('dependencies.installed')
 def configure():
     hookenv.log('Configuring isc-dhcp')
-    managed_network = netaddr.IPNetwork(config()["managed-network"])
+    managed_network = IPv4Network(config()["managed-network"])
     # We know what network we should be managing. This IPNetwork object has the
     # following properties:
     #   .ip            # Original ip from config value
     #   .network       # network ip
     #   .netmmask
-    #   .broadcast
+    #   .broadcast_address
     #
     # What we don't know is what interface this network is connected to. The
     # following code tries to find out:
     #   1. what interface is connected to the network
     #   2. what the ip is of that interface
     #   3. what other interfaces this network has, ie interfaces that are unmanaged.
+    #   4. what the public ip of the server is
     #
     # Then we do two sanity checks: the broadcast and netmask of that interface
     # must be the same as for the managed network.
@@ -76,20 +78,28 @@ def configure():
     mn_iface = None
     mn_iface_ip = None
     unmanaged_ifs = []
+    public_ip = None
     for interface in netifaces.interfaces():
         af_inet = netifaces.ifaddresses(interface).get(AF_INET)
         if af_inet and af_inet[0].get('broadcast'):
-            addr = netifaces.ifaddresses(interface)[AF_INET][0]['addr']
-            if netaddr.IPAddress(addr) in managed_network:
+            addr = IPv4Address(netifaces.ifaddresses(interface)[AF_INET][0]['addr'])
+            if not addr.is_private: # Can't use is_global in 14.04 because of: https://bugs.python.org/issue21386
+                # We found #4!
+                public_ip = str(addr)
+            if addr in managed_network:
                 # We found #1 and #2 !
                 mn_iface = interface
-                mn_iface_ip = addr
+                mn_iface_ip = str(addr)
                 # Sanity check
-                assert(str(managed_network.broadcast) == netifaces.ifaddresses(interface)[AF_INET][0]['broadcast'])
+                assert(str(managed_network.broadcast_address) == netifaces.ifaddresses(interface)[AF_INET][0]['broadcast'])
                 assert(str(managed_network.netmask) == netifaces.ifaddresses(interface)[AF_INET][0]['netmask'])
             else:
                 # to find #3
                 unmanaged_ifs.append(interface)
+    if not public_ip:
+        # No public address found, so we'll use the address of the interface
+        # that is used to connect to the internet.
+        public_ip = get_gateway_source_ip()
     if not mn_iface:
         # We are not connected to the network we have to manage. We don't know
         # what to do in this case so just tell that to the admin. We know this
@@ -114,7 +124,6 @@ def configure():
     # Configure ourselves as a NAT gateway regardless of network topology so
     # port-forwarding always works.
     configure_nat_gateway(mn_iface, unmanaged_ifs)
-    set_state('gateway.installed')
 
     # If our default gateway is not part of the managed network then we must
     # tell the clients on the managed network that we are their default gateway.
@@ -128,9 +137,13 @@ def configure():
 
 
     # Save these values so other handlers can use them.
-    set_state('mn.iface', mn_iface)
-    set_state('mn.iface-ip', mn_iface_ip)
-    set_state('mn.gateway', gateway_ip)
+
+    kv = unitdata.kv()
+    kv.set('mn.iface', mn_iface)
+    kv.set('mn.iface-ip', mn_iface_ip)
+    kv.set('mn.gateway', gateway_ip)
+    kv.set('public-ip', public_ip)
+    set_state('gateway.installed')
     # Now we let the dhcp-server handlers know that they potentially have to
     # reconfigure their settings.
     remove_state('dhcp-server.configured')
@@ -139,7 +152,9 @@ def configure():
 @when('gateway.installed')
 @when_not('role.dhcp-server')
 def set_status():
-    hookenv.status_set('active', 'Ready ({})'.format(get_pub_ip()))
+    kv = unitdata.kv()
+    public_ip = kv.get('public-ip')
+    hookenv.status_set('active', 'Ready ({})'.format(public_ip))
 
 
 ################################################################################
@@ -159,10 +174,14 @@ def install():
     set_state('dhcp-server.installed')
 
 
-@when_all('role.dhcp-server', 'dhcp-server.installed', 'mn.iface', 'mn.gateway')
+@when_all('role.dhcp-server', 'dhcp-server.installed')
 @when_not('dhcp-server.configured')
-def configure_dhcp_server(mn_iface, mn_gateway):
-    managed_network = netaddr.IPNetwork(config()["managed-network"])
+def configure_dhcp_server():
+    kv = unitdata.kv()
+    public_ip = kv.get('public-ip')
+    mn_iface = kv.get('mn.iface')
+    mn_gateway = kv.get('mn.gateway')
+    managed_network = IPv4Network(config()["managed-network"])
     dhcp_range = config()["dhcp-range"]
     templating.render(
         source='isc-dhcp-server',
@@ -175,10 +194,10 @@ def configure_dhcp_server(mn_iface, mn_gateway):
         source='dhcpd.conf',
         target='/etc/dhcp/dhcpd.conf',
         context={
-            'subnet': str(managed_network.ip),
+            'subnet': str(managed_network.network_address),
             'netmask': str(managed_network.netmask),
             'routers': mn_gateway,                              # This is either the host itself or the host's gateway
-            'broadcast_address': str(managed_network.broadcast),
+            'broadcast_address': str(managed_network.broadcast_address),
             'domain_name_servers': ", ".join(get_dns()),        # We just copy the host's DNS settings
             'dhcp_range': dhcp_range,
         }
@@ -194,7 +213,7 @@ def configure_dhcp_server(mn_iface, mn_gateway):
         remove_state('dhcp-server.started')
         remove_state('dhcp-server.configured')
     else:
-        hookenv.status_set('active', 'Ready ({})'.format(get_pub_ip()))
+        hookenv.status_set('active', 'Ready ({})'.format(public_ip))
         set_state('dhcp-server.started')
         set_state('dhcp-server.configured')
 

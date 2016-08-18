@@ -381,7 +381,7 @@
     "hooks/relations/opened-ports/requires.py": [
       "interface:opened-ports", 
       "static", 
-      "99bafc8e334d469ef59d5fd51a04e9648698c5faa9ba869b365c60629a70762b"
+      "e4e1e633620ba7cf2f8282f38a5167e0f56a68744fa1b21857ed7a081427aa1d"
     ], 
     "wheelhouse/Pygments-2.1.3.tar.gz": [
       "hauchiwa", 
@@ -397,6 +397,11 @@
       "hauchiwa", 
       "static", 
       "a1dfaf24fe5dc16c4e94ee974550237b9c607a9074f4efdb5d87151a6abede0e"
+    ], 
+    "files/tengu_management/scripts/juju_powered_provider/maas_prepare_script.py": [
+      "hauchiwa", 
+      "static", 
+      "38398b36de3ebed3cbe2ccd43158dae0ff7e557b4d51170e3d3db6276e6aac05"
     ], 
     "hooks/hauchiwa-port-forward-relation-departed": [
       "interface:opened-ports", 

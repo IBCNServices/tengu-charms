@@ -1,0 +1,21 @@
+options:
+  sojobo_url:
+    type: string
+    default: "http://193.190.127.184:29094"
+    description: The absolute url for the Sojobo.
+  hauchiwa_bundle:
+    type: string
+    default: "https://api.jujucharms.com/charmstore/v5/~tengu-bot/sojobo/archive/hauchiwa.yaml.template"
+    description: The absolute url for the hauchiwa bundle.
+  bundles_url:
+    type: string
+    default: "https://api.jujucharms.com/charmstore/v5/~tengu-bot/{{bundlename}}/archive/bundle.yaml"
+    description: The templated url for the bundles. The {{bundlename}} is changed into the correct model's name.
+  mappings_url:
+    type: string
+    default: "https://api.jujucharms.com/charmstore/v5/~tengu-bot/{{bundlename}}/archive/mapping.json"
+    description: The templated url for the mapping JSON files. Simmilar to the bundles_url, the {{bundlename}} is changed into the correct model's name.
+  inti_cmd:
+    type: string
+    default: ":play tengu"
+    description: The initial command that is showed in the Stream when the UI is started.

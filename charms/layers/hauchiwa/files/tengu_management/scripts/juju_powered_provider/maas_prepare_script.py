@@ -21,6 +21,7 @@ interfaces = subprocess.check_output(['cat /etc/network/interfaces | grep iface 
 for interface in interfaces.split('\n'):
     interface = interface.split('@')[0]
     # Note: this awk for some reason does not recognize \s
+    # Source of this crazy oneliner: https://stackoverflow.com/questions/30300170/get-a-value-from-a-config-file-etc-network-interfaces-for-an-init-d-script/30300241#30300241
     ip = subprocess.check_output(["awk -v par='%s' '/^iface/ && $2==par {f=1} /^iface/ && $2!=par {f=0} f && /^[\\t ]*address/ {print $2; f=0}' /etc/network/interfaces" % interface], shell=True, universal_newlines=True).rstrip()
     if ip:
         print(ip + "wololo")

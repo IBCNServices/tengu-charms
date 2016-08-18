@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 #pylint:disable=c0103,c0111,c0301
 import re
 import subprocess

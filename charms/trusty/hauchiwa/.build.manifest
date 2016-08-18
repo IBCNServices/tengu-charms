@@ -401,7 +401,7 @@
     "files/tengu_management/scripts/juju_powered_provider/maas_prepare_script.py": [
       "hauchiwa", 
       "static", 
-      "38398b36de3ebed3cbe2ccd43158dae0ff7e557b4d51170e3d3db6276e6aac05"
+      "8e3ed15441320822dc1a393e932e61683e823cb88b0fa8dca0f1fc56a3e984ad"
     ], 
     "hooks/hauchiwa-port-forward-relation-departed": [
       "interface:opened-ports", 

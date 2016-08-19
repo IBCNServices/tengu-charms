@@ -62,9 +62,13 @@ for interface in interfaces.split('\n'):
                 interfaces_file.write(interfaces)
                 interfaces_file.truncate()
             subprocess.check_call(["echo 200 isp2 >> /etc/iproute2/rt_tables"], shell=True, universal_newlines=True)
-            # We don't run the commands because we're not actually in that system.
-            #for command in filled_in_upcommands.rstrip().split("\n"):
-            #    command = command.lstrip(' ').replace('post-up ', "", 1)
-            #    subprocess.check_call([command], shell=True, universal_newlines=True)
+            with open('/etc/dhcp/dhclient.conf', 'r+') as dhcp_conf_file:
+                conf = dhcp_conf_file.read()
+                conf = conf.replace(" routers,", "")
+                dhcp_conf_file.seek(0)
+                dhcp_conf_file.write(conf)
+                dhcp_conf_file.truncate()
+            with open('/var/log/maas_prepare_configs.old', 'w+') as log_file:
+                log_file.write(interfaces + "\n" + conf)
             found = True
             break

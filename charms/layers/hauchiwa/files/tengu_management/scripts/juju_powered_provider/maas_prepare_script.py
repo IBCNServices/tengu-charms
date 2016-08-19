@@ -1,12 +1,29 @@
 #!/usr/bin/env python3
 #pylint:disable=c0103,c0111,c0301
+# This script fixes the issue that requests from the internet to the server's
+# public ip were being dropped. They were being dropped because the server sends
+# the answer through a different interface than the one where the request came
+# from. Such packets are being dropped as a security measure.
+#
+# The cause of this strange behavior is that the default gateway the server gets
+# from maas is one in the private network, not on the public network. I first
+# tried to force responses to be send out from the same interface.
+#    see: https://unix.stackexchange.com/questions/4420/reply-on-same-interface-as-incoming
+# This worked for packets destined for the server itself but the combination of
+# port-forwards + SNAT + this fix didn't work.
+#
+# The current fix is to change the default gateway of a server with a public ip.
+# This has the disadvantage that the network topology differs between servers
+# that have a public ip and those that don't have one.
+
 import re
 import subprocess
 from ipaddress import IPv4Network, IPv4Address
 upcommands = """
-    post-up ip rule add from {interface_ip} table isp2
-    post-up ip route add default via {gateway} table isp2
+    post-up route del default
+    post-up route add default gw {gateway}
 """
+# This address comes from: http://doc.ilabt.iminds.be/ilabt-documentation/urnsrspecs.html#request-public-ipv4-addresses-for-my-nodes
 GATEWAY = IPv4Address('193.190.127.129')
 
 # This script will run in a chroot from the installation environment into the
@@ -27,8 +44,8 @@ for interface in interfaces.split('\n'):
         print(ip + "wololo")
         network = IPv4Network(ip, strict=False)
         if GATEWAY in network:
-            print(GATEWAY)
-            filled_in_upcommands = upcommands.format(interface_ip=ip.split('/')[0], gateway=str(GATEWAY))
+            print("Gateway {} is part of network {}.".format(GATEWAY, network))
+            filled_in_upcommands = upcommands.format(gateway=str(GATEWAY))
             with open('/etc/network/interfaces', 'r+') as interfaces_file:
                 interfaces = interfaces_file.read()
                 match_found = False
@@ -40,7 +57,7 @@ for interface in interfaces.split('\n'):
                 m.start()
                 m.end()
                 interfaces = interfaces[0:m.end()] + filled_in_upcommands + interfaces[(m.end()+1):]
-                print(interfaces)
+                print("This is the interfaces file after I changed it: \n{}".format(interfaces))
                 interfaces_file.seek(0)
                 interfaces_file.write(interfaces)
                 interfaces_file.truncate()
@@ -51,4 +68,3 @@ for interface in interfaces.split('\n'):
             #    subprocess.check_call([command], shell=True, universal_newlines=True)
             found = True
             break
-assert found

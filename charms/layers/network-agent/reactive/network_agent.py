@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # source: https://www.howtoforge.com/nat_iptables
 # pylint: disable=c0111,c0103,c0301,c0325
+# https://unix.stackexchange.com/questions/4420/reply-on-same-interface-as-incoming
 import os
 import json
 import subprocess
@@ -24,8 +25,6 @@ from charmhelpers.core import hookenv, templating, host, unitdata
 from charmhelpers.core.hookenv import config
 from charmhelpers import fetch
 from charms.reactive import hook, when, when_not, when_all, set_state, remove_state
-from charms.reactive.bus import get_states
-#from charms.reactive.helpers import data_changed
 
 # modules from Pip dependencies
 from netifaces import AF_INET
@@ -86,6 +85,7 @@ def configure():
             if not addr.is_private: # Can't use is_global in 14.04 because of: https://bugs.python.org/issue21386
                 # We found #4!
                 public_ip = str(addr)
+                public_if = interface
             if addr in managed_network:
                 # We found #1 and #2 !
                 mn_iface = interface
@@ -112,7 +112,7 @@ def configure():
     # Now that we know what interface we have to manage, let's check if there is
     # a dhcp server responding to requests from that interface. If there is no
     # dhcp server, we should install one.
-    output = subprocess.check_output(['nmap', '--script', 'broadcast-dhcp-discover', '-e', mn_iface], stderr=subprocess.STDOUT, universal_newlines=True)
+    output = subprocess.check_output(['nmap', '--script', 'broadcast-dhcp-discover', '-S', mn_iface_ip], stderr=subprocess.STDOUT, universal_newlines=True)
     print(output)
     if 'DHCPOFFER' in output: # pylint: disable=E1135
         print('DHCP server found on this network. Will NOT create one.')
@@ -123,7 +123,7 @@ def configure():
 
     # Configure ourselves as a NAT gateway regardless of network topology so
     # port-forwarding always works.
-    configure_nat_gateway(mn_iface, unmanaged_ifs)
+    configure_nat_gateway(mn_iface, [public_if])
 
     # If our default gateway is not part of the managed network then we must
     # tell the clients on the managed network that we are their default gateway.
@@ -142,7 +142,7 @@ def configure():
     kv.set('mn.iface', mn_iface)
     kv.set('mn.iface-ip', mn_iface_ip)
     kv.set('mn.gateway', gateway_ip)
-    kv.set('public-ip', public_ip)
+    kv.set('public-ip', public_ip)   # PS: opened-ports uses this value too.
     set_state('gateway.installed')
     # Now we let the dhcp-server handlers know that they potentially have to
     # reconfigure their settings.

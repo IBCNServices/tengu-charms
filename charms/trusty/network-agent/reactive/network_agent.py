@@ -24,8 +24,6 @@ from charmhelpers.core import hookenv, templating, host, unitdata
 from charmhelpers.core.hookenv import config
 from charmhelpers import fetch
 from charms.reactive import hook, when, when_not, when_all, set_state, remove_state
-from charms.reactive.bus import get_states
-#from charms.reactive.helpers import data_changed
 
 # modules from Pip dependencies
 from netifaces import AF_INET

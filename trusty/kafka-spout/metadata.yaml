@@ -1,0 +1,21 @@
+name: kafka-spout
+summary: Represents a kafka-spout class in an Apache Storm topology
+maintainer: Sander Borny <sander.borny@ugent.be>
+description: |
+  This charm implements a spout class in an Apache Storm topology.
+tags:
+  - misc
+subordinate: true
+requires:
+  topology:
+    interface: stormtopology
+    scope: container
+  master:
+    interface: storm
+    scope: container
+  stormelement:
+    interface: storm-element
+  zookeeper:
+    interface: zookeeper
+
+  

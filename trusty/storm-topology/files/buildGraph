@@ -1,0 +1,180 @@
+#!/bin/bash
+
+topology="$1"
+isKafkaTopology=false
+validTopology=true
+
+containsElement() 
+{
+  local e
+  for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+  return 1
+}
+
+constructPrepareMethods()
+{
+	# $1 = serviceName, $2 = topologyName
+	# check of de service name voorkomt
+	# haal alle entries van de service op en per method toevoegen
+
+	if grep "^$1" /tmp/storm-topology/$2/bolt-preparation ; then
+		echo "    configMethods:" >> /tmp/storm-topology/$2/topology.yaml
+		backupIFS=$IFS
+		IFS=$'\n'
+		methods=(`grep "^$1" /tmp/storm-topology/$2/bolt-preparation`)
+		IFS="$backupIFS"
+		for ((i=0; i<${#methods[@]}; ++i)); do 
+			arguments=(${methods[i]})
+			echo "      - name: \"${arguments[1]}\"" >> /tmp/storm-topology/$2/topology.yaml
+			if [ ${#arguments[@]} -gt 2 ]; then
+				echo "        args:" >> /tmp/storm-topology/$2/topology.yaml
+
+				for ((j=2; j<${#arguments[@]}; ++j)); do 
+					echo "          - \"${arguments[j]}\"" >> /tmp/storm-topology/$2/topology.yaml
+				done
+			fi			
+		done
+	fi
+
+	#check if database (MongoDB) bolt
+	
+}
+
+constructGrouping()
+{
+	regex="FIELDS .*"
+	if [[ "$1" =~ $regex ]]; then
+		arg=$(echo "$1" | cut -d ' ' -f 2)
+		echo "      type: FIELDS" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+		echo "      args: [\"$arg\"]" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+	else
+		echo "      type: $grouping" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+	fi
+}
+
+#save topology.yaml to check for changes
+sed -n -e '/streams:/,$p' /tmp/storm-topology/$topology/topology.yaml > /tmp/storm-topology/$topology/topology-bak
+touch /tmp/storm-topology/$topology/stream-bak
+
+#reset topology.yaml
+sed -n -i '/spouts:/q;p' /tmp/storm-topology/$topology/topology.yaml
+
+#genereer spouts config
+echo "spouts:" >> /tmp/storm-topology/$topology/topology.yaml
+while read spoutid className; do
+	echo "  - id: \"$spoutid\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    className: \"$className\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    parallelism: 1" >> /tmp/storm-topology/$topology/topology.yaml
+	if [ "$className" == "storm.kafka.KafkaSpout" ]; then
+		isKafkaTopology=true
+		kafkaConfigName=$(grep -w "$spoutid" /tmp/storm-topology/$topology/kafka-spout-config | cut -d " " -f 2)
+		{ echo "    constructorArgs:" ; echo "      - ref: \"$kafkaConfigName\"" ; } >> /tmp/storm-topology/$topology/topology.yaml
+	fi
+done < /tmp/storm-topology/$topology/spouts
+
+#genereer bolts config 
+echo "bolts:" >> /tmp/storm-topology/$topology/topology.yaml
+while read boltid className; do
+	echo "  - id: \"$boltid\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    className: \"$className\"" >> /tmp/storm-topology/$topology/topology.yaml
+	echo "    parallelism: 1" >> /tmp/storm-topology/$topology/topology.yaml
+	constructPrepareMethods $boltid $topology
+done < /tmp/storm-topology/$topology/bolts
+
+#genereer stream-groupings
+echo "streams:" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+cp /tmp/storm-topology/$topology/graph /tmp/storm-topology/$topology/graph.bak
+
+elements=( $(cat /tmp/storm-topology/$topology/spouts | cut -d " " -f1) )
+
+while [ ${#elements[@]} -gt 0 ]; do
+	while grep -w "${elements[0]}" /tmp/storm-topology/$topology/graph.bak; do #zolang het element nog relaties heeft
+		#haal lijn uit graph.bak
+		lijnnrs=( $(grep -nw "${elements[0]}" /tmp/storm-topology/$topology/graph.bak | cut -d ':' -f 1) )
+		#printf '%s\n' "${lijnnrs[@]}"    
+		for lijnnr in "${lijnnrs[@]}"; do
+			lijn=$(sed "${lijnnr}q;d" /tmp/storm-topology/$topology/graph.bak)
+			firstElement=$( echo "$lijn" | cut -d " " -f 1 )
+			secondElement=$( echo "$lijn" | cut -d " " -f 2 )
+			grouping=$( echo "$lijn" | cut -d " " -f 3,4 )
+			if [ "${elements[0]}" == "$firstElement" ];then #from is ${elements[0]} // $firstelement
+				echo "  - name: \"$firstElement --> $secondElement\"" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+				echo "    from: \"$firstElement\"" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+				echo "    to: \"$secondElement\"" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+				#check if secondElement already in elements
+				containsElement "$secondElement" "${elements[@]}" || elements+=("$secondElement")
+			else # from is secondElement
+				echo "  - name: \"$secondElement --> $firstElement\"" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+				echo "    from: \"$secondElement\"" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+				echo "    to: \"$firstElement\"" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+				#check if secondElement already in elements
+				containsElement "$firstElement" "${elements[@]}" || elements+=("$firstElement")
+			fi
+			#groupings
+			echo "    grouping:" | tee -a /tmp/storm-topology/$topology/topology.yaml /tmp/storm-topology/$topology/stream-bak
+			constructGrouping "$grouping"
+		done
+		#verwijder lijnnrs
+		lijnprep=$(printf '%sd;' "${lijnnrs[@]}")
+		lijnDelete=${lijnprep::-1}
+		sed -i "$lijnDelete" /tmp/storm-topology/$topology/graph.bak 
+	done
+	elements=("${elements[@]:1}") #verwijder voorenste element
+done
+
+#check if need to kill
+#old streams in /tmp/storm-topology/$topology/topology-bak
+#new streams in /tmp/storm-topology/$topology/stream-bak
+#
+if cmp -s "/tmp/storm-topology/$topology/topology-bak" "/tmp/storm-topology/$topology/stream-bak"; then
+	#matches check if triggered by new class in topology
+	if [ `cat /tmp/storm-topology/$topology/deploy | cut -d ' ' -f 1` == "1" ]; then
+		grep -w "`cat /tmp/storm-topology/$topology/deploy | cut -d ' ' -f 2`$" /tmp/storm-topology/$topology/stream-bak || validTopology=false	
+		echo "0" > /tmp/storm-topology/$topology/deploy	
+	else
+		validTopology=false	
+	fi
+fi
+
+rm -f /tmp/storm-topology/$topology/graph.bak /tmp/storm-topology/$topology/topology-bak /tmp/storm-topology/$topology/stream-bak
+
+# Topology killen indien deze bestaat
+if [ "$validTopology" = true ]; then
+	if grep -w "$topology" /tmp/storm-topology/runningTopologies ; then
+		topoName=$(grep "^name: \".*\"" /tmp/storm-topology/$topology/topology.yaml | sed 's/[^"]*"\([^"]*\)".*/\1/')	
+		/opt/storm/apache-storm-0.10.0/bin/storm kill "$topoName" -w 1
+		sed -i "/^${topology}$/d" /tmp/storm-topology/runningTopologies
+	fi
+fi
+
+#check if a stream has been defined
+tail -n 1 /tmp/storm-topology/$topology/topology.yaml | grep -q "streams:" && validTopology=false 
+if [ "$validTopology" = true ]; then
+
+	#check if a kafka spout has been found
+	if [ "$isKafkaTopology" = true ]; then
+		#check kafka spouts config in /tmp/storm-topology/$topology/kafka-spout-config
+		if [ -f "/tmp/storm-topology/$topology/kafka-config" ]; then
+		#voeg components toe aan topology.yaml
+		#kafkaConfigFile=$(head -n 1 "/tmp/storm-topology/$topology/kafka-config")
+		#cat "/tmp/storm-topology/$topology/$kafkaConfigFile" >> /tmp/storm-topology/$topology/topology.yaml
+		cat "/tmp/storm-topology/$topology/kafka-config" >> /tmp/storm-topology/$topology/topology.yaml
+		fi
+	fi
+
+	#deploy naar nimbus
+	# 1) Jar maken indien nodig (nieuwe classes nodig?)
+	if [ `cat /tmp/storm-topology/$topology/rebuild` == "1" ]; then
+		cd /tmp/storm-topology/$topology/Storm-Flux-Skeleton
+		mvn package	
+		echo "0" > /tmp/storm-topology/$topology/rebuild
+	fi
+	
+	# 2) opzetten met storm jar jar-name org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
+	/opt/storm/apache-storm-0.10.0/bin/storm jar /tmp/storm-topology/$topology/Storm-Flux-Skeleton/target/Storm-Flux-Skeleton-1.0-SNAPSHOT.jar org.apache.storm.flux.Flux --remote /tmp/storm-topology/$topology/topology.yaml
+	# 3) set deploy file that we just deployed
+	echo "$topology" >> /tmp/storm-topology/runningTopologies
+	echo "0" > /tmp/storm-topology/$topology/deploy
+fi
+
+

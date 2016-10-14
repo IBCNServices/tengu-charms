@@ -1,0 +1,22 @@
+name: bolt
+summary: Represents an Apache Storm bolt
+maintainer: Sander Borny <sander.borny@ugent.be>
+description: |
+  Represents an Apache Storm bolt
+tags:
+  - misc
+subordinate: true
+requires:
+  topology:
+    interface: stormtopology
+    scope: container
+  master:
+    interface: storm
+    scope: container
+  coworker:
+    interface: storm-element
+  database:
+    interface: mongodb
+provides:
+  stormelement:
+    interface: storm-element

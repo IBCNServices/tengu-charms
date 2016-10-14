@@ -1,0 +1,346 @@
+#!/bin/bash -e
+
+installPackages()
+{
+	juju-log "Installing Packages"
+	apt-get -y install git
+	apt-get -y install maven
+	apt-get -y install openjdk-7-jdk
+	if [ ! -d "/tmp/storm-topology" ]; then
+		juju-log "Creating /tmp/storm-topology"
+		mkdir -p /tmp/storm-topology
+	fi
+	if [ ! -f "/tmp/storm-topology/bolt-list" ]; then
+		juju-log "Creating bolt-list"
+		touch /tmp/storm-topology/bolt-list
+	fi	
+	status-set blocked "Waiting for: Storm-Topology relation"
+}
+
+getBolt()
+{
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`	
+	className=${1##*/}
+	classNoExtension=`echo $className | cut -d \. -f1`
+	#find previous class if possible
+	prevClass=`grep -w "$serviceName" /tmp/storm-topology/$topology/bolts | cut -d ' ' -f 2`
+	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className ]; then
+		juju-log "Downloading bolt"
+		wget -nc "$1" -P /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm
+		sed -i "s/.*package.*/package tengu.storm;/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/$className
+#		echo "$classNoExtension 1" >> /tmp/storm-topology/$topology/classes
+		echo "1" > /tmp/storm-topology/$topology/rebuild
+#	else
+		#classnr=$(grep "$classNoExtension" /tmp/storm-topology/$topology/classes | cut -d " " -f 2)
+		#((classnr++))
+		#countClass=`grep -ow "$classNoExtension$" /tmp/storm-topology/$topology/bolts | wc -l`
+		#if [[ $countClass -ne 0 ]]; then
+		#	((countClass++))
+		#	sed -i "s/^$classNoExtension.*/$classNoExtension $countClass/" /tmp/storm-topology/$topology/classes
+		#fi		
+	fi	
+	grep -w "^$serviceName" /tmp/storm-topology/$topology/bolts && sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.$classNoExtension/" /tmp/storm-topology/$topology/bolts || echo "$serviceName tengu.storm.$classNoExtension" >> /tmp/storm-topology/$topology/bolts
+
+	[ "$prevClass" != "tengu.storm.$classNoExtension" ] && echo "1 $serviceName" > /tmp/storm-topology/$topology/deploy && /bin/bash /tmp/storm-topology/buildGraph $topology
+	status-set active
+}
+
+configBoltPreparation()
+{
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	#remove all lines in /tmp/storm-topology/$topology/bolt-preparation
+	sed -i "/^$serviceName/d" /tmp/storm-topology/$topology/bolt-preparation
+	#read methods into array
+	backupIFS=$IFS;
+	IFS=";";
+	methods=($1)
+	IFS="$backupIFS"
+	#Iterate over methods
+	for ((i=0; i<${#methods[@]}; ++i)); do 
+		echo "$serviceName $(tr "(|)|," " " <<< "${methods[$i]}")" >> /tmp/storm-topology/$topology/bolt-preparation
+	done
+}
+
+configGroupings()
+{
+	juju-log "Configuring groupings"
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	#remove all lines in /tmp/storm-topology/$topology/graph except the default SHUFFLE
+	#sed -i "/^$serviceName/{/SHUFFLE/!d}" /tmp/storm-topology/$topology/graph
+	#iterate over all custom groupings and remove their SHUFFLE default
+	backupIFS=$IFS;
+	IFS=";";
+	groupings=($1)
+	IFS="$backupIFS"
+	for ((i=0; i<${#groupings[@]}; ++i)); do 
+		grouping=$(tr "(|)|," " " <<< "${groupings[$i]}") # bolt2 ALL
+		stormcomponent=$(echo "$grouping" | cut -d ' ' -f 1)
+		line=$(grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$stormcomponent" | cut -d ':' -f 1)
+#		[ -n "$line" ] && sed -i "${line}s/.*/$serviceName $grouping/" /tmp/storm-topology/$topology/graph && /bin/bash /tmp/storm-topology/buildGraph $topology
+		
+		if [ -n "$line" ]; then
+			sed -i "${line}s/.*/$serviceName $grouping/" /tmp/storm-topology/$topology/graph
+			#grep "0" /tmp/storm-topology/$topology/deploy && /bin/bash /tmp/storm-topology/buildGraph $topology || echo "0" > /tmp/storm-topology/$topology/deploy
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+		fi
+	done
+}
+
+configDatabase()
+{
+	juju-log "Configuring database name"
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	
+	if [ -f /tmp/storm-topology/$topology/database-config ]; then
+		#check if already in file
+		line=$(grep -nw "^$serviceName" /tmp/storm-topology/$topology/database-config)
+		if [ -n "$line" ]; then
+			sed -ie "s${line}/\<\w\+/$1/4" /tmp/storm-topology/$topology/database-config
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+		else		
+			echo "$serviceName 0 0 $1" >> /tmp/storm-topology/$topology/database-config
+		fi		
+	else
+		touch /tmp/storm-topology/$topology/database-config
+		# $serviceName ip-adress port databaseName
+		echo "$serviceName 0 0 $1" >> /tmp/storm-topology/$topology/database-config
+	fi
+}
+
+checkSettings()
+{
+	boltClass=`config-get class`
+	boltPrepare=`config-get prepare-methods`
+	boltGroupings=`config-get groupings`
+	boltDatabase=`config-get database`
+	if [[ -n "$boltClass" || -n "$boltPrepare" || -n "$boltGroupings" || -n "$boltDatabase" ]]; then
+		if [ -n "$boltClass" ]; then
+			juju-log "Getting class"
+			getBolt $boltClass
+		fi
+		if [ -n "$boltPrepare" ]; then
+			juju-log "Setting Bolt prepare method"
+			configBoltPreparation $boltPrepare
+		fi
+		if [ -n "$boltGroupings" ]; then
+			configGroupings "$boltGroupings"
+		fi
+		if [ -n "$boltDatabase" ]; then
+			configDatabase "$boltDatabase"
+		fi
+	else
+		juju-log "bolt class required"
+		status-set blocked "Waiting for class"
+	fi	
+}
+
+topologyChanged()
+{
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topologyName=`relation-get serviceName`
+	juju-log "Topology name is: $topologyName"
+	if grep -q "^$serviceName" /tmp/storm-topology/bolt-list ; then
+		hulp=$(sed "s/^$serviceName.*/$serviceName $topologyName/" /tmp/storm-topology/bolt-list)
+		juju-log "Copy bolt-list "
+		#juju-log "$hulp"
+		echo "$hulp" > /tmp/storm-topology/bolt-list
+
+		if [ ! -f "/tmp/storm-topology/$topologyName/bolt-preparation" ]; then
+			touch "/tmp/storm-topology/$topologyName/bolt-preparation"
+		fi
+	else	
+		juju-log "Bolt not found in bolt-list ... adding"
+		echo "$serviceName $topologyName" >> /tmp/storm-topology/bolt-list
+	fi
+
+	status-set blocked "Waiting for class"
+}
+
+stormelementChanged()
+{
+	juju-log "stormelement relation changed"
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	relation-set elementName=$serviceName
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	element=`relation-get elementName`
+	#if grep "0" /tmp/storm-topology/$topology/deploy ; then
+		if [ -n "$element" ]; then
+			juju-log "Connected to: $element"
+			#check if already in graph
+			( grep -w "$serviceName" /tmp/storm-topology/$topology/graph | grep -wq "$element" ) || echo "$serviceName $element SHUFFLE" >> /tmp/storm-topology/$topology/graph
+			#deploy new graph
+			/bin/bash /tmp/storm-topology/buildGraph $topology
+			juju-log "Ready to deploy topology.yaml"
+		fi
+	#else
+	#	echo "0" > /tmp/storm-topology/$topology/deploy
+	#fi
+}
+
+coworkerChanged()
+{
+	juju-log "coworker changed"
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	relation-set elementName=$serviceName
+}
+
+coworkerDeparted()
+{
+	juju-log "coworker departed"
+	
+}
+
+stormelementDeparted()
+{
+	juju-log "Stormelement Departed"
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	element=`relation-get elementName`
+	juju-log "Relation broken with $element"
+	#if grep "0" /tmp/storm-topology/$topology/deploy ; then
+		if [ -n $element ]; then
+			line=`grep -nw "$serviceName" /tmp/storm-topology/$topology/graph | grep -w "$element" | cut -d ":" -f 1` 
+			if [ -n "$line" ]; then
+				sed -i "${line}d" /tmp/storm-topology/$topology/graph
+				/bin/bash /tmp/storm-topology/buildGraph $topology
+			fi	
+		fi
+	#else
+	#	echo "0" > /tmp/storm-topology/$topology/deploy
+	#fi
+}
+
+topologyDeparted()
+{
+	serviceName=`[[ "$(pwd)" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	juju-log "Topology departed"
+	#remove preconfig methods 
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/$topology/bolt-preparation
+	#remove bolt from topologyName/bolts
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/$topology/bolts
+	#remove bolt van storm-topology/bolt-list
+	sed -i "/^$serviceName\b/d" /tmp/storm-topology/bolt-list
+}
+
+mongodbChanged()
+{
+	juju-log "Database relation found" 
+	privateIp=`relation-get private-address`
+	port=`relation-get port`
+	dbname=`relation-get `
+	if [[ -n "$privateIp" && -n "$port" ]]; then
+		workingDir=`pwd`
+		serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+		topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	
+		if [ -f /tmp/storm-topology/$topology/database-config ]; then
+			#check if already in file
+			line=$(grep -nw "^$serviceName" /tmp/storm-topology/$topology/database-config | cut -d ':' -f 1)
+			if [ -n "$line" ]; then
+				sed -i "${line}s/[^ ]\+/$privateIp/2" /tmp/storm-topology/$topology/database-config				
+				sed -i "${line}s/[^ ]\+/$port/3" /tmp/storm-topology/$topology/database-config
+			else		
+				echo "$serviceName $privateIp $port test" >> /tmp/storm-topology/$topology/database-config
+			fi		
+		else
+			touch /tmp/storm-topology/$topology/database-config
+			# $serviceName ip-adress port databaseName
+			echo "$serviceName $privateIp $port test" >> /tmp/storm-topology/$topology/database-config
+		fi
+
+		#load class if not already in dir
+		if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/MongoBolt.java ]; then
+			cp "$workingDir/files/MongoBolt.java" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/
+		fi
+
+		#load dependencies
+		if ! grep "mongodb-driver" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/pom.xml; then 
+			C=$(cat $workingDir/files/dependencies | sed 's/\//\\\//g')
+			sed -i "/<\/dependencies>/ s/.*/${C}\n&/" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/pom.xml
+		fi
+
+		grep -w "^$serviceName" /tmp/storm-topology/$topology/bolts && sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.MongoBolt/" /tmp/storm-topology/$topology/bolts || echo "$serviceName tengu.storm.MongoBolt" >> /tmp/storm-topology/$topology/bolts
+
+
+		#voeg toe aan prepareConfig
+		#message is hier hardcoded voor Kafka
+		dbname=`cut -d ' ' -f 4 < /tmp/storm-topology/$topology/database-config`
+		boltPrepare="prepareConfig($privateIp,$port,$dbname,message)"
+		configBoltPreparation $boltPrepare
+
+		echo "1" > /tmp/storm-topology/$topology/rebuild
+		/bin/bash /tmp/storm-topology/buildGraph $topology
+	fi	
+
+	status-set active
+}
+
+mongodbDeparted()
+{
+	juju-log "Database (MongoDB) relation departed"
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	topology=`grep "^$serviceName" /tmp/storm-topology/bolt-list | cut -d " " -f 2`
+	#verwijder uit /tmp/storm-topology/$topology/database-config
+	sed -i "/^$serviceName/d" /tmp/storm-topology/$topology/database-config
+	#verwijder uit /tmp/storm-topology/$topology/bolts
+	sed -i "s/^$serviceName\b.*/$serviceName tengu.storm.LoggerBolt/" /tmp/storm-topology/$topology/bolts
+	#aanpassen naar bolt die niets doet (als die vasthangt aan andere bolts zodat die stream groupings niet breken)
+	if [ ! -f /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/LoggerBolt.java ]; then
+		cp "$workingDir/files/LoggerBolt.java" /tmp/storm-topology/$topology/Storm-Flux-Skeleton/src/main/java/tengu/storm/
+		echo "1" > /tmp/storm-topology/$topology/rebuild
+		/bin/bash /tmp/storm-topology/buildGraph $topology
+	fi
+}
+
+cmd=$(basename "$0")
+case $cmd in
+config-changed)
+	checkSettings
+	;;
+install)
+	installPackages
+	;;
+start)
+	;;
+stop)
+	;;
+upgrade-charm)
+	;;
+topology-relation-changed)
+	topologyChanged
+	;;
+stormelement-relation-changed)
+	stormelementChanged
+	;;
+coworker-relation-changed)
+	#stormelementChanged
+	coworkerChanged
+	;;
+stormelement-relation-departed)
+	stormelementDeparted
+	;;
+coworker-relation-departed)
+	#stormelementDeparted
+	coworkerDeparted
+	;;
+topology-relation-departed)
+	topologyDeparted
+	;;
+database-relation-changed)
+	mongodbChanged
+	;;
+database-relation-departed)
+	mongodbDeparted
+	;;
+esac

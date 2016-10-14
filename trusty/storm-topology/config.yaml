@@ -1,0 +1,11 @@
+options:
+  name:
+    type: string
+    default: TopologyName    
+    description: |
+      Specify name of topology   
+  dependencies:
+    type: string 
+    description: |
+      URL to dependencies file   
+

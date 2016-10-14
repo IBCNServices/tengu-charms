@@ -1,0 +1,103 @@
+#!/bin/bash -e
+
+export JAVA_HOME_7=/usr/lib/jvm/java-7-openjdk-amd64
+
+installPackages()
+{
+	juju-log "Installing Packages";
+	apt-get -y install git
+	apt-get -y install maven
+	apt-get -y install openjdk-7-jdk	
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	if [ ! -d "/tmp/storm-topology/$serviceName" ]; then
+		juju-log "Creating /tmp/storm-topology/$serviceName"
+		juju-log "$workingDir"
+		mkdir -p /tmp/storm-topology/$serviceName
+		cd /tmp/storm-topology/$serviceName
+		git clone https://github.com/xannz/Storm-Flux-Skeleton.git
+		echo "name: \"$serviceName\"" > /tmp/storm-topology/$serviceName/topology.yaml
+		echo "config:" >> /tmp/storm-topology/$serviceName/topology.yaml
+		echo "  topology.workers: 1" >> /tmp/storm-topology/$serviceName/topology.yaml
+		touch /tmp/storm-topology/$serviceName/spouts
+		touch /tmp/storm-topology/$serviceName/bolts
+		touch /tmp/storm-topology/$serviceName/graph
+		#touch /tmp/storm-topology/$serviceName/classes
+		touch /tmp/storm-topology/$serviceName/deploy
+		touch /tmp/storm-topology/$serviceName/bolt-preparation		
+		echo "0" > /tmp/storm-topology/$serviceName/deploy
+		echo "0" > /tmp/storm-topology/$serviceName/rebuild
+		if [ ! -f /tmp/storm-topology/buildGraph ]; then
+			juju-log "Setting buildGraph"
+			cp "$workingDir/files/buildGraph" /tmp/storm-topology/
+			chmod 744 /tmp/storm-topology/buildGraph
+		fi
+		cd /tmp/storm-topology/$serviceName/Storm-Flux-Skeleton 
+		mvn clean install -DskipTests=true		
+	fi	
+	[ ! -f /tmp/storm-topology/runningTopologies ] && touch /tmp/storm-topology/runningTopologies
+	status-set blocked "Waiting for topology name"
+}
+
+setName()
+{	
+	juju-log "Setting name $1"
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	sed -i "1s/.*/name: \"$1\"/" /tmp/storm-topology/$serviceName/topology.yaml
+	status-set active
+}
+
+getDependencies()
+{
+	#http://blog.florian-hopf.de/2014/01/analyze-your-maven-project-dependencies.html auto detect pom dependencies
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	juju-log "Downloading dependencies"
+	wget -O /tmp/storm-topology/$serviceName/dependencies "$1"
+	C=$(cat /tmp/storm-topology/$serviceName/dependencies | tr '\n' ' ' | sed 's/\s\+/\\n/g' | sed 's/\//\\\//g')
+	sed -i "/<\/dependencies>/ s/.*/${C}\n&/" /tmp/storm-topology/$serviceName/Storm-Flux-Skeleton/pom.xml
+}
+
+topologyChanged()
+{
+	juju-log "topo changed"
+	workingDir=`pwd`
+	serviceName=`[[ "$workingDir" =~ unit-(.+)- ]] && echo ${BASH_REMATCH[1]}`
+	juju-log "serviceName: $serviceName"
+	relation-set serviceName=$serviceName
+}
+
+checkConfig()
+{
+	name=`config-get name`
+	dependencies=`config-get dependencies`
+	if [[ -n "$name" || -n "$dependencies" ]]; then
+		if [ -n "$name" ]; then
+			setName $name
+		fi
+		if [ -n "$dependencies" ]; then
+			getDependencies $dependencies
+		fi
+	fi
+}
+
+
+cmd=$(basename "$0")
+case $cmd in
+config-changed)	
+	checkConfig
+	;;
+start)
+	;;
+stop)
+	;;
+install)
+	installPackages
+	;;
+upgrade-charm)
+	;;
+topology-relation-changed)
+	topologyChanged
+	;;
+esac

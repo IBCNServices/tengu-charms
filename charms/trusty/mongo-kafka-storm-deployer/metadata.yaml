@@ -2,7 +2,7 @@ name: mongo-kafka-storm-deployer
 summary: mongo-kafka-storm-deployer
 maintainer: Sander Borny <sander.borny@ugent.be>
 description: |
-  mongo-kafka-storm-deployer  
+  mongo-kafka-storm-deployer
 categories: [app-servers]
 subordinate: true
 requires:
@@ -15,3 +15,4 @@ requires:
     interface: zookeeper
   kafka:
     interface: kafka
+series: ['trusty']

@@ -12,3 +12,4 @@ requires:
   juju-info:
     interface: storm
     scope: container
+series: ['trusty']

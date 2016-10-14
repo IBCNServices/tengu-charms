@@ -20,3 +20,4 @@ requires:
 provides:
   stormelement:
     interface: storm-element
+series: ['trusty']

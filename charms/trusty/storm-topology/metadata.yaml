@@ -2,15 +2,15 @@ name: storm-topology
 summary: Represents an Apache Storm topology
 maintainer: Sander Borny <sander.borny@ugent.be>
 description: |
-  This charm provides a method to deploy Storm topologies, created by spout and bolt charms. 
+  This charm provides a method to deploy Storm topologies, created by spout and bolt charms.
 tags:
   - misc
 subordinate: true
 provides:
   topology:
-    interface: stormtopology    
+    interface: stormtopology
 requires:
   master:
     interface: storm
     scope: container
-
+series: ['trusty']

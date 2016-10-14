@@ -1,7 +1,7 @@
 Overview
 ========
 
-The mongo-kafka-storm-deployer provides a method to deploy a storm topology whenever it detect relations to MongoDB, Zookeeper and Kafka. When a relation breaks the topology will be undeployed.
+The mongo-kafka-stormdeployer provides a method to deploy a storm topology whenever it detect relations to MongoDB, Zookeeper and Kafka. When a relation breaks the topology will be undeployed.
 
 Usage
 =====
@@ -12,7 +12,7 @@ An example of an environment:
 juju deploy zookeeper
 juju deploy storm stormmaster
 juju deploy storm stormworker
-juju deploy mongo-kafka-storm-deployer deployer
+juju deploy mongo-kafka-stormdeployer deployer
 juju deploy mongodb
 juju deploy apache-kafka kafka
 

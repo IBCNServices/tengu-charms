@@ -1,8 +1,8 @@
-name: mongo-kafka-storm-deployer
-summary: mongo-kafka-storm-deployer
+name: mongo-kafka-stormdeployer
+summary: mongo-kafka-stormdeployer
 maintainer: Sander Borny <sander.borny@ugent.be>
 description: |
-  mongo-kafka-storm-deployer
+  mongo-kafka-stormdeployer
 categories: [app-servers]
 subordinate: true
 requires:

@@ -127,7 +127,7 @@ class JfedSlice(object):
             next_pub_port = max([int(pf['public_port']) for pf in forward_config] or [0]) + 1
         pf_curlist = set([(pf['private_ip'], pf['private_port'], pf['protocol']) for pf in forward_config])
         pf_nelist = set()
-        for (unitinfo) in service.status['units'].values():
+        for (unitinfo) in service.units.values():
             for port, protocol in [op.split('/') for op in unitinfo.get('open-ports')]:
                 pf_nelist.add((unitinfo['public-address'], port, protocol))
         pf_addlist = pf_nelist - pf_curlist
@@ -140,7 +140,7 @@ class JfedSlice(object):
             })
             next_pub_port += 1
         dhcp_server.set_config({'port-forwards': json.dumps(forward_config, indent=4)})
-        print(show_pf_result(forward_config, pf_nelist, dhcp_server.status['units'].itervalues().next()['workload-status']['message'].lstrip('Ready (').rstrip(')')))
+        print(show_pf_result(forward_config, pf_nelist, dhcp_server.status.units.itervalues().next()['workload-status']['message'].lstrip('Ready (').rstrip(')')))
 
 
     def wait_for_init(self):

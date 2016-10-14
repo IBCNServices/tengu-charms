@@ -20,8 +20,9 @@ import re
 import subprocess
 from ipaddress import IPv4Network, IPv4Address
 upcommands = """
-    post-up route del default
-    post-up route add default gw {gateway}
+    post-up ip rule add from {interface_ip} table isp2
+    post-up ip rule add from {private_network} table isp2
+    post-up ip route add default via {gateway} table isp2
 """
 # This address comes from: http://doc.ilabt.iminds.be/ilabt-documentation/urnsrspecs.html#request-public-ipv4-addresses-for-my-nodes
 GATEWAY = IPv4Address('193.190.127.129')
@@ -34,6 +35,14 @@ GATEWAY = IPv4Address('193.190.127.129')
 #
 found = False
 
+addresses = subprocess.check_output(["cat /etc/network/interfaces | grep address | tr -s ' ' |  sed -e 's/^[ \\t]*//'  | cut -d ' ' -f 2"], shell=True, universal_newlines=True).rstrip()
+for address in addresses.split("\n"):
+    network = IPv4Network(address, strict=False)
+    if GATEWAY not in network:
+        private_network = network
+
+assert private_network
+
 interfaces = subprocess.check_output(['cat /etc/network/interfaces | grep iface | cut -d " " -f 2 | grep -v lo'], shell=True, universal_newlines=True).rstrip()
 for interface in interfaces.split('\n'):
     interface = interface.split('@')[0]
@@ -41,11 +50,10 @@ for interface in interfaces.split('\n'):
     # Source of this crazy oneliner: https://stackoverflow.com/questions/30300170/get-a-value-from-a-config-file-etc-network-interfaces-for-an-init-d-script/30300241#30300241
     ip = subprocess.check_output(["awk -v par='%s' '/^iface/ && $2==par {f=1} /^iface/ && $2!=par {f=0} f && /^[\\t ]*address/ {print $2; f=0}' /etc/network/interfaces" % interface], shell=True, universal_newlines=True).rstrip()
     if ip:
-        print(ip + "wololo")
         network = IPv4Network(ip, strict=False)
         if GATEWAY in network:
             print("Gateway {} is part of network {}.".format(GATEWAY, network))
-            filled_in_upcommands = upcommands.format(gateway=str(GATEWAY))
+            filled_in_upcommands = upcommands.format(interface_ip=ip.split('/')[0], gateway=str(GATEWAY), private_network=str(private_network))
             with open('/etc/network/interfaces', 'r+') as interfaces_file:
                 interfaces = interfaces_file.read()
                 match_found = False
@@ -54,21 +62,13 @@ for interface in interfaces.split('\n'):
                 for m in matches:
                     match_found = True
                 assert match_found
-                m.start()
-                m.end()
                 interfaces = interfaces[0:m.end()] + filled_in_upcommands + interfaces[(m.end()+1):]
                 print("This is the interfaces file after I changed it: \n{}".format(interfaces))
                 interfaces_file.seek(0)
                 interfaces_file.write(interfaces)
                 interfaces_file.truncate()
             subprocess.check_call(["echo 200 isp2 >> /etc/iproute2/rt_tables"], shell=True, universal_newlines=True)
-            with open('/etc/dhcp/dhclient.conf', 'r+') as dhcp_conf_file:
-                conf = dhcp_conf_file.read()
-                conf = conf.replace(" routers,", "")
-                dhcp_conf_file.seek(0)
-                dhcp_conf_file.write(conf)
-                dhcp_conf_file.truncate()
             with open('/var/log/maas_prepare_configs.old', 'w+') as log_file:
-                log_file.write(interfaces + "\n" + conf)
+                log_file.write(interfaces)
             found = True
             break

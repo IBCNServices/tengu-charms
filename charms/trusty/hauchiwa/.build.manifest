@@ -1,7 +1,7 @@
 {
   "layers": [
-    "layer:juju-client", 
     "layer:basic", 
+    "layer:juju-client", 
     "hauchiwa", 
     "interface:http", 
     "interface:opened-ports", 
@@ -56,7 +56,7 @@
     "files/tengu_management/scripts/jujuhelpers.py": [
       "hauchiwa", 
       "static", 
-      "a9857abcaad7e7258a84b20fa26f28c6a1bb885d64574d30364d2b214c5c62b1"
+      "2f65bccc13fc30679a6d33b83eb2924f9a35dfe2d7d40aebcb9400451bcf1e6c"
     ], 
     "copyright": [
       "layer:basic", 
@@ -68,10 +68,10 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "requirements.txt": [
+    "wheelhouse/PyYAML-3.12.tar.gz": [
       "layer:basic", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+      "dynamic", 
+      "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"
     ], 
     "files/tengu_management/scripts/jfed_provider/virtualwall_prepare.sh": [
       "hauchiwa", 
@@ -228,11 +228,6 @@
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/pyaml-15.8.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
-    ], 
     "lib/charms/layer/execd.py": [
       "layer:basic", 
       "static", 
@@ -328,6 +323,11 @@
       "static", 
       "319fe3a20d9b9591b8886b636e9be35f0aee8327edd23e04900c1b77509a6b65"
     ], 
+    "wheelhouse/pyaml-16.9.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "f8d394144d3bc5360cd48f54bfaa2d100a47040216d6f8703c17bd4b235e9bb3"
+    ], 
     "files/tengu_management/etc/global-conf.yaml": [
       "hauchiwa", 
       "static", 
@@ -391,7 +391,7 @@
     "files/tengu_management/scripts/jfed_provider/provider.py": [
       "hauchiwa", 
       "static", 
-      "b9c96da0bc19b56d05a18efb8c8313fe2ea5b945b6c5fa2ac3797e241d27a927"
+      "e4944d5f2f9f04264fec9f9913d8d8fc1efda98c5b477adbb921a4fa0dc9b152"
     ], 
     "templates/tengu": [
       "hauchiwa", 
@@ -401,7 +401,7 @@
     "files/tengu_management/scripts/juju_powered_provider/maas_prepare_script.py": [
       "hauchiwa", 
       "static", 
-      "b76a463a02f15eba50443dd42b679062acc3dcae6e070c2d5ea297a1a69a2773"
+      "1ecf3da9faee31a750567e7332f16b353317357d82dc474265064286178ed455"
     ], 
     "hooks/hauchiwa-port-forward-relation-departed": [
       "interface:opened-ports", 
@@ -423,30 +423,30 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/PyYAML-3.11.zip": [
+    "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "19bb3ac350ef878dda84a62d37c7d5c17a137386dde9c2ce7249c7a21d7f6ac9"
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
     ], 
     "files/tengu_management/scripts/juju_powered_provider/provider.py": [
       "hauchiwa", 
       "static", 
       "63b9f7455ffb4f9c8b5681c2be4f882609a0465b2c27456661f07777982e57ff"
     ], 
-    "wheelhouse/charmhelpers-0.8.0.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "355c2632049621474c50cfee6a6f7014a863f6f3bac1134ed409479cbe99b102"
-    ], 
     "layer.yaml": [
       "hauchiwa", 
       "dynamic", 
-      "64e7b2e2acbcf39928e5f95026cd61a39be1d67c41aa429752bbbbaa284987f6"
+      "3b0d6ac547c1215e929923c78b683e2fc0cdf2ea0a4ebab82ab89340777efae2"
     ], 
     "files/tengu_management/scripts/juju_powered_provider/__init__.py": [
       "hauchiwa", 
       "static", 
       "9fd3e1e836e4928b02d74840783da32c611fbdedc78ac676c051f24e4876b69c"
+    ], 
+    "wheelhouse/charmhelpers-0.9.1.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "60de745f3ff1424b9aa294c9d28d0b863f0827314331f330264ecc9a89142218"
     ], 
     "hooks/rest2jfed-relation-changed": [
       "interface:http", 
@@ -463,10 +463,10 @@
       "static", 
       "3d3d3d4e08884b37b3028fdcb6caea3840b13c0fcaee641d07ce2f26ba184584"
     ], 
-    "wheelhouse/six-1.10.0.tar.gz": [
+    "requirements.txt": [
       "layer:basic", 
-      "dynamic", 
-      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
     ]
   }
 }

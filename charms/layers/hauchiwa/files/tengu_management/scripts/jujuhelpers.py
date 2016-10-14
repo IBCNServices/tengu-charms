@@ -61,15 +61,49 @@ class Service(object):
 
     @property
     def status(self):
-        """ Return status of service can be either None or following dict:
+        """ Return status of service:
         {
             'service-status': '...',
             'message': '...',
-        }"""
+        }
+
+        Throws JujuNotFoundException when service doesn't exist
+        """
         info = self.env.status['services'].get(self.name)
         if not info:
             raise JujuNotFoundException('service {} not found'.format(self.name))
         return info
+
+    @property
+    def units(self):
+        """ Returns a dict with all the units of a service. The difference between self.units
+        and self.status['units'] is that self.units also shows the units of subordinate services
+        {
+          '<service-name>': {
+            'workload-status':
+              'current': 'active',
+              'message': 'Lorem Ipsum',
+            'public-address': 'x.x.x.x''
+            '<key>' : '<value>',
+            ..
+          }
+        }
+        """
+        s_tmp =  self.env.status
+        self_s_tmp = s_tmp['services'].get(self.name)
+        # If a charm has principals, it is a subordinate
+        principals = self_s_tmp.get('subordinate-to')
+        if principals:
+            units = {}
+            for principal_name in principals:
+                principal = s_tmp['services'].get(principal_name)
+                for unit in principal['units'].values():
+                    for sub_name, sub_value in unit['subordinates'].items():
+                        if sub_name.split('/')[0] == self.name:
+                            units[sub_name] = sub_value
+            return units
+        else:
+            return self_s_tmp.get('units')
 
     def get_config(self):
         """ Return dictionary with config of service"""

@@ -1,0 +1,136 @@
+{
+	"machines": {
+		"0": {
+			"constraints": "arch=amd64",
+			"series": "trusty",
+			"annotations": {
+				"testbed": "wall1",
+				"pubipv4": true
+			}
+		},
+		"1": {
+			"constraints": "arch=amd64",
+			"series": "trusty",
+			"annotations": {
+				"testbed": "wall1"
+			}
+		},
+		"2": {
+			"constraints": "arch=amd64",
+			"series": "trusty",
+			"annotations": {
+				"testbed": "wall1"
+			}
+		},
+		"3": {
+			"constraints": "arch=amd64",
+			"series": "trusty",
+			"annotations": {
+				"testbed": "wall1"
+			}
+		}
+	},
+	"services": {
+		"modelinfo": {
+			"charm": "cs:~tengu-bot/trusty/modelinfo",
+			"annotations": {
+				"gui-x": "1100",
+				"gui-y": "400"
+			}
+		},
+		"namenode": {
+			"charm": "cs:trusty/apache-hadoop-namenode-2",
+			"num_units": 1,
+			"annotations": {
+				"gui-x": "500",
+				"gui-y": "400"
+			},
+			"to": [
+				"lxc:0"
+			]
+		},
+		"resourcemanager": {
+			"charm": "cs:trusty/apache-hadoop-resourcemanager-3",
+			"num_units": 1,
+			"annotations": {
+				"gui-x": "500",
+				"gui-y": "100"
+			},
+			"to": [
+				"lxc:0"
+			]
+		},
+		"slave": {
+			"charm": "cs:trusty/apache-hadoop-slave-2",
+			"num_units": 3,
+			"annotations": {
+				"gui-x": "300",
+				"gui-y": "250"
+			},
+			"to": [
+				"lxc:1",
+				"lxc:2",
+				"lxc:3"
+			]
+		},
+		"plugin": {
+			"charm": "cs:trusty/apache-hadoop-plugin-14",
+			"annotations": {
+				"gui-x": "700",
+				"gui-y": "250"
+			}
+		},
+		"spark": {
+			"charm": "cs:trusty/apache-spark-9",
+			"num_units": 1,
+			"options": {
+				"spark_execution_mode": "yarn-client"
+			},
+			"annotations": {
+				"gui-x": "900",
+				"gui-y": "250"
+			},
+			"to": [
+				"lxc:0"
+			]
+		},
+		"zeppelin": {
+			"charm": "cs:trusty/apache-zeppelin-7",
+			"annotations": {
+				"gui-x": "1100",
+				"gui-y": "100"
+			}
+		}
+	},
+	"series": "trusty",
+	"relations": [
+		[
+			"namenode",
+			"slave"
+		],
+		[
+			"resourcemanager",
+			"slave"
+		],
+		[
+			"resourcemanager",
+			"namenode"
+		],
+		[
+			"plugin",
+			"namenode"
+		],
+		[
+			"plugin",
+			"resourcemanager"
+		],
+		[
+			"spark",
+			"plugin"
+		],
+		[
+			"zeppelin",
+			"spark"
+		]
+	]
+}

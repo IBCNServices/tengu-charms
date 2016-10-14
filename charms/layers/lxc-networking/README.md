@@ -17,7 +17,7 @@ Deploy charm onto the container host machines:
 
 Deploy a dhcp-server to one of the host machines:
 
-    juju deploy local:dhcp-server --to 0
+    juju deploy local:network-agent --to 0
 
 Deploy a Charm in a container on one of the container hosts:
 

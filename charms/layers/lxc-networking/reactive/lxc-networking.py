@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0103
 import subprocess
-from collections import defaultdict
 
 import netifaces
 from netifaces import AF_INET
@@ -26,6 +25,9 @@ from charmhelpers import fetch
 from charmhelpers.core import hookenv
 from charms.reactive import when_not, set_state, remove_state
 
+# Self written modules
+import interfaces
+
 
 BRIDGECONFIG = """# Managed by Juju lxc-networking <
 auto lxcbr0
@@ -35,13 +37,6 @@ iface lxcbr0 inet static
     address {address}
     netmask {netmask}
 # Managed by Juju lxc-networking >
-"""
-""" sudo apt-get install vlan
-sudo modprobe 8021q
-sudo vconfig add eth0 10
-sudo ip addr add 10.0.0.6/24 dev eth0.10
-sudo ip link set up eth0.10
-
 """
 
 @when_not('lxc-networking.active')
@@ -101,35 +96,3 @@ def install():
         raise exception
     hookenv.status_set('active', 'Ready')
     set_state('lxc-networking.active')
-
-
-def parse_interfaces():
-    """ Parses interfaces file into a dict:
-        {
-            auto: <auto line or no line>,
-            iface: <iface line>,
-            address: <address line>,
-            netmask: <netmask line>,
-            bridge_ifaces: <bridge_ifaces line>,
-            bridge_ports: <bridge_ports line>,
-            body: [array of other statements],
-        }
-    """
-    curr_if = None
-    interfaces = defaultdict(lambda: {
-        'auto': '',
-        'body': [],
-    })
-    with open('/etc/network/interfaces', 'r') as if_file:
-        content = if_file.readlines()
-    for line in content:
-        line = line.lstrip().rstrip()
-        if line.startswith(('auto', 'iface')): # One of the two possible headers
-            curr_if = line.split()[1]
-            interfaces[curr_if][line.split()[0]] = line
-        elif line.startswith(('address', 'netmask', 'bridge_ifaces', 'bridge_ports')):
-            interfaces[curr_if][line.split()[0]] = line
-        else:
-            if curr_if:
-                interfaces[curr_if]['body'].append(line)
-    return interfaces

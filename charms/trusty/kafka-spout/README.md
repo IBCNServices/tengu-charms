@@ -1,9 +1,9 @@
 Overview
 --------
 
-The Kafka-Spout charm represents an Apache Storm Kafka spout. 
+The Kafka-Spout charm represents an Apache Storm Kafka spout.
 Required Apache Storm version is 0.10 +.
- 
+
 Usage
 -----
 
@@ -29,3 +29,16 @@ juju set kspout "spoutconfigname=spoutConfig"
 
 The `spoutconfigname` must match the id in the config file.
 
+
+# Contact Information
+
+## Bugs
+
+Report bugs on [Github](https://github.com/IBCNServices/tengu-charms/issues).
+
+## Authors
+
+This software was created in the [IBCN research group](https://www.ibcn.intec.ugent.be/) of [Ghent University](http://www.ugent.be/en) in Belgium. This software is used in [Tengu](http://tengu.intec.ugent.be), a project that aims to make experimenting with data frameworks and tools as easy as possible.
+
+- Sander Borny <sander.borny@ugent.be>
+- Merlijn Sebrechts <merlijn.sebrechts@gmail.com>

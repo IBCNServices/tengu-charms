@@ -15,7 +15,7 @@ topology:
     - name: name of the topology (this should be the same as the topologyname which is used in submitTopology())
       jar: jar of the topology
       topologyclass: full domain and class of the topology
-      packaging: mvn package 
+      packaging: mvn package
       repository: the git url where the topology can be found
       scriptbeforepackaging: optional script to run before packaging
       scriptbeforedeploying: optional script to run before deployment
@@ -52,5 +52,17 @@ Deploying a topology with starting parameters is possible by entering them after
   ...
 ```
 
+# Contact Information
 
+## Bugs
 
+Report bugs on [Github](https://github.com/IBCNServices/tengu-charms/issues).
+
+## Authors
+
+This software was created in the [IBCN research group](https://www.ibcn.intec.ugent.be/) of [Ghent University](http://www.ugent.be/en) in Belgium. This software is used in [Tengu](http://tengu.intec.ugent.be), a project that aims to make experimenting with data frameworks and tools as easy as possible.
+
+- Sander Borny <sander.borny@ugent.be>
+- Maarten Ectors <maarten.ectors@canonical.com>
+- Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+- Rocket icon made by [Dave Gandy](http://www.flaticon.com/authors/dave-gandy) from [www.flaticon.com](http://www.flaticon.com) licensed as [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)

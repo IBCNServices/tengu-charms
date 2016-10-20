@@ -28,3 +28,4 @@ provides:
 requires:
   zookeeper:
     interface: zookeeper
+series: ['trusty']

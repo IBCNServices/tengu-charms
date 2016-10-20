@@ -27,7 +27,11 @@ install_base_packages () {
 		juju-log "Installing the dependencies for nimbus - jdk 6, python 2.6, unzip"
 		apt-get install -y python
 		apt-get install -y unzip
-		apt-get install -y openjdk-6-jdk
+		if [ "$version" = "0.10.0" ]; then
+		  apt-get install -y openjdk-7-jdk
+		else
+			apt-get install -y openjdk-6-jdk
+		fi
 		apt-get install -y maven
 		apt-get install -y daemon
 		juju-log "Installing the dependencies for nimbus - storm ${version}"

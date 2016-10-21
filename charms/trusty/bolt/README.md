@@ -7,41 +7,53 @@ Required Apache Storm version is 0.10 +.
 Usage
 -----
 
-This charm can be used in the following way:
+## Custom Bolt
 
-```
+This bolt can run your own class in the following way:
+
+```bash
 juju deploy zookeeper
-juju deploy storm stormmaster
-juju deploy storm stormworker
-juju add-relation zookeeper stormmaster
-juju add-relation zookeeper stormworker
-juju add-relation stormmaster:master stormworker:worker
+juju deploy cs:~tengu-bot/storm nimbus
+juju deploy cs:~tengu-bot/storm worker
+juju add-relation zookeeper nimbus
+juju add-relation zookeeper worker
+juju add-relation nimbus:master worker:worker
 
-juju deploy storm-topology topo
-juju add-relation topo stormmaster
-juju deploy bolt splitsentencebolt
-juju add-relation splitsentencebolt stormmaster
-juju add-relation splitsentencebolt topo
+juju deploy cs:~tengu-bot/storm-topology
+juju add-relation storm-topology nimbus
+juju deploy cs:~tengu-bot/bolt splitsentencebolt
+juju add-relation splitsentencebolt nimbus
+juju add-relation splitsentencebolt storm-topology
 
 juju set splitsentencebolt "class=https://raw.githubusercontent.com/xannz/WordCountExample/master/src/main/java/com/sborny/wordcountexample/SplitSentence.java"
 ```
 
-To create a MongoDB bolt connect the bolt to a MongoDB charm. Set the database name or use the default test.
-```
-juju add-relation splitsentencebolt mongodb
-juju set splitsentencebolt "database=demo"
-```
-
 Set the stream groupings with the `groupings` config option
-```
+
+```bash
 juju set splitsentencebolt "groupings=otherbolt(FIELDS word)"
 ```
 
 A bolt can be preconfigured by using the `prepare-methods` config option
-```
+
+```bash
 juju set splitsentencebolt "prepare-methods=prepare(arg1);prepare2(arg1,arg2)"
 ```
 
+
+## MongoDB bolt
+
+This class can also be configured to send the data it receives to MongoDB. This is done using the following commands.
+
+*Note that the bolt **has to be connected to both `nimbus` and `storm-topology` before adding the relation to MongoDB.***
+
+```bash
+juju deploy cs:~tengu-bot/bolt mongobolt
+juju add-relation mongobolt nimbus
+juju add-relation mongobolt storm-topology
+juju add-relation mongobolt mongodb
+juju set mongobolt database=demo
+```
 
 
 # Contact Information

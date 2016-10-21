@@ -10,21 +10,21 @@ Usage
 This charm can be used in the following way:
 
 ```
-juju deploy zookeeper
-juju deploy storm stormmaster
-juju deploy storm stormworker
-juju add-relation zookeeper stormmaster
-juju add-relation zookeeper stormworker
-juju add-relation stormmaster:master stormworker:worker
+juju deploy cs:~tengu-bot/apache-zookeeper
+juju deploy cs:~tengu-bot/storm storm-master
+juju deploy cs:~tengu-bot/storm storm-worker
+juju add-relation apache-zookeeper storm-master
+juju add-relation apache-zookeeper storm-worker
+juju add-relation storm-master:master storm-worker:worker
 
-juju deploy storm-topology topo
-juju add-relation topo stormmaster
-juju deploy kafka-spout kspout
-juju add-relation kspout stormmaster
-juju add-relation kspout topo
+juju deploy cs:~tengu-bot/storm-topology
+juju add-relation storm-topology storm-master
+juju deploy cs:~tengu-bot/kafka-spout
+juju add-relation kafka-spout storm-master
+juju add-relation kafka-spout storm-topology
 
-juju set kspout "config=https://raw.githubusercontent.com/xannz/WordCountExample/master/kafkaconfig.yaml"
-juju set kspout "spoutconfigname=spoutConfig"
+juju set kafka-spout "config=https://raw.githubusercontent.com/xannz/WordCountExample/master/kafkaconfig.yaml"
+juju set kafka-spout "spoutconfigname=spoutConfig"
 ```
 
 The `spoutconfigname` must match the id in the config file.

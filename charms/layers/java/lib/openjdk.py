@@ -11,6 +11,9 @@ def installopenjdk():
     conf = hookenv.config()
     install_type = conf['install-type']
     java_major = conf['java-major']
+    #openjdk 8 is not included in ubuntu repos    
+    if java_mayor == '8'
+        charms.apt.add_source('ppa:openjdk-r/ppa')
     charms.apt.queue_install(['openjdk-%s-jre-headless' % java_major]) # pylint: disable=e1101
     if install_type == 'full':
         charms.apt.queue_install(['openjdk-%s-jdk' % java_major])# pylint: disable=e1101

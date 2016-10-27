@@ -3,6 +3,7 @@
 
 from charmhelpers.core import hookenv
 
+import subprocess
 import charms.apt #pylint: disable=e0611,e0401
 
 

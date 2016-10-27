@@ -17,6 +17,6 @@ def install_testneo4j():
     subprocess.check_call(['apt-get','update']) 
     charms.apt.queue_install(['neo4j'])
     
-    status_set('active', 'Ready')
+    hookenv.status_set('active', 'Ready')
     set_state('testneo4j.installed')
 

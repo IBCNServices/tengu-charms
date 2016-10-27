@@ -3,13 +3,13 @@
     "layer:apt", 
     "layer:basic", 
     "layer:java", 
-    "neo4j", 
+    "neo4j1255", 
     "interface:http", 
     "build"
   ], 
   "signatures": {
     "tests/10-deploy": [
-      "neo4j", 
+      "neo4j1255", 
       "static", 
       "4a43cfba6ee85af68148f9ed827e967ee6ffcd5b14bb4a470225238ea5c3757c"
     ], 
@@ -59,7 +59,7 @@
       "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
     ], 
     "tests/00-setup": [
-      "neo4j", 
+      "neo4j1255", 
       "static", 
       "111c079b81d260bbcd716dcf41672372a4cf4aaa14154b6c3055deeedae37a06"
     ], 
@@ -99,9 +99,9 @@
       "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
     "metadata.yaml": [
-      "neo4j", 
+      "neo4j1255", 
       "dynamic", 
-      "4295e4dfb7073f871bbba7523c49221822c366e3fd3cb411b7e82a51538b0df9"
+      "cd69bbeb790cabd0247a6acd16fe43e076f6f7f847799c18de6805585b899015"
     ], 
     "hooks/website-relation-joined": [
       "interface:http", 
@@ -134,7 +134,7 @@
       "c9ad2d462a7f8d7f6f6d2b89220bd50425221e399a4b8dfe5fa6725eb26fd708"
     ], 
     ".gitignore": [
-      "neo4j", 
+      "neo4j1255", 
       "static", 
       "e20078e656bd38867e2c4bb54c94461fd4dae9664ebc74a629dfc06291bcb03f"
     ], 
@@ -159,7 +159,7 @@
       "f8d394144d3bc5360cd48f54bfaa2d100a47040216d6f8703c17bd4b235e9bb3"
     ], 
     "icon.svg": [
-      "neo4j", 
+      "neo4j1255", 
       "static", 
       "9e2fd241731a84f930b561279afdf9ed6772eb089841ecd340ff370872bb7b18"
     ], 
@@ -189,9 +189,9 @@
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "reactive/neo4j.py": [
-      "neo4j", 
+      "neo4j1255", 
       "static", 
-      "ca877d1326469ea7ce3741168181e4df6aae8efbb2e4838e8b00d8bb9f12584f"
+      "9373776fde887a60b3dc64932dd8bb2da7793248374bcadbd9e1f4502c84c259"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -279,12 +279,12 @@
       "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
     ], 
     "layer.yaml": [
-      "neo4j", 
+      "neo4j1255", 
       "dynamic", 
-      "a37e7b32fc284c4310a26ce4639307e550df62c1d2a3620548d7aa8125c00c7f"
+      "e1c568964e0a3a93786496f4788e6f42b492f24349b524e5df6ebd8d4767699e"
     ], 
     "config.yaml": [
-      "neo4j", 
+      "neo4j1255", 
       "dynamic", 
       "9712732c7f73b25bb0e2240759f193e70fc0b361df13912317ca4c57fa747caa"
     ], 

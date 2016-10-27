@@ -216,7 +216,7 @@
     "lib/openjdk.py": [
       "layer:java", 
       "static", 
-      "35f05912a06d76d87b3f28bccab8e5ca1a363ab8593fba5cec9900851dabc682"
+      "e8c3365d87a76deb35e7def37f08fb332df42bb2a2e906184b9f703a58f8531d"
     ], 
     "hooks/update-status": [
       "layer:basic", 

@@ -1,25 +1,22 @@
-#!/usr/bin/python3 pylint:disable=c0111
+#!/usr/bin/env python3
+import subprocess
+import os
 
-from jujubigdata import utils
-
-from charmhelpers import fetch
-from charmhelpers.core.host import service_restart
 from charmhelpers.core import hookenv
-from charms.reactive import when_not, set_state
+from charmhelpers.core.hookenv import charm_dir, open_port, status_set
+from charms.reactive import when, when_not, set_state
 
+import charms.apt
 
-@when_not('neo4j.installed')
-def install():
-    hookenv.log('Installing neo4j')
-    config = hookenv.config()
-    hookenv.open_port(config['port'])
-    fetch.configure_sources(True)
-    fetch.apt_install(fetch.filter_installed_packages(['neo4j']))
-    utils.re_edit_in_place('/etc/neo4j/neo4j-server.properties', {
-        r'#org.neo4j.server.webserver.address=0.0.0.0': 'org.neo4j.server.webserver.address=0.0.0.0',
-    })
-#    utils.re_edit_in_place('/etc/security/limits.conf', {
-#        r'#org.neo4j.server.webserver.address=127.0.0.1': 'org.neo4j.server.webserver.address=0.0.0.0',
-#    })
-    service_restart('neo4j-service')
-    set_state('neo4j.installed')
+@when('java.installed')
+@when_not('testneo4j.installed')
+def install_testneo4j():
+    hookenv.log("Installing Neo4J")
+    subprocess.check_call('wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -', shell=True)
+    subprocess.check_call("echo 'deb http://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list > /dev/null", shell=True)
+    subprocess.check_call(['apt-get','update']) 
+    charms.apt.queue_install(['neo4j'])
+    
+    status_set('active', 'Ready')
+    set_state('testneo4j.installed')
+

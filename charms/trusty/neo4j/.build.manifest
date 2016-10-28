@@ -191,7 +191,7 @@
     "reactive/neo4j.py": [
       "neo4j", 
       "static", 
-      "efdcbdc16c3401b61aafd56bbeb4af6e3751043e1ef4b91735f5f85969a423bd"
+      "3149133756640e14077961eccf4a42b4ed529978f29e33c06d061db695551ad6"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -286,7 +286,7 @@
     "config.yaml": [
       "neo4j", 
       "dynamic", 
-      "9712732c7f73b25bb0e2240759f193e70fc0b361df13912317ca4c57fa747caa"
+      "d55b47f15d694041a7b3c42a8612cfc8b0309681dc4792d260d56efae181afae"
     ], 
     "wheelhouse/charmhelpers-0.9.1.tar.gz": [
       "layer:basic", 

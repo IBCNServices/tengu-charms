@@ -21,9 +21,6 @@ def upgrade_charm():
 @when_not('neo4j.installed')
 def install_neo4j():
     hookenv.log("Installing Neo4J")
-    subprocess.check_call('wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -', shell=True)
-    subprocess.check_call("echo 'deb http://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list > /dev/null", shell=True)
-    subprocess.check_call(['apt-get','update']) 
     charms.apt.queue_install(['neo4j'])
     charms.apt.install_queued()
     

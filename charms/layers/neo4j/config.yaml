@@ -1,4 +1,12 @@
 options:
+  install_sources:
+    type: string
+    description: The repository to install Debian packages from.
+    default: deb http://debian.neo4j.org/repo stable/
+  install_keys:
+    type: string
+    description: The key for the Debian package repository.
+    default: "01182252"
   port:
     type: int
     default: 7474

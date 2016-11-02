@@ -23,7 +23,7 @@ def pre_install():
     hookenv.log("Install Python-pip")
     charms.apt.queue_install(['python-pip'])#pylint: disable=e1101
 
-@when('java.installed')
+@when('java.installed','apt.installed.python-pip')
 @when_not('neo4j.installed')
 def install():
     hookenv.log("Installing Neo4J")

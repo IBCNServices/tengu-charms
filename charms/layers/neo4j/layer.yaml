@@ -1,2 +1,11 @@
 includes: ['layer:apt', 'layer:java', 'interface:http']
 repo: git@github.com/sebastienpattyn93/charms.git
+Keys:
+  includes: ["layer:java"]
+  config:
+    deletes:
+        - port
+        - auth
+        - java-flavor
+        - install-type
+        - java-mayor

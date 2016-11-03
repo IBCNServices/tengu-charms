@@ -1,32 +1,24 @@
 # Overview
 
-This is a charm layer that installs OpenJDK or Oracle JDK.
+*What is Neo4j?*  Neo4j is a highly scalable, robust, native graph database. It is used in mission-critical apps by thousands of leading startups, enterprises, and governments around the world. You can learn more [here](http://neo4j.com/developer).
 
-# Configuration
+# Usage
 
-### install-type
+To use the Neo4j charm:
 
-  This determines which OpenJDK packages to install. Valid options are `jre`
-  or `jdk`. The default is `jre`, which will install the Java Runtime
-  Environment (JRE). Setting this to `jdk` will install the Java
-  Development Kit (JDK), which includes the JRE.
+    juju deploy neo4j
 
-  Switch between the JRE and full (JRE+JDK) with the following:
+You can then browse to http://ip-address:7474 to use the Neo4j browser.
 
-      juju set openjdk install-type=full
+# Contact Information
 
+- [Neo4j](http://neo4j.com/) Website
+- [Issues](https://github.com/neo4j/neo4j/issues)
 
-### java-major
+## Bugs
 
-  Major version of Java to install.  This defaults to `7`.
+Report bugs on [Github](https://github.com/IBCNServices/tengu-charms/issues).
 
+## Authors
 
-### java-flavor
-
-  Flavor of Java to install. Valid options are `openjdk` and `oracle`. The default is `openjdk`. Please note that the combination of java-flavor `oracle` and install-type `jre` will install the optimized server version of Oracle JRE.
-
-
-### Supported Java major/flavor combinations
-
- - OpenJDK/JRE 6,7
- - Oracle JDK/JRE 8
+- Sébastien Pattyn <sebastien.pattyn@qrama.io>

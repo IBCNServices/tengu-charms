@@ -216,7 +216,7 @@
     "reactive/java.py": [
       "layer:java", 
       "static", 
-      "455e271075553ce771fafaf3201b67180f5663a11b9d34f14d12d9158347ac2c"
+      "2b6feea5c6984535d231a20a84d1e4411a8d025ee5a23e222001ad1d08b7f1b1"
     ], 
     "wheelhouse/pip-8.1.2.tar.gz": [
       "layer:basic", 
@@ -226,7 +226,7 @@
     "lib/openjdk.py": [
       "layer:java", 
       "static", 
-      "1b90eb61ab6dba554e66d992cce803d22b0e77eccfaf2f379104b4923cc27aa2"
+      "88e0e4482dfea15534e4a63c8a7fc7dcbe6d76056c7b9704550d74bc9650943a"
     ], 
     "hooks/update-status": [
       "layer:basic", 
@@ -244,9 +244,9 @@
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "README.md": [
-      "layer:java", 
+      "neo4j", 
       "static", 
-      "7e652635df284fabd0bbe4027e7a4f04952a253e49436247dabd9fdbe9316aa3"
+      "2c2a27b69d8094aa2a490d3549fafed4f4ee87eacf2045e98b93b275141ec5be"
     ], 
     "files/server-jre-8u77-linux-x64.tar.gz.source": [
       "layer:java", 
@@ -291,12 +291,12 @@
     "layer.yaml": [
       "neo4j", 
       "dynamic", 
-      "a37e7b32fc284c4310a26ce4639307e550df62c1d2a3620548d7aa8125c00c7f"
+      "bb236714ec6ce45c00bfe35aaad0a22d34c63e251895cbb41e03105a4f6a7ee8"
     ], 
     "config.yaml": [
       "neo4j", 
       "dynamic", 
-      "ebbac3b296883b74f4e59e46c45f98590f6f2d5cb3282067e11524e46e2b540c"
+      "9b09fdc1822a633bb440dc1c5023b2a01a21281fead063144fbc6e7bb118afcd"
     ], 
     "wheelhouse/charmhelpers-0.9.1.tar.gz": [
       "layer:basic", 

@@ -15,4 +15,11 @@
 - "layer:java"
 - "interface:http"
 "repo": "git@github.com/sebastienpattyn93/charms.git"
+"config":
+  "deletes":
+  - "port"
+  - "auth"
+  - "java-flavor"
+  - "install-type"
+  - "java-major"
 "is": "neo4j"

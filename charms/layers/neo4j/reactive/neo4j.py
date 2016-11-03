@@ -30,6 +30,7 @@ def pre_install():
 def install():
     hookenv.log("Installing Neo4J")
     conf = hookenv.config()
+    hookenv.open_port(config['port'])
     charms.apt.queue_install(['neo4j'])
     charms.apt.install_queued()
     #install python driver if required

@@ -15,15 +15,26 @@ def upgrade_charm():
         subprocess.check_call(['service','neo4j','stop'])
     except subprocess.CalledProcessError as exception:
         hooken.log(exception.output)
-    install_neo4j()
+    install()
 
 @when('java.installed')
+@when_not('apt.installed.python-pip')
+def pre_install():
+    hookenv.log("Install Python-pip")
+    charms.apt.queue_install(['python-pip'])#pylint: disable=e1101
+
+@when('java.installed','apt.installed.python-pip')
 @when_not('neo4j.installed')
-def install_neo4j():
+def install():
     hookenv.log("Installing Neo4J")
+    conf = hookenv.config()
     charms.apt.queue_install(['neo4j'])
     charms.apt.install_queued()
-    
+    #install python driver if required
+    python_type = conf['python-type']
+    if python_type != 'none':
+        subprocess.check_call(['pip','install',python_type])
+        
     hookenv.status_set('active','Ready')
     set_state('neo4j.installed')
 

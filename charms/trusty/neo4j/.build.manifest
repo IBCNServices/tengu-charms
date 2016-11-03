@@ -63,10 +63,10 @@
       "static", 
       "111c079b81d260bbcd716dcf41672372a4cf4aaa14154b6c3055deeedae37a06"
     ], 
-    "hooks/relations/http/interface.yaml": [
-      "interface:http", 
+    "files/server-jre-8u77-linux-x64.tar.gz": [
+      "layer:java", 
       "static", 
-      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
+      "eff7c61a76d822d06ba540f388f8e98e0b94ac2365da4735d8072922eef64c85"
     ], 
     ".build.manifest": [
       "build", 
@@ -118,6 +118,11 @@
       "static", 
       "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
     ], 
+    "wheelhouse/pyaml-16.11.0.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "4d6f76cf210080c25007a20615113ab6eb3696f9cab9260dd85dabdd100b3257"
+    ], 
     "wheelhouse/PyYAML-3.12.tar.gz": [
       "layer:java", 
       "dynamic", 
@@ -153,15 +158,15 @@
       "static", 
       "b1e2a2f66e8738adb603000541964b9ae4dd76cdde422beca9a7789661d32266"
     ], 
-    "wheelhouse/pyaml-16.9.0.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "f8d394144d3bc5360cd48f54bfaa2d100a47040216d6f8703c17bd4b235e9bb3"
-    ], 
     "icon.svg": [
       "neo4j", 
       "static", 
       "9e2fd241731a84f930b561279afdf9ed6772eb089841ecd340ff370872bb7b18"
+    ], 
+    "files/jdk-8u77-linux-x64.tar.gz": [
+      "layer:java", 
+      "static", 
+      "a47dc0962a57b27a0cc00b9f11a53dc3add40c98633ba49a2419b845e4dedf43"
     ], 
     "hooks/config-changed": [
       "layer:basic", 
@@ -183,6 +188,11 @@
       "static", 
       "29e01153acd614813371261c2893e8334d7010dacce90564f146c36d1128b7d9"
     ], 
+    "hooks/relations/http/interface.yaml": [
+      "interface:http", 
+      "static", 
+      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
+    ], 
     "hooks/hook.template": [
       "layer:basic", 
       "static", 
@@ -191,7 +201,7 @@
     "reactive/neo4j.py": [
       "neo4j", 
       "static", 
-      "3149133756640e14077961eccf4a42b4ed529978f29e33c06d061db695551ad6"
+      "9fab2f484e3c8b4a31bcbfefd81342f5213b24cebb6b9cf8449d4400f3d43769"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -286,7 +296,7 @@
     "config.yaml": [
       "neo4j", 
       "dynamic", 
-      "d55b47f15d694041a7b3c42a8612cfc8b0309681dc4792d260d56efae181afae"
+      "ebbac3b296883b74f4e59e46c45f98590f6f2d5cb3282067e11524e46e2b540c"
     ], 
     "wheelhouse/charmhelpers-0.9.1.tar.gz": [
       "layer:basic", 

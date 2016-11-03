@@ -40,3 +40,9 @@
     "default": "neo4j/neo4j"
     "description": "Authentication, set to none to disable authentication or neo4j/<password>\
       \ to override the default."
+  "python-type":
+    "type": "string"
+    "default": "neo4j-driver"
+    "description": "This option will install a neo4j python driver. Supported drivers\
+      \ are Neo4J python driver(neo4j-driver) \nand Py2Neo(py2neo). Set to none if\
+      \ no driver has to be installed.\n"

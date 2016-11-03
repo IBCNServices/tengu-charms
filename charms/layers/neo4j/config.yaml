@@ -34,4 +34,5 @@ options:
     type: string
     default: "neo4j-driver"
     description: |
-      This option will install a neo4j python driver. Supported drivers are Neo4J python driver(neo4j-driver) and Py2Neo(py2neo). Set to none if no driver has to be installed.
+      This option will install a neo4j python driver. Supported drivers are Neo4J python driver(neo4j-driver) 
+      and Py2Neo(py2neo). Set to none if no driver has to be installed.

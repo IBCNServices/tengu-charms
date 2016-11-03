@@ -9,6 +9,6 @@ tags:
   - database
 subordinate: false
 provides:
-  database:
-    interface: neo4j
+  website:
+    interface: http
 series: ['trusty']

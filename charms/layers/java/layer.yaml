@@ -1,2 +1,3 @@
 name: java
 includes: ['layer:basic', 'layer:apt']
+repo: git@github.com:IBCNServices/tengu-charms.git

@@ -15,11 +15,9 @@ def installopenjdk():
     #openjdk 8 is not included in ubuntu repos    
     if java_major == '8':
         charms.apt.add_source('ppa:openjdk-r/ppa')
-        charms.apt.update()
     charms.apt.queue_install(['openjdk-%s-jre-headless' % java_major]) # pylint: disable=e1101
     if install_type == 'full':
         charms.apt.queue_install(['openjdk-%s-jdk' % java_major])# pylint: disable=e1101
         # return 'openjdk-%s-jdk' % java_major
     # TODO remove when reactive fixed
-    charms.apt.install_queued()# pylint: disable=e1101
-    return 'openjdk-%s-jre-headless' % java_major
+    #return 'openjdk-%s-jre-headless' % java_major

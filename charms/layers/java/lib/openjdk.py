@@ -20,4 +20,4 @@ def installopenjdk():
         charms.apt.queue_install(['openjdk-%s-jdk' % java_major])# pylint: disable=e1101
         # return 'openjdk-%s-jdk' % java_major
     # TODO remove when reactive fixed
-    #return 'openjdk-%s-jre-headless' % java_major
+    return 'openjdk-%s-jre-headless' % java_major

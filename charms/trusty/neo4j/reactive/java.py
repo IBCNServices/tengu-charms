@@ -16,7 +16,7 @@
 # pylint: disable=c0111,c0103,c0301
 
 from charmhelpers.core import hookenv
-from charms.reactive import when_not, set_state
+from charms.reactive import when_not, set_state, when_any
 
 import openjdk
 import oracle
@@ -29,6 +29,11 @@ def install():
         openjdk.installopenjdk()
     elif conf['java-flavor'] == 'oracle':
         oracle.installoracle()
+        set_state('java.installed')
     else:
         openjdk.installopenjdk()
-    set_state('java.installed')
+
+# Special handler for openjdk because openjdk 8 needs another repo
+@when_any('apt.installed.openjdk-6-jre','apt.installed.openjdk-7-jre','apt.installed.openjdk-8-jre')   
+def openjdk_install():
+    set_state('java.installed') 

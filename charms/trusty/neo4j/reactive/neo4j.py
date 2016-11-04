@@ -2,7 +2,9 @@
 import subprocess
 import os
 
+from jujubigdata import utils
 from charmhelpers.core import hookenv
+from charmhelpers.core.host import service_restart
 from charmhelpers.core.hookenv import charm_dir, open_port, status_set
 from charms.reactive import hook, when, when_not, set_state
 
@@ -28,12 +30,19 @@ def pre_install():
 def install():
     hookenv.log("Installing Neo4J")
     conf = hookenv.config()
+    hookenv.open_port(config['port'])
     charms.apt.queue_install(['neo4j'])
     charms.apt.install_queued()
     #install python driver if required
     python_type = conf['python-type']
     if python_type != 'none':
         subprocess.check_call(['pip','install',python_type])
+    
+    utils.re_edit_in_place('/etc/neo4j/neo4j.conf', {
+        r'#dbms.connector.http.address=0.0.0.0:7474': 'dbms.connector.http.address=0.0.0.0:7474',
+    })
+     
+    service_restart('neo4j')
         
     hookenv.status_set('active','Ready')
     set_state('neo4j.installed')

@@ -93,6 +93,11 @@
       "static", 
       "32204327952d4ea4ef1063f45bdbe7be379a7a7b8220f3e5f2f5e11003b25654"
     ], 
+    "wheelhouse/charmhelpers-0.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d2ae29bdc925d3cf9be8d50d85e32a6b65e5b718bd383bd4899769b288ed512"
+    ], 
     "tox.ini": [
       "layer:basic", 
       "static", 
@@ -161,7 +166,7 @@
     "icon.svg": [
       "neo4j", 
       "static", 
-      "9e2fd241731a84f930b561279afdf9ed6772eb089841ecd340ff370872bb7b18"
+      "3c8eb1c1e3cec9d65a2809d85ab765cc52b035046807ad60f507cc0ff34fda64"
     ], 
     "files/jdk-8u77-linux-x64.tar.gz": [
       "layer:java", 
@@ -201,7 +206,7 @@
     "reactive/neo4j.py": [
       "neo4j", 
       "static", 
-      "9fab2f484e3c8b4a31bcbfefd81342f5213b24cebb6b9cf8449d4400f3d43769"
+      "8f69a1a821bd73bb6001ccfc9186bfac51acd4a780cf54b74885567331b43f34"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -226,7 +231,7 @@
     "lib/openjdk.py": [
       "layer:java", 
       "static", 
-      "88e0e4482dfea15534e4a63c8a7fc7dcbe6d76056c7b9704550d74bc9650943a"
+      "037b747801c9fcfc7b4b7ca17476e894289a3086bc05312aac84852d2c579570"
     ], 
     "hooks/update-status": [
       "layer:basic", 
@@ -291,17 +296,12 @@
     "layer.yaml": [
       "neo4j", 
       "dynamic", 
-      "bb236714ec6ce45c00bfe35aaad0a22d34c63e251895cbb41e03105a4f6a7ee8"
+      "a37e7b32fc284c4310a26ce4639307e550df62c1d2a3620548d7aa8125c00c7f"
     ], 
     "config.yaml": [
       "neo4j", 
       "dynamic", 
-      "9b09fdc1822a633bb440dc1c5023b2a01a21281fead063144fbc6e7bb118afcd"
-    ], 
-    "wheelhouse/charmhelpers-0.9.1.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "60de745f3ff1424b9aa294c9d28d0b863f0827314331f330264ecc9a89142218"
+      "ebbac3b296883b74f4e59e46c45f98590f6f2d5cb3282067e11524e46e2b540c"
     ], 
     "hooks/relations/http/provides.py": [
       "interface:http", 

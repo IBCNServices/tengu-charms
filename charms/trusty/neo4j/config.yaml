@@ -16,6 +16,30 @@
     "description": "The key for the Debian package repository."
     "type": "string"
     "default": "01182252"
+  "install-type":
+    "type": "string"
+    "default": "full"
+    "description": |
+      Override of the install-type. NOT TO BE ADJUSTED.
+  "java-major":
+    "type": "string"
+    "default": "8"
+    "description": |
+      Override of the java-major. NOT TO BE ADJUSTED.
+  "java-flavor":
+    "type": "string"
+    "default": "openjdk"
+    "description": |
+      Override of the java-flavor. NOT TO BE ADJUSTED.
+  "port":
+    "type": "int"
+    "default": !!int "7474"
+    "description": "Port that is used to navigate to Neo4J"
+  "auth":
+    "type": "string"
+    "default": "neo4j/neo4j"
+    "description": "Authentication, set to none to disable authentication or neo4j/<password>\
+      \ to override the default."
   "python-type":
     "type": "string"
     "default": "neo4j-driver"

@@ -17,6 +17,9 @@
 import os
 import json
 import socket
+import requests
+from lxml import html
+from lxml.etree import tostring
 from distutils.util import strtobool
 
 from pygments import highlight, lexers, formatters
@@ -85,6 +88,39 @@ def api_root():
 def api_icon():
     """ icon """
     return redirect("http://tengu.io/assets/icons/favicon.ico", code=302)
+
+
+@APP.route('/users/{username}')
+def create_user():
+    """ Welcome message """
+    info = {
+        "name": socket.gethostname(),
+        "version": "0.0.1", # see http://semver.org/
+    }
+    return create_response(200, info)
+
+
+
+
+def get_maas_api_key(username, password):
+    payload = {
+        'username': username,
+        'password': password
+    }
+    with requests.Session() as s:
+        login_response = s.post('http://193.190.127.161/MAAS/accounts/login/', data=payload)
+        print(login_response)
+        api_page_response = s.get('http://193.190.127.161/MAAS/account/prefs/')
+        print(api_page_response)
+    tree = html.fromstring(api_page_response.text)
+    api_keys = tree.xpath('//div[@id="api"]//input/@value')
+    print(api_keys[-1])
+
+
+
+
+
+
 
 
 #

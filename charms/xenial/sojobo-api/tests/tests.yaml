@@ -1,0 +1,2 @@
+tests: "0*"
+makefile: ['test']

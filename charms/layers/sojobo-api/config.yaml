@@ -1,0 +1,8 @@
+options:
+  feature-flags:
+    type: string
+    default: ''
+    description: |
+      Comma-delimited list of feature flags to be used. Each feature flag specified is set to 'True'. Example: 'DEBUG,FEATURE_FLAG_AUTH'. (non-conclusive) List of supported flags:
+        - DEBUG: run h_api in debug mode
+        - FEATURE_FLAG_AUTH: Turn on authentication on h_api

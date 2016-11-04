@@ -1,0 +1,15 @@
+[Unit]
+Description={{description}}
+After=network.target
+
+[Service]
+User={{user}}
+Group={{user}}
+WorkingDirectory={{application_dir}}
+{% for flag in flags -%}
+Environment={{flag}}=True
+{%- endfor %}
+ExecStart={{application_path}}
+
+[Install]
+WantedBy=multi-user.target

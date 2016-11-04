@@ -1,0 +1,16 @@
+"options":
+  "sojobo-api": {}
+  "juju2-client": {}
+  "apt":
+    "packages": []
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "layer:juju2-client"
+- "layer:apt"
+- "interface:opened-ports"
+"repo": "git@github.com:IBCNServices/tengu-charms.git"
+"is": "sojobo-api"

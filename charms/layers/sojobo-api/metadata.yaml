@@ -1,0 +1,11 @@
+name: sojobo-api
+summary: This Charm sets up a Tengu Sojobo API.
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+description: |
+tags:
+  - big_data
+subordinate: false
+provides:
+  sojobo-api-port-forward:
+    interface: opened-ports
+series: [ 'xenial' ]

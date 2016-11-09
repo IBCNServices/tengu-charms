@@ -9,6 +9,10 @@ WorkingDirectory={{application_dir}}
 {% for flag in flags -%}
 Environment={{flag}}=True
 {%- endfor %}
+{% for env_var in env_vars -%}
+Environment={{env_var}}
+{%- endfor %}
+
 ExecStart={{application_path}}
 
 [Install]

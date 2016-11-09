@@ -6,3 +6,15 @@ options:
       Comma-delimited list of feature flags to be used. Each feature flag specified is set to 'True'. Example: 'DEBUG,FEATURE_FLAG_AUTH'. (non-conclusive) List of supported flags:
         - DEBUG: run h_api in debug mode
         - FEATURE_FLAG_AUTH: Turn on authentication on h_api
+  maas-user:
+    type: string
+    default: 'admin'
+    description: Username of the MAAS user.
+  maas-api-key:
+    type: string
+    default: ''
+    description: MAAS api key.
+  maas-url:
+    type: string
+    default: ''
+    description: URL to MAAS. Example: http://<hostname>/MAAS

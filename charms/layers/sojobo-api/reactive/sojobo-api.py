@@ -85,8 +85,14 @@ def install_api():
     hookenv.status_set('active', 'Ready')
 
 def render_api_systemd_template():
-    flags = hookenv.config()['feature-flags'].replace(' ', '')
+    charmconfig = hookenv.config()
+    flags = charmconfig['feature-flags'].replace(' ', '')
     flags = [x for x in flags.split(',') if x != '']
+    env_vars = [
+        "MAAS_USER={}".format(charmconfig['maas-api-key']),
+        "MAAS_API_KEY={}".format(charmconfig['maas-user']),
+        "MAAS_URL={}".format(charmconfig['maas-url']),
+    ]
     templating.render(
         source='flask-app.service',
         target='/etc/systemd/system/sojobo-api.service',
@@ -95,7 +101,8 @@ def render_api_systemd_template():
             'application_dir': API_DIR,
             'application_path': "{}/sbin/sojobo_api.py".format(API_DIR),
             'user': USER,
-            'flags': flags
+            'flags': flags,
+            'env_vars': env_vars,
         }
     )
 

@@ -29,15 +29,14 @@ class OpenedPortsProvides(RelationBase):
         self.set_state('{relation_name}.available')
         self.configure()
 
-
     @hook('{provides:opened-ports}-relation-{departed,broken}')
     def broken(self):
         self.remove_state('{relation_name}.available')
 
-
     def configure(self):
         conv = self.conversation()
-        output = subprocess.check_output(['opened-ports'], universal_newlines=True)
+        output = subprocess.check_output(['opened-ports'],
+                                         universal_newlines=True)
         opened_ports = []
         for line in output.split('\n'):
             if line.rstrip() != '':
@@ -69,7 +68,6 @@ class OpenedPortsProvides(RelationBase):
             self.set_state('{relation_name}.ready')
         else:
             self.remove_state('{relation_name}.ready')
-
 
     @property
     def forwards(self):

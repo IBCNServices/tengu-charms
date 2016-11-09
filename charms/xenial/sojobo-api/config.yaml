@@ -18,7 +18,8 @@
       \ that can be added directly to sources.list(5), or in the form ppa:<user>/<ppa-name>\
       \ for adding Personal Package Archives, or a distribution component to enable.\n"
     "type": "string"
-    "default": ""
+    "default": |
+       - "deb http://ppa.launchpad.net/juju/stable/ubuntu xenial main"
   "install_keys":
     "description": "List of signing keys for install_sources package sources, per\
       \ charmhelpers standard format (a yaml list of strings encoded as a string).\
@@ -28,7 +29,8 @@
       \ key is used that will already be installed on the machine, and for PPA sources\
       \ where the package signing key is securely retrieved from Launchpad.\n"
     "type": "string"
-    "default": ""
+    "default": |
+       - "C8068B11"
   "feature-flags":
     "type": "string"
     "default": ""

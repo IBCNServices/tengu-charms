@@ -17,8 +17,14 @@
 import os
 import json
 import socket
+import tempfile
+import subprocess
+from subprocess import check_call
 from distutils.util import strtobool
 
+from lxml import html
+
+import requests
 from pygments import highlight, lexers, formatters
 from flask import Flask, Response, request, redirect
 
@@ -46,6 +52,10 @@ def parse_flags_from_environment(flags):
 DEBUG = False
 parse_flags_from_environment(['DEBUG', 'FEATURE_FLAG_AUTH'])
 
+MAAS_USER = os.environ.get('MAAS_USER')
+MAAS_API_KEY = os.environ.get('MAAS_API_KEY')
+MAAS_URL = os.environ.get('MAAS_URL')
+check_call(['maas', 'login', MAAS_USER, MAAS_URL, MAAS_API_KEY])
 
 #
 # Init flask
@@ -85,6 +95,89 @@ def api_root():
 def api_icon():
     """ icon """
     return redirect("http://tengu.io/assets/icons/favicon.ico", code=302)
+
+
+@APP.route('/users/<username>/models/<modelname>')
+def create_model(username, modelname):
+    if username != request.authorization.username:
+        return create_response(403, {'message':"username in auth and in url have to be the same"})
+
+    auth = authenticate(request.authorization)
+    model = request.json
+    modelname = "{}-{}".format(auth.username, modelname)
+    juju_create_model(auth.username, auth.api_key, model['ssh-keys'], modelname)
+
+
+
+
+
+    return create_response(200, {})
+
+def authenticate(auth):
+    if not auth.username in maas_list_users():
+        maas_create_user(auth.username, auth.password)
+        juju_create_user(auth.username, auth.password)
+    user = object
+    user.username = auth.username
+    user.password = auth.password
+    user.api_key = maas_get_user_api_key(auth.username, auth.password)
+    return user
+
+def maas_list_users():
+    users = json.loads(subprocess.check_output(['maas', MAAS_USER, 'users', 'read'], universal_newlines=True))
+    return [u['username'] for u in users]
+
+def maas_create_user(username, password):
+    # email has to be unique
+    check_call(['maas', MAAS_USER, 'users', 'create', 'username={}'.format(username), 'email=merlijn.sebrechts+maas-user-{}@gmail.com'.format(username), 'password={}'.format(password), 'is_superuser=0'])
+
+def maas_get_user_api_key(username, password):
+    # source: https://stackoverflow.com/questions/11892729/how-to-log-in-to-a-website-using-pythons-requests-module/17633072#17633072
+    payload = {
+        'username': username,
+        'password': password
+    }
+    with requests.Session() as session:
+        login_response = session.post('http://193.190.127.161/MAAS/accounts/login/', data=payload)
+        print(login_response)
+        api_page_response = session.get('http://193.190.127.161/MAAS/account/prefs/')
+        print(api_page_response)
+    tree = html.fromstring(api_page_response.text)
+    api_keys = tree.xpath('//div[@id="api"]//input/@value')
+    return api_keys[-1]
+
+def juju_list_users():
+    users = json.loads(subprocess.check_output(['juju', 'list-users', '--format', 'json'], universal_newlines=True))
+    return [u['user-name'] for u in users]
+
+def juju_create_user(username, password):
+    check_call(['juju', 'add-user', username])
+    check_call(['juju', 'change-user-password', username], input="{}\n{}".format(password, password))
+
+def juju_create_model(username, api_key, ssh_keys, modelname):
+    credentials = {
+        'credentials': {
+            'maas': {
+                username: {
+                    'auth-type': 'oauth1',
+                    'maas-oauth': api_key,
+                }
+            }
+        }
+    }
+    tmp = tempfile.NamedTemporaryFile()
+    tmp.write(json.dumps(credentials))
+    tmp.close()  # deletes the file
+    config = []
+    if ssh_keys:
+        config = config + ['authorized-keys="{}"'.format(ssh_keys)]
+    if len(config):
+        config = ['--config'] + config
+    check_call(['juju', 'add-credential', '--replace', 'True', '-f', tmp.name])
+    check_call(['juju', 'add-model', modelname, '--credential', username] + config)
+    check_call(['juju', 'grant', username, 'admin', modelname])
+
+
 
 
 #

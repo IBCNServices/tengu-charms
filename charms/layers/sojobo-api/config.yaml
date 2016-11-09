@@ -17,4 +17,5 @@ options:
   maas-url:
     type: string
     default: ''
-    description: URL to MAAS. Example: http://<hostname>/MAAS
+    description: |
+      URL to MAAS. Example: http://<hostname>/MAAS

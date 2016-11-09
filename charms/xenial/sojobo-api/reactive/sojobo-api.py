@@ -66,7 +66,7 @@ def install_api():
     """
 
     # Install pip pkgs
-    for pkg in ['Jinja2', 'Flask', 'pyyaml', 'click', 'pygments']:
+    for pkg in ['Jinja2', 'Flask', 'pyyaml', 'click', 'pygments', 'lxml']:
         pip_install(pkg)
 
     # Install The Sojobo API. Existing /etc files don't get overwritten.
@@ -94,7 +94,14 @@ def install_api():
 
 
 def render_api_systemd_template():
-    flags = config()['feature-flags'].replace(' ', '')
+    appconf = config()
+    env_vars = [
+        "MAAS_USER={}".format(appconf['maas-user']),
+        "MAAS_API_KEY={}".format(appconf['maas-api-key']),
+        "MAAS_URL={}".format(appconf['maas-url']),
+    ]
+
+    flags = appconf['feature-flags'].replace(' ', '')
     flags = [x for x in flags.split(',') if x != '']
     templating.render(
         source='flask-app.service',
@@ -104,7 +111,8 @@ def render_api_systemd_template():
             'application_dir': API_DIR,
             'application_path': "{}/sbin/sojobo_api.py".format(API_DIR),
             'user': USER,
-            'flags': flags
+            'flags': flags,
+            'env_vars': env_vars,
         }
     )
 

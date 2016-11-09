@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+#!/usr/bin/env python3
 # Copyright (C) 2016  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,17 +16,21 @@
 # pylint: disable=c0111,c0103,c0301
 import os
 from os.path import expanduser
-import pwd
-import grp
 import shutil
 import tempfile
 import subprocess
-#import re
 
 # Charm pip dependencies
-from charmhelpers.core import templating, hookenv, host
-from charmhelpers.core.hookenv import open_port, config
-from charms import apt # pylint: disable=E0611
+from charmhelpers.core import templating
+from charmhelpers.core.hookenv import (
+    status_set,
+    log,
+    config,
+    open_port
+)
+from charmhelpers.core.host import service_restart, chownr
+from charmhelpers.contrib.python.packages import pip_install
+
 from charms.reactive import hook, when, when_not, set_state
 
 
@@ -36,31 +40,35 @@ HOME = expanduser('~{}'.format(USER))
 SSH_DIR = HOME + '/.ssh'
 
 
-################################################################################
+###############################################################################
 #
 # INSTALLATION AND UPGRADES
 #
-################################################################################
+###############################################################################
 
 @when('juju.installed')
 @when_not('api.installed')
 def install():
-    hookenv.log('Installing Sojobo API')
+    log('Installing Sojobo API')
     install_api()
     set_state('api.installed')
+
 
 @hook('upgrade-charm')
 def upgrade_charm():
-    hookenv.log('Updating Sojobo API')
+    log('Updating Sojobo API')
     install_api()
     set_state('api.installed')
 
+
 def install_api():
-    """ Installs api management tools """
-    packages = ['python-pip', 'tree', 'python-dev', 'unzip', 'make']
-    apt.queue_install(packages)
-    apt.install_queued()
-    subprocess.check_call(['pip3', 'install', 'Jinja2', 'Flask', 'pyyaml', 'click', 'pygments'])
+    """Installs api management pkgs
+    """
+
+    # Install pip pkgs
+    for pkg in ['Jinja2', 'Flask', 'pyyaml', 'click', 'pygments', 'lxml']:
+        pip_install(pkg)
+
     # Install The Sojobo API. Existing /etc files don't get overwritten.
     if os.path.isdir(API_DIR + '/etc'):
         t_etc_dir = tempfile.mkdtemp()
@@ -73,26 +81,28 @@ def install_api():
     # setup api
     render_api_systemd_template()
     # USER should get all access rights.
-    chownr(API_DIR, USER, USER)
+    chownr(API_DIR, USER, USER, chowntopdir=True)
     subprocess.check_call(['systemctl', 'daemon-reload'])
     subprocess.check_call(['systemctl', 'enable', 'sojobo-api'])
-    success = host.service_restart('sojobo-api')
+    success = service_restart('sojobo-api')
     if not success:
         print("Error: starting service failed!")
         exit(1)
     open_port('5000')
     open_port('22')
-    hookenv.status_set('active', 'Ready')
+    status_set('active', 'Ready')
+
 
 def render_api_systemd_template():
-    charmconfig = hookenv.config()
-    flags = charmconfig['feature-flags'].replace(' ', '')
-    flags = [x for x in flags.split(',') if x != '']
+    appconf = config()
     env_vars = [
-        "MAAS_USER={}".format(charmconfig['maas-api-key']),
-        "MAAS_API_KEY={}".format(charmconfig['maas-user']),
-        "MAAS_URL={}".format(charmconfig['maas-url']),
+        "MAAS_USER={}".format(appconf['maas-user']),
+        "MAAS_API_KEY={}".format(appconf['maas-api-key']),
+        "MAAS_URL={}".format(appconf['maas-url']),
     ]
+
+    flags = appconf['feature-flags'].replace(' ', '')
+    flags = [x for x in flags.split(',') if x != '']
     templating.render(
         source='flask-app.service',
         target='/etc/systemd/system/sojobo-api.service',
@@ -107,25 +117,25 @@ def render_api_systemd_template():
     )
 
 
-################################################################################
+###############################################################################
 #
 # Handeling changed configs
 #
-################################################################################
+###############################################################################
 
 
 @when('api.installed')
 @when('config.changed.feature-flags')
 def feature_flags_changed():
     render_api_systemd_template()
-    host.service_restart('sojobo-api')
+    service_restart('sojobo-api')
 
 
-################################################################################
+###############################################################################
 #
 # UTILS
 #
-################################################################################
+###############################################################################
 
 def mergecopytree(src, dst, symlinks=False, ignore=None):
     """"Recursive copy src to dst, mergecopy directory if dst exists.
@@ -148,19 +158,3 @@ def mergecopytree(src, dst, symlinks=False, ignore=None):
             mergecopytree(src_item, dst_item, symlinks, ignore)
         else:
             shutil.copy2(src_item, dst_item)
-
-
-def chownr(path, owner, group, follow_links=True):
-    uid = pwd.getpwnam(owner).pw_uid
-    gid = grp.getgrnam(group).gr_gid
-    if follow_links:
-        chown = os.chown
-    else:
-        chown = os.lchown
-    chown(path, uid, gid)
-    for root, dirs, files in os.walk(path):
-        for name in dirs + files:
-            full = os.path.join(root, name)
-            broken_symlink = os.path.lexists(full) and not os.path.exists(full)
-            if not broken_symlink:
-                chown(full, uid, gid)

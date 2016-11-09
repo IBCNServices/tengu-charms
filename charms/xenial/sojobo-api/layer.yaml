@@ -1,18 +1,30 @@
 "options":
+  "apt":
+    "packages":
+    - "juju"
+    - "juju-core"
+    - "juju-deployer"
+    - "git"
+    - "python-yaml"
+    - "python-jujuclient"
+    - "charm-tools"
+    - "maas-cli"
+  "basic":
+    "packages":
+    - "python-pip"
+    - "tree"
+    - "python-dev"
+    - "unzip"
+    - "make"
+    "use_venv": !!bool "false"
+    "include_system_packages": !!bool "false"
   "sojobo-api": {}
   "juju2-client": {}
-  "apt":
-    "packages": ['juju', 'juju-core', 'juju-deployer', 'git', 'python-yaml', 'python-jujuclient', 'charm-tools']
-  "basic":
-    "packages": ["python-pip", "tree", "python-dev", "unzip", "make"]
-  "basic":
-    "use_venv": !!bool "false"
-    "packages": []
-    "include_system_packages": !!bool "false"
 "includes":
 - "layer:basic"
 - "layer:apt"
 - "layer:juju2-client"
+- "layer:apt"
 - "interface:opened-ports"
 "repo": "git@github.com:IBCNServices/tengu-charms.git"
 "is": "sojobo-api"

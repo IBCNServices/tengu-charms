@@ -1,2 +1,6 @@
 includes: ['layer:juju2-client', 'layer:apt', 'interface:opened-ports']
 repo: git@github.com:IBCNServices/tengu-charms.git
+options:
+  apt:
+    packages:
+      - 'maas-cli'

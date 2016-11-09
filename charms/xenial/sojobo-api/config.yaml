@@ -1,8 +1,4 @@
 "options":
-  "user":
-    "type": "string"
-    "default": "ubuntu"
-    "description": "user to install the tools for"
   "extra_packages":
     "description": "Space separated list of extra deb packages to install.\n"
     "type": "string"
@@ -18,8 +14,7 @@
       \ that can be added directly to sources.list(5), or in the form ppa:<user>/<ppa-name>\
       \ for adding Personal Package Archives, or a distribution component to enable.\n"
     "type": "string"
-    "default": |
-       - "deb http://ppa.launchpad.net/juju/stable/ubuntu xenial main"
+    "default": "deb http://ppa.launchpad.net/juju/stable/ubuntu xenial main"
   "install_keys":
     "description": "List of signing keys for install_sources package sources, per\
       \ charmhelpers standard format (a yaml list of strings encoded as a string).\
@@ -29,8 +24,11 @@
       \ key is used that will already be installed on the machine, and for PPA sources\
       \ where the package signing key is securely retrieved from Launchpad.\n"
     "type": "string"
-    "default": |
-       - "C8068B11"
+    "default": "C8068B11"
+  "user":
+    "type": "string"
+    "default": "ubuntu"
+    "description": "user to install the tools for"
   "feature-flags":
     "type": "string"
     "default": ""
@@ -38,3 +36,16 @@
       Comma-delimited list of feature flags to be used. Each feature flag specified is set to 'True'. Example: 'DEBUG,FEATURE_FLAG_AUTH'. (non-conclusive) List of supported flags:
         - DEBUG: run h_api in debug mode
         - FEATURE_FLAG_AUTH: Turn on authentication on h_api
+  "maas-user":
+    "type": "string"
+    "default": "admin"
+    "description": "Username of the MAAS user."
+  "maas-api-key":
+    "type": "string"
+    "default": ""
+    "description": "MAAS api key."
+  "maas-url":
+    "type": "string"
+    "default": ""
+    "description": |
+      URL to MAAS. Example: http://<hostname>/MAAS

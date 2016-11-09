@@ -1,4 +1,4 @@
-# python3 pylint:disable=c0111
+#!/usr/bin/env python3 pylint:disable=c0111
 # Copyright (C) 2016  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify

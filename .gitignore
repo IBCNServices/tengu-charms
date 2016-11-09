@@ -32,3 +32,5 @@ test
 
 # dependency directory of composer
 charms/deps
+
+.tox/

@@ -226,7 +226,7 @@
     "templates/flask-app.service": [
       "sojobo-api", 
       "static", 
-      "16acd57834c89cde5bfb513542347f2861ed99acefba4e8b5ee1bda22a9607da"
+      "2b1656d594c612d0d3a84f1590c00eefa8122a3eb1cbe05c964838f1166bbfe7"
     ], 
     "hooks/sojobo-api-port-forward-relation-changed": [
       "interface:opened-ports", 

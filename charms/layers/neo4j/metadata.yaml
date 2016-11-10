@@ -1,4 +1,4 @@
-name: neo4j1640
+name: neo4j
 summary: Neo4j is a highly scalable native graph database.
 maintainer: Sebastien Pattyn <Sebastien.Pattyn@qrama.io>
 description: |

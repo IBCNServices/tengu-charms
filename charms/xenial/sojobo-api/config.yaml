@@ -29,6 +29,16 @@
     "type": "string"
     "default": "ubuntu"
     "description": "user to install the tools for"
+  "controllers.yaml":
+    "type": "string"
+    "default": ""
+    "description": |
+      base64 encoded contents of ~/.local/share/juju/controllers.yaml
+  "credentials.yaml":
+    "type": "string"
+    "default": ""
+    "description": |
+      base64 encoded contents of ~/.local/share/juju/credentials.yaml
   "feature-flags":
     "type": "string"
     "default": ""
@@ -49,3 +59,18 @@
     "default": ""
     "description": |
       URL to MAAS. Example: http://<hostname>/MAAS
+  "juju-username":
+    "type": "string"
+    "default": ""
+    "description": |
+      username used for `juju login`
+  "juju-controller":
+    "type": "string"
+    "default": ""
+    "description": |
+      controller to login. Defaults to first controller in controllers.yaml
+  "juju-password":
+    "type": "string"
+    "default": ""
+    "description": |
+      password of user on that controller

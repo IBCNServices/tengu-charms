@@ -66,7 +66,8 @@ def install_api():
     """
 
     # Install pip pkgs
-    for pkg in ['Jinja2', 'Flask', 'pyyaml', 'click', 'pygments', 'lxml']:
+    for pkg in ['Jinja2', 'Flask', 'pyyaml', 'click', 'pygments', 'lxml',
+                'apscheduler']:
         pip_install(pkg)
 
     # Install The Sojobo API. Existing /etc files don't get overwritten.
@@ -82,7 +83,6 @@ def install_api():
     render_api_systemd_template()
     # USER should get all access rights.
     chownr(API_DIR, USER, USER, chowntopdir=True)
-    subprocess.check_call(['systemctl', 'daemon-reload'])
     subprocess.check_call(['systemctl', 'enable', 'sojobo-api'])
     success = service_restart('sojobo-api')
     if not success:
@@ -99,6 +99,9 @@ def render_api_systemd_template():
         "MAAS_USER={}".format(appconf['maas-user']),
         "MAAS_API_KEY={}".format(appconf['maas-api-key']),
         "MAAS_URL={}".format(appconf['maas-url']),
+        "JUJU_USER={}".format(appconf['juju-username']),
+        "JUJU_PASSWORD={}".format(appconf['juju-password']),
+        "CONTROLLER_NAME={}".format(appconf['juju-controller']),
     ]
 
     flags = appconf['feature-flags'].replace(' ', '')
@@ -115,6 +118,7 @@ def render_api_systemd_template():
             'env_vars': env_vars,
         }
     )
+    subprocess.check_call(['systemctl', 'daemon-reload'])
 
 
 ###############################################################################

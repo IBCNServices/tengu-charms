@@ -16,18 +16,19 @@
 # pylint: disable=c0111,c0301,c0325
 import os
 import json
+import atexit
 import socket
 import tempfile
 import subprocess
-from subprocess import check_call
+from subprocess import check_call, check_output
 from distutils.util import strtobool
 
 from lxml import html
-
 import requests
 from pygments import highlight, lexers, formatters
 from flask import Flask, Response, request, redirect
-
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 #
 # Init feature flags and global variables
 #
@@ -55,13 +56,41 @@ parse_flags_from_environment(['DEBUG', 'FEATURE_FLAG_AUTH'])
 MAAS_USER = os.environ.get('MAAS_USER')
 MAAS_API_KEY = os.environ.get('MAAS_API_KEY')
 MAAS_URL = os.environ.get('MAAS_URL')
-check_call(['maas', 'login', MAAS_USER, MAAS_URL, MAAS_API_KEY])
+
+JUJU_USER = os.environ.get('JUJU_USER')
+JUJU_PASSWORD = os.environ.get('JUJU_PASSWORD')
+CONTROLLER_NAME = os.environ.get('CONTROLLER_NAME')
+
 
 #
 # Init flask
 #
 APP = Flask(__name__)
 APP.url_map.strict_slashes = False
+
+
+#
+# schedule periodic re-login
+#
+
+def login():
+    check_call(['maas', 'login', MAAS_USER, MAAS_URL, MAAS_API_KEY])
+    print(check_output(
+        ['juju', 'login', JUJU_USER, '--controller', CONTROLLER_NAME],
+        input=JUJU_PASSWORD + '\n',
+        universal_newlines=True))
+login()
+
+SCHEDULER = BackgroundScheduler()
+SCHEDULER.start()
+SCHEDULER.add_job(
+    func=login,
+    trigger=IntervalTrigger(hours=12),
+    id='login_job',
+    name='Login every 12 hours',
+    replace_existing=True)
+# Shut down the SCHEDULER when exiting the app
+atexit.register(lambda: SCHEDULER.shutdown())
 
 
 @APP.after_request
@@ -106,11 +135,6 @@ def create_model(username, modelname):
     model = request.json
     modelname = "{}-{}".format(auth.username, modelname)
     juju_create_model(auth.username, auth.api_key, model['ssh-keys'], modelname)
-
-
-
-
-
     return create_response(200, {})
 
 def authenticate(auth):

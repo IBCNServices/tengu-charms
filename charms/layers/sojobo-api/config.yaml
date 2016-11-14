@@ -19,3 +19,18 @@ options:
     default: ''
     description: |
       URL to MAAS. Example: http://<hostname>/MAAS
+  juju-username:
+    type: string
+    default: ''
+    description: |
+      username used for `juju login`
+  juju-controller:
+    type: string
+    default: ''
+    description: |
+      controller to login. Defaults to first controller in controllers.yaml
+  juju-password:
+    type: string
+    default: ''
+    description: |
+      password of user on that controller

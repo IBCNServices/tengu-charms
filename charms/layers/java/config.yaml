@@ -11,7 +11,7 @@ options:
     type: string
     default: "7"
     description: |
-      Major version of Java. Defaults to 7.
+      Major version of Java. Defaults to 7. Supported versions are 'Oracle java 8' and 'openjdk 6/7/8'
   java-flavor:
     type: string
     default: "openjdk"

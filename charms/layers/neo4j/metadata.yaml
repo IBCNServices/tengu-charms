@@ -1,19 +1,14 @@
 name: neo4j
-summary: Highly scalable, robust, native graph database.
-maintainer: Neo4j Operability Team <operability@neotechnology.com>
+summary: Neo4j is a highly scalable native graph database.
+maintainer: Sebastien Pattyn <Sebastien.Pattyn@qrama.io>
 description: |
-  Neo4j is a highly scalable, robust, native graph database. It is
-  used in mission-critical apps by thousands of leading startups,
-  enterprises, and governments around the world.
+  This charm deploys Neo4j. Neo4j is a highly scalable native graph database 
+  that leverages data relationships as first-class entities, helping enterprises 
+  build intelligent applications to meet today’s evolving data challenges.
 tags:
-  - databases
+  - database
 subordinate: false
 provides:
-  database:
-    interface: neo4j
-options:
-  neo4j:
-    ports:
-      browser_http:
-        port: 7474
-        exposed_on: 'neo4j'
+  website:
+    interface: http
+series: ['trusty']

@@ -28,9 +28,9 @@ This is a charm layer that installs OpenJDK or Oracle JDK.
 
 ### Supported Java major/flavor combinations
 
- - OpenJDK/JRE 6,7
+ - OpenJDK/JRE 6,7,8
  - Oracle JDK/JRE 8
-
+ 
 # Contact Information
 
 ## Bugs

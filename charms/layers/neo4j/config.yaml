@@ -10,20 +10,29 @@ options:
   port:
     type: int
     default: 7474
-    description: "The port that the browser runs on."
-  cache-memory:
-    type: int
-    default: 512
-    description: "Size of Neo4j's native-memory cache in megabytes."
-  heap-memory:
-    type: int
-    default: 512
-    description: "Size of Neo4j's heap in megabytes."
-  keep-logical-logs:
-    type: int
-    default: 100
-    description: "Retention policy for logical logs in megabytes."
+    description: "Port that is used to navigate to Neo4J"
   auth:
     type: string
     default: "neo4j/neo4j"
     description: "Authentication, set to none to disable authentication or neo4j/<password> to override the default."
+  java-flavor:
+    type: string
+    default: "openjdk"
+    description: |
+      Override of the java-flavor. NOT TO BE ADJUSTED.
+  install-type:
+    type: string
+    default: "full"
+    description: |
+      Override of the install-type. NOT TO BE ADJUSTED.
+  java-major:
+    type: string
+    default: "8"
+    description: |
+      Override of the java-major. NOT TO BE ADJUSTED.
+  python-type:
+    type: string
+    default: "neo4j-driver"
+    description: |
+      This option will install a neo4j python driver. Supported drivers are Neo4J python driver(neo4j-driver) 
+      and Py2Neo(py2neo). Set to none if no driver has to be installed.

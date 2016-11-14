@@ -1,1 +1,2 @@
-includes: ['layer:basic', 'layer:openjdk']
+includes: ['layer:apt', 'layer:java', 'interface:http']
+repo: git@github.com/sebastienpattyn93/charms.git

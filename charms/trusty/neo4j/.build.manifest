@@ -93,6 +93,11 @@
       "static", 
       "32204327952d4ea4ef1063f45bdbe7be379a7a7b8220f3e5f2f5e11003b25654"
     ], 
+    "wheelhouse/charmhelpers-0.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d2ae29bdc925d3cf9be8d50d85e32a6b65e5b718bd383bd4899769b288ed512"
+    ], 
     "tox.ini": [
       "layer:basic", 
       "static", 
@@ -161,7 +166,7 @@
     "icon.svg": [
       "neo4j", 
       "static", 
-      "9e2fd241731a84f930b561279afdf9ed6772eb089841ecd340ff370872bb7b18"
+      "fb87c17d30873fa5c7cc2dd184cdfa1737d21c9b055be0c2e2caf8654987cad1"
     ], 
     "files/jdk-8u77-linux-x64.tar.gz": [
       "layer:java", 
@@ -201,7 +206,7 @@
     "reactive/neo4j.py": [
       "neo4j", 
       "static", 
-      "9fab2f484e3c8b4a31bcbfefd81342f5213b24cebb6b9cf8449d4400f3d43769"
+      "ece41bf4b46c1cc732132bc08a0bad1c44ac40f7f18d04c7d4e4d8210f3a3cbb"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -216,7 +221,7 @@
     "reactive/java.py": [
       "layer:java", 
       "static", 
-      "455e271075553ce771fafaf3201b67180f5663a11b9d34f14d12d9158347ac2c"
+      "1822ae1c922b8b7a919e5340f2b4fc214a18380a682e28e8758d78d2131ae567"
     ], 
     "wheelhouse/pip-8.1.2.tar.gz": [
       "layer:basic", 
@@ -226,7 +231,7 @@
     "lib/openjdk.py": [
       "layer:java", 
       "static", 
-      "1b90eb61ab6dba554e66d992cce803d22b0e77eccfaf2f379104b4923cc27aa2"
+      "033eaceaf1dec646575b5d772fc6c182bb21da213559f8321a7894ecb7a0f7f3"
     ], 
     "hooks/update-status": [
       "layer:basic", 
@@ -244,9 +249,9 @@
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "README.md": [
-      "layer:java", 
+      "neo4j", 
       "static", 
-      "7e652635df284fabd0bbe4027e7a4f04952a253e49436247dabd9fdbe9316aa3"
+      "2c2a27b69d8094aa2a490d3549fafed4f4ee87eacf2045e98b93b275141ec5be"
     ], 
     "files/server-jre-8u77-linux-x64.tar.gz.source": [
       "layer:java", 
@@ -297,11 +302,6 @@
       "neo4j", 
       "dynamic", 
       "ebbac3b296883b74f4e59e46c45f98590f6f2d5cb3282067e11524e46e2b540c"
-    ], 
-    "wheelhouse/charmhelpers-0.9.1.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "60de745f3ff1424b9aa294c9d28d0b863f0827314331f330264ecc9a89142218"
     ], 
     "hooks/relations/http/provides.py": [
       "interface:http", 

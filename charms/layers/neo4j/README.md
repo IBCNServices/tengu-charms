@@ -21,4 +21,4 @@ Report bugs on [Github](https://github.com/IBCNServices/tengu-charms/issues).
 
 ## Authors
 
-- Sébastien Pattyn <sebastien.pattyn@qrama.io>
+- Sébastien Pattyn <sebastien.pattyn@gmail.com>

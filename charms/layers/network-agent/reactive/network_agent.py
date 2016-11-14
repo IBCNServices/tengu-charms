@@ -66,10 +66,10 @@ def configure():
     #
     # What we don't know is what interface this network is connected to. The
     # following code tries to find out:
-    #   1. what interface is connected to the network
+    #   1. what interface is connected to that network
     #   2. what the ip is of that interface
-    #   3. what other interfaces this network has, ie interfaces that are unmanaged.
-    #   4. what the public ip of the server is
+    #   3. what other interfaces we have, ie interfaces that are unmanaged.
+    #   4. what our public ip is
     #
     # Then we do two sanity checks: the broadcast and netmask of that interface
     # must be the same as for the managed network.
@@ -97,7 +97,7 @@ def configure():
                 # to find #3
                 unmanaged_ifs.append(interface)
     if not public_ip:
-        # No public address found, so we'll use the address of the interface
+        # No public ip found, so we'll use the address of the interface
         # that is used to connect to the internet.
         public_ip = get_gateway_source_ip()
     if not mn_iface:

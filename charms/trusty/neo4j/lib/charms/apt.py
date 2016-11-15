@@ -152,7 +152,7 @@ def ensure_package_status():
     if not packages:
         return
     config = hookenv.config()
-    package_status = config['package_status']
+    package_status = config.get('package_status') or ''
     changed = reactive.helpers.data_changed('apt.package_status',
                                             (package_status, sorted(packages)))
     if changed:

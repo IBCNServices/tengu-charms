@@ -49,3 +49,10 @@ def config_bindings():
     service_start('neo4j')
     hookenv.status_set('active','Ready')
     set_state('neo4j.installed')
+
+@when('config.changed.python-type')
+def install_python_driver():
+    conf = hookenv.config()
+    python_type = conf['python-type']
+    if python_type != 'none':
+        subprocess.check_call(['pip','install',python_type])

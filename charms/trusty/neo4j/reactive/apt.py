@@ -78,7 +78,7 @@ def configure_sources():
     config = hookenv.config()
 
     # We don't have enums, so we need to validate this ourselves.
-    package_status = config.get('package_status')
+    package_status = config.get('package_status') or ''
     if package_status not in ('hold', 'install'):
         charms.apt.status_set('blocked',
                               'Unknown package_status {}'
@@ -88,15 +88,16 @@ def configure_sources():
         # invalid configuration.
         raise SystemExit(0)
 
-    sources = config.get('install_sources')
-    keys = config.get('install_keys')
+    sources = config.get('install_sources') or ''
+    keys = config.get('install_keys') or ''
     if reactive.helpers.data_changed('apt.configure_sources', (sources, keys)):
         fetch.configure_sources(update=False,
                                 sources_var='install_sources',
                                 keys_var='install_keys')
         reactive.set_state('apt.needs_update')
 
-    extra_packages = sorted(config.get('extra_packages', '').split())
+    # Clumsy 'config.get() or' per Bug #1641362
+    extra_packages = sorted((config.get('extra_packages') or '').split())
     if extra_packages:
         charms.apt.queue_install(extra_packages)
 

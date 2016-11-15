@@ -1,1 +1,2 @@
-includes: ['layer:basic']  # if you use any interfaces, add them here
+includes: ['layer:basic','interface:http']  # if you use any interfaces, add them here
+repo: git@github.com/sebastienpattyn93/charms.git

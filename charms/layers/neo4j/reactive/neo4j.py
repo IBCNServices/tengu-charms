@@ -52,6 +52,7 @@ def config_bindings():
 
 @when('config.changed.python-type')
 def install_python_driver():
+    conf = hookenv.config()
     python_type = conf['python-type']
     if python_type != 'none':
         subprocess.check_call(['pip','install',python_type])

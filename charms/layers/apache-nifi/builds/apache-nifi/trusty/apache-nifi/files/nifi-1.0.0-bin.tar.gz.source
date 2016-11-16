@@ -1,0 +1,1 @@
+command: wget https://www.apache.org/dyn/closer.lua?path=/nifi/1.0.0/nifi-1.0.0-bin.tar.gz

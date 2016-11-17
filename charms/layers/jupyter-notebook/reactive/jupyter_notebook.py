@@ -16,13 +16,20 @@
 # pylint: disable=c0111,c0103,c0301
 import subprocess
 
-from charmhelpers.core import hookenv
+from charmhelpers.core import templating, hookenv, host
 from charmhelpers.core.hookenv import charm_dir, open_port, status_set
 from charms.reactive import hook, when, when_not, set_state
 
 import charms.apt #pylint: disable=e0611,e0401
 
-
+@hook('upgrade-charm')
+def upgrade_charm():
+    hookenv.log("Upgrading Notebook Charm")
+    try:
+        subprocess.check_call(['pip','install','-U','jupyter'])
+    except subprocess.CalledProcessError as exception:
+        hookenv.log(exception.output)
+    
 @when_not('apt.installed.python-pip', 'jupyter-notebook.installed')
 def pre_install():
     hookenv.log("Pre-install")
@@ -34,5 +41,34 @@ def install_jupyter_notebook():
     hookenv.log("Install Jupyter-notebook")
     subprocess.check_call(['pip3','install','--upgrade','pip'])
     subprocess.check_call(['pip3','install','jupyter'])
-    hookenv.status_set('active','Ready')
     set_state('jupyter-notebook.installed')
+    
+@when('jupyter-notebook.installed')
+def configure_jupyter_notebook():
+    hookenv.log('Configuring jupyter-notebook upstart')
+    render_api_upstart_template()
+    hookenv.log('Generating jupyter notebook config')
+    render_default_config_template()
+    host.service_restart('jupyter')
+    hookenv.status_set('active','Ready')
+    set_state('jupyter-notebook.configured')
+    
+ 
+# template functions 
+      
+def render_api_upstart_template():
+    templating.render(
+        source='upstart.conf',
+        target='/etc/init/jupyter.conf'
+        )
+        
+def render_default_config_template():
+    conf = hookenv.config()
+    open_port = conf['open-port']
+    templating.render(
+        source='config_template.py',
+        target='~/.jupyter/jupyter_notebook_config.py',
+        context={
+            'port': open_port
+        }  
+    )

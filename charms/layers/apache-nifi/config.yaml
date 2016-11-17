@@ -1,10 +1,15 @@
 options:
+    nifi-version:
+        type: string
+        default: nifi-1.0.0
+        description: |
+            Version of Apache NiFi that will be installed
     nifi-service-name:
         type: string
         default: nifi
         description: |
             Name of the nifi-service for usage in service <nifi-service-name> {start|stop|restart}
-    port:
+    nifi-port:
         type: int
         default: 8080
         description: "The port on which the web user interface will be available"
@@ -23,10 +28,3 @@ options:
         default: "8"
         description: |
             Override of the java-major. NOT TO BE ADJUSTED.
-    main-password:
-        type: string
-        default: "MustBeChanged:123"
-        description: |
-            This is the password used to encrypt any sensitive property values
-            that are configured in processors. Minimum of 10 characters. Special
-            characters are allowed.

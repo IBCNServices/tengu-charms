@@ -3,27 +3,33 @@ import os
 import tarfile
 
 from charms.reactive import when, when_not, set_state
-from charmhelpers.core.hookenv import charm_dir
+from charmhelpers.core import hookenv
 
 
-@when_not('apache-nifi.installed', 'java.unavailable')
+@when_not('apache-nifi.installed')
+@when('java.installed')
 def install_apache_nifi():
-    java = subprocess.check_output('java', '-version')
-    version = java.split('.')
-    if 'Open' in java:
-        java_home = '/usr/lib/jvm/java-1.%s.0-openjdk-amd64/' % version[1]
-    else:
-        java_home = '/usr/lib/jvm/java-%s-oracle' % version[1]
-    add_line_to_file('JAVA_HOME="%s"' % java_home, '/etc/environment')
-    add_line_to_file('export JAVA_HOME', 'etc/environment')
-    subprocess.call('.', '/etc/environment')
-    filesdir = '%s/files/' % charm_dir()
-    nifi = 'nifi-1.0.0-bin.tar.gz'
-    nifitar = tarfile.open('%s%s' % (filesdir, nifi))
+    hookenv.log('Installing Apache NiFi')
+    conf = hookenv.config()
+    # shell=True is necessairy for the echo-command to access environment variables.
+    # Since command is not user input, it is safe.
+    java = subprocess.check_output('echo $JAVA_HOME', shell=True)
+    if java == '':
+        if conf['java-flavor'] == 'oracle':
+            java_home = '/usr/lib/jvm/java-%s-oracle' % conf['java-major']
+        else:
+            java_home = '/usr/lib/jvm/java-1.%s.0-openjdk-amd64/' % conf['java-major']
+        add_line_to_file('JAVA_HOME="%s"' % java_home, '/etc/environment')
+        add_line_to_file('export JAVA_HOME', '/etc/environment')
+        subprocess.call('.', '/etc/environment')
+    filesdir = '%s/files' % hookenv.charm_dir()
+    # Next line is just for testing purposes
+    hookenv.log(filesdir)
+    nifi = 'nifi-1.0.0'
+    nifitar = tarfile.open('%s/%s-bin.tar.gz' % (filesdir, nifi))
     nifitar.extractall(filesdir)
-    # add config variables in template, location is filesdir/confs
-    subprocess.check_output('sh', '%s/bin/nifi.sh' % filesdir, 'install')
-
+    # ToDo: add config variables in template, location is filesdir/confs
+    hookenv.log(subprocess.check_output('sh %s/bin/nifi.sh install %s' % (filesdir, conf['nifi-service-name'])))
     set_state('apache-nifi.installed')
 
 
@@ -39,7 +45,6 @@ def add_line_to_file(line, filepath):
             lst = myfile.readlines()
         for existingline in lst:
             if line in existingline:
-                print("line already present")
                 found = True
     if not found:
         myfile = open(filepath, 'a+')

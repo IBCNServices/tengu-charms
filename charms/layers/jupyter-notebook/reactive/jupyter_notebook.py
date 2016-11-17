@@ -22,6 +22,7 @@ from charms.reactive import hook, when, when_not, set_state
 
 import charms.apt #pylint: disable=e0611,e0401
 
+
 @hook('upgrade-charm')
 def upgrade_charm():
     hookenv.log("Upgrading Notebook Charm")
@@ -45,10 +46,15 @@ def install_jupyter_notebook():
     
 @when('jupyter-notebook.installed')
 def configure_jupyter_notebook():
+    conf = hookenv.config()
+    user = conf['user']
+    home_dir = '/home/%s' % user
+    jupyter_dir = '%s/.jupyter' % home_dir
+    host.mkdir(jupyter_dir)
     hookenv.log('Configuring jupyter-notebook upstart')
     render_api_upstart_template()
     hookenv.log('Generating jupyter notebook config')
-    render_default_config_template()
+    render_default_config_template(jupyter_dir)
     host.service_restart('jupyter')
     hookenv.status_set('active','Ready')
     set_state('jupyter-notebook.configured')
@@ -59,15 +65,16 @@ def configure_jupyter_notebook():
 def render_api_upstart_template():
     templating.render(
         source='upstart.conf',
-        target='/etc/init/jupyter.conf'
+        target='/etc/init/jupyter.conf',
+        context={}
         )
         
-def render_default_config_template():
+def render_default_config_template(jupyter_dir):
     conf = hookenv.config()
     open_port = conf['open-port']
     templating.render(
         source='config_template.py',
-        target='~/.jupyter/jupyter_notebook_config.py',
+        target= jupyter_dir + '/jupyter_notebook_config.py',
         context={
             'port': open_port
         }  

@@ -1,0 +1,14 @@
+"options":
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+  "apt":
+    "packages": []
+  "jupyter-notebook": {}
+"includes":
+- "layer:basic"
+- "layer:apt"
+- "interface:http"
+"repo": "git@github.com/sebastienpattyn93/charms.git"
+"is": "jupyter-notebook"

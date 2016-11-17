@@ -2,8 +2,9 @@ import subprocess
 import os
 import tarfile
 
-from charms.reactive import when, when_not, set_state
+from charms.reactive import when, when_not, set_state, remove_state
 from charmhelpers.core import hookenv
+from charmhelpers.core.templating import render
 
 
 @when_not('apache-nifi.installed')
@@ -25,12 +26,31 @@ def install_apache_nifi():
     filesdir = '%s/files' % hookenv.charm_dir()
     # Next line is just for testing purposes
     hookenv.log(filesdir)
-    nifi = 'nifi-1.0.0'
+    nifi = conf['nifi-version']
+    subprocess.call(['wget https://www.apache.org/dyn/closer.lua?path=/nifi/1.0.0/%s-bin.tar.gz' % nifi, '-O', '%s' % filesdir])
     nifitar = tarfile.open('%s/%s-bin.tar.gz' % (filesdir, nifi))
     nifitar.extractall(filesdir)
-    # ToDo: add config variables in template, location is filesdir/confs
-    hookenv.log(subprocess.check_output('sh %s/bin/nifi.sh install %s' % (filesdir, conf['nifi-service-name'])))
-    set_state('apache-nifi.installed')
+    render(source='nifi.properties', target='%s/%s/conf/nifi.properties' % (filesdir, nifi),
+           context={'nifi-port': conf['port']}
+           )
+    hookenv.log(subprocess.check_output('sh %s/%s/bin/nifi.sh install %s' % (filesdir, nifi, conf['nifi-service-name'])))
+    set_state('apache-nifi.installed', 'Running in standalone mode. To run as cluster, join with zookeeper')
+
+
+@when('zookeeper.relation_joined')
+def zookeeper_relation_joined():
+    remove_state('apache-nifi.installed')
+    set_state('apache-nifi.configuring', 'Changing to cluster setup')
+    hookenv.log('Adding Apache Zookeeper -- Changing Apache NiFi to run as cluster')
+    zookeeper = hookenv.relation_get('zookeeper')
+    address = zookeeper.address
+    port = zookeeper.port
+    render(source='nifi.properties',
+           target='%s/%s/conf/nifi.properties' % ('%s/files' % hookenv.charm_dir(), hookenv.config()['nifi-version']),
+           context={'nifi-cluster': 'true',
+                    'zookeeper-address': zookeeper.get('private-address'),
+                    'zookeeper-port': zookeeper.get('port')})
+
 
 
 # Source: https://github.com/mhmoerma/tengu-charms/blob/master/charms/layers/java/lib/oracle.py

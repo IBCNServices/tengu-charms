@@ -61,7 +61,7 @@
     "files/sojobo-api/sbin/sojobo_api.py": [
       "sojobo-api", 
       "static", 
-      "9d5f9a73f63a1661421ef81cd675949bd356d45bcd338f772f406c32d22d461a"
+      "29d169e9afc575b457beb0cf0b5600042c37b5f829ff0843efa28009bffc3b81"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -146,12 +146,12 @@
     "reactive/juju2-client.py": [
       "layer:juju2-client", 
       "static", 
-      "f803ae8cd18e3979ab52841d54387fb621d146f40770b0a4a04a784c875e1704"
+      "49e2e9f68abb0b9c5cad8127675192c8069458d313a2fbda996ac5622b339008"
     ], 
     "config.yaml": [
       "sojobo-api", 
       "dynamic", 
-      "d4c80651f12635085970ac889511d136e90aeecb75e0618b2967c650fc40f1d7"
+      "d812d5713e007dcb1fc1cdcc973935d69047b498896f299bce79df9d090db357"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 

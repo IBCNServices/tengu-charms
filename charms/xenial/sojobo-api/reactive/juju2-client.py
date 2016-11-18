@@ -45,6 +45,7 @@ def import_credentials():
     credentials_file = "{}/.local/share/juju/credentials.yaml".format(HOME)
     credentials = yaml.load(b64decode(config()['credentials.yaml']))
     merge_yaml_file_and_dict(credentials_file, credentials)
+    set_state('juju.credentials.available')
 
 @when('juju.installed')
 @when('config.changed.controllers.yaml')
@@ -53,6 +54,14 @@ def import_controllers():
     controllers = yaml.load(b64decode(config()['controllers.yaml']))
     merge_yaml_file_and_dict(controllers_file, controllers)
     set_state('juju.controller.available')
+
+@when('juju.installed')
+@when('config.changed.clouds.yaml')
+def import_clouds():
+    clouds_file = "{}/.local/share/juju/clouds.yaml".format(HOME)
+    clouds = yaml.load(b64decode(config()['clouds.yaml']))
+    merge_yaml_file_and_dict(clouds_file, clouds)
+    set_state('juju.cloud.available')
 
 def merge_yaml_file_and_dict(filepath, datadict):
     with open(filepath, 'w+') as e_file:

@@ -126,7 +126,7 @@ def api_icon():
     return redirect("http://tengu.io/assets/icons/favicon.ico", code=302)
 
 
-@APP.route('/users/<username>/models/<modelname>')
+@APP.route('/users/<username>/models/<modelname>', methods=['PUT'])
 def create_model(username, modelname):
     if username != request.authorization.username:
         return create_response(403, {'message':"username in auth and in url have to be the same"})
@@ -141,7 +141,7 @@ def authenticate(auth):
     if not auth.username in maas_list_users():
         maas_create_user(auth.username, auth.password)
         juju_create_user(auth.username, auth.password)
-    user = object
+    user = User()
     user.username = auth.username
     user.password = auth.password
     user.api_key = maas_get_user_api_key(auth.username, auth.password)
@@ -181,7 +181,7 @@ def juju_create_user(username, password):
 def juju_create_model(username, api_key, ssh_keys, modelname):
     credentials = {
         'credentials': {
-            'maas': {
+            'tengumaas': {
                 username: {
                     'auth-type': 'oauth1',
                     'maas-oauth': api_key,
@@ -189,7 +189,7 @@ def juju_create_model(username, api_key, ssh_keys, modelname):
             }
         }
     }
-    tmp = tempfile.NamedTemporaryFile()
+    tmp = tempfile.NamedTemporaryFile(mode="w+", delete=False)
     tmp.write(json.dumps(credentials))
     tmp.close()  # deletes the file
     config = []
@@ -197,7 +197,7 @@ def juju_create_model(username, api_key, ssh_keys, modelname):
         config = config + ['authorized-keys="{}"'.format(ssh_keys)]
     if len(config):
         config = ['--config'] + config
-    check_call(['juju', 'add-credential', '--replace', 'True', '-f', tmp.name])
+    check_call(['juju', 'add-credential', '--replace', 'tengumaas', '-f', tmp.name])
     check_call(['juju', 'add-model', modelname, '--credential', username] + config)
     check_call(['juju', 'grant', username, 'admin', modelname])
 
@@ -234,6 +234,12 @@ def request_wants_json():
     return best == 'application/json' and \
         request.accept_mimetypes[best] > \
         request.accept_mimetypes['text/html']
+
+class User(object):
+    def __init__(self):
+        self.username = None
+        self.password = None
+        self.api_key = None
 
 #
 # Run flask server when file is executed

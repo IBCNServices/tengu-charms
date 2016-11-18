@@ -39,6 +39,11 @@
     "default": ""
     "description": |
       base64 encoded contents of ~/.local/share/juju/credentials.yaml
+  "clouds.yaml":
+    "type": "string"
+    "default": ""
+    "description": |
+      base64 encoded contents of ~/.local/share/juju/clouds.yaml
   "feature-flags":
     "type": "string"
     "default": ""

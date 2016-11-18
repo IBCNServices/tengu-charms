@@ -1,0 +1,26 @@
+options:
+  user:
+    type: string
+    default: ubuntu
+    description: user to install the tools for
+  install_sources:
+    type: string
+    default: "deb http://ppa.launchpad.net/juju/stable/ubuntu xenial main"
+  install_keys:
+    type: string
+    default: "C8068B11"
+  controllers.yaml:
+    type: string
+    default: ''
+    description: |
+      base64 encoded contents of ~/.local/share/juju/controllers.yaml
+  credentials.yaml:
+    type: string
+    default: ''
+    description: |
+      base64 encoded contents of ~/.local/share/juju/credentials.yaml
+  clouds.yaml:
+    type: string
+    default: ''
+    description: |
+      base64 encoded contents of ~/.local/share/juju/clouds.yaml

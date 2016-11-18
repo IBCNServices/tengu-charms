@@ -1,0 +1,18 @@
+includes: ['layer:basic', 'layer:apt']
+options:
+  apt:
+    packages:
+      - 'juju'
+      - 'juju-core'
+      - 'juju-deployer'
+      - 'git'
+      - 'python-yaml'
+      - 'python-jujuclient'
+      - 'charm-tools'
+  basic:
+    packages:
+      - "python-pip"
+      - "tree"
+      - "python-dev"
+      - "unzip"
+      - "make"

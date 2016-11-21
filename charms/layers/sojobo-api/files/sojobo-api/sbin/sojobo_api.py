@@ -21,8 +21,7 @@ import socket
 import shutil
 from shutil import copy2
 import tempfile
-import subprocess
-from subprocess import check_call, check_output
+from subprocess import check_call, check_output, STDOUT
 from distutils.util import strtobool
 
 from lxml import html
@@ -121,6 +120,17 @@ def api_icon():
     return redirect("http://tengu.io/assets/icons/favicon.ico", code=302)
 
 
+@APP.route('/users/<username>', methods=['GET', 'PUT'])
+def create_user(username):
+    token = authenticate(request.authorization, username)
+    if not token:
+        return create_response(403, {'message': "Auth failed! username in auth and in url have to be the same"})
+    response = {
+        'gui-url': juju_get_gui_url(token)
+    }
+    return create_response(200, response)
+
+
 @APP.route('/users/<username>/models/<modelname>', methods=['PUT'])
 def create_model(username, modelname):
     token = authenticate(request.authorization, username, modelname)
@@ -128,7 +138,30 @@ def create_model(username, modelname):
         return create_response(403, {'message':"Auth failed! username in auth and in url have to be the same"})
     model = request.json
     juju_create_model(token.username, token.api_key, model['ssh-keys'], modelname)
-    return create_response(200, {})
+    response = {
+        'model-realname': token.modelname,
+        'model-prettyname': modelname,
+        'gui-url': juju_get_gui_url(token),
+    }
+    return create_response(200, response)
+
+
+@APP.route('/users/<username>/models/<modelname>/status', methods=['GET'])
+def status(username, modelname):
+    token = authenticate(request.authorization, username, modelname)
+    if not token:
+        return create_response(403, {'message':"Auth failed! username in auth and in url have to be the same"})
+    response = juju_status(token)
+    return create_response(200, response)
+
+
+@APP.route('/users/<username>/models/<modelname>/applications/<appname>/config', methods=['GET'])
+def get_config(username, modelname, appname):
+    token = authenticate(request.authorization, username, modelname)
+    if not token:
+        return create_response(403, {'message':"Auth failed! username in auth and in url have to be the same"})
+    response = juju_config(token, appname)
+    return create_response(200, response)
 
 
 @APP.route('/users/<username>/models/<modelname>/credentials.zip', methods=['GET'])
@@ -185,7 +218,7 @@ def authenticate(auth, username, modelname=None):
     return token
 
 def maas_list_users():
-    users = json.loads(subprocess.check_output(['maas', MAAS_USER, 'users', 'read'], universal_newlines=True))
+    users = json.loads(check_output(['maas', MAAS_USER, 'users', 'read'], universal_newlines=True))
     return [u['username'] for u in users]
 
 def maas_create_user(username, password):
@@ -208,7 +241,7 @@ def maas_get_user_api_key(username, password):
     return str(api_keys[-1])
 
 def juju_list_users():
-    users = json.loads(subprocess.check_output(['juju', 'list-users', '--format', 'json'], universal_newlines=True))
+    users = json.loads(check_output(['juju', 'list-users', '--format', 'json'], universal_newlines=True))
     return [u['user-name'] for u in users]
 
 def juju_create_user(username, password):
@@ -229,14 +262,34 @@ def juju_create_model(username, api_key, ssh_keys, modelname):
     tmp = tempfile.NamedTemporaryFile(mode="w+", delete=False)
     tmp.write(json.dumps(credentials))
     tmp.close()  # deletes the file
-    config = []
+    modelconfig = []
     if ssh_keys:
-        config = config + ['authorized-keys="{}"'.format(ssh_keys)]
-    if len(config):
-        config = ['--config'] + config
+        modelconfig = modelconfig + ['authorized-keys="{}"'.format(ssh_keys)]
+    if len(modelconfig):
+        modelconfig = ['--config'] + modelconfig
     check_call(['juju', 'add-credential', '--replace', CLOUD_NAME, '-f', tmp.name])
-    check_call(['juju', 'add-model', modelname, '--credential', username] + config)
+    check_call(['juju', 'add-model', modelname, '--credential', username] + modelconfig)
     check_call(['juju', 'grant', username, 'admin', modelname])
+
+
+def juju_get_gui_url(token):
+    print("WOLOLO")
+    modelname = 'controller'
+    if token.modelname:
+        modelname = token.modelname
+    return check_output(['juju', 'gui', '--no-browser', '--model', modelname], universal_newlines=True, stderr=STDOUT).rstrip()
+
+
+def juju_status(token):
+    print("WOLOLO")
+    output = check_output(['juju', 'status', '--format', 'json', '--model', token.modelname], universal_newlines=True)
+    return json.loads(output)
+
+
+def juju_config(token, appname):
+    output = check_output(['juju', 'config', appname, '--model', token.modelname, '--format', 'json'], universal_newlines=True)
+    return json.loads(output)
+
 
 def get_controllers(name):
     with open(expanduser('~/.local/share/juju/controllers.yaml'))as c_file:

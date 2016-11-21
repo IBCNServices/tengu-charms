@@ -16,8 +16,8 @@
 # pylint: disable=c0111,c0301,c0325
 import os
 import json
-import atexit
 import socket
+import shutil
 import tempfile
 import subprocess
 from subprocess import check_call, check_output
@@ -26,9 +26,8 @@ from distutils.util import strtobool
 from lxml import html
 import requests
 from pygments import highlight, lexers, formatters
-from flask import Flask, Response, request, redirect
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.interval import IntervalTrigger
+from flask import Flask, Response, request, redirect, send_file
+import yaml
 #
 # Init feature flags and global variables
 #
@@ -60,7 +59,7 @@ MAAS_URL = os.environ.get('MAAS_URL')
 JUJU_USER = os.environ.get('JUJU_USER')
 JUJU_PASSWORD = os.environ.get('JUJU_PASSWORD')
 CONTROLLER_NAME = os.environ.get('CONTROLLER_NAME')
-
+CLOUD_NAME = "tengumaas"
 
 #
 # Init flask
@@ -74,29 +73,23 @@ APP.url_map.strict_slashes = False
 #
 
 def login():
+    print("'LOGIN' START")
     check_call(['maas', 'login', MAAS_USER, MAAS_URL, MAAS_API_KEY])
     print(check_output(
         ['juju', 'login', JUJU_USER, '--controller', CONTROLLER_NAME],
         input=JUJU_PASSWORD + '\n',
         universal_newlines=True))
-login()
+    print("'LOGIN' FINISHED")
 
-SCHEDULER = BackgroundScheduler()
-SCHEDULER.start()
-SCHEDULER.add_job(
-    func=login,
-    trigger=IntervalTrigger(hours=12),
-    id='login_job',
-    name='Login every 12 hours',
-    replace_existing=True)
-# Shut down the SCHEDULER when exiting the app
-atexit.register(lambda: SCHEDULER.shutdown())
 
+@APP.before_request
+def initialize():
+    login()
 
 @APP.after_request
 def apply_caching(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,emulab-s4-cert,Location,id-token'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Location,id-token'
     response.headers['Access-Control-Expose-Headers'] = 'Content-Type,Location'
     response.headers['Access-Control-Allow-Methods'] = 'GET,PUT'
     response.headers['Accept'] = 'application/json'
@@ -128,24 +121,64 @@ def api_icon():
 
 @APP.route('/users/<username>/models/<modelname>', methods=['PUT'])
 def create_model(username, modelname):
-    if username != request.authorization.username:
-        return create_response(403, {'message':"username in auth and in url have to be the same"})
-
-    auth = authenticate(request.authorization)
+    token = authenticate(request.authorization, username, modelname)
+    if not token:
+        return create_response(403, {'message':"Auth failed! username in auth and in url have to be the same"})
     model = request.json
-    modelname = "{}-{}".format(auth.username, modelname)
-    juju_create_model(auth.username, auth.api_key, model['ssh-keys'], modelname)
+    juju_create_model(token.username, token.api_key, model['ssh-keys'], modelname)
     return create_response(200, {})
 
-def authenticate(auth):
+
+@APP.route('/users/<username>/models/<modelname>/credentials.zip', methods=['GET'])
+def return_credentials(username, modelname):
+    token = authenticate(request.authorization, username, modelname)
+    if not token:
+        return create_response(403, {'message':"Auth failed! username in auth and in url have to be the same"})
+    credentials = {
+        'credentials': {
+            CLOUD_NAME: {
+                token.username: {
+                    'auth-type': 'oauth1',
+                    'maas-oauth': token.api_key,
+                }
+            }
+        }
+    }
+    clouds = {
+        'clouds':{
+            CLOUD_NAME: {
+                'type': 'maas',
+                'auth-types': '[oauth1]',
+                'endpoint': MAAS_URL,
+            }
+        }
+    }
+    controllers = get_controllers(CONTROLLER_NAME)
+    tmpdir = tempfile.mkdtemp()
+    write_yaml('{}/creds/clouds.yaml'.format(tmpdir), clouds)
+    write_yaml('{}/creds/credentials.yaml'.format(tmpdir), credentials)
+    write_yaml('{}/creds/controllers.yaml'.format(tmpdir), controllers)
+    shutil.make_archive('{}/creds.zip'.format(tmpdir), 'zip', '{}/creds/'.format(tmpdir))
+    return send_file('{}/creds.zip'.format(tmpdir))
+
+
+def write_yaml(path, content):
+    with open(path, "w") as y_file:
+        y_file.write(yaml.dump(content))
+
+def authenticate(auth, username, modelname=None):
+    if username != auth.username:
+        return None
     if not auth.username in maas_list_users():
         maas_create_user(auth.username, auth.password)
         juju_create_user(auth.username, auth.password)
-    user = User()
-    user.username = auth.username
-    user.password = auth.password
-    user.api_key = maas_get_user_api_key(auth.username, auth.password)
-    return user
+    token = Token()
+    token.username = auth.username
+    token.password = auth.password
+    token.api_key = maas_get_user_api_key(token.username, auth.password)
+    if modelname:
+        token.modelname = "admin/{}-{}".format(auth.username, modelname)
+    return token
 
 def maas_list_users():
     users = json.loads(subprocess.check_output(['maas', MAAS_USER, 'users', 'read'], universal_newlines=True))
@@ -181,7 +214,7 @@ def juju_create_user(username, password):
 def juju_create_model(username, api_key, ssh_keys, modelname):
     credentials = {
         'credentials': {
-            'tengumaas': {
+            CLOUD_NAME: {
                 username: {
                     'auth-type': 'oauth1',
                     'maas-oauth': api_key,
@@ -197,12 +230,19 @@ def juju_create_model(username, api_key, ssh_keys, modelname):
         config = config + ['authorized-keys="{}"'.format(ssh_keys)]
     if len(config):
         config = ['--config'] + config
-    check_call(['juju', 'add-credential', '--replace', 'tengumaas', '-f', tmp.name])
+    check_call(['juju', 'add-credential', '--replace', CLOUD_NAME, '-f', tmp.name])
     check_call(['juju', 'add-model', modelname, '--credential', username] + config)
     check_call(['juju', 'grant', username, 'admin', modelname])
 
-
-
+def get_controllers(name):
+    with open('controllers in ~/.local/share/juju/controllers.yaml')as c_file:
+        c_contents = yaml.safe_load(c_file)
+        # controllers in ~/.local/share/juju/controllers.yaml controllers: CONTROLLER_NAME:
+    return {
+        'controllers': {
+            name : c_contents['controllers'][name]
+        }
+    }
 
 #
 # Helpers
@@ -235,11 +275,12 @@ def request_wants_json():
         request.accept_mimetypes[best] > \
         request.accept_mimetypes['text/html']
 
-class User(object):
+class Token(object):
     def __init__(self):
         self.username = None
         self.password = None
         self.api_key = None
+        self.modelname = None
 
 #
 # Run flask server when file is executed

@@ -61,7 +61,7 @@
     "files/sojobo-api/sbin/sojobo_api.py": [
       "sojobo-api", 
       "static", 
-      "29d169e9afc575b457beb0cf0b5600042c37b5f829ff0843efa28009bffc3b81"
+      "f670b58088ed9d286254bf63424ce21a51895aad131933109860d7ad422cc4eb"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -92,6 +92,11 @@
       "sojobo-api", 
       "dynamic", 
       "c39fcb82314621815eac1064023f4b265ed283b1043680101cd62d9430d20389"
+    ], 
+    "files/sojobo-api/sbin/install_credentials.py": [
+      "sojobo-api", 
+      "static", 
+      "cea8ac7bb5cd717d4ecd96d4fb40ea8d5a9104f6e545dcd20709190d38f87a05"
     ], 
     "reactive/sojobo-api.py": [
       "sojobo-api", 

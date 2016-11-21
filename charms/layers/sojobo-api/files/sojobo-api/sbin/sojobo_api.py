@@ -15,9 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0301,c0325
 import os
+from os.path import expanduser, dirname, realpath
 import json
 import socket
 import shutil
+from shutil import copy2
 import tempfile
 import subprocess
 from subprocess import check_call, check_output
@@ -63,7 +65,7 @@ CLOUD_NAME = "tengumaas"
 
 #
 # Init flask
-#
+#dev-sojobo-api/0
 APP = Flask(__name__)
 APP.url_map.strict_slashes = False
 
@@ -148,17 +150,19 @@ def return_credentials(username, modelname):
         'clouds':{
             CLOUD_NAME: {
                 'type': 'maas',
-                'auth-types': '[oauth1]',
+                'auth-types': ['oauth1'],
                 'endpoint': MAAS_URL,
             }
         }
     }
     controllers = get_controllers(CONTROLLER_NAME)
     tmpdir = tempfile.mkdtemp()
+    os.mkdir('{}/creds'.format(tmpdir))
     write_yaml('{}/creds/clouds.yaml'.format(tmpdir), clouds)
     write_yaml('{}/creds/credentials.yaml'.format(tmpdir), credentials)
     write_yaml('{}/creds/controllers.yaml'.format(tmpdir), controllers)
-    shutil.make_archive('{}/creds.zip'.format(tmpdir), 'zip', '{}/creds/'.format(tmpdir))
+    copy2("{}/install_credentials.py".format(dirname(realpath(__file__))), '{}/creds/install_credentials.py'.format(tmpdir))
+    shutil.make_archive('{}/creds'.format(tmpdir), 'zip', '{}/creds/'.format(tmpdir))
     return send_file('{}/creds.zip'.format(tmpdir))
 
 
@@ -201,7 +205,7 @@ def maas_get_user_api_key(username, password):
         print(api_page_response)
     tree = html.fromstring(api_page_response.text)
     api_keys = tree.xpath('//div[@id="api"]//input/@value')
-    return api_keys[-1]
+    return str(api_keys[-1])
 
 def juju_list_users():
     users = json.loads(subprocess.check_output(['juju', 'list-users', '--format', 'json'], universal_newlines=True))
@@ -235,9 +239,8 @@ def juju_create_model(username, api_key, ssh_keys, modelname):
     check_call(['juju', 'grant', username, 'admin', modelname])
 
 def get_controllers(name):
-    with open('controllers in ~/.local/share/juju/controllers.yaml')as c_file:
+    with open(expanduser('~/.local/share/juju/controllers.yaml'))as c_file:
         c_contents = yaml.safe_load(c_file)
-        # controllers in ~/.local/share/juju/controllers.yaml controllers: CONTROLLER_NAME:
     return {
         'controllers': {
             name : c_contents['controllers'][name]

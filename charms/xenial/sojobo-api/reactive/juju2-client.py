@@ -64,7 +64,8 @@ def import_clouds():
     set_state('juju.cloud.available')
 
 def merge_yaml_file_and_dict(filepath, datadict):
-    with open(filepath, 'w+') as e_file:
+    open(filepath, "a").close() # to fix "file doesn't exist"
+    with open(filepath, 'r+') as e_file:
         filedict = yaml.load(e_file) or {}
         filedict = deep_merge(filedict, datadict)
         e_file.seek(0)  # rewind

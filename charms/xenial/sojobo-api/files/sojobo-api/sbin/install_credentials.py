@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 #pylint: disable=c0111
+from os.path import expanduser, dirname, realpath
+from shutil import copy2
 import subprocess
+import time
+
 import yaml   # Should be present after installing Juju
 
 def init():
@@ -12,7 +16,8 @@ def merge(a, b):#pylint: disable=c0103
     merge_yaml_file_and_dict(a, cont_dict)
 
 def merge_yaml_file_and_dict(filepath, datadict):
-    with open(filepath, 'w+') as e_file:
+    open(filepath, "a").close() # to fix "file doesn't exist"
+    with open(filepath, 'r+') as e_file:
         filedict = yaml.load(e_file) or {}
         filedict = deep_merge(filedict, datadict)
         e_file.seek(0)  # rewind
@@ -67,6 +72,15 @@ def deep_merge(a, b):#pylint: disable=c0103
 
 if __name__ == '__main__':
     init()
-    merge('~/.local/share/juju/clouds.yaml', 'clouds.yaml')
-    merge('~/.local/share/juju/credentials.yaml', 'credentials.yaml')
-    merge('~/.local/share/juju/controllers.yaml', 'controllers.yaml')
+    timestamp = int(time.time())
+    copy2(expanduser('~/.local/share/juju/clouds.yaml'),
+          expanduser('~/.local/share/juju/clouds.yaml.bak{}'.format(timestamp)))
+    copy2(expanduser('~/.local/share/juju/credentials.yaml'),
+          expanduser('~/.local/share/juju/credentials.yaml.bak{}'.format(timestamp)))
+    copy2(expanduser('~/.local/share/juju/controllers.yaml'),
+          expanduser('~/.local/share/juju/controllers.yaml.bak{}'.format(timestamp)))
+    merge(expanduser('~/.local/share/juju/clouds.yaml'), 'clouds.yaml')
+    merge(expanduser('~/.local/share/juju/credentials.yaml'),
+          '{}/credentials.yaml'.format(dirname(realpath(__file__))))
+    merge(expanduser('~/.local/share/juju/controllers.yaml'),
+          '{}/controllers.yaml'.format(dirname(realpath(__file__))))

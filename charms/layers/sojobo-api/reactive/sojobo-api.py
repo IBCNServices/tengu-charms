@@ -19,6 +19,7 @@ from os.path import expanduser
 import shutil
 import tempfile
 import subprocess
+from time import sleep
 
 # Charm pip dependencies
 from charmhelpers.core import templating
@@ -26,7 +27,8 @@ from charmhelpers.core.hookenv import (
     status_set,
     log,
     config,
-    open_port
+    open_port,
+    close_port
 )
 from charmhelpers.core.host import service_restart, chownr
 from charmhelpers.contrib.python.packages import pip_install
@@ -84,12 +86,7 @@ def install_api():
     # USER should get all access rights.
     chownr(API_DIR, USER, USER, chowntopdir=True)
     subprocess.check_call(['systemctl', 'enable', 'sojobo-api'])
-    success = service_restart('sojobo-api')
-    if not success:
-        print("Error: starting service failed!")
-        exit(1)
-    open_port('5000')
-    open_port('22')
+    restart_api()
     status_set('active', 'Ready')
 
 
@@ -132,7 +129,17 @@ def render_api_systemd_template():
 @when('config.changed.feature-flags')
 def feature_flags_changed():
     render_api_systemd_template()
+    restart_api()
+
+
+def restart_api():
+    close_port('5000')
     service_restart('sojobo-api')
+    # Following is to make sure charm crashes when service fails to get up
+    sleep(5)
+    subprocess.check_call(['systemctl', 'is-active', 'sojobo-api'])
+    open_port('5000')
+
 
 
 ###############################################################################

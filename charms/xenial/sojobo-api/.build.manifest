@@ -61,7 +61,7 @@
     "files/sojobo-api/sbin/sojobo_api.py": [
       "sojobo-api", 
       "static", 
-      "f670b58088ed9d286254bf63424ce21a51895aad131933109860d7ad422cc4eb"
+      "b2b4f7ef956b0b69c170f038e28ddf8c376c70801cb25e583a734543856edbde"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -96,12 +96,12 @@
     "files/sojobo-api/sbin/install_credentials.py": [
       "sojobo-api", 
       "static", 
-      "cea8ac7bb5cd717d4ecd96d4fb40ea8d5a9104f6e545dcd20709190d38f87a05"
+      "c7eed2abe4ce4211ffde7b5ab46a98c1963968f4bc4d1343c9f827312b5c6c8f"
     ], 
     "reactive/sojobo-api.py": [
       "sojobo-api", 
       "static", 
-      "584b715af9efdfaee47c1b5f3282ce4f3e3c3bb84b216b128c955e743bf0e3de"
+      "7b1712d1fdead53bd1a81a05ace213d25e403b25050f1776ffa9984725876f5d"
     ], 
     "copyright": [
       "layer:apt", 
@@ -138,10 +138,10 @@
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
-    "api-docs.yaml": [
-      "sojobo-api", 
+    "hooks/relations/opened-ports/provides.py": [
+      "interface:opened-ports", 
       "static", 
-      "96c779d256b2bae8bbbb1a917d053badea1e17b45e82d2713b04df90db37eb0f"
+      "035be8e582385bbc5f2a8e4f392a946cd47ec8fc9cf999ffacfab8009304b13a"
     ], 
     "icon.svg": [
       "sojobo-api", 
@@ -151,7 +151,7 @@
     "reactive/juju2-client.py": [
       "layer:juju2-client", 
       "static", 
-      "49e2e9f68abb0b9c5cad8127675192c8069458d313a2fbda996ac5622b339008"
+      "cdc5c021a229a9b8ab36e0cdbb9946bd277ff057fa8e5abdd91f24194079e298"
     ], 
     "config.yaml": [
       "sojobo-api", 
@@ -217,11 +217,6 @@
       "layer:apt", 
       "static", 
       "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
-    ], 
-    "hooks/relations/opened-ports/provides.py": [
-      "interface:opened-ports", 
-      "static", 
-      "035be8e582385bbc5f2a8e4f392a946cd47ec8fc9cf999ffacfab8009304b13a"
     ], 
     "README.md": [
       "sojobo-api", 

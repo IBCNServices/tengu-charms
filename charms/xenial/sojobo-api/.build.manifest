@@ -193,6 +193,11 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
+    "sojobo-api.postman_collection.json": [
+      "sojobo-api", 
+      "static", 
+      "52ed388c9421123ee832e7fe826cc8ea2041cc3f56f84ce157b07eabb75e9d1a"
+    ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
       "dynamic", 

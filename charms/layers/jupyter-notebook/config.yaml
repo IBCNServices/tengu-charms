@@ -1,0 +1,9 @@
+options:
+  open-port:
+    type: int
+    default: 8888
+    description: "The port that is used to access jupyter notebook"
+  user:
+    type: string
+    default: 'ubuntu'
+    description: "User where the charm will deployed and tools will be installed"

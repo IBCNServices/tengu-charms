@@ -7,3 +7,4 @@ options:
     type: string
     default: 'ubuntu'
     description: "User where the charm will deployed and tools will be installed"
+    

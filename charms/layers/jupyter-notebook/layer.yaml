@@ -1,0 +1,7 @@
+includes: ['layer:basic', 'layer:apt', 'interface:http']
+repo: git@github.com/sebastienpattyn93/charms.git
+options:
+  apt:
+    packages:
+      - 'python-pip'
+      - 'python3-pip'

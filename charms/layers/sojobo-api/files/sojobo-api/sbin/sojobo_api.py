@@ -131,13 +131,14 @@ def create_user(username):
     return create_response(200, response)
 
 
-@APP.route('/users/<username>/models/<modelname>', methods=['PUT'])
+@APP.route('/users/<username>/models/<modelname>', methods=['GET', 'PUT'])
 def create_model(username, modelname):
     token = authenticate(request.authorization, username, modelname)
     if not token:
         return create_response(403, {'message':"Auth failed! username in auth and in url have to be the same"})
-    model = request.json
-    juju_create_model(token.username, token.api_key, model['ssh-keys'], modelname)
+    if request.method == 'POST':
+        model = request.json
+        juju_create_model(token.username, token.api_key, model['ssh-keys'], token.modelname)
     response = {
         'model-realname': token.modelname,
         'model-prettyname': modelname,

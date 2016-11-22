@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Create model",
+			"name": "Get model",
 			"request": {
 				"url": "http://{{hostport}}/users/{{username}}/models/{{modelname}}",
 				"method": "PUT",

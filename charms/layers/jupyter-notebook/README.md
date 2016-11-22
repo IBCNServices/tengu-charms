@@ -1,8 +1,8 @@
 # Overview
 
-The Jupyter Notebook is a web application that allows you to create and share documents 
-that contain live code, equations, visualizations and explanatory text. 
-Uses include: data cleaning and transformation, numerical simulation, statistical modeling, 
+The Jupyter Notebook is a web application that allows you to create and share documents
+that contain live code, equations, visualizations and explanatory text.
+Uses include: data cleaning and transformation, numerical simulation, statistical modeling,
 machine learning and much more.
 
 visit http://jupyter.org for more information.
@@ -15,5 +15,3 @@ visit http://jupyter.org for more information.
 # Contact Information
 
 - sebastien pattyn <sebastien.pattyn@gmail.com>
-
-

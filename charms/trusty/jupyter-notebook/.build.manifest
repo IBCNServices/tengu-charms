@@ -25,7 +25,7 @@
     "README.md": [
       "jupyter-notebook", 
       "static", 
-      "cdb5e48f38d87b561af2e979263e37a5849663397b260632f7bacd2dfb07994e"
+      "7ff92b3b7aa57e9f79ebd45176ebe27b6ecf934c0fa1e408d852e548c8e8e79f"
     ], 
     "bin/layer_option": [
       "layer:basic", 
@@ -140,7 +140,7 @@
     "layer.yaml": [
       "jupyter-notebook", 
       "dynamic", 
-      "655484a5a0c4d76d8e5e38ad2819385f350c3165275af3671d53e8d0e92f8c1b"
+      "93530d6c1ce91c222b0490539fc1bf0630708f1eb84ba699d6bad0e851be406d"
     ], 
     "lib/charms/__init__.py": [
       "layer:apt", 
@@ -185,7 +185,7 @@
     "reactive/jupyter_notebook.py": [
       "jupyter-notebook", 
       "static", 
-      "5fac0ab4c0f8bcd568c294d63cdf62280b2c901bfe06e63d9cd4e1345cc01342"
+      "93c3f23fef829695f082578bd7b4ea3db47501dd2d276c6f1d8c076123a5f4db"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -195,12 +195,12 @@
     "templates/config_template.py": [
       "jupyter-notebook", 
       "static", 
-      "7105a23b5b20959eff22255351401d28d811b7810c7a5c7cca7b29ae9bbeec25"
+      "6daf0d14a5310215fb618bab91ed36a5a2c206d6b8456836407d4852708b8e42"
     ], 
     "templates/upstart.conf": [
       "jupyter-notebook", 
       "static", 
-      "1ef0099005f1a4714d2aeaa2a1d2b7d67615eae780110e71585d5d1cd98e4869"
+      "d361372592b1946a602271ef6486481bcaaa67b65588795d78cc4ac614f22060"
     ], 
     "tests/00-setup": [
       "jupyter-notebook", 

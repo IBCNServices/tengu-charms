@@ -15,6 +15,10 @@ You can then browse to http://ip-address:7474 to use the Neo4j browser.
 - [Neo4j](http://neo4j.com/) Website
 - [Issues](https://github.com/neo4j/neo4j/issues)
 
+## Upcoming features
+
+- At the moment this charm provides a HTTP interface. Currently working on a Neo4J interface so the charm can provide a database as well.
+
 ## Bugs
 
 Report bugs on [Github](https://github.com/IBCNServices/tengu-charms/issues).

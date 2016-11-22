@@ -1,11 +1,13 @@
 "options":
+  "apt":
+    "packages":
+    - "python-pip"
+    - "python3-pip"
+  "jupyter-notebook": {}
   "basic":
     "use_venv": !!bool "false"
     "packages": []
     "include_system_packages": !!bool "false"
-  "apt":
-    "packages": []
-  "jupyter-notebook": {}
 "includes":
 - "layer:basic"
 - "layer:apt"

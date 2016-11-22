@@ -15,8 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0103,c0301
 import subprocess
-
+all
 from charmhelpers.core import templating, hookenv, host
+from charmhelpers.contrib.python.packages import pip_install
 from charmhelpers.core.hookenv import charm_dir, open_port, status_set
 from charms.reactive import hook, when, when_not, set_state
 
@@ -26,24 +27,15 @@ import charms.apt #pylint: disable=e0611,e0401
 @hook('upgrade-charm')
 def upgrade_charm():
     hookenv.log("Upgrading Notebook Charm")
-    try:
-        subprocess.check_call(['pip','install','-U','jupyter'])
-    except subprocess.CalledProcessError as exception:
-        hookenv.log(exception.output)
-    
-@when_not('apt.installed.python-pip', 'jupyter-notebook.installed')
-def pre_install():
-    hookenv.log("Pre-install")
-    charms.apt.queue_install(['python-pip','python3-pip'])#pylint: disable=e1101
+    pip_install('jupyter',upgrade=True)
 
-@when('apt.installed.python-pip')
 @when_not('jupyter-notebook.installed')
 def install_jupyter_notebook():
     hookenv.log("Install Jupyter-notebook")
-    subprocess.check_call(['pip3','install','--upgrade','pip'])
-    subprocess.check_call(['pip3','install','jupyter'])
+    pip_install('pip',upgrade=True)
+    pip_install('jupyter')
     set_state('jupyter-notebook.installed')
-    
+
 @when('jupyter-notebook.installed')
 def configure_jupyter_notebook():
     conf = hookenv.config()
@@ -56,19 +48,23 @@ def configure_jupyter_notebook():
     hookenv.log('Generating jupyter notebook config')
     render_default_config_template(jupyter_dir)
     host.service_restart('jupyter')
-    hookenv.status_set('active','Ready')
-    set_state('jupyter-notebook.configured')
-    
- 
-# template functions 
-      
+    if host.service_running('jupyter'):
+        hookenv.status_set('active','Ready')
+        hookenv.open_port(conf['open-port'])
+        set_state('jupyter-notebook.configured')
+    else:
+        hookenv.satus_set('blocked','Could not restart service due to wrong configuration!')
+
+
+# template functions
+
 def render_api_upstart_template():
     templating.render(
         source='upstart.conf',
         target='/etc/init/jupyter.conf',
         context={}
         )
-        
+
 def render_default_config_template(jupyter_dir):
     conf = hookenv.config()
     open_port = conf['open-port']
@@ -77,5 +73,5 @@ def render_default_config_template(jupyter_dir):
         target= jupyter_dir + '/jupyter_notebook_config.py',
         context={
             'port': open_port
-        }  
+        }
     )

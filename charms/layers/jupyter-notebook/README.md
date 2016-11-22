@@ -14,4 +14,4 @@ visit http://jupyter.org for more information.
 
 # Contact Information
 
-- sebastien pattyn <sebastien.pattyn@gmail.com>
+- sebastien pattyn <sebastien.pattyn@qrama.io>

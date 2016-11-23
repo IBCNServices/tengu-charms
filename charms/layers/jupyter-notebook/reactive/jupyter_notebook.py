@@ -29,6 +29,7 @@ def upgrade_charm():
     hookenv.log("Upgrading Notebook Charm")
     pip_install('jupyter',upgrade=True)
 
+@when('spark.ready')
 @when_not('jupyter-notebook.installed')
 def install_jupyter_notebook():
     hookenv.log("Install Jupyter-notebook")
@@ -36,7 +37,8 @@ def install_jupyter_notebook():
     pip_install('jupyter')
     set_state('jupyter-notebook.installed')
 
-@when('jupyter-notebook.installed')
+
+@when('jupyter-notebook.installed','spark.ready')
 def configure_jupyter_notebook():
     conf = hookenv.config()
     jupyter_dir = '/opt/jupyter'
@@ -52,6 +54,12 @@ def configure_jupyter_notebook():
         set_state('jupyter-notebook.configured')
     else:
         hookenv.satus_set('blocked','Could not restart service due to wrong configuration!')
+
+@when('jupyter-notebook.started')
+@when_not('spark.ready')
+def stop_jupyter():
+    subprocess.check_call(['service','jupyter','stop'])
+    remove_state('zeppelin.started')
 
 
 # template functions

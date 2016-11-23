@@ -35,7 +35,7 @@
     "config.yaml": [
       "jupyter-notebook", 
       "dynamic", 
-      "6e84f0261f23bbe9e58522577605308bd89507254b28a6b3c76b10b0a9e30f64"
+      "f1cabf7dd35005141d1ed9ce19c31c61b04cf8364029b4fefc02a4ba84f18dd3"
     ], 
     "copyright": [
       "layer:apt", 
@@ -140,7 +140,7 @@
     "layer.yaml": [
       "jupyter-notebook", 
       "dynamic", 
-      "93530d6c1ce91c222b0490539fc1bf0630708f1eb84ba699d6bad0e851be406d"
+      "b1aeabd9b3bbf9430eb82d090f56aad0f98cf3ac6c62bb70b4befc20add0eff9"
     ], 
     "lib/charms/__init__.py": [
       "layer:apt", 
@@ -185,7 +185,7 @@
     "reactive/jupyter_notebook.py": [
       "jupyter-notebook", 
       "static", 
-      "93c3f23fef829695f082578bd7b4ea3db47501dd2d276c6f1d8c076123a5f4db"
+      "219b08e98980f2712d0795d80fa0e1b7c58a7403aff6e3fc527b54b1b628f744"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -200,7 +200,7 @@
     "templates/upstart.conf": [
       "jupyter-notebook", 
       "static", 
-      "d361372592b1946a602271ef6486481bcaaa67b65588795d78cc4ac614f22060"
+      "eccad070462a4c8b88823c4e25381f6e4a42646f0e56e33790210892e55c89ff"
     ], 
     "tests/00-setup": [
       "jupyter-notebook", 

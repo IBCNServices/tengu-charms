@@ -29,7 +29,3 @@
     "type": "int"
     "default": !!int "8888"
     "description": "The port that is used to access jupyter notebook"
-  "user":
-    "type": "string"
-    "default": "ubuntu"
-    "description": "User where the charm will deployed and tools will be installed"

@@ -1,7 +1,6 @@
 "options":
   "apt":
     "packages":
-    - "python-pip"
     - "python3-pip"
   "jupyter-notebook": {}
   "basic":

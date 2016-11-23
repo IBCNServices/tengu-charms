@@ -39,9 +39,7 @@ def install_jupyter_notebook():
 @when('jupyter-notebook.installed')
 def configure_jupyter_notebook():
     conf = hookenv.config()
-    user = conf['user']
-    home_dir = '/home/%s' % user
-    jupyter_dir = '%s/.jupyter' % home_dir
+    jupyter_dir = '/opt/jupyter'
     host.mkdir(jupyter_dir)
     hookenv.log('Configuring jupyter-notebook upstart')
     render_api_upstart_template()

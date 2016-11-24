@@ -21,6 +21,7 @@ from charms.reactive import when_not, set_state, when_any
 
 import openjdk
 import oracle
+import os
 
 
 @when_not('java.installed')
@@ -36,6 +37,19 @@ def install():
 
 
 # Special handler for openjdk because openjdk 8 needs another repo
+# Also sets the JAVA_HOME path
 @when_any('apt.installed.openjdk-6-jre-headless', 'apt.installed.openjdk-7-jre-headless', 'apt.installed.openjdk-8-jre-headless')
 def openjdk_install():
+    with open(os.path.join(os.path.expanduser('~'), '.bashrc'), 'a+') as file:
+        if 'JAVA_HOME' not in file:
+            file.write('export JAVA_HOME=/usr/lib/jvm/java-1.%s.0-openjdk-amd64/\n' % clean_java_major())
     set_state('java.installed')
+
+
+# Cleaning user input before writing into .bashrc
+def clean_java_major():
+    try:
+        value = int(hookenv.config()['java-major'][0])
+    except ValueError:
+        value = 8
+    return value

@@ -21,7 +21,7 @@ import socket
 import shutil
 from shutil import copy2
 import tempfile
-from subprocess import check_call, check_output, STDOUT
+from subprocess import check_call, check_output, STDOUT, CalledProcessError
 from distutils.util import strtobool
 
 from lxml import html
@@ -90,7 +90,7 @@ def initialize():
 @APP.after_request
 def apply_caching(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Location,id-token'
+    response.headers['Access-Control-Allow-Headers'] = 'Authentication,Content-Type,Location,id-token'
     response.headers['Access-Control-Expose-Headers'] = 'Content-Type,Location'
     response.headers['Access-Control-Allow-Methods'] = 'GET,PUT'
     response.headers['Accept'] = 'application/json'
@@ -136,7 +136,7 @@ def create_model(username, modelname):
     token = authenticate(request.authorization, username, modelname)
     if not token:
         return create_response(403, {'message':"Auth failed! username in auth and in url have to be the same"})
-    if request.method == 'POST':
+    if request.method == 'PUT':
         model = request.json
         juju_create_model(token.username, token.api_key, model['ssh-keys'], token.modelname)
     response = {
@@ -165,9 +165,9 @@ def get_config(username, modelname, appname):
     return create_response(200, response)
 
 
-@APP.route('/users/<username>/models/<modelname>/credentials.zip', methods=['GET'])
-def return_credentials(username, modelname):
-    token = authenticate(request.authorization, username, modelname)
+@APP.route('/users/<username>/credentials.zip', methods=['GET'])
+def get_credentials(username):
+    token = authenticate(request.authorization, username)
     if not token:
         return create_response(403, {'message':"Auth failed! username in auth and in url have to be the same"})
     credentials = {
@@ -215,7 +215,8 @@ def authenticate(auth, username, modelname=None):
     token.password = auth.password
     token.api_key = maas_get_user_api_key(token.username, auth.password)
     if modelname:
-        token.modelname = "admin/{}-{}".format(auth.username, modelname)
+        token.modelname = "{}-{}".format(auth.username, modelname)
+        token.fqmodelname = "admin/{}".format(token.modelname)
     return token
 
 def maas_list_users():
@@ -242,12 +243,23 @@ def maas_get_user_api_key(username, password):
     return str(api_keys[-1])
 
 def juju_list_users():
-    users = json.loads(check_output(['juju', 'list-users', '--format', 'json'], universal_newlines=True))
+    users = json.loads(check_output(['juju', 'list-users', '--format', 'json'],
+                                    universal_newlines=True))
     return [u['user-name'] for u in users]
 
 def juju_create_user(username, password):
     check_call(['juju', 'add-user', username])
-    check_call(['juju', 'change-user-password', username], input="{}\n{}".format(password, password))
+    check_call(['juju', 'grant', username, 'add-model'])
+    output = None
+    try:
+        # We need to use check_output here because check_call has no "input" option
+        output = check_output(['juju', 'change-user-password', username],
+                              input="{}\n{}".format(password, password),
+                              universal_newlines=True)
+    except CalledProcessError as e:
+        output = e.output
+    finally:
+        print(output)
 
 def juju_create_model(username, api_key, ssh_keys, modelname):
     credentials = {
@@ -274,7 +286,6 @@ def juju_create_model(username, api_key, ssh_keys, modelname):
 
 
 def juju_get_gui_url(token):
-    print("WOLOLO")
     modelname = 'controller'
     if token.modelname:
         modelname = token.modelname
@@ -282,7 +293,6 @@ def juju_get_gui_url(token):
 
 
 def juju_status(token):
-    print("WOLOLO")
     output = check_output(['juju', 'status', '--format', 'json', '--model', token.modelname], universal_newlines=True)
     return json.loads(output)
 
@@ -338,7 +348,7 @@ class Token(object):
         self.password = None
         self.api_key = None
         self.modelname = None
-
+        self.fqmodelname = None
 #
 # Run flask server when file is executed
 #

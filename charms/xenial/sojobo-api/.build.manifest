@@ -61,7 +61,7 @@
     "files/sojobo-api/sbin/sojobo_api.py": [
       "sojobo-api", 
       "static", 
-      "ac65b9fa0ffcec247540408fb0f5072c01b68377bd743e048f2bb62a7f603c9f"
+      "398ea897fd98169e556abcc34c63beb86ff27011932f8861758922df0719297c"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -96,7 +96,7 @@
     "files/sojobo-api/sbin/install_credentials.py": [
       "sojobo-api", 
       "static", 
-      "c7eed2abe4ce4211ffde7b5ab46a98c1963968f4bc4d1343c9f827312b5c6c8f"
+      "2038d160948e4fee0c2c6d2ba273618a5a0abd1719f6551c83239d2e4ff9a4a3"
     ], 
     "reactive/sojobo-api.py": [
       "sojobo-api", 
@@ -196,7 +196,7 @@
     "sojobo-api.postman_collection.json": [
       "sojobo-api", 
       "static", 
-      "609b408bd7f1cc87de56665c6ba6dd4b5c91243edd2ca56fa771eca5f837f04d"
+      "abcb95fba75a1a371b86818f1db4ce3f89b645d164001b24ce89287d2ab7efdd"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 

@@ -14,8 +14,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0103,c0301
+import os
+import subprocess
 
 from charmhelpers.core import hookenv
+from charmhelpers.core.hookenv import status_set
 from charms.reactive import when_not, set_state, when_any
 
 import openjdk
@@ -29,11 +32,12 @@ def install():
         openjdk.installopenjdk()
     elif conf['java-flavor'] == 'oracle':
         oracle.installoracle()
+        set_state('java.installed')
     else:
-        openjdk.installopenjdk()
-    set_state('java.installed')
+        hookenv.satus_set('blocked','Only Oracle JDK and OpenJDK are supported!')
+
 
 # Special handler for openjdk because openjdk 8 needs another repo
-@when_any('apt.installed.openjdk-6-jre', 'apt.installed.openjdk-7-jre', 'apt.installed.openjdk-8-jre')
+@when_any('apt.installed.openjdk-6-jre-headless', 'apt.installed.openjdk-7-jre-headless', 'apt.installed.openjdk-8-jre-headless')
 def openjdk_install():
-    set_state('java.installed') 
+    set_state('java.installed')

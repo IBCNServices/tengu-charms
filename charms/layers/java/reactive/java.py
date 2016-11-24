@@ -37,12 +37,6 @@ def install():
 
 
 # Special handler for openjdk because openjdk 8 needs another repo
-@when_any('apt.installed.openjdk-6-jre-headless', 'apt.installed.openjdk-7-jre-headless', 'apt.installed.openjdk-8-jre-headless')
-def openjdk_install():
-    set_state('java.installed')
-
-
-# Special handler for openjdk because openjdk 8 needs another repo
 @when_any('apt.installed.openjdk-6-jre', 'apt.installed.openjdk-7-jre', 'apt.installed.openjdk-8-jre')
 def openjdk_install():
     openjdk.setjavahome()

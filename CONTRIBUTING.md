@@ -14,6 +14,12 @@ When you patch existing code, submit the patches upstream so we can throw away o
 
 Less config options is better. Remove unimportant config options such as the installation directory. If the Charm can find out what the best option is at runtime, do that.
 
+### Say **why** you do something
+
+**Don't bother writing comments about what you're doing. We can all read the code.**
+
+Did you just spend the last 4 hours finding the source of a strange intermittent bug? Write a small comment next to the fix to say why that line is critical because if you don't, you'll forget and remove the line in 5 months.
+
 ## Charming
 
 ### Change config non-destructively (don't use templates)

@@ -27,7 +27,7 @@ def installopenjdk():
 
 def setjavahome():
     with utils.environment_edit_in_place('/etc/environment') as env:
-        env['JAVA_HOME'] = '"/usr/lib/jvm/java-1.%s.0-openjdk-amd64/"' % clean_java_major())
+        env['JAVA_HOME'] = '"/usr/lib/jvm/java-1.%s.0-openjdk-amd64/"' % clean_java_major()
 
 
 # Cleaning user input before writing into .bashrc
@@ -36,4 +36,4 @@ def clean_java_major():
         value = int(hookenv.config()['java-major'][0])
     except ValueError:
         value = 8
-    return value        
+    return value

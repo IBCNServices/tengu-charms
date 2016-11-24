@@ -18,10 +18,6 @@ import os
 import subprocess
 
 from charmhelpers.core import hookenv
-<<<<<<< HEAD
-from charmhelpers.core.hookenv import status_set
-=======
->>>>>>> f1fc8936a2479fec663b081b99e8a1ecc6beefbe
 from charms.reactive import when_not, set_state, when_any
 
 import openjdk
@@ -37,7 +33,7 @@ def install():
         oracle.installoracle()
         set_state('java.installed')
     else:
-        hookenv.satus_set('blocked','Only Oracle JDK and OpenJDK are supported!')
+        hookenv.status_set('blocked','Only Oracle JDK and OpenJDK are supported!')
 
 
 # Special handler for openjdk because openjdk 8 needs another repo

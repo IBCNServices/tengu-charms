@@ -9,9 +9,9 @@ options:
       Kit (JDK) in addition to the JRE.
   java-major:
     type: string
-    default: "7"
+    default: "8"
     description: |
-      Major version of Java. Defaults to 7. Supported versions are 'Oracle java 8' and 'openjdk 6/7/8'
+      Major version of Java. Defaults to 8. Supported versions are 'Oracle java 8' and 'openjdk 6/7/8'
   java-flavor:
     type: string
     default: "openjdk"

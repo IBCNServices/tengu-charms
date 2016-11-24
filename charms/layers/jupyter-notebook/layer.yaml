@@ -1,4 +1,4 @@
-includes: ['layer:basic', 'layer:apt', 'interface:http']
+includes: ['layer:basic', 'layer:apt', 'interface:http', 'interface:spark']
 repo: git@github.com/sebastienpattyn93/charms.git
 options:
   apt:

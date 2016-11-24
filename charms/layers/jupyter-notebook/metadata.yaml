@@ -7,6 +7,9 @@ tags:
   - application
 subordinate: false
 provides:
-  website: 
+  website:
     interface: http
+requires:
+  spark:
+    interface: spark
 series: ['trusty']

@@ -14,26 +14,22 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0103,c0301
-import subprocess
-all
 from charmhelpers.core import templating, hookenv, host
 from charmhelpers.contrib.python.packages import pip_install
-from charmhelpers.core.hookenv import charm_dir, open_port, status_set
+from charmhelpers.core.hookenv import open_port, status_set
 from charms.reactive import hook, when, when_not, set_state
-
-import charms.apt #pylint: disable=e0611,e0401
 
 
 @hook('upgrade-charm')
 def upgrade_charm():
     hookenv.log("Upgrading Notebook Charm")
-    pip_install('jupyter',upgrade=True)
+    pip_install('jupyter', upgrade=True)
 #
 @when('spark.ready')
 @when_not('jupyter-notebook.installed')
 def install_jupyter_notebook():
     hookenv.log("Install Jupyter-notebook")
-    pip_install('pip',upgrade=True)
+    pip_install('pip', upgrade=True)
     pip_install('jupyter')
     set_state('jupyter-notebook.installed')
 
@@ -49,11 +45,11 @@ def configure_jupyter_notebook():
     render_default_config_template(jupyter_dir)
     host.service_restart('jupyter')
     if host.service_running('jupyter'):
-        hookenv.status_set('active','Ready')
-        hookenv.open_port(conf['open-port'])
+        status_set('active', 'Ready')
+        open_port(conf['open-port'])
         set_state('jupyter-notebook.configured')
     else:
-        hookenv.satus_set('blocked','Could not restart service due to wrong configuration!')
+        status_set('blocked', 'Could not restart service due to wrong configuration!')
 #
 #@when('jupyter-notebook.started')
 #@when_not('spark.ready')
@@ -73,11 +69,11 @@ def render_api_upstart_template():
 
 def render_default_config_template(jupyter_dir):
     conf = hookenv.config()
-    open_port = conf['open-port']
+    port = conf['open-port']
     templating.render(
         source='config_template.py',
-        target= jupyter_dir + '/jupyter_notebook_config.py',
+        target=jupyter_dir + '/jupyter_notebook_config.py',
         context={
-            'port': open_port
+            'port': port
         }
     )

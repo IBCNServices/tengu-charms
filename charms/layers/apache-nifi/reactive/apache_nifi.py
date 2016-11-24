@@ -61,7 +61,7 @@ def zookeeper_config(zookeeper):
 
 @when('apache-nifi.cluster')
 @when_not('zookeeper.joined', 'zookeeper.ready')
-def zookeeper_removed(zookeeper):
+def zookeeper_removed():
     hookenv.status_set('maintenance', 'Removing Apache NiFi from cluster')
     render(source='nifi.properties',
            target='%s/files/nifi-1.0.0/conf/nifi.properties' % hookenv.charm_dir(),

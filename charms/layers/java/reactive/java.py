@@ -18,7 +18,10 @@ import os
 import subprocess
 
 from charmhelpers.core import hookenv
+<<<<<<< HEAD
 from charmhelpers.core.hookenv import status_set
+=======
+>>>>>>> f1fc8936a2479fec663b081b99e8a1ecc6beefbe
 from charms.reactive import when_not, set_state, when_any
 
 import openjdk
@@ -40,4 +43,11 @@ def install():
 # Special handler for openjdk because openjdk 8 needs another repo
 @when_any('apt.installed.openjdk-6-jre-headless', 'apt.installed.openjdk-7-jre-headless', 'apt.installed.openjdk-8-jre-headless')
 def openjdk_install():
+    set_state('java.installed')
+
+
+# Special handler for openjdk because openjdk 8 needs another repo
+@when_any('apt.installed.openjdk-6-jre', 'apt.installed.openjdk-7-jre', 'apt.installed.openjdk-8-jre')
+def openjdk_install():
+    openjdk.setjavahome()
     set_state('java.installed')

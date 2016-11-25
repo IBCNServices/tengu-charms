@@ -17,7 +17,7 @@
 import subprocess
 import tarfile
 
-from charms.reactive import when, when_not, set_state, remove_state
+from charms.reactive import when, when_all, when_not, set_state, remove_state
 from charmhelpers.core import hookenv
 from charmhelpers.core.host import service_restart, service_stop
 
@@ -43,14 +43,13 @@ def install_apache_nifi():
     set_state('apache-nifi.installed')
 
 
-@when('apache-nifi.installed')
-@when('zookeeper.joined')
+@when_all('zookeeper.joined', 'apache-nifi.installed')
 @when_not('zookeeper.ready')
 def zookeeper_wait(zookeeper):
     hookenv.status_set('waiting', 'Waiting for Zookeeper to become available')
 
 
-@when('zookeeper.ready', 'apache-nifi.installed')
+@when_all('zookeeper.ready', 'apache-nifi.installed')
 @when_not('apache-nifi.cluster')
 def zookeeper_config(zookeeper):
     hookenv.status_set('maintenance', 'Changing Apache NiFi to run as a cluster')
@@ -71,7 +70,7 @@ def zookeeper_config(zookeeper):
     hookenv.status_set('active', 'Apache NiFi is running in a cluster with Apache Zookeeper')
 
 
-@when('zookeeper.ready', 'apache-nifi.installed', 'apache-nifi.cluster')
+@when_all('zookeeper.ready', 'apache-nifi.installed', 'apache-nifi.cluster')
 def zookeeper_changed(zookeeper):
     hookenv.log('Checking if Zookeeper has changed')
     zookeeper_servers_string = ''

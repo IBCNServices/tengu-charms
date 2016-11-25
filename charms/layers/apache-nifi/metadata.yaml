@@ -20,7 +20,7 @@ description: |
     - Secure
     - SSL, SSH, HTTPS, encrypted content, etc...
     - Multi-tenant authorization and internal authorization/policy management
-tags: ['misc']
+tags: ['bigdata']
   # https://jujucharms.com/docs/stable/authors-charm-metadata
 subordinate: false
 provides:

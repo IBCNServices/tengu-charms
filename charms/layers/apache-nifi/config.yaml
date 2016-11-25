@@ -9,3 +9,8 @@ options:
         default: 8517
         description: |
             The port on which units of Apache-NiFi will communicate when running as a cluster
+    java-major:
+        type: string
+        default: "8"
+        description: |
+            The Java - version that will be installed. THIS MAY NOT BE CHANGED!

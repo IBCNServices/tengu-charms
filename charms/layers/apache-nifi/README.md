@@ -46,6 +46,7 @@ Defaults to 8. <strong>This may not be set to a lower version!</strong>
 <p>
 All other configuration options have to be set manually in the Apache NiFi configuration files. More info can be found
 <a href="https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html">here.</a>
+</p>
 # Bugs
 Report bugs on <a href="https://github.com/IBCNServices/tengu-charms/issues">Github</a>
 # Author

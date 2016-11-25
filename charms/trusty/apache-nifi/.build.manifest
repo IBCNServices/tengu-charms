@@ -1,0 +1,358 @@
+{
+  "layers": [
+    "layer:basic", 
+    "layer:apt", 
+    "layer:java", 
+    "apache-nifi", 
+    "interface:http", 
+    "interface:zookeeper", 
+    "build"
+  ], 
+  "signatures": {
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    ".gitignore": [
+      "layer:apt", 
+      "static", 
+      "54c2eac10d7d0187b02c271ac7a3767bb3d365d562cfb8c1548efb4e84f7b2d5"
+    ], 
+    "LICENSE": [
+      "layer:java", 
+      "static", 
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
+    ], 
+    "README.md": [
+      "apache-nifi", 
+      "static", 
+      "7816800956eb52b7a10264ccd55ea9527f5e0742b38837c5e08c7a9980622e92"
+    ], 
+    "bin/layer_option": [
+      "layer:basic", 
+      "static", 
+      "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
+    ], 
+    "config.yaml": [
+      "apache-nifi", 
+      "dynamic", 
+      "3b9971526cd837dcd84d9475cba29668f388fc425eb3e3bc8d9e93c177774427"
+    ], 
+    "copyright": [
+      "apache-nifi", 
+      "static", 
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
+    ], 
+    "files/jdk-8u77-linux-x64.tar.gz.source": [
+      "layer:java", 
+      "static", 
+      "b1e2a2f66e8738adb603000541964b9ae4dd76cdde422beca9a7789661d32266"
+    ], 
+    "files/server-jre-8u77-linux-x64.tar.gz.source": [
+      "layer:java", 
+      "static", 
+      "832ce806d4576db6906ec7c1e0e6c3bb6dbd02bfef71e352116cbcdb5e216453"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/http/README.md": [
+      "interface:http", 
+      "static", 
+      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
+    ], 
+    "hooks/relations/http/__init__.py": [
+      "interface:http", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/http/interface.yaml": [
+      "interface:http", 
+      "static", 
+      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
+    ], 
+    "hooks/relations/http/provides.py": [
+      "interface:http", 
+      "static", 
+      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
+    ], 
+    "hooks/relations/http/requires.py": [
+      "interface:http", 
+      "static", 
+      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
+    ], 
+    "hooks/relations/zookeeper/README.md": [
+      "interface:zookeeper", 
+      "static", 
+      "dd1f3f98ad17dfc499084a277fe8dd1c1c51e3cbedc4fff936ab8b2f95fc4dfe"
+    ], 
+    "hooks/relations/zookeeper/__init__.py": [
+      "interface:zookeeper", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/zookeeper/copyright": [
+      "interface:zookeeper", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "hooks/relations/zookeeper/interface.yaml": [
+      "interface:zookeeper", 
+      "static", 
+      "99cd388585b57bbc90872f698a428bdf1589c9e92bd8ba0b29a677baef2e062e"
+    ], 
+    "hooks/relations/zookeeper/provides.py": [
+      "interface:zookeeper", 
+      "static", 
+      "fc15803f79fd0a75a9db2d728b2aa527b63cdc73bba7d2992947b54345b67d65"
+    ], 
+    "hooks/relations/zookeeper/requires.py": [
+      "interface:zookeeper", 
+      "static", 
+      "02be0ad6d53d0fdbe3a69ba26029923c7e6d0657b92207cc285a98bdb5e23303"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
+    ], 
+    "hooks/website-relation-broken": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/website-relation-changed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/website-relation-departed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/website-relation-joined": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/zookeeper-relation-broken": [
+      "interface:zookeeper", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/zookeeper-relation-changed": [
+      "interface:zookeeper", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/zookeeper-relation-departed": [
+      "interface:zookeeper", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/zookeeper-relation-joined": [
+      "interface:zookeeper", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "icon.svg": [
+      "apache-nifi", 
+      "static", 
+      "00792f1eaf94759f0dc3f98161db9156ec3ab443676990418aa28392f4e4bb7d"
+    ], 
+    "layer.yaml": [
+      "apache-nifi", 
+      "dynamic", 
+      "88d42c1ed465583f6be8dc8dbdb484d712dbc9efb929788f248750518b7f8d54"
+    ], 
+    "lib/charms/__init__.py": [
+      "layer:apt", 
+      "static", 
+      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
+    ], 
+    "lib/charms/apt.py": [
+      "layer:apt", 
+      "static", 
+      "7fdd7d4c00259d579a0b1c01423c95a083fd2d957046c6c76668a1438a68fd1d"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "lib/charms/layer/basic.py": [
+      "layer:basic", 
+      "static", 
+      "32204327952d4ea4ef1063f45bdbe7be379a7a7b8220f3e5f2f5e11003b25654"
+    ], 
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
+      "static", 
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
+    ], 
+    "lib/openjdk.py": [
+      "layer:java", 
+      "static", 
+      "6afdc8d6aba0d1191f9e3d36299f92f2eab72b4e298db9a7558e979ef8f45318"
+    ], 
+    "lib/oracle.py": [
+      "layer:java", 
+      "static", 
+      "e5627dc208c98b449263366fdf4726ba4ccc564f5b152d723a8dcf9296061e19"
+    ], 
+    "metadata.yaml": [
+      "apache-nifi", 
+      "dynamic", 
+      "ac479047800b3e0f8b0d36392f6b28db628b9d5b7259de913be836a981183e96"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "reactive/apache_nifi.py": [
+      "apache-nifi", 
+      "static", 
+      "92b74550e851039ee0611e1b9371c4d361733ce23ae47f48a98cf9f5a3a979ba"
+    ], 
+    "reactive/apt.py": [
+      "layer:apt", 
+      "static", 
+      "3220c73e827e4de9fcad61415ebe01640c57ae60f99b79113bac532129d32aba"
+    ], 
+    "reactive/java.py": [
+      "layer:java", 
+      "static", 
+      "ce47581b89f1ec625ec5398157020d47442f4b6d766bb0b0c95befabe52380bf"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "templates/nifi.properties": [
+      "apache-nifi", 
+      "static", 
+      "8c2b8ed024f789d2dcc1f8f274f8e6d050f6c5999ed60b4253f7bc882e93e6aa"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "wheelhouse/PyYAML-3.12.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "wheelhouse/charmhelpers-0.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d2ae29bdc925d3cf9be8d50d85e32a6b65e5b718bd383bd4899769b288ed512"
+    ], 
+    "wheelhouse/charms.reactive-0.4.5.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
+    ], 
+    "wheelhouse/jujubigdata-6.4.4.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "b3c3650ee41354220e7cc71a033588cca64a5a9b504bffd2490a6da2dd162924"
+    ], 
+    "wheelhouse/jujuresources-0.4.0.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "dbade544066885c2db48d18eca4512c89ca5c38c81ff8bd5b8ff228166dedb72"
+    ], 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    "wheelhouse/path.py-9.0.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "cf7f5e3b076f8669242baf9bdcd05de1acc43b14ef087493f55cb3d285663c50"
+    ], 
+    "wheelhouse/pip-8.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
+    ], 
+    "wheelhouse/pyaml-16.11.4.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "890d76cc3b25f41df952d804ae4604bec2730e258608b06da7adb6830d1736be"
+    ], 
+    "wheelhouse/setuptools_scm-1.15.0.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "daf12d05aa2155a46aa357453757ffdc47d87f839e62114f042bceac6a619e2f"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:java", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ]
+  }
+}

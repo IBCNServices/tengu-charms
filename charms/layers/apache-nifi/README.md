@@ -43,6 +43,7 @@ Defaults to 8080. The user interface is accessible on this port.
 Defaults to 8517. The nodes communicate to the Cluster Coordinator on this port.
 * `java-major`
 Defaults to 8. <strong>This may not be set to a lower version!</strong>
+
 <p>
 All other configuration options have to be set manually in the Apache NiFi configuration files. More info can be found
 <a href="https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html">here.</a>

@@ -21,17 +21,14 @@ juju add-relation apache-nifi zookeeper
 ```
 <p>
 When Apache NiFi is running in a cluster, it will detect changes in the Apache Zookeeper setup and react to them if
-necessary.
-</p> 
-<p>
-When Apache NiFi is running in a cluster, it can be changed to run in a standalone configuration by removing the
+necessary. Apache NiFi can be changed to run in a standalone configuration when it's running in a cluster by removing the
 relation with Apache Zookeeper:
-</p>
+</p> 
 ```
 juju remove-relation apache-nifi zookeeper
 ```
 <p>
-__Beware! When the relation is removed, Apache NiFi not start automatically!__ This is to prevent problems with multiple
+<strong>Beware! When the relation is removed, Apache NiFi not start automatically!</strong> This is to prevent problems with multiple
 instances of Apache NiFi to run on the same dataset. Manual intervention is required to remove the obsolete nodes and to
 change the dataflow of the other nodes.
 </p>

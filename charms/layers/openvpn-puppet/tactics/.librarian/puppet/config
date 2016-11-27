@@ -1,0 +1,4 @@
+---
+LIBRARIAN_PUPPET_DESTRUCTIVE: 'false'
+LIBRARIAN_PUPPET_PATH: "/home/merlijn/PHD/tengu/tengu-charms/charms/xenial/openvpn-puppet/files/puppet"
+LIBRARIAN_PUPPET_USE_V1_API: '1'

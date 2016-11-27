@@ -43,65 +43,48 @@ openvpn::client { '{{client}}':
 {% endfor %}
 # Enable forwarding of traffic so we can become a (NAT) router for
 # the clients connecting to the VPN
-
-file { '/etc/sysctl.conf':
-  ensure => file,
-}
-
-exec { 'sysctl -p':
-  command     => '/sbin/sysctl -p',
-  refreshonly => true,
-  subscribe   => File['/etc/sysctl.conf'],
-}
-
-augeas { 'sysctl_ip_forward':
-  context => '/files/etc/sysctl.conf',
-  onlyif  => "get net.ipv4.ip_forward == '0'",
-  changes => "set net.ipv4.ip_forward '1'",
-  notify  => Exec['sysctl -p'],
-}
-
-
+include sysctl
+sysctl { 'net.ipv4.ip_forward': value => '1' }
 
 # Set firewall rules
 include firewall
 
-firewall { '120 allow {{port}}/TCP for OpenVPN':
-  state  => 'NEW',
-  dport  => '{{port}}',
-  proto  => '{{protocol}}',
-  action => 'accept',
-}
-
-firewall { '121 allow TUN connections':
-  chain   => 'INPUT',
-  proto   => 'all',
-  iniface => 'tun+',
-  action  => 'accept',
-}
-
-firewall { '122 forward TUN forward connections':
-  chain   => 'FORWARD',
-  proto   => 'all',
-  iniface => 'tun+',
-  action  => 'accept',
-}
-
-firewall { '123 tun+ to *':
-  chain    => 'FORWARD',
-  proto    => 'all',
-  iniface  => 'tun+',
-  state    => [ 'ESTABLISHED', 'RELATED' ],
-  action   => 'accept',
-}
-
-firewall { '124 * to tun+':
-  chain    => 'FORWARD',
-  proto    => 'all',
-  outiface => 'tun+',
-  state    => [ 'ESTABLISHED', 'RELATED' ],
-  action   => 'accept',
-}
+# firewall { '120 allow {{port}}/TCP for OpenVPN':
+#   state  => 'NEW',
+#   dport  => '{{port}}',
+#   proto  => '{{protocol}}',
+#   action => 'accept',
+# }
+#
+# firewall { '121 allow TUN connections':
+#   chain   => 'INPUT',
+#   proto   => 'all',
+#   iniface => 'tun+',
+#   action  => 'accept',
+# }
+#
+# firewall { '122 forward TUN forward connections':
+#   chain   => 'FORWARD',
+#   proto   => 'all',
+#   iniface => 'tun+',
+#   action  => 'accept',
+# }
+#
+# firewall { '123 tun+ to *':
+#   chain    => 'FORWARD',
+#   proto    => 'all',
+#   iniface  => 'tun+',
+#   state    => [ 'ESTABLISHED', 'RELATED' ],
+#   action   => 'accept',
+# }
+#
+# firewall { '124 * to tun+':
+#   chain    => 'FORWARD',
+#   proto    => 'all',
+#   outiface => 'tun+',
+#   state    => [ 'ESTABLISHED', 'RELATED' ],
+#   action   => 'accept',
+# }
 
 # NAT translation
 

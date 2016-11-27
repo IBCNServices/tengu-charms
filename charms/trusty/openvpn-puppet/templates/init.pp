@@ -35,6 +35,7 @@ openvpn::server { '{{servername}}':
 openvpn::client { '{{client}}':
  server => '{{servername}}',
  remote_host => '{{ext_ip}}',
+ port         => '{{port}}',
 }
 {% endfor %}
 # Enable forwarding of traffic so we can become a (NAT) router for

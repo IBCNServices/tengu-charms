@@ -13,6 +13,8 @@
 - "layer:basic"
 - "layer:apt"
 - "layer:basic"
+- "layer:apt"
+- "layer:basic"
 - "layer:puppet-base"
 - "layer:metrics"
 "is": "openvpn-puppet"

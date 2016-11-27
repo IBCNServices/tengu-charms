@@ -17,6 +17,7 @@
 import os
 import json
 import errno
+import tarfile
 from subprocess import check_call, check_output
 from distutils.dir_util import copy_tree
 
@@ -90,9 +91,11 @@ class Puppet:
     def install_puppet_deps(self):
         '''Install the dependencies stored in `files/puppet/modules`
         '''
-        if os.path.isdir('files/puppet/modules'):
+        if os.path.isfile('files/puppet/modules.tgz'):
             hookenv.status_set('maintenance',
                                'Installing puppet dependencies')
+            with tarfile.open('files/puppet/modules.tgz', "r:gz") as tar:
+                tar.extractall(path='files/puppet')
             try:
                 os.makedirs('/etc/puppet/modules')
             except OSError as exception:

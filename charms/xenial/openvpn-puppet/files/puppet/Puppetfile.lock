@@ -1,0 +1,15 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    luxflux-openvpn (4.0.1)
+      puppetlabs-concat (< 3.0.0, >= 1.0.1)
+      puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
+    puppetlabs-concat (2.2.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
+    puppetlabs-firewall (1.8.1)
+    puppetlabs-stdlib (4.13.1)
+
+DEPENDENCIES
+  luxflux-openvpn (>= 0)
+  puppetlabs-firewall (>= 0)
+

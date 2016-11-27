@@ -1,0 +1,71 @@
+client
+dev <%= @dev %>
+proto <%= @proto %>
+<% @remote_host = [@remote_host] unless @remote_host.kind_of?(Array) -%>
+<% @remote_host.each do |item| -%>
+remote <%= item %> <%= @port %>
+<% end -%>
+<% if @compression != '' -%>
+<%= @compression %>
+<% end -%>
+resolv-retry <%= @resolv_retry %>
+auth-retry <%= @auth_retry %>
+<% if @pull -%>
+pull
+<% end -%>
+<% if @nobind -%>
+nobind
+<% end -%>
+<% if @persist_key -%>
+persist-key
+<% end -%>
+<% if @persist_tun -%>
+persist-tun
+<% end -%>
+<% if @cipher -%>
+cipher <%= @cipher %>
+<% end -%>
+<% if @tls_cipher -%>
+tls-cipher <%= @tls_cipher %>
+<% end -%>
+<% if @mute_replay_warnings -%>
+mute-replay-warnings
+<% end -%>
+ns-cert-type server
+<% if @sndbuf -%>
+sndbuf <%= @sndbuf %>
+<% end -%>
+<% if @rcvbuf -%>
+rcvbuf <%= @rcvbuf %>
+<% end -%>
+verb <%= @verb %>
+mute <%= @mute %>
+<% if @pam || @authuserpass -%>
+auth-user-pass
+<% end -%>
+<% @setenv.each do |key, value| -%>
+setenv <%= key %> <%= value %>
+<% end -%>
+<% @setenv_safe.each do |key, value| -%>
+setenv_safe <%= key %> <%= value %>
+<% end -%>
+<% if @up != '' or @down != ''-%>
+script-security 2
+<% end -%>
+<% if @up != '' -%>
+up "<%= @up %>"
+<% end -%>
+<% if @down != '' -%>
+down "<%= @down %>"
+<% end -%>
+<% if @x509_name -%>
+
+# x509 name verification
+verify-x509-name "<%= @x509_name %>" name
+<% end -%>
+
+# Additional custom options
+<% @custom_options.each_pair do |key, value| -%>
+<%= key %> <%= value %>
+<% end -%>
+

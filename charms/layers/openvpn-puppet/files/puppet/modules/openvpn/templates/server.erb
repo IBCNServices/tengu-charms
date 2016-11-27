@@ -1,0 +1,183 @@
+<% unless @remote -%>
+mode server
+client-config-dir <%= @etc_directory -%>/openvpn/<%= @name %>/client-configs
+<% else -%>
+client
+<% if @ns_cert_type -%>
+ns-cert-type server
+<% end -%>
+<% @remote.to_a.each do |rem| -%>
+remote <%= rem %>
+<% end -%>
+<% if @server_poll_timeout -%>
+server-poll-timeout <%= @server_poll_timeout %>
+<% end -%>
+<% end -%>
+<% if @extca_enabled -%>
+ca <%= @extca_ca_cert_file %>
+cert <%= @extca_server_cert_file %>
+key <%= @extca_server_key_file %>
+<%   unless @remote or !@extca_dh_file -%>
+dh <%= @extca_dh_file %>
+<%   end -%>
+<%   unless @remote or !@crl_verify or !@extca_ca_crl_file -%>
+crl-verify <%= @extca_ca_crl_file %>
+<%   end -%>
+<% else -%>
+ca <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/ca.crt
+cert <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.crt
+key <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/<%= @ca_common_name %>.key
+<%   unless @remote -%>
+dh <%= @etc_directory -%>/openvpn/<%= @ca_name %>/keys/dh<%= @ssl_key_size %>.pem
+<%   end -%>
+<%   unless @remote or !@crl_verify -%>
+crl-verify <%= @etc_directory -%>/openvpn/<%= @ca_name %>/crl.pem
+<%   end -%>
+<% end -%>
+<% if @proto == 'tcp' -%>
+proto <%= @proto %>-server
+<% else -%>
+proto <%= @proto %>
+<% end -%>
+<% if @nobind -%>
+nobind
+<% else -%>
+port <%= @port %>
+<% if @portshare -%>
+port-share <%= @portshare %>
+<% end -%>
+<% end -%>
+<% if @real_tls_server -%>
+tls-server
+<% end -%>
+<% if @tls_client -%>
+tls-client
+<% end -%>
+<% if @compression != '' -%>
+<%= @compression %>
+<% end -%>
+group <%= @group_to_set %>
+user <%= @user %>
+<% if @logfile -%>
+log-append <%= @logfile %>
+<% end -%>
+status <%= @status_log %>
+<% if @status_version != '' -%>
+status-version <%= @status_version %>
+<% end -%>
+dev <%= @dev %>
+<% if @local != '' -%>
+local <%= @local %>
+<% end -%>
+<% if @ipp -%>
+ifconfig-pool-persist <%= @name %>/vpn-ipp.txt
+<% end -%>
+<% if @server != '' -%>
+server <%= @server %>
+<% end -%>
+<% if @server_ipv6 != '' -%>
+server-ipv6 <%= @server_ipv6 %>
+<% end -%>
+<% if @server_bridge != '' -%>
+server-bridge <%= @server_bridge %>
+<% end -%>
+<% @push.each do |item| -%>
+push "<%= item %>"
+<% end -%>
+<% @route.each do |item| -%>
+route <%= item %>
+<% end -%>
+<% @route_ipv6.each do |item| -%>
+route-ipv6 <%= item %>
+<% end -%>
+<% if @sndbuf -%>
+sndbuf <%= @sndbuf %>
+<% end -%>
+<% if @rcvbuf -%>
+rcvbuf <%= @rcvbuf %>
+<% end -%>
+<% if @keepalive != '' -%>
+keepalive <%= @keepalive %>
+<% end -%>
+<% if @topology != '' -%>
+topology <%= @topology %>
+<% end -%>
+<% if @verb != '' -%>
+verb <%= @verb %>
+<% end -%>
+<% if @cipher != '' -%>
+cipher <%= @cipher %>
+<% end -%>
+<% if @tls_cipher -%>
+tls-cipher <%= @tls_cipher %>
+<% end -%>
+<% if @c2c -%>
+client-to-client
+<% end -%>
+<% if @persist_key -%>
+persist-key
+<% end -%>
+<% if @persist_tun -%>
+persist-tun
+<% end -%>
+<% if @tcp_nodelay -%>
+tcp-nodelay
+<% end -%>
+<% if @ccd_exclusive -%>
+ccd-exclusive
+<% end -%>
+<% if @pam -%>
+plugin <%= @pam_module_path %> "<%= @pam_module_arguments %>"
+<% end -%>
+<% if @management -%>
+management <%= @management_ip %> <%= @management_port %>
+<% end -%>
+<% if @up != '' or @down != ''-%>
+script-security 2
+<% end -%>
+<% if @up != '' -%>
+up "<%= @up %>"
+<% end -%>
+<% if @down != '' -%>
+down "<%= @down %>"
+<% end -%>
+<% if @username_as_common_name -%>
+username-as-common-name
+<% end -%>
+<% if @ldap_enabled == true -%>
+plugin <%= scope.lookupvar('::openvpn::params::ldap_auth_plugin_location') %> "<%= @etc_directory -%>/openvpn/<%= @name %>/auth/ldap.conf"
+<% end -%>
+<% if @client_cert_not_required -%>
+client-cert-not-required
+<% end -%>
+<% if @duplicate_cn -%>
+duplicate-cn
+<% end -%>
+<% if @ping_timer_rem -%>
+ping-timer-rem
+<% end -%>
+<% if @tls_auth -%>
+<%   if @extca_enabled and @extca_tls_auth_key_file -%>
+# tls authentification
+tls-auth <%= @extca_tls_auth_key_file %>
+<%   elsif !@extca_enabled -%>
+# tls authentification
+tls-auth <%= @etc_directory -%>/openvpn/<%= @name %>/keys/ta.key
+<%   end -%>
+<%   unless @remote -%>
+key-direction 0
+<%   else -%>
+key-direction 1
+<%   end -%>
+<% end -%>
+<% if @fragment != false -%>
+fragment <%= @fragment %>
+<% end -%>
+<% if @secret -%>
+secret <%= @etc_directory -%>/openvpn/<%= @name %>/keys/pre-shared.secret
+<% end -%>
+
+# Additional custom options
+<% @custom_options.each_pair do |key, value| -%>
+<%= key %> <%= value %>
+<% end -%>

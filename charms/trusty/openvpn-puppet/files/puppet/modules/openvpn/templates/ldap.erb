@@ -1,0 +1,33 @@
+<LDAP>
+  URL <%= @ldap_server %>
+<% if @ldap_binddn != '' and @ldap_bindpass != '' -%>
+  BindDN <%= @ldap_binddn %>
+  Password <%= @ldap_bindpass %>
+<% end -%>
+  Timeout 15
+  FollowReferrals no
+
+<% if @ldap_tls_enable -%>
+  TLSEnable yes
+  TLSCACertFile <%= @ldap_tls_ca_cert_file %>
+  TLSCACertDir <%= @ldap_tls_ca_cert_dir %>
+  TLSCertFile <%= @ldap_tls_client_cert_file %>
+  TLSKeyFile <%= @ldap_tls_client_key_file %>
+<% else %>
+  TLSEnable no
+<% end -%>
+</LDAP>
+
+<Authorization>
+  BaseDN <%= @ldap_u_basedn %>
+  SearchFilter "<%= @ldap_u_filter %>"
+  RequireGroup <%= @ldap_gmember %>
+
+<% if @ldap_gmember == true -%>
+  <Group>
+    BaseDN <%= @ldap_g_basedn %>
+    SearchFilter "<%= @ldap_g_filter %>"
+    MemberAttribute <%= @ldap_memberatr %>
+  </Group>
+<% end -%>
+</Authorization>

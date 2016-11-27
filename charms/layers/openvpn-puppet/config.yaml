@@ -1,0 +1,41 @@
+options:
+  key-country:
+    type: string
+    default: "US"
+    description: Country field for RSA certificate.
+  key-province:
+    type: string
+    default: "CA"
+    description: Province field for RSA certificate.
+  key-city:
+    type: string
+    default: "Ubuntu"
+    description: City field for RSA certificate.
+  key-org:
+    type: string
+    default: "Juju"
+    description: Organization field for RSA certificate.
+  key-email:
+    type: string
+    default: "Juju"
+    description: Email field for RSA certificate.
+  clients:
+    type: string
+    default: "client1"
+    description: Space-separated list with names of users to generate config for.
+  port:
+    type: int
+    default: 8080
+    description: Port for VPN traffic. Default is 8080(HTTP2) since it isn't likely to be used by the server or blocked by the firewall.
+  protocol:
+    type: string
+    default: tcp
+    description: Protocol for VPN communication (tcp|udp). Tcp on port 443 is least likely to be blocked by firewalls. Udp on port 1194 is fastest.
+  duplicate-cn:
+    type: boolean
+    default: True
+    description: Will multiple users connect using the same client config? (yes = True)
+  push-dns:
+    type: boolean
+    default: True
+    description: Should the connecting clients use the same DNS and search domain as the OpenVPN server? (yes = True)

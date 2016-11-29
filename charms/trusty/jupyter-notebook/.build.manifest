@@ -1,9 +1,8 @@
 {
   "layers": [
-    "layer:apt", 
     "layer:basic", 
-    "layer:java", 
-    "neo4j", 
+    "layer:apt", 
+    "jupyter-notebook", 
     "interface:http", 
     "build"
   ], 
@@ -14,14 +13,9 @@
       "unchecked"
     ], 
     ".gitignore": [
-      "neo4j", 
+      "layer:apt", 
       "static", 
-      "e20078e656bd38867e2c4bb54c94461fd4dae9664ebc74a629dfc06291bcb03f"
-    ], 
-    "LICENSE": [
-      "layer:java", 
-      "static", 
-      "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+      "54c2eac10d7d0187b02c271ac7a3767bb3d365d562cfb8c1548efb4e84f7b2d5"
     ], 
     "Makefile": [
       "layer:basic", 
@@ -29,9 +23,9 @@
       "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
     ], 
     "README.md": [
-      "neo4j", 
+      "jupyter-notebook", 
       "static", 
-      "2a6c2a6f266dba6b8d93245b739f46dfb1374c3b6b725abdfc975bf15143c876"
+      "08f1b29ff5655c98ef80133f4dc0dfedffbd95d80ad2cbe6a704a99f5e7bcc76"
     ], 
     "bin/layer_option": [
       "layer:basic", 
@@ -39,24 +33,14 @@
       "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
     ], 
     "config.yaml": [
-      "neo4j", 
+      "jupyter-notebook", 
       "dynamic", 
-      "ebbac3b296883b74f4e59e46c45f98590f6f2d5cb3282067e11524e46e2b540c"
+      "f1cabf7dd35005141d1ed9ce19c31c61b04cf8364029b4fefc02a4ba84f18dd3"
     ], 
     "copyright": [
-      "layer:java", 
+      "layer:apt", 
       "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
-    ], 
-    "files/jdk-8u77-linux-x64.tar.gz.source": [
-      "layer:java", 
-      "static", 
-      "b1e2a2f66e8738adb603000541964b9ae4dd76cdde422beca9a7789661d32266"
-    ], 
-    "files/server-jre-8u77-linux-x64.tar.gz.source": [
-      "layer:java", 
-      "static", 
-      "832ce806d4576db6906ec7c1e0e6c3bb6dbd02bfef71e352116cbcdb5e216453"
+      "5123b2d0220fefb4424a463216fb41a6dd7cfad49c9799ba7037f1e74a2fd6bc"
     ], 
     "hooks/config-changed": [
       "layer:basic", 
@@ -149,14 +133,14 @@
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "icon.svg": [
-      "neo4j", 
+      "jupyter-notebook", 
       "static", 
-      "fb87c17d30873fa5c7cc2dd184cdfa1737d21c9b055be0c2e2caf8654987cad1"
+      "31275b30729c488b8cf66280cb1763339436934a7f0dc67ca0c421582278ec60"
     ], 
     "layer.yaml": [
-      "neo4j", 
+      "jupyter-notebook", 
       "dynamic", 
-      "a37e7b32fc284c4310a26ce4639307e550df62c1d2a3620548d7aa8125c00c7f"
+      "b1aeabd9b3bbf9430eb82d090f56aad0f98cf3ac6c62bb70b4befc20add0eff9"
     ], 
     "lib/charms/__init__.py": [
       "layer:apt", 
@@ -183,20 +167,10 @@
       "static", 
       "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
     ], 
-    "lib/openjdk.py": [
-      "layer:java", 
-      "static", 
-      "f50887d0848248e24aee28752e6713bfabd5d97d5be34b86a3aa1783dbaf485f"
-    ], 
-    "lib/oracle.py": [
-      "layer:java", 
-      "static", 
-      "e5627dc208c98b449263366fdf4726ba4ccc564f5b152d723a8dcf9296061e19"
-    ], 
     "metadata.yaml": [
-      "neo4j", 
+      "jupyter-notebook", 
       "dynamic", 
-      "4295e4dfb7073f871bbba7523c49221822c366e3fd3cb411b7e82a51538b0df9"
+      "e910a95615e3e8c03e6c5bca25a4670f12ab60f349779d9585c612242b2454e2"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -208,30 +182,35 @@
       "static", 
       "3220c73e827e4de9fcad61415ebe01640c57ae60f99b79113bac532129d32aba"
     ], 
-    "reactive/java.py": [
-      "layer:java", 
+    "reactive/jupyter_notebook.py": [
+      "jupyter-notebook", 
       "static", 
-      "284f41e8f03bc9f2743870c255f9109d592113abb5946d0cd0889c5f8ea17833"
-    ], 
-    "reactive/neo4j.py": [
-      "neo4j", 
-      "static", 
-      "23a9be9553444d3a880195a0ca3ef0f29701439cb477b02ddc6bc63fcda6f8d9"
+      "219b08e98980f2712d0795d80fa0e1b7c58a7403aff6e3fc527b54b1b628f744"
     ], 
     "requirements.txt": [
       "layer:basic", 
       "static", 
       "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
     ], 
+    "templates/config_template.py": [
+      "jupyter-notebook", 
+      "static", 
+      "6daf0d14a5310215fb618bab91ed36a5a2c206d6b8456836407d4852708b8e42"
+    ], 
+    "templates/upstart.conf": [
+      "jupyter-notebook", 
+      "static", 
+      "eccad070462a4c8b88823c4e25381f6e4a42646f0e56e33790210892e55c89ff"
+    ], 
     "tests/00-setup": [
-      "neo4j", 
+      "jupyter-notebook", 
       "static", 
       "111c079b81d260bbcd716dcf41672372a4cf4aaa14154b6c3055deeedae37a06"
     ], 
     "tests/10-deploy": [
-      "neo4j", 
+      "jupyter-notebook", 
       "static", 
-      "4a43cfba6ee85af68148f9ed827e967ee6ffcd5b14bb4a470225238ea5c3757c"
+      "728bb37285ef18e57c36e92c7da5ad98be17fa392f2790db65008eee7fdd96be"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -249,7 +228,7 @@
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
     "wheelhouse/PyYAML-3.12.tar.gz": [
-      "layer:java", 
+      "layer:basic", 
       "dynamic", 
       "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"
     ], 
@@ -268,25 +247,10 @@
       "dynamic", 
       "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
     ], 
-    "wheelhouse/jujubigdata-6.4.4.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "b3c3650ee41354220e7cc71a033588cca64a5a9b504bffd2490a6da2dd162924"
-    ], 
-    "wheelhouse/jujuresources-0.4.0.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "dbade544066885c2db48d18eca4512c89ca5c38c81ff8bd5b8ff228166dedb72"
-    ], 
     "wheelhouse/netaddr-0.7.18.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
-    ], 
-    "wheelhouse/path.py-9.0.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "cf7f5e3b076f8669242baf9bdcd05de1acc43b14ef087493f55cb3d285663c50"
     ], 
     "wheelhouse/pip-8.1.2.tar.gz": [
       "layer:basic", 
@@ -294,17 +258,12 @@
       "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
     ], 
     "wheelhouse/pyaml-16.11.4.tar.gz": [
-      "layer:java", 
+      "layer:basic", 
       "dynamic", 
       "890d76cc3b25f41df952d804ae4604bec2730e258608b06da7adb6830d1736be"
     ], 
-    "wheelhouse/setuptools_scm-1.15.0.tar.gz": [
-      "layer:java", 
-      "dynamic", 
-      "daf12d05aa2155a46aa357453757ffdc47d87f839e62114f042bceac6a619e2f"
-    ], 
     "wheelhouse/six-1.10.0.tar.gz": [
-      "layer:java", 
+      "layer:basic", 
       "dynamic", 
       "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
     ]

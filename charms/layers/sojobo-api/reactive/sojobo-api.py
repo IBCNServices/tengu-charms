@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 # Copyright (C) 2016  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,6 +14,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0103,c0301
+
+#!/usr/bin/env python3
+
 import os
 from os.path import expanduser
 import shutil
@@ -93,14 +96,22 @@ def install_api():
 def render_api_systemd_template():
     appconf = config()
     env_vars = [
-        "MAAS_USER={}".format(appconf['maas-user']),
-        "MAAS_API_KEY={}".format(appconf['maas-api-key']),
-        "MAAS_URL={}".format(appconf['maas-url']),
         "JUJU_USER={}".format(appconf['juju-username']),
         "JUJU_PASSWORD={}".format(appconf['juju-password']),
         "CONTROLLER_NAME={}".format(appconf['juju-controller']),
     ]
-
+    if appconf['controller-type'] == 'maas':
+        env_vars.extend(["MAAS_USER={}".format(appconf['maas-user']),
+                         "MAAS_API_KEY={}".format(appconf['maas-api-key']),
+                         "MAAS_URL={}".format(appconf['maas-url'])])
+    elif appconf['controller-type'] == 'aws':
+        env_vars.extend(["AWS_ACCESS_KEY_ID={}".format(appconf['aws-access-key-id']),
+                         "AWS_SECRET_ACCESS_KEY={}".format(appconf['aws-secret-access-key']),
+                         "AWS_URL={}".format(appconf['aws-url'])])
+    else:
+        status_set('blocked', 'Controller-type not supported')
+        raise Exception('controller-type not supported')
+    env_vars.append("CONTROLLER_TYPE={}".format(appconf['controller-type']))
     flags = appconf['feature-flags'].replace(' ', '')
     flags = [x for x in flags.split(',') if x != '']
     templating.render(

@@ -1,0 +1,2 @@
+includes: ['layer:basic', 'layer:java', 'interface:http', 'interface:zookeeper']
+repo: git@github.com:IBCNServices/tengu-charms.git

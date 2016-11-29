@@ -1,0 +1,16 @@
+options:
+    nifi-port:
+        type: int
+        default: 8080
+        description: |
+            The port on which the web user interface will be available
+    cluster-port:
+        type: int
+        default: 8517
+        description: |
+            The port on which units of Apache-NiFi will communicate when running as a cluster
+    java-major:
+        type: string
+        default: "8"
+        description: |
+            The Java - version that will be installed. THIS MAY NOT BE CHANGED!

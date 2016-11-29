@@ -6,6 +6,11 @@ options:
       Comma-delimited list of feature flags to be used. Each feature flag specified is set to 'True'. Example: 'DEBUG,FEATURE_FLAG_AUTH'. (non-conclusive) List of supported flags:
         - DEBUG: run h_api in debug mode
         - FEATURE_FLAG_AUTH: Turn on authentication on h_api
+  controller-type:
+      type: string
+      default: ''
+      description: |
+        Specifies which type of controller is used. Current options are maas or aws
   maas-user:
     type: string
     default: 'admin'
@@ -19,6 +24,18 @@ options:
     default: ''
     description: |
       URL to MAAS. Example: http://<hostname>/MAAS
+  aws-acces-key-id:
+    default: ''
+    description: |
+      AWS_ACCESS_KEY_ID
+  aws-secret-access-key:
+    default: ''
+    description: |
+      AWS_SECRET_ACCESS_KEY
+  aws-url:
+      default: ''
+      description: |
+        URL to Amazon Web Services
   juju-username:
     type: string
     default: ''

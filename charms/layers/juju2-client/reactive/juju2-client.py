@@ -40,26 +40,26 @@ def set_juju_installed_state():
     set_state('juju.installed')
 
 @when('juju.installed')
-@when('config.changed.credentials.yaml')
+@when('config.changed.credentials_yaml')
 def import_credentials():
     credentials_file = "{}/.local/share/juju/credentials.yaml".format(HOME)
-    credentials = yaml.load(b64decode(config()['credentials.yaml']))
+    credentials = yaml.load(b64decode(config()['credentials_yaml']))
     merge_yaml_file_and_dict(credentials_file, credentials)
     set_state('juju.credentials.available')
 
 @when('juju.installed')
-@when('config.changed.controllers.yaml')
+@when('config.changed.controllers_yaml')
 def import_controllers():
     controllers_file = "{}/.local/share/juju/controllers.yaml".format(HOME)
-    controllers = yaml.load(b64decode(config()['controllers.yaml']))
+    controllers = yaml.load(b64decode(config()['controllers_yaml']))
     merge_yaml_file_and_dict(controllers_file, controllers)
     set_state('juju.controller.available')
 
 @when('juju.installed')
-@when('config.changed.clouds.yaml')
+@when('config.changed.clouds_yaml')
 def import_clouds():
     clouds_file = "{}/.local/share/juju/clouds.yaml".format(HOME)
-    clouds = yaml.load(b64decode(config()['clouds.yaml']))
+    clouds = yaml.load(b64decode(config()['clouds_yaml']))
     merge_yaml_file_and_dict(clouds_file, clouds)
     set_state('juju.cloud.available')
 

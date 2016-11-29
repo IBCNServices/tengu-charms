@@ -9,17 +9,17 @@ options:
   install_keys:
     type: string
     default: "C8068B11"
-  controllers.yaml:
+  controllers_yaml:
     type: string
     default: ''
     description: |
       base64 encoded contents of ~/.local/share/juju/controllers.yaml
-  credentials.yaml:
+  credentials_yaml:
     type: string
     default: ''
     description: |
       base64 encoded contents of ~/.local/share/juju/credentials.yaml
-  clouds.yaml:
+  clouds_yaml:
     type: string
     default: ''
     description: |

@@ -20,14 +20,11 @@ import socket
 import shutil
 from shutil import copy2
 import tempfile
-from subprocess import check_call, check_output
 from distutils.util import strtobool
 
 from flask import Flask, request, redirect, send_file
-from helpers import write_yaml, create_response, authenticate, get_controllers
-from juju import JUJU_USER, JUJU_PASSWORD, CONTROLLER_NAME, CLOUD_NAME, juju_get_gui_url, juju_create_model
-from juju import juju_status, juju_config
-from controllers.maas import MAAS_USER, MAAS_URL, MAAS_API_KEY
+from helpers import write_yaml, create_response, get_controllers
+import juju
 #
 # Init feature flags and global variables
 #
@@ -61,34 +58,19 @@ APP.url_map.strict_slashes = False
 #
 # schedule periodic re-login
 #
-def login():
-    print("'LOGIN' START")
-    check_call(['maas', 'login', MAAS_USER, MAAS_URL, MAAS_API_KEY])
-    print(check_output(
-        ['juju', 'login', JUJU_USER, '--controller', CONTROLLER_NAME],
-        input=JUJU_PASSWORD + '\n',
-        universal_newlines=True))
-    print("'LOGIN' FINISHED")
-
-
-@APP.before_request
-def initialize():
-    login()
-
-
 @APP.after_request
 def apply_caching(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Headers'] = 'Authentication,Content-Type,Location,id-token'
     response.headers['Access-Control-Expose-Headers'] = 'Content-Type,Location'
-    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,POST'
     response.headers['Accept'] = 'application/json'
     return response
 
 
 @APP.errorhandler(403)
-def forbidden(e):
-    return create_response(403, {'message': e.description['message']})
+def forbidden(error):
+    return create_response(403, {'message': error.description['message']})
 #
 # Controllers
 #
@@ -108,66 +90,53 @@ def api_icon():
     return redirect("http://tengu.io/assets/icons/favicon.ico", code=302)
 
 
-@APP.route('/users/<username>', methods=['GET', 'PUT'])
-def create_user(username):
-    token = authenticate(request.authorization, username)
-    response = {
-        'gui-url': juju_get_gui_url(token)
-    }
+# Creating users using a post request with json data. This must be added to documentation of api
+@APP.route('/users/create/', methods=['POST'])
+def create_user():
+    token = juju.authenticate(request.authorization)
+    data = request.json
+    if juju.user_exists(data['username']):
+        response = {'message': 'The user already exists'}
+    else:
+        juju.create_user(data['username'], data['password'])
+        response = {'gui-url': juju.get_gui_url(token)}
     return create_response(200, response)
 
 
-@APP.route('/users/<username>/models/<modelname>', methods=['GET', 'PUT'])
-def create_model(username, modelname):
-    token = authenticate(request.authorization, username, modelname)
-    if request.method == 'PUT':
-        model = request.json
-        juju_create_model(token.username, token.api_key, model['ssh-keys'], token.modelname)
-    response = {
-        'model-realname': token.modelname,
-        'model-prettyname': modelname,
-        'gui-url': juju_get_gui_url(token),
-    }
+# Creating models using a post request with json data. This must be added to documentation of api
+@APP.route('/models/create', methods=['POST'])
+def create_model():
+    data = request.json
+    token = juju.authenticate(request.authorization, data['modelname'])
+    if juju.model_exists(token):
+        response = {'message': 'The model already exists'}
+    else:
+        juju.create_model(token, data['ssh-keys'])
+        response = {'model-name': token.modelname,
+                    'model-fullname': token.fqmodelname,
+                    'gui-url': juju.get_gui_url(token)}
     return create_response(200, response)
 
 
-@APP.route('/users/<username>/models/<modelname>/status', methods=['GET'])
-def status(username, modelname):
-    token = authenticate(request.authorization, username, modelname)
-    response = juju_status(token)
+@APP.route('/models/<modelname>/status', methods=['GET'])
+def status(modelname):
+    token = juju.authenticate(request.authorization, modelname)
+    response = juju.status(token)
     return create_response(200, response)
 
 
-@APP.route('/users/<username>/models/<modelname>/applications/<appname>/config', methods=['GET'])
-def get_config(username, modelname, appname):
-    token = authenticate(request.authorization, username, modelname)
-    response = juju_config(token, appname)
+@APP.route('/models/<modelname>/applications/<appname>/config', methods=['GET'])
+def get_config(modelname, appname):
+    token = juju.authenticate(request.authorization, modelname)
+    response = juju.config(token, appname)
     return create_response(200, response)
 
 
-@APP.route('/users/<username>/credentials.zip', methods=['GET'])
-def get_credentials(username):
-    token = authenticate(request.authorization, username)
-    credentials = {
-        'credentials': {
-            CLOUD_NAME: {
-                token.username: {
-                    'auth-type': 'oauth1',
-                    'maas-oauth': token.api_key,
-                }
-            }
-        }
-    }
-    clouds = {
-        'clouds':{
-            CLOUD_NAME: {
-                'type': 'maas',
-                'auth-types': ['oauth1'],
-                'endpoint': MAAS_URL,
-            }
-        }
-    }
-    controllers = get_controllers(CONTROLLER_NAME)
+@APP.route('/users/credentials.zip', methods=['GET'])
+def get_credentials():
+    credentials = juju.get_credentials(juju.authenticate(request.authorization))
+    clouds = juju.get_clouds()
+    controllers = get_controllers(juju.CONTROLLER_NAME)
     tmpdir = tempfile.mkdtemp()
     os.mkdir('{}/creds'.format(tmpdir))
     write_yaml('{}/creds/clouds.yaml'.format(tmpdir), clouds)

@@ -12,27 +12,30 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-# pylint: disable=c0111,c0301,c0325
+# pylint: disable=c0111,c0301,c0325,c0103
 # !/usr/bin/env python3 -- before upload to github, prepend file
 import os
 import json
 import tempfile
 from subprocess import check_call, check_output, STDOUT, CalledProcessError
+from controllers import maas, aws
+from helpers import Token
 
 
-JUJU_USER = os.environ.get('JUJU_USER')
-JUJU_PASSWORD = os.environ.get('JUJU_PASSWORD')
+USER = os.environ.get('JUJU_USER')
+PASSWORD = os.environ.get('JUJU_PASSWORD')
+CONTROLLER_TYPE = os.environ.get('CONTROLLER_TYPE')
 CONTROLLER_NAME = os.environ.get('CONTROLLER_NAME')
-CLOUD_NAME = "tengumaas"
+CLOUD_NAME = "{}-{}".format(CONTROLLER_TYPE, CONTROLLER_NAME)
 
 
-def juju_list_users():
+def list_users():
     users = json.loads(check_output(['juju', 'list-users', '--format', 'json'],
                                     universal_newlines=True))
     return [u['user-name'] for u in users]
 
 
-def juju_create_user(username, password):
+def create_user(username, password):
     check_call(['juju', 'add-user', username])
     check_call(['juju', 'grant', username, 'add-model'])
     output = None
@@ -47,17 +50,11 @@ def juju_create_user(username, password):
         print(output)
 
 
-def juju_create_model(username, api_key, ssh_keys, modelname):
-    credentials = {
-        'credentials': {
-            CLOUD_NAME: {
-                username: {
-                    'auth-type': 'oauth1',
-                    'maas-oauth': api_key,
-                }
-            }
-        }
-    }
+def create_model(token, ssh_keys):
+    if CONTROLLER_TYPE == 'maas':
+        credentials = maas.get_credentials(CLOUD_NAME, token.username, token.api_key)
+    else:
+        credentials = aws.get_credentials(token.username)
     tmp = tempfile.NamedTemporaryFile(mode="w+", delete=False)
     tmp.write(json.dumps(credentials))
     tmp.close()  # deletes the file
@@ -67,22 +64,78 @@ def juju_create_model(username, api_key, ssh_keys, modelname):
     if len(modelconfig):
         modelconfig = ['--config'] + modelconfig
     check_call(['juju', 'add-credential', '--replace', CLOUD_NAME, '-f', tmp.name])
-    check_call(['juju', 'add-model', modelname, '--credential', username] + modelconfig)
-    check_call(['juju', 'grant', username, 'admin', modelname])
+    check_call(['juju', 'add-model', token.modelname, '--credential', token.username] + modelconfig)
+    check_call(['juju', 'grant', token.username, 'admin', token.modelname])
 
 
-def juju_get_gui_url(token):
+def get_gui_url(token):
     modelname = 'controller'
     if token.modelname:
         modelname = token.modelname
     return check_output(['juju', 'gui', '--no-browser', '--model', modelname], universal_newlines=True, stderr=STDOUT).rstrip()
 
 
-def juju_status(token):
+def status(token):
     output = check_output(['juju', 'status', '--format', 'json', '--model', token.modelname], universal_newlines=True)
     return json.loads(output)
 
 
-def juju_config(token, appname):
+def config(token, appname):
     output = check_output(['juju', 'config', appname, '--model', token.modelname, '--format', 'json'], universal_newlines=True)
     return json.loads(output)
+
+
+def authenticate(auth, modelname=None):
+    check_output(['juju', 'login', USER, '--controller', CONTROLLER_NAME], input=PASSWORD + '\n',
+                 universal_newlines=True)
+    if not user_exists(auth.username, modelname):
+        create_user(auth.username, auth.password)
+    token = Token(auth.username, auth.password)
+    if CONTROLLER_TYPE == 'maas':
+        check_call(['maas', 'login', maas.USER, maas.URL, maas.API_KEY])
+        if not auth.username in maas.list_users():
+            maas.create_user(auth.username, auth.password)
+        token.api_key = maas.get_user_api_key(token.username, auth.password)
+    if modelname:
+        token.modelname = "{}-{}".format(auth.username, modelname)
+        token.fqmodelname = "admin/{}".format(token.modelname)
+    return token
+
+
+def user_exists(username, modelname=None):
+    exists = False
+    if modelname:
+        output = check_output(['juju', 'users', modelname, '--format', 'json'])
+        if username in json.loads(output[:-1]):
+            exists = True
+    else:
+        output = check_output(['juju', 'users', '--format', 'json'])
+        if username in json.loads(output[1:-2]).values():
+            exists = True
+    return exists
+
+
+def model_exists(token):
+    exists = False
+    data = json.loads(check_output(['juju', 'list-models', '--format', 'json']))
+    for model in data['models']:
+        if token.modelname == model['name']:
+            exists = True
+            break
+    return exists
+
+
+def get_credentials(token):
+    if CONTROLLER_TYPE == "maas":
+        credentials = maas.get_credentials(CLOUD_NAME, token.username, token.api_key)
+    else:
+        credentials = aws.get_credentials(token.username)
+    return credentials
+
+
+def get_clouds():
+    if CONTROLLER_TYPE == "maas":
+        clouds = maas.get_clouds(CLOUD_NAME)
+    else:
+        clouds = aws.get_clouds(CLOUD_NAME)
+    return clouds

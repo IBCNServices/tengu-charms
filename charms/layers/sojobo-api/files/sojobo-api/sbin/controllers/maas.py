@@ -22,22 +22,22 @@ from lxml import html
 import requests
 
 
-MAAS_USER = os.environ.get('MAAS_USER')
-MAAS_API_KEY = os.environ.get('MAAS_API_KEY')
-MAAS_URL = os.environ.get('MAAS_URL')
+USER = os.environ.get('MAAS_USER')
+API_KEY = os.environ.get('MAAS_API_KEY')
+URL = os.environ.get('MAAS_URL')
 
 
-def maas_list_users():
-    users = json.loads(check_output(['maas', MAAS_USER, 'users', 'read'], universal_newlines=True))
+def list_users():
+    users = json.loads(check_output(['maas', USER, 'users', 'read'], universal_newlines=True))
     return [u['username'] for u in users]
 
 
-def maas_create_user(username, password):
+def create_user(username, password):
     # email has to be unique
-    check_call(['maas', MAAS_USER, 'users', 'create', 'username={}'.format(username), 'email=merlijn.sebrechts+maas-user-{}@gmail.com'.format(username), 'password={}'.format(password), 'is_superuser=0'])
+    check_call(['maas', USER, 'users', 'create', 'username={}'.format(username), 'email=merlijn.sebrechts+maas-user-{}@gmail.com'.format(username), 'password={}'.format(password), 'is_superuser=0'])
 
 
-def maas_get_user_api_key(username, password):
+def get_user_api_key(username, password):
     # source: https://stackoverflow.com/questions/11892729/how-to-log-in-to-a-website-using-pythons-requests-module/17633072#17633072
     payload = {
         'username': username,
@@ -51,3 +51,11 @@ def maas_get_user_api_key(username, password):
     tree = html.fromstring(api_page_response.text)
     api_keys = tree.xpath('//div[@id="api"]//input/@value')
     return str(api_keys[-1])
+
+
+def get_credentials(cloud, username, api_key):
+    return {'credentials': {cloud: {username: {'auth-type': 'oauth1', 'maas-oauth': api_key}}}}
+
+
+def get_clouds(cloud):
+    return {'clouds':{cloud: {'type': 'maas', 'auth-types': ['oauth1'], 'endpoint': URL}}}

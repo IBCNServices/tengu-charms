@@ -14,16 +14,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0301,c0325
 # !/usr/bin/env python3 -- before upload to github, prepend file
+
 import json
+from os.path import expanduser
 import socket
 import yaml
-from os.path import expanduser
 
-from flask import Response, request, abort
+from flask import Response, request
 
 from pygments import highlight, lexers, formatters
-from controllers.maas import maas_create_user, maas_get_user_api_key, maas_list_users
-from juju import juju_create_user
 
 
 def write_yaml(path, content):
@@ -60,22 +59,6 @@ def request_wants_json():
         request.accept_mimetypes['text/html']
 
 
-def authenticate(auth, username, modelname=None):
-    if username != auth.username:
-        return abort(403, {'message':"Auth failed! username in auth and in url have to be the same"})
-    if not auth.username in maas_list_users():
-        maas_create_user(auth.username, auth.password)
-        juju_create_user(auth.username, auth.password)
-    token = Token()
-    token.username = auth.username
-    token.password = auth.password
-    token.api_key = maas_get_user_api_key(token.username, auth.password)
-    if modelname:
-        token.modelname = "{}-{}".format(auth.username, modelname)
-        token.fqmodelname = "admin/{}".format(token.modelname)
-    return token
-
-
 def get_controllers(name):
     with open(expanduser('~/.local/share/juju/controllers.yaml'))as c_file:
         c_contents = yaml.safe_load(c_file)
@@ -87,9 +70,9 @@ def get_controllers(name):
 
 
 class Token(object):
-    def __init__(self):
-        self.username = None
-        self.password = None
-        self.api_key = None
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
         self.modelname = None
         self.fqmodelname = None
+        self.maas_api_key = None

@@ -30,6 +30,9 @@ openvpn::server { '{{servername}}':
     "route {{network}}",
     {%- endfor %}
   {%- endif %}
+  {%- if push_default_gateway %}
+  "redirect-gateway def1 bypass-dhcp"
+  {%- endif %}
   ],
 }
 
@@ -41,10 +44,13 @@ openvpn::client { '{{client}}':
  port         => '{{port}}',
 }
 {% endfor %}
+
 # Enable forwarding of traffic so we can become a (NAT) router for
 # the clients connecting to the VPN
-include sysctl
-sysctl { 'net.ipv4.ip_forward': value => '1' }
+sysctl { "net.ipv4.ip_forward":
+  ensure => present,
+  value  => "1",
+}
 
 # Set firewall rules
 include firewall

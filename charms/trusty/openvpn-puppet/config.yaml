@@ -86,9 +86,9 @@
     "description": "Space-separated list with names of users to generate config for."
   "port":
     "type": "int"
-    "default": !!int "8080"
-    "description": "Port for VPN traffic. Default is 8080(HTTP2) since it isn't likely\
-      \ to be used by the server or blocked by the firewall."
+    "default": !!int "443"
+    "description": "Port for VPN traffic. Default is 443 since it isn't likely to\
+      \ be blocked by the firewall."
   "protocol":
     "type": "string"
     "default": "tcp"
@@ -104,3 +104,8 @@
     "default": !!bool "true"
     "description": "Should the connecting clients use the same DNS and search domain\
       \ as the OpenVPN server? (yes = True)"
+  "push-default-gateway":
+    "type": "boolean"
+    "default": !!bool "true"
+    "description": |
+      Should the connecting clients use the VPN server for ALL connections? (yes = True) If this is False, the VPN will only be used for connections to the internal network. Connections to the internet will still use the client's existing non-vpn connection. Note: NetworkManager always sets the VPN as default gateway, regardless of this setting. To change this behavior: Click NetworkManager applet icon > VPN Connections > Configure VPN... > select VPN network > Edit > IPv4 Settings > Routes... > Check 'Use this connection only for resources on its network'

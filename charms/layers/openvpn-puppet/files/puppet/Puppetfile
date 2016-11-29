@@ -2,4 +2,4 @@ forge "https://forgeapi.puppetlabs.com"
 
 mod 'luxflux-openvpn'
 mod 'puppetlabs-firewall'
-mod 'thias-sysctl', '1.0.6'
+mod 'herculesteam-augeasproviders_sysctl'

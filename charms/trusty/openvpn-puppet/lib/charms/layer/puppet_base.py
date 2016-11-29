@@ -40,7 +40,9 @@ class Puppet:
         self.puppet_base_url = 'http://apt.puppetlabs.com'
         self.puppet_gpg_key = config['puppet-gpg-key']
         self.puppet_exe = '/opt/puppetlabs/bin/puppet'
+        self.facter_exe = '/opt/puppetlabs/bin/facter'
         self.puppet_conf_dir = '/etc/puppetlabs/puppet'
+        self.modules_dir = '/etc/puppetlabs/code/modules/'
         self.puppet_apt_src = \
             'deb %s %s PC1' % (self.puppet_base_url,
                                lsb_release()['DISTRIB_CODENAME'])
@@ -58,9 +60,8 @@ class Puppet:
             self.puppet_apt_pkg = 'puppetserver'
             self.puppet_srvc = self.puppet_apt_pkg
         elif self.puppet_pkg == 'standalone':
-            self.puppet_apt_pkg = 'puppet'
+            self.puppet_apt_pkg = 'puppet-agent'
             self.puppet_srvc = None
-            self.puppet_exe = 'puppet'
         else:
             raise PuppetException("puppet-srvc option value '{}' unkown. \
                 Please change this option in the puppet-base layer options.")
@@ -97,11 +98,11 @@ class Puppet:
             with tarfile.open('files/puppet/modules.tgz', "r:gz") as tar:
                 tar.extractall(path='files/puppet')
             try:
-                os.makedirs('/etc/puppet/modules')
+                os.makedirs(self.modules_dir)
             except OSError as exception:
                 if exception.errno != errno.EEXIST:
                     raise
-            copy_tree('files/puppet/modules', '/etc/puppet/modules')
+            copy_tree('files/puppet/modules', self.modules_dir)
 
 
     def enable_service(self):
@@ -119,8 +120,8 @@ class Puppet:
         check_call([self.puppet_exe, 'apply', path])
 
 
-    def facter(self):
+    def facter(self, argument=None):
         ''' return output of `facter` as a dict
         '''
-        output = check_output(['facter', '-j'], universal_newlines=True)
+        output = check_output([self.facter_exe, '-j', argument], universal_newlines=True)
         return json.loads(output)

@@ -36,6 +36,7 @@ def install_openvpn_xenial():
         'port' : conf['port'],
         'duplicate_cn' : conf['duplicate-cn'],
         'push_dns' : conf['push-dns'],
+        'push_default_gateway' : conf['push-default-gateway'],
         'dns_server' : dns_info.get('nameserver', "8.8.8.8"),
         'dns_search_domain' : dns_info.get('search', "local"),
         'clients' : clients,
@@ -67,23 +68,23 @@ def get_extip_and_networks():
     '''returns public ip. If no ip of server is public, it returns ip from
     `facter`
     '''
-    facter = Puppet().facter()
+    facter = Puppet().facter('networking')
     ext_ip = None
     internal_networks = []
-    for key in facter.keys():
-        if key.startswith('ipaddress'):
-            address = IPv4Address(facter[key])
-            #
-            # GET PUBLIC IP
-            # Can't use is_global in 14.04 because of: https://bugs.python.org/issue21386
-            if not address.is_private:
-                ext_ip = address
-            #
-            # GET PRIVATE IPS
-            #
-            elif not any(iface in key for iface in ['lo', 'tun']):
-                netmask = facter["netmask_{}".format(key[5:])]
-                internal_networks.append("{} {}".format(address, netmask))
+    for iface, content in facter['networking']['interfaces'].items():
+        if not any(bl_iface in iface for bl_iface in ['lo', 'tun']):
+            for binding in content.get('bindings', []):
+                address = IPv4Address(binding['address'])
+                #
+                # GET PUBLIC IP
+                # Can't use is_global in 14.04 because of: https://bugs.python.org/issue21386
+                if not address.is_private:
+                    ext_ip = address
+                #
+                # GET PRIVATE IPS
+                #
+                else:
+                    internal_networks.append("{} {}".format(binding['network'], binding['netmask']))
     if not ext_ip:
         ext_ip = facter['ipaddress']
     return {

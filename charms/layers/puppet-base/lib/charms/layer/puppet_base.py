@@ -40,6 +40,7 @@ class Puppet:
         self.puppet_base_url = 'http://apt.puppetlabs.com'
         self.puppet_gpg_key = config['puppet-gpg-key']
         self.puppet_exe = '/opt/puppetlabs/bin/puppet'
+        self.facter_exe = '/opt/puppetlabs/bin/facter'
         self.puppet_conf_dir = '/etc/puppetlabs/puppet'
         self.modules_dir = '/etc/puppetlabs/code/modules/'
         self.puppet_apt_src = \
@@ -119,8 +120,8 @@ class Puppet:
         check_call([self.puppet_exe, 'apply', path])
 
 
-    def facter(self):
+    def facter(self, argument=None):
         ''' return output of `facter` as a dict
         '''
-        output = check_output(['facter', '-j'], universal_newlines=True)
+        output = check_output([self.facter_exe, '-j', argument], universal_newlines=True)
         return json.loads(output)

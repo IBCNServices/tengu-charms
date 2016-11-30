@@ -23,6 +23,7 @@ import requests
 
 
 USER = os.environ.get('MAAS_USER')
+PASSWORD = os.environ.get('MAAS_PASSWORD')
 API_KEY = os.environ.get('MAAS_API_KEY')
 URL = os.environ.get('MAAS_URL')
 

@@ -15,6 +15,11 @@ options:
     type: string
     default: 'admin'
     description: Username of the MAAS user.
+  maas-password:
+    type: string
+    default: ''
+    description: |
+      Password of the MAAS user
   maas-api-key:
     type: string
     default: ''
@@ -24,17 +29,20 @@ options:
     default: ''
     description: |
       URL to MAAS. Example: http://<hostname>/MAAS
-  aws-acces-key-id:
+  aws-access-key-id:
+    type: string
     default: ''
     description: |
       AWS_ACCESS_KEY_ID
   aws-secret-access-key:
+    type: string
     default: ''
     description: |
       AWS_SECRET_ACCESS_KEY
   aws-url:
-      default: ''
-      description: |
+    type: string
+    default: ''
+    description: |
         URL to Amazon Web Services
   juju-username:
     type: string

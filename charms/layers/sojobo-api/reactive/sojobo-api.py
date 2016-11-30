@@ -103,7 +103,8 @@ def render_api_systemd_template():
     if appconf['controller-type'] == 'maas':
         env_vars.extend(["MAAS_USER={}".format(appconf['maas-user']),
                          "MAAS_API_KEY={}".format(appconf['maas-api-key']),
-                         "MAAS_URL={}".format(appconf['maas-url'])])
+                         "MAAS_URL={}".format(appconf['maas-url']),
+                         "MAAS_PASSWORD={}".format(appconf['maas-password'])])
     elif appconf['controller-type'] == 'aws':
         env_vars.extend(["AWS_ACCESS_KEY_ID={}".format(appconf['aws-access-key-id']),
                          "AWS_SECRET_ACCESS_KEY={}".format(appconf['aws-secret-access-key']),

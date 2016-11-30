@@ -1,3 +1,4 @@
+# !/usr/bin/env python3
 # Copyright (C) 2016  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
@@ -13,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0301,c0325
-# !/usr/bin/env python3 -- before upload to github, prepend file
 import os
 
 

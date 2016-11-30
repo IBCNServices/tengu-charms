@@ -10,7 +10,7 @@ with open('{}/.local/share/juju/credentials.yaml'.format(home), 'r') as f:
     b64credentials = base64.b64encode(f.read())
 with open('{}/.local/share/juju/clouds.yaml'.format(home),'r') as f:
     b64clouds = base64.b64encode(f.read())
-content = {'sojobo-api': {
+content = {'juju2-client': {
                 'controllers_yaml': b64controllers,
                 'credentials_yaml': b64credentials,
                 'clouds_yaml': b64clouds }}

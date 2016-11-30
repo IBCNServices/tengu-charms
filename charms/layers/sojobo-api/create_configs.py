@@ -1,4 +1,5 @@
-# pylint: disable=c0111,c0103
+# !/usr/bin/env python3
+# pylint: disable=c0111,c0103,c0301
 
 import base64
 from os.path import expanduser

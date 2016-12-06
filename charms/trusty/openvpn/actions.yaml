@@ -1,8 +1,0 @@
-create-user:
-  description: Creates user config
-  params:
-    name:
-      type: string
-      description: Name for user
-  required: [name]
-  additionalProperties: false

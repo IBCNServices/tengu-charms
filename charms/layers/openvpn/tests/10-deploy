@@ -1,0 +1,64 @@
+#!/usr/bin/python3
+#pylint: disable=C0111,C0103,C0301,R0201
+import os
+import tempfile
+import subprocess
+
+import unittest
+import amulet
+
+
+class TestCharm(unittest.TestCase):
+    def setUp(self):
+        self.d = amulet.Deployment()
+        self.d.add('openvpn')
+        self.d.setup(timeout=900)
+        self.d.sentry.wait()
+
+        self.unit = self.d.sentry['openvpn'][0]
+
+    # Now you can use self.d.sentry[SERVICE][UNIT] to address each of the units and perform
+    # more in-depth steps. Each self.d.sentry[SERVICE][UNIT] has the following methods:
+    # - .info - An array of the information of that unit from Juju
+    # - .file(PATH) - Get the details of a file on that unit
+    # - .file_contents(PATH) - Get plain text output of PATH file from that unit
+    # - .directory(PATH) - Get details of directory
+    # - .directory_contents(PATH) - List files and folders in PATH on that unit
+    # - .relation(relation, service:rel) - Get relation data from return service
+    def test_service(self):
+        #d.configure('mysql', mysql_configuration)
+        confcont = self.unit.file_contents('/home/ubuntu/client1.ovpn')
+        fd, path = tempfile.mkstemp()
+        try:
+            with os.fdopen(fd, 'w') as tmp:
+                # do stuff with temp file
+                tmp.write(confcont)
+            self.vpn_test(path)
+        finally:
+            os.remove(path)
+
+
+
+
+   # def is_open(self, port):
+   #     if call(['nc', '-z', self.unit.info['public-address'], port]) == 0:
+   #         return True
+   #     return False
+
+    def vpn_test(self, config_file):
+        complete_string = "Initialization Sequence Completed"
+        timeout = 15 # timeout in seconds
+        process = subprocess.Popen(['sudo', 'timeout', str(timeout), 'openvpn', config_file], stdout=subprocess.PIPE)
+        while True:
+            output = process.stdout.readline().decode()   # Alternatively proc.stdout.read(1024)
+            if len(output) == 0:
+                break # we reached the end of output (empty line includes newline)
+            output = output.rstrip() # strip newlines from output
+            print(output)
+            if complete_string in output:
+                break
+        return True
+
+
+if __name__ == '__main__':
+    unittest.main()

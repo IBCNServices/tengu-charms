@@ -1,5 +1,0 @@
-metrics:
-  users:
-    type: gauge
-    description: number of connected users
-    command: metrics/count_users

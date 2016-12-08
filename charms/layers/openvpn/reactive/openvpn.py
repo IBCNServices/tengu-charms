@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#pylint: disable=c0111
+# pylint: disable=c0111
 import os
 import stat
 import errno
@@ -31,22 +31,22 @@ def install_openvpn_xenial():
     dns_info = get_dns_info()
     clients = conf['clients'].split()
     context = {
-        'servername' : SERVERNAME,
-        'country' : conf['key-country'],
-        'province' : conf['key-province'],
-        'city' : conf['key-city'],
-        'organization' : conf['key-org'],
-        'email' : conf['key-email'],
-        'protocol' : conf['protocol'],
-        'port' : conf['port'],
-        'duplicate_cn' : conf['duplicate-cn'],
-        'push_dns' : conf['push-dns'],
-        'push_default_gateway' : conf['push-default-gateway'],
-        'dns_server' : dns_info.get('nameserver', "8.8.8.8"),
-        'dns_search_domain' : dns_info.get('search', "local"),
-        'clients' : clients,
-        'ext_ip' : get_extip_and_networks()['external-ip'],
-        'internal_networks' : get_extip_and_networks()['internal-networks'],
+        'servername': SERVERNAME,
+        'country': conf['key-country'],
+        'province': conf['key-province'],
+        'city': conf['key-city'],
+        'organization': conf['key-org'],
+        'email': conf['key-email'],
+        'protocol': conf['protocol'],
+        'port': conf['port'],
+        'duplicate_cn': conf['duplicate-cn'],
+        'push_dns': conf['push-dns'],
+        'push_default_gateway': conf['push-default-gateway'],
+        'dns_server': dns_info.get('nameserver', "8.8.8.8"),
+        'dns_search_domains': dns_info.get('search', []),
+        'clients': clients,
+        'ext_ip': get_extip_and_networks()['external-ip'],
+        'internal_networks': get_extip_and_networks()['internal-networks'],
     }
     templating.render(
         source='init.pp',
@@ -55,7 +55,8 @@ def install_openvpn_xenial():
     )
     kv_store = unitdata.kv()
     if kv_store.get('previous-port') and kv_store.get('previous-protocol'):
-        close_port(kv_store.get('previous-port'), protocol=kv_store.get('previous-protocol'))
+        close_port(kv_store.get('previous-port'),
+                   protocol=kv_store.get('previous-protocol'))
     puppet.apply('/opt/openvpn-puppet/init.pp')
     copy_client_configs_to_home(clients)
     status_set('active', 'Ready')
@@ -88,19 +89,21 @@ def get_extip_and_networks():
                 address = IPv4Address(binding['address'])
                 #
                 # GET PUBLIC IP
-                # Can't use is_global in 14.04 because of: https://bugs.python.org/issue21386
+                # Can't use is_global in 14.04 because of following bug:
+                # https://bugs.python.org/issue21386
                 if not address.is_private:
                     ext_ip = address
                 #
                 # GET PRIVATE IPS
                 #
                 else:
-                    internal_networks.append("{} {}".format(binding['network'], binding['netmask']))
+                    internal_networks.append(
+                        "{} {}".format(binding['network'], binding['netmask']))
     if not ext_ip:
         ext_ip = facter['ipaddress']
     return {
-        "external-ip" : ext_ip,
-        "internal-networks" : internal_networks,
+        "external-ip": ext_ip,
+        "internal-networks": internal_networks,
     }
 
 
@@ -113,5 +116,5 @@ def get_dns_info():
         if words[0] == "nameserver":
             info['nameserver'] = words[1]
         elif words[0] == "search":
-            info['search'] = words[1]
+            info['search'] = words[1:]
     return info

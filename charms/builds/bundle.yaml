@@ -1,0 +1,11 @@
+series: xenial
+machines:
+  '11':
+    series: xenial
+    constraints: "arch=amd64"
+services:
+  ubuntu:
+    charm: "cs:ubuntu"
+    num_units: 1
+    to:
+      - "11"

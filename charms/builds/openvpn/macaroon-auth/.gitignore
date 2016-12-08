@@ -1,0 +1,11 @@
+.bzr
+bin
+build
+dist
+include
+lib
+local
+man
+jujuclient.egg-info
+share
+.venv3

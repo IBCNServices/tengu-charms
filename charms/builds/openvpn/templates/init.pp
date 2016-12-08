@@ -32,7 +32,9 @@ openvpn::server { '{{servername}}':
   push         => [
   {%- if push_dns %}
     "dhcp-option DNS {{dns_server}}",
+    {% for dns_search_domain in dns_search_domains -%}
     "dhcp-option DOMAIN {{dns_search_domain}}",
+    {%- endfor %}
     {% for network in internal_networks -%}
     "route {{network}}",
     {%- endfor %}

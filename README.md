@@ -26,8 +26,6 @@ This repository does not contain the required bundles to deploy the Tengu platfo
 
 # Tengu developer info
 
-Tengu uses Juju at its core. Juju is used to
-
 ## Bigfiles
 
 This git repository doesn't contain big files like binaries and tarballs. You have to download these binaries before you can deploy Charms from this repository. The `tengu downloadbigfiles` tool downloads the binaries and puts them in the correct folder. **This tool is installed by default on a Hauchiwa and is run once during installation.**
@@ -131,7 +129,7 @@ and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and l
     sudo pip3 install charms.reactive netifaces amulet click Flask
 
     # Other atom packages
-    apm install language-groovy
+    apm install language-groovy atom-jinja2
 
 
 When running `juju debug-hooks`, you enter a tmux session. The default tmux bindings on Ubuntu are a bit strange. ctrl-a is the default command. To enable sane mouse scrolling set `set-window-option -g mode-mouse on` in `~/.tmux.conf` of the server.

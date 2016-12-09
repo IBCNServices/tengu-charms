@@ -1,5 +1,0 @@
-mock
-pytest
-flake8
-pytest-cov
-pytest-capturelog

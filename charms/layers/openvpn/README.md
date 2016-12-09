@@ -55,21 +55,21 @@ sudo apt install network-manager-openvpn-gnome
 
 1. Click the Network applet.
 2. Choose `VPN connections > Configure VPN` as shown in the picture below.
-![VPN menu in network applet](files/documentation/networkmanager-applet.png)
+![VPN menu in network applet](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn-5/archive/files/documentation/networkmanager-applet.png)
 
 3. Click *"Add"*.
-![Add VPN](files/documentation/add-vpn.png)
+![Add VPN](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn-5/archive/files/documentation/add-vpn.png)
 
 4. Scroll all the way down and click *"import a saved VPN configuration"*.
-![Import VPN config](files/documentation/import-vpn-config.png)
+![Import VPN config](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn-5/archive/files/documentation/import-vpn-config.png)
 
 5. Select the `.ovpn` config file, add the VPN, and connect using the network applet.
 
 6. *[Optional] Regardless of server configuration, NetworkManager uses the VPN as default gateway, effectively sending ALL traffic over the VPN. If you set `push-default-gateway` to False and want NetworkManager to respect that setting, you need extra configuration on the client. Edit the VPN connection > IPv4 Settings > Routes...'.*
-![Edit the VPN settings](files/documentation/no-default-gateway-2.jpg)
+![Edit the VPN settings](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn-5/archive/files/documentation/no-default-gateway-2.jpg)
 
 7. *[Optional] Then mark "Use this connection only for resources on its network."*
-![Check 'Use this connection only for resources on its network'](files/documentation/no-default-gateway-3.jpg) -->
+![Check 'Use this connection only for resources on its network'](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn-5/archive/files/documentation/no-default-gateway-3.jpg) -->
 
 
 **Alternative: start OpenVPN from commandline**
@@ -86,12 +86,13 @@ sudo apt install network-manager-openvpn-gnome
 - **port** and **protocol**  [`443:tcp`]: `443:tcp` and `8080:tcp` have the least chance of being blocked by firewalls. `1194:udp` is the fastest.
 - **key-*** : Information for key certificate. You don't actually need to change this.
 
-# Contact Information
 
 # Known limitations
 
  - NetworkManager uses the VPN as default gateway regardless of server config. Follow steps 6. and 7. to disable this.
  - For cases where the VPN is not be the default gateway, and DNS settings are enabled, it is important to keep in mind that the clients will have two options for DNS nameservers: a public one (from the clients network) and a private one (from the network behind the VPN). The `openvpn` cli client will strictly use the private nameserver. Network Manager is a little bit smarter. Network Manager will send the DNS query to the public nameserver unless the url address is part of the search domain of the private network. This means that if the search domain on the private network is `example.com`, queries for `intranet.example.com` will be send to the private DNS server and queries for `www.google.com` will be send to the public DNS server. More information: https://bugs.launchpad.net/ubuntu/+source/openvpn/+bug/1211110/comments/50
+
+ # Contact Information
 
 ## Bugs
 

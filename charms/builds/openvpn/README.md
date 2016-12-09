@@ -55,21 +55,21 @@ sudo apt install network-manager-openvpn-gnome
 
 1. Click the Network applet.
 2. Choose `VPN connections > Configure VPN` as shown in the picture below.
-![VPN menu in network applet](files/documentation/networkmanager-applet.png)
+![VPN menu in network applet](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn/archive/files/documentation/networkmanager-applet.png)
 
 3. Click *"Add"*.
-![Add VPN](files/documentation/add-vpn.png)
+![Add VPN](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn/archive/files/documentation/add-vpn.png)
 
 4. Scroll all the way down and click *"import a saved VPN configuration"*.
-![Import VPN config](files/documentation/import-vpn-config.png)
+![Import VPN config](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn/archive/files/documentation/import-vpn-config.png)
 
 5. Select the `.ovpn` config file, add the VPN, and connect using the network applet.
 
 6. *[Optional] Regardless of server configuration, NetworkManager uses the VPN as default gateway, effectively sending ALL traffic over the VPN. If you set `push-default-gateway` to False and want NetworkManager to respect that setting, you need extra configuration on the client. Edit the VPN connection > IPv4 Settings > Routes...'.*
-![Edit the VPN settings](files/documentation/no-default-gateway-2.jpg)
+![Edit the VPN settings](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn/archive/files/documentation/no-default-gateway-2.jpg)
 
 7. *[Optional] Then mark "Use this connection only for resources on its network."*
-![Check 'Use this connection only for resources on its network'](files/documentation/no-default-gateway-3.jpg) -->
+![Check 'Use this connection only for resources on its network'](https://api.jujucharms.com/charmstore/v5/~tengu-bot/openvpn/archive/files/documentation/no-default-gateway-3.jpg) -->
 
 
 **Alternative: start OpenVPN from commandline**

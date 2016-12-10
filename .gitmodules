@@ -1,0 +1,3 @@
+[submodule "charms/layers/openvpn"]
+	path = charms/layers/openvpn
+	url = git@github.com:IBCNServices/layer-openvpn.git

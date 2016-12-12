@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Import shared variables and functions
+. hooks/common.sh
+
+# Upgrade the actual OpenVPN package
+juju-log "Upgrading OpenVPN"
+apt-get install -qqy openvpn
+
+# Ensure the config is up to date, which will also
+# stop and start the service.
+hooks/config-changed

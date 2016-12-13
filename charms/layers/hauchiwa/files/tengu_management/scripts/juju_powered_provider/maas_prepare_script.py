@@ -15,6 +15,13 @@
 # The current fix is to change the default gateway of a server with a public ip.
 # This has the disadvantage that the network topology differs between servers
 # that have a public ip and those that don't have one.
+#
+# To run this script when maas deploys a node, add the following to `/etc/maas/preseeds/curtin_userdata` right above "power_state:"
+#
+#  prepare_virtual_wall_01: ["curtin", "in-target", "--", "wget", "https://raw.githubusercontent.com/IBCNServices/tengu-charms/a6cd4aac083105519e07d93e1ce6012b85d0a656/charms/trusty/hauchiwa/files/tengu_management/scripts/juju_powered_provider/maas_prepare_script.py", "-O", "/maas_prepare_script.py"]
+#  prepare_virtual_wall_02: ["curtin", "in-target", "--", "chmod", "u+x", "/maas_prepare_script.py"]
+#  prepare_virtual_wall_04: ["curtin", "in-target", "--", "sh", "-c", "/maas_prepare_script.py &> /var/log/maas_prepare_output.log; udevadm settle; sleep 5"]
+#
 
 import re
 import subprocess

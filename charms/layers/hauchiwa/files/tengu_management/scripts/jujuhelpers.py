@@ -264,6 +264,10 @@ class JujuEnvironment(object):
         """ add relation between two charms """
         self.do_call('add-relation', charm1, charm2)
 
+    def remove_relation(self, charm1, charm2):
+        """ add relation between two charms """
+        self.do_call('remove-relation', charm1, charm2)
+
     def action_do(self, unit, action, **options):
         return self.do('action do', unit, action, **options)
 

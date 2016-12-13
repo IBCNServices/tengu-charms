@@ -61,7 +61,7 @@
     "files/sojobo-api/sbin/sojobo_api.py": [
       "sojobo-api", 
       "static", 
-      "398ea897fd98169e556abcc34c63beb86ff27011932f8861758922df0719297c"
+      "017e90b2dbe294b36b69bc9f1a49335fd9998434f723cb57937faab3f3693bbd"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
@@ -118,11 +118,6 @@
       "dynamic", 
       "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
     ], 
-    "wheelhouse/pyaml-16.11.4.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "890d76cc3b25f41df952d804ae4604bec2730e258608b06da7adb6830d1736be"
-    ], 
     ".gitignore": [
       "layer:apt", 
       "static", 
@@ -143,10 +138,10 @@
       "static", 
       "035be8e582385bbc5f2a8e4f392a946cd47ec8fc9cf999ffacfab8009304b13a"
     ], 
-    "icon.svg": [
-      "sojobo-api", 
-      "static", 
-      "05eab4f602cbd6a878a88ee3c6e3956c5cd1fbb750bf1661affd6356fa04a154"
+    "wheelhouse/pyaml-16.12.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "b865e4f53a85f4d8a092e7701f759a3237fb3ee8a928627401914aafadc00907"
     ], 
     "reactive/juju2-client.py": [
       "layer:juju2-client", 
@@ -237,6 +232,11 @@
       "interface:opened-ports", 
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "icon.svg": [
+      "sojobo-api", 
+      "static", 
+      "05eab4f602cbd6a878a88ee3c6e3956c5cd1fbb750bf1661affd6356fa04a154"
     ], 
     "hooks/sojobo-api-port-forward-relation-joined": [
       "interface:opened-ports", 

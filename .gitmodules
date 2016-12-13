@@ -4,3 +4,6 @@
 [submodule "charms/builds/openvpn"]
 	path = charms/builds/openvpn
 	url = git@github.com:IBCNServices/charm-openvpn.git
+[submodule "charms/layers/puppet-base"]
+	path = charms/layers/puppet-base
+	url = git@github.com:IBCNServices/layer-puppet-base.git

@@ -1,0 +1,111 @@
+machines:
+  "0":
+    series: trusty
+    constraints: "arch=amd64"
+    annotations:
+      testbed: wall1
+      pubipv4: True
+  "1":
+    series: trusty
+    constraints: "arch=amd64"
+    annotations:
+      testbed: wall1
+  "2":
+    series: trusty
+    constraints: "arch=amd64"
+    annotations:
+      testbed: wall1
+series: trusty
+applications:
+  storm-master:
+    charm: "cs:~tengu-bot/storm"
+    num_units: 1
+    annotations:
+      "gui-x": 300
+      "gui-y": 300
+    to:
+      - "lxc:1"
+  storm-worker:
+    charm: "cs:~tengu-bot/storm"
+    num_units: 2
+    annotations:
+      "gui-x": 600
+      "gui-y": 300
+    to:
+      - "lxc:0"
+      - "lxc:2"
+  "apache-zookeeper":
+    charm: "cs:trusty/apache-zookeeper"
+    num_units: 1
+    annotations:
+      "gui-x": 0
+      "gui-y": 300
+    to:
+      - "lxc:1"
+  "apache-kafka":
+    charm: "cs:trusty/apache-kafka"
+    num_units: 1
+    annotations:
+      "gui-x": -300
+      "gui-y": 300
+    to:
+      - "lxc:1"
+  mongodb:
+    charm: "cs:trusty/mongodb"
+    num_units: 1
+    annotations:
+      "gui-x": 900
+      "gui-y": 300
+    to:
+      - "lxc:2"
+  "storm-topology":
+    charm: "cs:~tengu-bot/storm-topology"
+    annotations:
+      "gui-x": 330
+      "gui-y": 100
+  "kafka-spout":
+    charm: "cs:~tengu-bot/kafka-spout"
+    annotations:
+      "gui-x": 130
+      "gui-y": -100
+  transform-bolt:
+    charm: "cs:~tengu-bot/bolt"
+    annotations:
+      "gui-x": 330
+      "gui-y": -100
+  "mongo-bolt":
+    charm: "cs:~tengu-bot/bolt"
+    annotations:
+      "gui-x": 530
+      "gui-y": -100
+relations:
+  - - "storm-worker:worker"
+    - "storm-master:master"
+  - - "storm-master:zookeeper"
+    - "apache-zookeeper:zkclient"
+  - - "storm-worker:zookeeper"
+    - "apache-zookeeper:zkclient"
+  - - "apache-kafka:zookeeper"
+    - "apache-zookeeper:zkclient"
+  - - "transform-bolt:coworker"
+    - "mongo-bolt:stormelement"
+  - - "mongo-bolt:database"
+    - "mongodb:database"
+  - - "mongo-bolt:master"
+    - "storm-master:master"
+  - - "transform-bolt:master"
+    - "storm-master:master"
+  - - "transform-bolt:topology"
+    - "storm-topology:topology"
+  - - "mongo-bolt:topology"
+    - "storm-topology:topology"
+  - - "storm-topology:master"
+    - "storm-master:master"
+  - - "kafka-spout:zookeeper"
+    - "apache-zookeeper:zkclient"
+  - - "kafka-spout:stormelement"
+    - "transform-bolt:stormelement"
+  - - "kafka-spout:topology"
+    - "storm-topology:topology"
+  - - "kafka-spout:master"
+    - "storm-master:master"

@@ -8,4 +8,4 @@ subordinate: false
 provides:
   http-test:
     interface: http
-series: ['trusty']
+series: ['xenial', 'trusty']

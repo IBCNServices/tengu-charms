@@ -7,5 +7,5 @@
 "provides":
   "http-test":
     "interface": "http"
-"series": ["trusty"]
+"series": ["xenial", "trusty"]
 "subordinate": !!bool "false"

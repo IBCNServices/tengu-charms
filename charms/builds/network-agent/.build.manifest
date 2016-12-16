@@ -154,7 +154,7 @@
     "lib/iptables.py": [
       "network-agent", 
       "static", 
-      "d0aeb9bd9c40a2923fbefdbea4af9007ce471765313129c829b318b91d7f4b00"
+      "7a90f176a3ccf7918ed6694b724d52e81d96da600577620083b33158d657cd78"
     ], 
     "hooks/stop": [
       "layer:basic", 

@@ -1,5 +1,7 @@
 "options":
   "http-test": {}
+  "apt":
+    "packages": []
   "basic":
     "use_venv": !!bool "false"
     "packages": []

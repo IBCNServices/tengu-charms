@@ -17,6 +17,7 @@
 import re
 import socket
 import subprocess
+import lsb_release
 
 import netifaces
 from netifaces import AF_INET
@@ -183,7 +184,11 @@ def update_rules(ruleset, comment):
                 delete_rule(existing_rule)
     # persist rules if they changed
     if rules_changed:
-        subprocess.check_call(['invoke-rc.d', 'iptables-persistent', 'save'])
+        if lsb_release.get_lsb_information()['RELEASE'] == "14.04":
+            subprocess.check_call(['invoke-rc.d', 'iptables-persistent', 'save'])
+        else:
+            subprocess.check_call(['netfilter-persistent', 'save'])
+
 
 
 def get_ips():

@@ -17,10 +17,10 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/pyaml-15.8.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "9c54fb5f17b58572c4cef50affea60bb73f445ab153580dac07a12383712b5b8"
+    "LICENSE": [
+      "http-test", 
+      "static", 
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
     ], 
     "lib/charms/layer/execd.py": [
       "layer:basic", 
@@ -72,11 +72,6 @@
       "static", 
       "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
-    "wheelhouse/charms.reactive-0.4.4.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "97455ce944a85adb2ceb897af81a1b93746f43527e6c4ac44798b193132158c7"
-    ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
@@ -90,7 +85,12 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "32204327952d4ea4ef1063f45bdbe7be379a7a7b8220f3e5f2f5e11003b25654"
+      "3544977fe725801ce6112fb9c7c1983c3e960d01496ce16c57456fe81e752746"
+    ], 
+    "wheelhouse/charmhelpers-0.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d2ae29bdc925d3cf9be8d50d85e32a6b65e5b718bd383bd4899769b288ed512"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -100,12 +100,7 @@
     "metadata.yaml": [
       "http-test", 
       "dynamic", 
-      "73e332fc471393a69facb2283bdf0ec3a3d0ef3afc0e3e76f65bf536b902fce6"
-    ], 
-    "LICENSE": [
-      "http-test", 
-      "static", 
-      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
+      "059e9614a887a81db19b2d6731a7deb94a7113bbe5b1446137fd1d7cfb3e7aa2"
     ], 
     "copyright": [
       "layer:apt", 
@@ -117,10 +112,10 @@
       "static", 
       "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
     ], 
-    "requirements.txt": [
+    "wheelhouse/PyYAML-3.12.tar.gz": [
       "layer:basic", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+      "dynamic", 
+      "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"
     ], 
     "wheelhouse/netaddr-0.7.18.tar.gz": [
       "layer:basic", 
@@ -167,10 +162,15 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
+    "wheelhouse/pyaml-16.12.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "b865e4f53a85f4d8a092e7701f759a3237fb3ee8a928627401914aafadc00907"
+    ], 
     "reactive/apt.py": [
       "layer:apt", 
       "static", 
-      "29e01153acd614813371261c2893e8334d7010dacce90564f146c36d1128b7d9"
+      "3220c73e827e4de9fcad61415ebe01640c57ae60f99b79113bac532129d32aba"
     ], 
     "hooks/hook.template": [
       "layer:basic", 
@@ -222,20 +222,20 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/PyYAML-3.11.zip": [
+    "wheelhouse/charms.reactive-0.4.5.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "19bb3ac350ef878dda84a62d37c7d5c17a137386dde9c2ce7249c7a21d7f6ac9"
+      "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
     ], 
-    "wheelhouse/charmhelpers-0.8.0.tar.gz": [
+    "requirements.txt": [
       "layer:basic", 
-      "dynamic", 
-      "355c2632049621474c50cfee6a6f7014a863f6f3bac1134ed409479cbe99b102"
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
     ], 
     "layer.yaml": [
       "http-test", 
       "dynamic", 
-      "aef3f579750203c8f926f8a9574e082cbafdaa21c189694aeebc9079940bebac"
+      "9ebc34bd47a27dc0579d9b321b6ed329d7d285ad61eef2a453e5b4e1de7be5d6"
     ], 
     "hooks/config-changed": [
       "layer:basic", 
@@ -260,7 +260,7 @@
     "lib/charms/apt.py": [
       "layer:apt", 
       "static", 
-      "1f95351be322b40cf6c01fcac128b3fe338516e96cf4314071a89d84a11387c7"
+      "7fdd7d4c00259d579a0b1c01423c95a083fd2d957046c6c76668a1438a68fd1d"
     ]
   }
 }

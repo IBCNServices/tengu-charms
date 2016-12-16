@@ -18,7 +18,7 @@
 #
 # To run this script when maas deploys a node, add the following to `/etc/maas/preseeds/curtin_userdata` right above "power_state:"
 #
-#  prepare_virtual_wall_01: ["curtin", "in-target", "--", "wget", "https://github.com/IBCNServices/tengu-charms/blob/master/maas_prepare_script.py", "-O", "/maas_prepare_script.py"]
+#  prepare_virtual_wall_01: ["curtin", "in-target", "--", "wget", "https://raw.githubusercontent.com/IBCNServices/tengu-charms/openvpn/maas_prepare_script.py", "-O", "/maas_prepare_script.py"]
 #  prepare_virtual_wall_02: ["curtin", "in-target", "--", "chmod", "u+x", "/maas_prepare_script.py"]
 #  prepare_virtual_wall_04: ["curtin", "in-target", "--", "sh", "-c", "/maas_prepare_script.py &> /var/log/maas_prepare_output.log; udevadm settle; sleep 5"]
 #
@@ -27,7 +27,7 @@ import re
 import subprocess
 from ipaddress import IPv4Network, IPv4Address
 upcommands = """
-    post-up ip route add default via {gateway}
+    gateway {gateway}
 """
 # This address comes from: http://doc.ilabt.iminds.be/ilabt-documentation/urnsrspecs.html#request-public-ipv4-addresses-for-my-nodes
 GATEWAY = IPv4Address('193.190.127.129')
@@ -53,6 +53,7 @@ for interface in interfaces.split('\n'):
             filled_in_upcommands = upcommands.format(gateway=str(GATEWAY))
             with open('/etc/network/interfaces', 'r+') as interfaces_file:
                 interfaces = interfaces_file.read()
+                interfaces = re.sub(r'(?m)^gateway.*\n?', '', interfaces)
                 match_found = False
                 matches = re.finditer(r"iface {} .+".format(interface), interfaces)
                 m = None

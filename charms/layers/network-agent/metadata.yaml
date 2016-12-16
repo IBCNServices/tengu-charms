@@ -9,4 +9,4 @@ subordinate: false
 requires:
   opened-ports:
     interface: opened-ports
-series: ['trusty']
+series: ['xenial', 'trusty']

@@ -27,7 +27,8 @@ import re
 import subprocess
 from ipaddress import IPv4Network, IPv4Address
 upcommands = """
-    gateway {gateway}
+    up ip route del default
+    up ip route add default via {gateway}
 """
 # This address comes from: http://doc.ilabt.iminds.be/ilabt-documentation/urnsrspecs.html#request-public-ipv4-addresses-for-my-nodes
 GATEWAY = IPv4Address('193.190.127.129')

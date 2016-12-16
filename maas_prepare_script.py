@@ -27,9 +27,7 @@ import re
 import subprocess
 from ipaddress import IPv4Network, IPv4Address
 upcommands = """
-    post-up ip rule add from {interface_ip} table isp2
-    post-up ip rule add from {private_network} table isp2
-    post-up ip route add default via {gateway} table isp2
+    post-up ip route add default via {gateway}
 """
 # This address comes from: http://doc.ilabt.iminds.be/ilabt-documentation/urnsrspecs.html#request-public-ipv4-addresses-for-my-nodes
 GATEWAY = IPv4Address('193.190.127.129')
@@ -42,14 +40,6 @@ GATEWAY = IPv4Address('193.190.127.129')
 #
 found = False
 
-addresses = subprocess.check_output(["cat /etc/network/interfaces | grep address | tr -s ' ' |  sed -e 's/^[ \\t]*//'  | cut -d ' ' -f 2"], shell=True, universal_newlines=True).rstrip()
-for address in addresses.split("\n"):
-    network = IPv4Network(address, strict=False)
-    if GATEWAY not in network:
-        private_network = network
-
-assert private_network
-
 interfaces = subprocess.check_output(['cat /etc/network/interfaces | grep iface | cut -d " " -f 2 | grep -v lo'], shell=True, universal_newlines=True).rstrip()
 for interface in interfaces.split('\n'):
     interface = interface.split('@')[0]
@@ -60,7 +50,7 @@ for interface in interfaces.split('\n'):
         network = IPv4Network(ip, strict=False)
         if GATEWAY in network:
             print("Gateway {} is part of network {}.".format(GATEWAY, network))
-            filled_in_upcommands = upcommands.format(interface_ip=ip.split('/')[0], gateway=str(GATEWAY), private_network=str(private_network))
+            filled_in_upcommands = upcommands.format(gateway=str(GATEWAY))
             with open('/etc/network/interfaces', 'r+') as interfaces_file:
                 interfaces = interfaces_file.read()
                 match_found = False
@@ -74,7 +64,6 @@ for interface in interfaces.split('\n'):
                 interfaces_file.seek(0)
                 interfaces_file.write(interfaces)
                 interfaces_file.truncate()
-            subprocess.check_call(["echo 200 isp2 >> /etc/iproute2/rt_tables"], shell=True, universal_newlines=True)
             with open('/var/log/maas_prepare_configs.old', 'w+') as log_file:
                 log_file.write(interfaces)
             found = True

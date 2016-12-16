@@ -10,3 +10,6 @@
 [submodule "charms/layers/network-agent"]
 	path = charms/layers/network-agent
 	url = https://github.com/IBCNServices/layer-network-agent
+[submodule "charms/builds/network-agent"]
+	path = charms/builds/network-agent
+	url = https://github.com/IBCNServices/charm-network-agent

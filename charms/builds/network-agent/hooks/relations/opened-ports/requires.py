@@ -1,4 +1,4 @@
-#python3 pylint:disable=c0111
+#!/usr/bin/env python3 pylint:disable=c0111
 # Copyright (C) 2016  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import json
-import socket
 
 from charmhelpers.core import unitdata
 
@@ -25,6 +24,7 @@ from charms.reactive import scopes
 RANGE = 29000
 
 KV = unitdata.kv()
+
 
 class OpenedPortsRequires(RelationBase):
     scope = scopes.UNIT
@@ -38,10 +38,7 @@ class OpenedPortsRequires(RelationBase):
             opened_ports = json.loads(conv.get_remote('opened-ports'))
             port_forwards = conv.get_local('port-forwards', [])
             # Get public ip address
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.connect(("google.com", 80))
-            public_address = sock.getsockname()[0]
-            sock.close()
+            public_address = KV.get('public-ip')
             for portproto in opened_ports:
                 if not any(
                         (pf['private_port'] == portproto['port']) and
@@ -60,12 +57,10 @@ class OpenedPortsRequires(RelationBase):
                     conv.set_local('port-forwards', port_forwards)
             conv.set_state('{relation_name}.available')
 
-
     @hook('{requires:opened-ports}-relation-{departed,broken}')
     def broken(self):
         conv = self.conversation()
         conv.remove_state('{relation_name}.available')
-
 
     @property
     def opened_ports(self):
@@ -81,8 +76,10 @@ class OpenedPortsRequires(RelationBase):
             services.extend(port_forwards)
         return services
 
-
     def set_ready(self):
-        """ send a notice to the related charms that the port forwarding has been applied """
+        """ send a notice to the related charms that
+        the port forwarding has been applied
+        """
         for conv in self.conversations():
-            conv.set_remote('port-forwards', json.dumps(conv.get_local('port-forwards', [])))
+            conv.set_remote('port-forwards',
+                            json.dumps(conv.get_local('port-forwards', [])))

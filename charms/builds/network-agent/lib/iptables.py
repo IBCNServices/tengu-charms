@@ -41,9 +41,17 @@ def update_port_forwards(config):
     # terminology:
     #   - client: entity that sends the packet to us.
     #   - server: entity that has to receive the packet.
-    # We forward all traffic that we receive on $public_port to the client at
+    # When a client connects to one of our forwarded ports, the client thinks
+    # it is communicating with is, while it is actually communicating with a
+    # server on our managed network.
+    # We forward all traffic that we receive on $public_port to the server at
     # $private_ip:$private_port. We forward all answers from the server to the
     # client.
+    #   - The client doesn't know how to reach the server, so we need to rewrite
+    #     the source ip of the answers the server sends.
+    #   - The server needs to respond via us, not via his default gateway, so we
+    #     need to rewrite the source address of the packets the client sends us
+    #     and the destination address of the packets the server sends us.
     #
     comment = 'managed by juju port forward'
     ips = get_ips()
@@ -72,10 +80,10 @@ def update_port_forwards(config):
                 'chain' : 'PREROUTING'
             }
             ruleset.append(forward_rule)
-        # Change the source of packets we are about to forward to us. This
-        # is so the response to this packet will be send to us instead of
-        # directly to the source. This is useful when the client won't route
-        # the response to us. That scenario can happen when.
+        # Change the source to of packets the clients sends to our ip in the
+        # Managed network. This is so the response to this packet will be send
+        # to us instead of directly to the source. This is useful when the
+        # client won't route the response to us. That scenario can happen when.
         #  - We are not the server's default gateway
         #  - The client and server are on the same network
         #  - The server knows of a different route to the client

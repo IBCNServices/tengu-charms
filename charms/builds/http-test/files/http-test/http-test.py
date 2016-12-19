@@ -16,6 +16,7 @@
 #pylint: disable=c0111,c0103
 # maas login galgalesh http://193.190.127.150/MAAS/api/1.9/
 import os
+import platform
 
 from flask import Flask
 
@@ -24,7 +25,7 @@ APP = Flask(__name__)
 
 @APP.route("/")
 def hello():
-    return "HTTP testservice v0.0.1\n"
+    return "HTTP testservice v0.0.1\n{}\n".format(platform.node())
 
 if __name__ == "__main__":
     DEBUG = (os.environ.get('DEBUG', 'False').lower() == 'true')

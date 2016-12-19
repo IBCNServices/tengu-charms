@@ -45,7 +45,7 @@ def pre_install():
 @when_not('http-test.installed')
 def install():
     """Install http-test"""
-    subprocess.check_call(['hostnamectl', 'set-hostname', 'http-test'])
+    #subprocess.check_call(['hostnamectl', 'set-hostname', 'http-test'])
     try:
         # update needed because of weird error
         hookenv.log("Installing dependencies")

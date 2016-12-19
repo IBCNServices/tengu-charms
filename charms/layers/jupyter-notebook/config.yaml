@@ -1,0 +1,5 @@
+options:
+  open-port:
+    type: int
+    default: 8888
+    description: "The port that is used to access jupyter notebook"

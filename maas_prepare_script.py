@@ -18,7 +18,7 @@
 #
 # To run this script when maas deploys a node, add the following to `/etc/maas/preseeds/curtin_userdata` right above "power_state:"
 #
-#  prepare_virtual_wall_01: ["curtin", "in-target", "--", "wget", "https://raw.githubusercontent.com/IBCNServices/tengu-charms/master/maas_prepare_script.py", "-O", "/maas_prepare_script.py"]
+#  prepare_virtual_wall_01: ["curtin", "in-target", "--", "wget", "https://raw.githubusercontent.com/IBCNServices/tengu-charms/openvpn/maas_prepare_script.py", "-O", "/maas_prepare_script.py"]
 #  prepare_virtual_wall_02: ["curtin", "in-target", "--", "chmod", "u+x", "/maas_prepare_script.py"]
 #  prepare_virtual_wall_04: ["curtin", "in-target", "--", "sh", "-c", "/maas_prepare_script.py &> /var/log/maas_prepare_output.log; udevadm settle; sleep 5"]
 #

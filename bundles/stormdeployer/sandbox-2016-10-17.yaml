@@ -1,0 +1,109 @@
+series: trusty
+applications: 
+  "apache-kafka": 
+    charm: "cs:trusty/apache-kafka-5"
+    num_units: 1
+    annotations: 
+      "gui-x": "-200"
+      "gui-y": "300"
+    to: 
+      - "0"
+  "apache-zookeeper": 
+    charm: "cs:trusty/apache-zookeeper-3"
+    num_units: 1
+    annotations: 
+      "gui-x": "37"
+      "gui-y": "300"
+    to: 
+      - "1"
+  bolt: 
+    charm: "cs:~tengu-bot/bolt-1"
+    annotations: 
+      "gui-x": 336.09820556640625
+      "gui-y": -91.33642578125
+  "bolt-a": 
+    charm: "cs:~tengu-bot/bolt-1"
+    annotations: 
+      "gui-x": 669.3085327148438
+      "gui-y": -91.33642578125
+  "kafka-spout": 
+    charm: "cs:~tengu-bot/kafka-spout-0"
+    annotations: 
+      "gui-x": 62.995361328125
+      "gui-y": -91.33642578125
+  mongodb: 
+    charm: "cs:trusty/mongodb-37"
+    num_units: 1
+    annotations: 
+      "gui-x": "1000"
+      "gui-y": "300"
+    to: 
+      - "2"
+  nimbus: 
+    charm: "cs:~tengu-bot/storm-2"
+    num_units: 1
+    annotations: 
+      "gui-x": "300"
+      "gui-y": "300"
+    to: 
+      - "3"
+  "storm-topology": 
+    charm: "cs:~tengu-bot/storm-topology-1"
+    annotations: 
+      "gui-x": 330.322509765625
+      "gui-y": 105.77572631835938
+  worker: 
+    charm: "cs:~tengu-bot/storm-2"
+    num_units: 1
+    annotations: 
+      "gui-x": "649"
+      "gui-y": "300"
+    to: 
+      - "4"
+relations: 
+  - - "worker:worker"
+    - "nimbus:master"
+  - - "nimbus:zookeeper"
+    - "apache-zookeeper:zkclient"
+  - - "worker:zookeeper"
+    - "apache-zookeeper:zkclient"
+  - - "apache-kafka:zookeeper"
+    - "apache-zookeeper:zkclient"
+  - - "bolt:coworker"
+    - "bolt-a:stormelement"
+  - - "bolt-a:database"
+    - "mongodb:database"
+  - - "bolt-a:master"
+    - "nimbus:master"
+  - - "bolt:master"
+    - "nimbus:master"
+  - - "bolt:topology"
+    - "storm-topology:topology"
+  - - "bolt-a:topology"
+    - "storm-topology:topology"
+  - - "storm-topology:master"
+    - "nimbus:master"
+  - - "kafka-spout:zookeeper"
+    - "apache-zookeeper:zkclient"
+  - - "kafka-spout:stormelement"
+    - "bolt:stormelement"
+  - - "kafka-spout:topology"
+    - "storm-topology:topology"
+  - - "kafka-spout:master"
+    - "nimbus:master"
+machines: 
+  "0": 
+    series: trusty
+    constraints: "arch=amd64 cpu-cores=1 cpu-power=100 mem=1740 root-disk=8192"
+  "1": 
+    series: trusty
+    constraints: "arch=amd64 cpu-cores=1 cpu-power=100 mem=1740 root-disk=8192"
+  "2": 
+    series: trusty
+    constraints: "arch=amd64 cpu-cores=1 cpu-power=100 mem=1740 root-disk=8192"
+  "3": 
+    series: trusty
+    constraints: "arch=amd64 cpu-cores=1 cpu-power=100 mem=1740 root-disk=8192"
+  "4": 
+    series: trusty
+    constraints: "arch=amd64 cpu-cores=1 cpu-power=100 mem=1740 root-disk=8192"

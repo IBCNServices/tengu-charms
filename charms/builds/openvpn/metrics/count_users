@@ -1,2 +1,0 @@
-#!/bin/bash
-awk '/^Common/{flag=1;next}/^ROUTING/{flag=0}flag' /var/log/openvpn/openvpn-server1-status.log | wc -l

@@ -1,6 +1,0 @@
-bootstrap: false
-reset: false
-tests: "[0-9]*"
-packages:
-  - openvpn
-  - amulet

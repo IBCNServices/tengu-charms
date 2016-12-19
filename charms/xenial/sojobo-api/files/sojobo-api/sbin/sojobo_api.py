@@ -90,7 +90,7 @@ def initialize():
 @APP.after_request
 def apply_caching(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Location,id-token'
+    response.headers['Access-Control-Allow-Headers'] = 'Authentication,Content-Type,Location,id-token'
     response.headers['Access-Control-Expose-Headers'] = 'Content-Type,Location'
     response.headers['Access-Control-Allow-Methods'] = 'GET,PUT'
     response.headers['Accept'] = 'application/json'
@@ -234,9 +234,9 @@ def maas_get_user_api_key(username, password):
         'password': password
     }
     with requests.Session() as session:
-        login_response = session.post('http://193.190.127.161/MAAS/accounts/login/', data=payload)
+        login_response = session.post('{}/accounts/login/'.format(MAAS_URL), data=payload)
         print(login_response)
-        api_page_response = session.get('http://193.190.127.161/MAAS/account/prefs/')
+        api_page_response = session.get('{}/account/prefs/'.format(MAAS_URL))
         print(api_page_response)
     tree = html.fromstring(api_page_response.text)
     api_keys = tree.xpath('//div[@id="api"]//input/@value')
@@ -254,7 +254,7 @@ def juju_create_user(username, password):
     try:
         # We need to use check_output here because check_call has no "input" option
         output = check_output(['juju', 'change-user-password', username],
-                              input="{}\n{}".format(password, password),
+                              input="{}\n{}\n".format(password, password),
                               universal_newlines=True)
     except CalledProcessError as e:
         output = e.output

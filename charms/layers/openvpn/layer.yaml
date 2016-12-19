@@ -1,7 +1,0 @@
-includes: ['layer:basic', 'layer:puppet-base', 'layer:metrics']
-options:
-  puppet-base:
-    puppet-srvc: standalone
-repo: git@github.com:IBCNServices/tengu-charms.git
-tactics:
-  - 'tactics.download_modules.DownloadModulesTactic'

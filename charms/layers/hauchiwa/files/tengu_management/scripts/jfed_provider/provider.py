@@ -140,8 +140,8 @@ class JfedSlice(object):
             })
             next_pub_port += 1
         dhcp_server.set_config({'port-forwards': json.dumps(forward_config, indent=4)})
-        print(show_pf_result(forward_config, pf_nelist, dhcp_server.status.units.itervalues().next()['workload-status']['message'].lstrip('Ready (').rstrip(')')))
-
+        print(show_pf_result(forward_config, pf_nelist, dhcp_server.units.itervalues().next()['workload-status']['message'].lstrip('Ready (').rstrip(')')))
+        print("Please wait a few seconds until the port-forwards become active")
 
     def wait_for_init(self):
         """Waits until the init script has run"""

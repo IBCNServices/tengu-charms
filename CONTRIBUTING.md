@@ -37,3 +37,4 @@ Instead of using templates that completely overwrite existing config files, chan
 - Always use the `check_..` functions. If error exit code doesn't matter, catch the exception.
 - Use `shell=True`.
 - Use upstart on trusty and systemd on xenial to start and stop services.
+- use `format` instead of `%` for building strings. [Source](http://stackoverflow.com/a/12382738/1588555)

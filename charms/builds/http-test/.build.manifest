@@ -2,9 +2,8 @@
   "layers": [
     "layer:basic", 
     "layer:apt", 
-    "layer:juju2-client", 
-    "sojobo-api", 
-    "interface:opened-ports", 
+    "http-test", 
+    "interface:http", 
     "build"
   ], 
   "signatures": {
@@ -19,7 +18,7 @@
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "LICENSE": [
-      "sojobo-api", 
+      "http-test", 
       "static", 
       "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
     ], 
@@ -43,40 +42,50 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "hooks/relations/opened-ports/interface.yaml": [
-      "interface:opened-ports", 
+    "hooks/http-test-relation-changed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/http-test-relation-departed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/http/interface.yaml": [
+      "interface:http", 
       "static", 
-      "54bbfda5d2e925163bcf2234ca6b9fef778d3f74cee605d74e5c83e6479188b8"
+      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
     ], 
     ".build.manifest": [
       "build", 
       "dynamic", 
       "unchecked"
     ], 
+    "hooks/http-test-relation-joined": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
     "hooks/upgrade-charm": [
       "layer:basic", 
       "static", 
       "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
-    ], 
-    "files/sojobo-api/sbin/sojobo_api.py": [
-      "sojobo-api", 
-      "static", 
-      "017e90b2dbe294b36b69bc9f1a49335fd9998434f723cb57937faab3f3693bbd"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "hooks/sojobo-api-port-forward-relation-broken": [
-      "interface:opened-ports", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    "hooks/relations/http/__init__.py": [
+      "interface:http", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "32204327952d4ea4ef1063f45bdbe7be379a7a7b8220f3e5f2f5e11003b25654"
+      "3544977fe725801ce6112fb9c7c1983c3e960d01496ce16c57456fe81e752746"
     ], 
     "wheelhouse/charmhelpers-0.10.0.tar.gz": [
       "layer:basic", 
@@ -89,24 +98,19 @@
       "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
     "metadata.yaml": [
-      "sojobo-api", 
+      "http-test", 
       "dynamic", 
-      "c39fcb82314621815eac1064023f4b265ed283b1043680101cd62d9430d20389"
-    ], 
-    "files/sojobo-api/sbin/install_credentials.py": [
-      "sojobo-api", 
-      "static", 
-      "2038d160948e4fee0c2c6d2ba273618a5a0abd1719f6551c83239d2e4ff9a4a3"
-    ], 
-    "reactive/sojobo-api.py": [
-      "sojobo-api", 
-      "static", 
-      "7b1712d1fdead53bd1a81a05ace213d25e403b25050f1776ffa9984725876f5d"
+      "059e9614a887a81db19b2d6731a7deb94a7113bbe5b1446137fd1d7cfb3e7aa2"
     ], 
     "copyright": [
       "layer:apt", 
       "static", 
       "5123b2d0220fefb4424a463216fb41a6dd7cfad49c9799ba7037f1e74a2fd6bc"
+    ], 
+    "hooks/relations/http/README.md": [
+      "interface:http", 
+      "static", 
+      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
     ], 
     "wheelhouse/PyYAML-3.12.tar.gz": [
       "layer:basic", 
@@ -117,6 +121,11 @@
       "layer:basic", 
       "dynamic", 
       "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    "reactive/http-test.py": [
+      "http-test", 
+      "static", 
+      "8c5cc2b398e9b3aa9d233873609073071b911164b4b5089db9d977b36a747403"
     ], 
     ".gitignore": [
       "layer:apt", 
@@ -133,25 +142,15 @@
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
-    "hooks/relations/opened-ports/provides.py": [
-      "interface:opened-ports", 
+    "icon.svg": [
+      "http-test", 
       "static", 
-      "035be8e582385bbc5f2a8e4f392a946cd47ec8fc9cf999ffacfab8009304b13a"
-    ], 
-    "wheelhouse/pyaml-16.12.2.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "b865e4f53a85f4d8a092e7701f759a3237fb3ee8a928627401914aafadc00907"
-    ], 
-    "reactive/juju2-client.py": [
-      "layer:juju2-client", 
-      "static", 
-      "cdc5c021a229a9b8ab36e0cdbb9946bd277ff057fa8e5abdd91f24194079e298"
+      "8d8076da15ad1d045bccbabb76545712c7c93214d79281c4c338fd9b01cdce7f"
     ], 
     "config.yaml": [
-      "sojobo-api", 
+      "http-test", 
       "dynamic", 
-      "d812d5713e007dcb1fc1cdcc973935d69047b498896f299bce79df9d090db357"
+      "64acc8f4b754e169417af13630aa4d8954bf5aed19013641fee4d21a0daf988e"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
@@ -163,10 +162,10 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "hooks/sojobo-api-port-forward-relation-departed": [
-      "interface:opened-ports", 
+    "wheelhouse/pyaml-16.12.2.tar.gz": [
+      "layer:basic", 
       "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+      "b865e4f53a85f4d8a092e7701f759a3237fb3ee8a928627401914aafadc00907"
     ], 
     "reactive/apt.py": [
       "layer:apt", 
@@ -178,35 +177,20 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "tests/tests.yaml": [
-      "sojobo-api", 
-      "static", 
-      "d54a0eddc8bfa402e56ad5f4bd1bd93043c57382059cfc4cce8c4e5be95a7093"
-    ], 
-    "hooks/relations/opened-ports/__init__.py": [
-      "interface:opened-ports", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "sojobo-api.postman_collection.json": [
-      "sojobo-api", 
-      "static", 
-      "abcb95fba75a1a371b86818f1db4ce3f89b645d164001b24ce89287d2ab7efdd"
-    ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
     ], 
-    "hooks/relations/opened-ports/requires.py": [
-      "interface:opened-ports", 
-      "static", 
-      "143af43efdb96ea19e574bf55b7d23ee50be212fd4c0963b258265512297522d"
-    ], 
     "wheelhouse/pip-8.1.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
+    ], 
+    "hooks/http-test-relation-broken": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "hooks/update-status": [
       "layer:basic", 
@@ -219,29 +203,19 @@
       "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
     ], 
     "README.md": [
-      "sojobo-api", 
+      "http-test", 
       "static", 
-      "21d09a5193e2726dbf124e23a1a577a892dd3ecf0107b9d0d41350644db7c1bc"
+      "c6fc0124f4d732ae67cc68a71f305c2a901ff5b17aaf9fd022d4fc1b27439cf7"
     ], 
-    "templates/flask-app.service": [
-      "sojobo-api", 
+    "hooks/relations/http/requires.py": [
+      "interface:http", 
       "static", 
-      "2b1656d594c612d0d3a84f1590c00eefa8122a3eb1cbe05c964838f1166bbfe7"
+      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
     ], 
-    "hooks/sojobo-api-port-forward-relation-changed": [
-      "interface:opened-ports", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "icon.svg": [
-      "sojobo-api", 
+    "templates/upstart.conf": [
+      "http-test", 
       "static", 
-      "05eab4f602cbd6a878a88ee3c6e3956c5cd1fbb750bf1661affd6356fa04a154"
-    ], 
-    "hooks/sojobo-api-port-forward-relation-joined": [
-      "interface:opened-ports", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+      "f7610c109776837c6cf534b85d5d5dfaf91f28c509eb0aa9626d0354891fb660"
     ], 
     "hooks/start": [
       "layer:basic", 
@@ -253,25 +227,30 @@
       "dynamic", 
       "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
     ], 
-    "hooks/relations/opened-ports/README.md": [
-      "interface:opened-ports", 
-      "static", 
-      "5b3ff664bf7953b7523f4e37a8f6c3870ebaefd5a265c0f1037141269f1d28d1"
-    ], 
     "requirements.txt": [
       "layer:basic", 
       "static", 
       "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
     ], 
     "layer.yaml": [
-      "sojobo-api", 
+      "http-test", 
       "dynamic", 
-      "4a57c6bad9288408f2d116a31b3eca9dad2192f9ce695b3ae309784ac7b19d4a"
+      "9ebc34bd47a27dc0579d9b321b6ed329d7d285ad61eef2a453e5b4e1de7be5d6"
     ], 
     "hooks/config-changed": [
       "layer:basic", 
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/http/provides.py": [
+      "interface:http", 
+      "static", 
+      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
+    ], 
+    "files/http-test/http-test.py": [
+      "http-test", 
+      "static", 
+      "3ba2d11cc989504ea44b16c91acea49ac172ddb01451ff5357e3a84c97a323d7"
     ], 
     "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 

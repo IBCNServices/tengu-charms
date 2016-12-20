@@ -4,127 +4,23 @@
     "layer:apt", 
     "jupyter-notebook", 
     "interface:http", 
+    "interface:spark", 
     "build"
   ], 
   "signatures": {
-    ".build.manifest": [
-      "build", 
+    "hooks/website-relation-departed": [
+      "interface:http", 
       "dynamic", 
-      "unchecked"
-    ], 
-    ".gitignore": [
-      "layer:apt", 
-      "static", 
-      "54c2eac10d7d0187b02c271ac7a3767bb3d365d562cfb8c1548efb4e84f7b2d5"
-    ], 
-    "Makefile": [
-      "layer:basic", 
-      "static", 
-      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
-    ], 
-    "README.md": [
-      "jupyter-notebook", 
-      "static", 
-      "08f1b29ff5655c98ef80133f4dc0dfedffbd95d80ad2cbe6a704a99f5e7bcc76"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "bin/layer_option": [
       "layer:basic", 
       "static", 
       "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
     ], 
-    "config.yaml": [
-      "jupyter-notebook", 
-      "dynamic", 
-      "f1cabf7dd35005141d1ed9ce19c31c61b04cf8364029b4fefc02a4ba84f18dd3"
-    ], 
-    "copyright": [
-      "layer:apt", 
-      "static", 
-      "5123b2d0220fefb4424a463216fb41a6dd7cfad49c9799ba7037f1e74a2fd6bc"
-    ], 
-    "hooks/config-changed": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/hook.template": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/install": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/leader-elected": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
     "hooks/leader-settings-changed": [
       "layer:basic", 
       "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/relations/http/README.md": [
-      "interface:http", 
-      "static", 
-      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
-    ], 
-    "hooks/relations/http/__init__.py": [
-      "interface:http", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    ], 
-    "hooks/relations/http/interface.yaml": [
-      "interface:http", 
-      "static", 
-      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
-    ], 
-    "hooks/relations/http/provides.py": [
-      "interface:http", 
-      "static", 
-      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
-    ], 
-    "hooks/relations/http/requires.py": [
-      "interface:http", 
-      "static", 
-      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
-    ], 
-    "hooks/start": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/stop": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/update-status": [
-      "layer:basic", 
-      "static", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/upgrade-charm": [
-      "layer:basic", 
-      "static", 
-      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
-    ], 
-    "hooks/website-relation-broken": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/website-relation-changed": [
-      "interface:http", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/website-relation-departed": [
-      "interface:http", 
-      "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
     "hooks/website-relation-joined": [
@@ -132,140 +28,290 @@
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "icon.svg": [
-      "jupyter-notebook", 
-      "static", 
-      "31275b30729c488b8cf66280cb1763339436934a7f0dc67ca0c421582278ec60"
-    ], 
-    "layer.yaml": [
-      "jupyter-notebook", 
-      "dynamic", 
-      "b1aeabd9b3bbf9430eb82d090f56aad0f98cf3ac6c62bb70b4befc20add0eff9"
-    ], 
-    "lib/charms/__init__.py": [
-      "layer:apt", 
-      "static", 
-      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
-    ], 
-    "lib/charms/apt.py": [
-      "layer:apt", 
-      "static", 
-      "7fdd7d4c00259d579a0b1c01423c95a083fd2d957046c6c76668a1438a68fd1d"
-    ], 
-    "lib/charms/layer/__init__.py": [
-      "layer:basic", 
-      "static", 
-      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
-    ], 
-    "lib/charms/layer/basic.py": [
-      "layer:basic", 
-      "static", 
-      "32204327952d4ea4ef1063f45bdbe7be379a7a7b8220f3e5f2f5e11003b25654"
-    ], 
     "lib/charms/layer/execd.py": [
       "layer:basic", 
       "static", 
       "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
     ], 
-    "metadata.yaml": [
-      "jupyter-notebook", 
-      "dynamic", 
-      "e910a95615e3e8c03e6c5bca25a4670f12ab60f349779d9585c612242b2454e2"
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "reactive/apt.py": [
-      "layer:apt", 
-      "static", 
-      "3220c73e827e4de9fcad61415ebe01640c57ae60f99b79113bac532129d32aba"
-    ], 
-    "reactive/jupyter_notebook.py": [
-      "jupyter-notebook", 
-      "static", 
-      "219b08e98980f2712d0795d80fa0e1b7c58a7403aff6e3fc527b54b1b628f744"
-    ], 
-    "requirements.txt": [
-      "layer:basic", 
-      "static", 
-      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
-    ], 
-    "templates/config_template.py": [
-      "jupyter-notebook", 
-      "static", 
-      "6daf0d14a5310215fb618bab91ed36a5a2c206d6b8456836407d4852708b8e42"
-    ], 
-    "templates/upstart.conf": [
-      "jupyter-notebook", 
-      "static", 
-      "eccad070462a4c8b88823c4e25381f6e4a42646f0e56e33790210892e55c89ff"
-    ], 
-    "tests/00-setup": [
-      "jupyter-notebook", 
-      "static", 
-      "111c079b81d260bbcd716dcf41672372a4cf4aaa14154b6c3055deeedae37a06"
-    ], 
-    "tests/10-deploy": [
-      "jupyter-notebook", 
-      "static", 
-      "728bb37285ef18e57c36e92c7da5ad98be17fa392f2790db65008eee7fdd96be"
-    ], 
-    "tox.ini": [
-      "layer:basic", 
-      "static", 
-      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
-    ], 
-    "wheelhouse/Jinja2-2.8.tar.gz": [
-      "layer:basic", 
+    "hooks/spark-relation-departed": [
+      "interface:spark", 
       "dynamic", 
-      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "wheelhouse/MarkupSafe-0.23.tar.gz": [
-      "layer:basic", 
-      "dynamic", 
-      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    "hooks/relations/http/interface.yaml": [
+      "interface:http", 
+      "static", 
+      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
     ], 
-    "wheelhouse/PyYAML-3.12.tar.gz": [
-      "layer:basic", 
+    ".build.manifest": [
+      "build", 
       "dynamic", 
-      "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"
+      "unchecked"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
     ], 
     "wheelhouse/Tempita-0.5.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
+    "reactive/jupyter_notebook.py": [
+      "jupyter-notebook", 
+      "static", 
+      "54910a6f4285de56b92b0d6bb04ef1b40b9871185fdcc33e238a490e6825973b"
+    ], 
+    "hooks/relations/http/README.md": [
+      "interface:http", 
+      "static", 
+      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
+    ], 
+    "lib/charms/layer/basic.py": [
+      "layer:basic", 
+      "static", 
+      "3544977fe725801ce6112fb9c7c1983c3e960d01496ce16c57456fe81e752746"
+    ], 
     "wheelhouse/charmhelpers-0.10.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "4d2ae29bdc925d3cf9be8d50d85e32a6b65e5b718bd383bd4899769b288ed512"
     ], 
-    "wheelhouse/charms.reactive-0.4.5.tar.gz": [
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
+    ], 
+    "metadata.yaml": [
+      "jupyter-notebook", 
+      "dynamic", 
+      "0a18b89879e3b3630411c99ea429ded3c4bd0e386b373b4cf21fc152d0a0890e"
+    ], 
+    "copyright": [
+      "layer:apt", 
+      "static", 
+      "5123b2d0220fefb4424a463216fb41a6dd7cfad49c9799ba7037f1e74a2fd6bc"
+    ], 
+    "wheelhouse/xkcdpass-1.9.1.tar.gz": [
+      "jupyter-notebook", 
+      "dynamic", 
+      "d5d3df14529b62c39ee583e6b59c6f16b6fe8c123482b79782329bf593d67b8f"
+    ], 
+    "wheelhouse/PyYAML-3.12.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
+      "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"
     ], 
     "wheelhouse/netaddr-0.7.18.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
     ], 
+    ".gitignore": [
+      "layer:apt", 
+      "static", 
+      "54c2eac10d7d0187b02c271ac7a3767bb3d365d562cfb8c1548efb4e84f7b2d5"
+    ], 
+    "hooks/relations/http/__init__.py": [
+      "interface:http", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "hooks/relations/spark/README.md": [
+      "interface:spark", 
+      "static", 
+      "f4424863d66a0d823312d3ad70c11515ad7270649e3555672a5185824470c9cc"
+    ], 
+    "hooks/relations/spark/requires.py": [
+      "interface:spark", 
+      "static", 
+      "d292d20e715ff1c07fda6dbde3c48bf2a9056b2fc368aeb39462da702c87f686"
+    ], 
+    "templates/jupyter_notebook_config.py.jinja2": [
+      "jupyter-notebook", 
+      "static", 
+      "47f644bf94203ed0c6de652e2a7c856ccc06875cc178cc0cf204bb18d376dd75"
+    ], 
+    "icon.svg": [
+      "jupyter-notebook", 
+      "static", 
+      "219aa2adf60cf29a59de07dc90a036f9bcab8b551fe0db586b45c74e8e5c9836"
+    ], 
+    "config.yaml": [
+      "jupyter-notebook", 
+      "dynamic", 
+      "f1cabf7dd35005141d1ed9ce19c31c61b04cf8364029b4fefc02a4ba84f18dd3"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/pyaml-16.12.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "b865e4f53a85f4d8a092e7701f759a3237fb3ee8a928627401914aafadc00907"
+    ], 
+    "reactive/apt.py": [
+      "layer:apt", 
+      "static", 
+      "6dad3fc2032bc4367b3669def96a45609222a745fd28763992725e377d7c974c"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/spark-relation-changed": [
+      "interface:spark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/spark-relation-broken": [
+      "interface:spark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "hooks/relations/spark/copyright": [
+      "interface:spark", 
+      "static", 
+      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
+    ], 
+    "hooks/relations/spark/interface.yaml": [
+      "interface:spark", 
+      "static", 
+      "02a05826247e534381ef98ed17e9b067f64216a7512f9cadf8c1dba55d1e17b1"
+    ], 
     "wheelhouse/pip-8.1.2.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
     ], 
-    "wheelhouse/pyaml-16.11.4.tar.gz": [
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "lib/charms/__init__.py": [
+      "layer:apt", 
+      "static", 
+      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
+    ], 
+    "hooks/website-relation-broken": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "README.md": [
+      "jupyter-notebook", 
+      "static", 
+      "6ffe6dbad7bca44c9b36e0caa7d1b961dc27ead1a29d6a97fda201f22fa7f80b"
+    ], 
+    "hooks/relations/spark/provides.py": [
+      "interface:spark", 
+      "static", 
+      "1fdf07cfef73d69af2134922734e477ceaf781a63b2380f5485428e25f5dc2d0"
+    ], 
+    "hooks/website-relation-changed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/http/requires.py": [
+      "interface:http", 
+      "static", 
+      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
+    ], 
+    "templates/upstart.conf": [
+      "jupyter-notebook", 
+      "static", 
+      "eccad070462a4c8b88823c4e25381f6e4a42646f0e56e33790210892e55c89ff"
+    ], 
+    "hooks/relations/spark/__init__.py": [
+      "interface:spark", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/charms.reactive-0.4.5.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "890d76cc3b25f41df952d804ae4604bec2730e258608b06da7adb6830d1736be"
+      "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
+    ], 
+    "hooks/spark-relation-joined": [
+      "interface:spark", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "layer.yaml": [
+      "jupyter-notebook", 
+      "dynamic", 
+      "c1dfb11b8c8fa2669ac0ff14d6ed26e4e4003ffa09628339cfdfc6888a43e2b8"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/http/provides.py": [
+      "interface:http", 
+      "static", 
+      "86077fddb1c671d4693074f458a6fe24fa79b1cd38373ad364019bc032132c0a"
     ], 
     "wheelhouse/six-1.10.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ], 
+    "lib/charms/apt.py": [
+      "layer:apt", 
+      "static", 
+      "f074d981409c3860547f8c45cde9c3ce4a80985a5ee94755981cd10117dc76e4"
     ]
   }
 }

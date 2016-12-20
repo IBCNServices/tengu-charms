@@ -14,18 +14,20 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0103,c0301
-from charmhelpers.core import templating, hookenv, host
+from charmhelpers.core import templating, hookenv, host, unitdata
 from charmhelpers.contrib.python.packages import pip_install
 from charmhelpers.core.hookenv import open_port, status_set
 from charms.reactive import hook, when, when_not, set_state
+from charms.reactive.helpers import data_changed
 
 
 @hook('upgrade-charm')
 def upgrade_charm():
     hookenv.log("Upgrading Notebook Charm")
     pip_install('jupyter', upgrade=True)
-#
-@when('spark.ready')
+
+
+@when('apt.installed.python3-pip')
 @when_not('jupyter-notebook.installed')
 def install_jupyter_notebook():
     hookenv.log("Install Jupyter-notebook")
@@ -35,30 +37,49 @@ def install_jupyter_notebook():
 
 
 @when('jupyter-notebook.installed')
+@when('config.changed')
 def configure_jupyter_notebook():
     conf = hookenv.config()
     jupyter_dir = '/opt/jupyter'
-    host.mkdir(jupyter_dir)
-    hookenv.log('Configuring jupyter-notebook upstart')
-    render_api_upstart_template()
-    hookenv.log('Generating jupyter notebook config')
-    render_default_config_template(jupyter_dir)
+    port = conf['open-port']
+    # Get or create and get password
+    kv_store = unitdata.kv()
+    password = kv_store.get('password')
+    if not password:
+        password = generate_password()
+        kv_store.set('password', password)
+    password_hash = generate_hash(password)
+    context = {
+        'port': port,
+        'password_hash': password_hash,
+    }
+    if data_changed('jupyter-conf', context):
+        # Create config directory and render config file
+        host.mkdir(jupyter_dir)
+        templating.render(
+            source='jupyter_notebook_config.py.jinja2',
+            target=jupyter_dir + '/jupyter_notebook_config.py',
+            context=context
+        )
+        # Generate upstart template / service file
+        render_api_upstart_template()
+        restart_notebook()
+
+
+def restart_notebook():
+    # Start notebook and ensure it is running. Note that if the actual config
+    # file is broken, the notebook will be running but won't be accessible from
+    # anywhere else then localhost.
     host.service_restart('jupyter')
     if host.service_running('jupyter'):
-        status_set('active', 'Ready')
-        open_port(conf['open-port'])
+        status_set('active',
+                   'Ready (Pass: "{}")'.format(unitdata.kv().get('password')))
+        open_port(hookenv.config()['open-port'])
         set_state('jupyter-notebook.configured')
     else:
-        status_set('blocked', 'Could not restart service due to wrong configuration!')
-#
-#@when('jupyter-notebook.started')
-#@when_not('spark.ready')
-#def stop_jupyter():
-#    subprocess.check_call(['service','jupyter','stop'])
-#    remove_state('zeppelin.started')
+        status_set('blocked',
+                   'Could not restart service due to wrong configuration!')
 
-
-# template functions
 
 def render_api_upstart_template():
     templating.render(
@@ -67,13 +88,16 @@ def render_api_upstart_template():
         context={}
         )
 
-def render_default_config_template(jupyter_dir):
-    conf = hookenv.config()
-    port = conf['open-port']
-    templating.render(
-        source='config_template.py',
-        target=jupyter_dir + '/jupyter_notebook_config.py',
-        context={
-            'port': port
-        }
-    )
+#
+# Helper functions
+#
+
+def generate_hash(password):
+    from notebook.auth import passwd
+    return passwd(password)
+
+
+def generate_password():
+    from xkcdpass import xkcd_password as xp
+    mywords = xp.generate_wordlist()
+    return xp.generate_xkcdpassword(mywords, numwords=4)

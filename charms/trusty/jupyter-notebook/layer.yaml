@@ -2,6 +2,8 @@
   "apt":
     "packages":
     - "python3-pip"
+    "version_package": ""
+    "full_version": !!bool "false"
   "jupyter-notebook": {}
   "basic":
     "use_venv": !!bool "false"
@@ -11,5 +13,6 @@
 - "layer:basic"
 - "layer:apt"
 - "interface:http"
+- "interface:spark"
 "repo": "git@github.com/sebastienpattyn93/charms.git"
 "is": "jupyter-notebook"

@@ -13,3 +13,9 @@
 [submodule "charms/builds/network-agent"]
 	path = charms/builds/network-agent
 	url = https://github.com/IBCNServices/charm-network-agent
+[submodule "charms/layers/apache-toree"]
+	path = charms/layers/apache-toree
+	url = git@github.com:IBCNServices/layer-apache-toree.git
+[submodule "charms/layers/jupyter-notebook-spark"]
+	path = charms/layers/jupyter-notebook-spark
+	url = git@github.com:IBCNServices/layer-jupyter-notebook-spark.git

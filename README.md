@@ -144,6 +144,10 @@ pull PR from github
 
     git pull origin pull/$PR_NUM/head
 
+add submodule as directory
+
+    git submodule add <git@github ...> <dirname>
+
 prettyprint json output
 
     | python -m json.tool

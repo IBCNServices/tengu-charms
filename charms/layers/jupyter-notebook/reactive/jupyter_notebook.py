@@ -15,9 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0103,c0301
 from charmhelpers.core import templating, hookenv, host, unitdata
+from charmhelpers.core.host import chownr
 from charmhelpers.contrib.python.packages import pip_install
 from charmhelpers.core.hookenv import open_port, status_set
-from charms.reactive import hook, when, when_not, set_state
+from charms.reactive import hook, when, when_all, when_not, set_state
 from charms.reactive.helpers import data_changed
 
 
@@ -36,6 +37,21 @@ def install_jupyter_notebook():
     set_state('jupyter-notebook.installed')
 
 
+@when_all(
+    'jupyter-notebook.installed',
+    'config.changed.pip3-dependencies'
+)
+def install_dependencies():
+    deps = hookenv.config()['pip3-dependencies'].split()
+    if deps:
+        pip_install(deps)
+    set_state('dependencies.installed')
+    # This might run before jupyter is started for the first time. In that case,
+    # don't restart jupyter.
+    if host.service_running('jupyter-notebook'):
+        restart_notebook()
+
+
 @when('jupyter-notebook.installed')
 @when('config.changed')
 def configure_jupyter_notebook():
@@ -44,7 +60,7 @@ def configure_jupyter_notebook():
     port = conf['open-port']
     # Get or create and get password
     kv_store = unitdata.kv()
-    password = kv_store.get('password')
+    password = str(kv_store.get('password'))
     if not password:
         password = generate_password()
         kv_store.set('password', password)
@@ -64,14 +80,20 @@ def configure_jupyter_notebook():
         # Generate upstart template / service file
         render_api_upstart_template()
         restart_notebook()
+    chownr(jupyter_dir, 'ubuntu', 'ubuntu', chowntopdir=True)
 
 
 def restart_notebook():
     # Start notebook and ensure it is running. Note that if the actual config
     # file is broken, the notebook will be running but won't be accessible from
     # anywhere else then localhost.
-    host.service_restart('jupyter')
-    if host.service_running('jupyter'):
+    host.service_stop('jupyter-notebook')
+    # Wait until notebook shut down completely.
+    #TODO: do this better.
+    import time
+    time.sleep(10)
+    host.service_start('jupyter-notebook')
+    if host.service_running('jupyter-notebook'):
         status_set('active',
                    'Ready (Pass: "{}")'.format(unitdata.kv().get('password')))
         open_port(hookenv.config()['open-port'])
@@ -83,8 +105,8 @@ def restart_notebook():
 
 def render_api_upstart_template():
     templating.render(
-        source='upstart.conf',
-        target='/etc/init/jupyter.conf',
+        source='jupyter-notebook.conf.jinja2',
+        target='/etc/init/jupyter-notebook.conf',
         context={}
         )
 

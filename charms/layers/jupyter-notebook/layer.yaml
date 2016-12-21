@@ -1,5 +1,5 @@
-includes: ['layer:basic', 'layer:apt', 'interface:http', 'interface:spark']
-repo: git@github.com/sebastienpattyn93/charms.git
+includes: ['layer:basic', 'layer:apt', 'interface:http']
+repo: git@github.com/IBCNServices/layer-jupyter-notebook.git
 options:
   apt:
     packages:

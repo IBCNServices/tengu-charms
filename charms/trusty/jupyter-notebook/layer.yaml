@@ -13,6 +13,5 @@
 - "layer:basic"
 - "layer:apt"
 - "interface:http"
-- "interface:spark"
-"repo": "git@github.com/sebastienpattyn93/charms.git"
+"repo": "git@github.com/IBCNServices/layer-jupyter-notebook.git"
 "is": "jupyter-notebook"

@@ -1,15 +1,13 @@
 name: jupyter-notebook
 summary: This charm deploys the jupyter-notebook
-maintainer: Sebastien Pattyn <sebastien.pattyn@gmail.com>
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
 description: |
   The Jupyter Notebook is a web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, machine learning and much more.
 tags:
-  - application
+  - big_data
+  - analytics
 subordinate: false
 provides:
   website:
     interface: http
-requires:
-  spark:
-    interface: spark
 series: ['trusty']

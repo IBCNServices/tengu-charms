@@ -1,0 +1,39 @@
+#!upstart
+description "jupyter-notebook"
+
+# Start process on server startup
+start on startup
+stop on shutdown
+
+# Respawn process when it dies
+respawn
+
+# Run the actual service.
+#
+# We can't use `setuid` and `setgid` upstart stanza's because they only change
+# the ID's and don't change the environment nor execute the login scripts.
+#
+# We can't use `bash -c` together with `setuid` and `setgid` because this won't
+# read `/etc/environment` since that's done by PAM.
+#
+# We can't use `su -c` because this will overwrite the $PATH with the value set
+# in `/etc/login.defs`.
+#
+# We can't use `screen` because that will give us an interactive session. This
+# will change the behavior of applications, for example when handeling the KILL
+# signal they might ask for confirmation instead of just shutting down.
+#
+# We can't use `sudo` because this will overwrite the path and doesn't give us
+# all the environment variables, even with the `-l` flag.
+#
+# Afaik, the only solution is the following; we source `/etc/environment` to set
+# $PATH in this process. We start a new process using `su <user> -lc "command"`
+# and re-export the path there. `export PATH=$PATH` will be *substituted* in
+# this process and *executed* in the new process.
+# This will give us an environment that is almost identical to the environment
+# you get when you ssh into the server.
+#
+script
+. /etc/environment
+su ubuntu -lc "export PATH=$PATH; jupyter notebook --no-browser --config /opt/jupyter/jupyter_notebook_config.py";
+end script

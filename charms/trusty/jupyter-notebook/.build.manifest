@@ -4,7 +4,6 @@
     "layer:apt", 
     "jupyter-notebook", 
     "interface:http", 
-    "interface:spark", 
     "build"
   ], 
   "signatures": {
@@ -48,11 +47,6 @@
       "static", 
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
-    "hooks/spark-relation-departed": [
-      "interface:spark", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
     "hooks/relations/http/interface.yaml": [
       "interface:http", 
       "static", 
@@ -76,7 +70,7 @@
     "reactive/jupyter_notebook.py": [
       "jupyter-notebook", 
       "static", 
-      "54910a6f4285de56b92b0d6bb04ef1b40b9871185fdcc33e238a490e6825973b"
+      "3d437927dd6b452a4b42364cfda88372b59885a408fc52038b4357d3c06098fe"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -101,7 +95,7 @@
     "metadata.yaml": [
       "jupyter-notebook", 
       "dynamic", 
-      "0a18b89879e3b3630411c99ea429ded3c4bd0e386b373b4cf21fc152d0a0890e"
+      "a3dbadded3259408bdcb845726d631841fe645cabc17c391bb8899111f3d5897"
     ], 
     "copyright": [
       "layer:apt", 
@@ -143,16 +137,6 @@
       "dynamic", 
       "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
     ], 
-    "hooks/relations/spark/README.md": [
-      "interface:spark", 
-      "static", 
-      "f4424863d66a0d823312d3ad70c11515ad7270649e3555672a5185824470c9cc"
-    ], 
-    "hooks/relations/spark/requires.py": [
-      "interface:spark", 
-      "static", 
-      "d292d20e715ff1c07fda6dbde3c48bf2a9056b2fc368aeb39462da702c87f686"
-    ], 
     "templates/jupyter_notebook_config.py.jinja2": [
       "jupyter-notebook", 
       "static", 
@@ -166,7 +150,7 @@
     "config.yaml": [
       "jupyter-notebook", 
       "dynamic", 
-      "f1cabf7dd35005141d1ed9ce19c31c61b04cf8364029b4fefc02a4ba84f18dd3"
+      "932b63741c69e0fa231d851d7408af3fb19097d7eaf0e242e7bd6b392a432b0e"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
@@ -193,30 +177,15 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
-    "hooks/spark-relation-changed": [
-      "interface:spark", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
-    "hooks/spark-relation-broken": [
-      "interface:spark", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    "templates/jupyter-notebook.conf.jinja2": [
+      "jupyter-notebook", 
+      "static", 
+      "d7c0cba940f525a76c8022d351dc2b6493e026863aa0a2bd17fc03218d31d2f5"
     ], 
     "wheelhouse/Jinja2-2.8.tar.gz": [
       "layer:basic", 
       "dynamic", 
       "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
-    ], 
-    "hooks/relations/spark/copyright": [
-      "interface:spark", 
-      "static", 
-      "188b8b4aa4477e8d2a0b4c290c451326456a0ddf58e1f314c3f5bf151ddbd8a8"
-    ], 
-    "hooks/relations/spark/interface.yaml": [
-      "interface:spark", 
-      "static", 
-      "02a05826247e534381ef98ed17e9b067f64216a7512f9cadf8c1dba55d1e17b1"
     ], 
     "wheelhouse/pip-8.1.2.tar.gz": [
       "layer:basic", 
@@ -243,11 +212,6 @@
       "static", 
       "6ffe6dbad7bca44c9b36e0caa7d1b961dc27ead1a29d6a97fda201f22fa7f80b"
     ], 
-    "hooks/relations/spark/provides.py": [
-      "interface:spark", 
-      "static", 
-      "1fdf07cfef73d69af2134922734e477ceaf781a63b2380f5485428e25f5dc2d0"
-    ], 
     "hooks/website-relation-changed": [
       "interface:http", 
       "dynamic", 
@@ -257,16 +221,6 @@
       "interface:http", 
       "static", 
       "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
-    ], 
-    "templates/upstart.conf": [
-      "jupyter-notebook", 
-      "static", 
-      "eccad070462a4c8b88823c4e25381f6e4a42646f0e56e33790210892e55c89ff"
-    ], 
-    "hooks/relations/spark/__init__.py": [
-      "interface:spark", 
-      "static", 
-      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     ], 
     "hooks/start": [
       "layer:basic", 
@@ -278,11 +232,6 @@
       "dynamic", 
       "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
     ], 
-    "hooks/spark-relation-joined": [
-      "interface:spark", 
-      "dynamic", 
-      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
-    ], 
     "requirements.txt": [
       "layer:basic", 
       "static", 
@@ -291,7 +240,7 @@
     "layer.yaml": [
       "jupyter-notebook", 
       "dynamic", 
-      "c1dfb11b8c8fa2669ac0ff14d6ed26e4e4003ffa09628339cfdfc6888a43e2b8"
+      "bd58b282dee4dd41ba3165791d1283bd303d0676979b515ab8e8483afb2a373a"
     ], 
     "hooks/config-changed": [
       "layer:basic", 

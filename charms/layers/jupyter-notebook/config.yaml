@@ -3,3 +3,6 @@ options:
     type: int
     default: 8888
     description: "The port that is used to access jupyter notebook"
+  pip3-dependencies:
+    type: string
+    default: "matplotlib pandas"

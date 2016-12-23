@@ -19,6 +19,3 @@
 [submodule "charms/layers/jupyter-notebook-spark"]
 	path = charms/layers/jupyter-notebook-spark
 	url = git@github.com:IBCNServices/layer-jupyter-notebook-spark.git
-[submodule "charms/trusty/jupyter-notebook-spark"]
-	path = charms/trusty/jupyter-notebook-spark
-	url = git@github.com:IBCNServices/charm-jupyter-notebook-spark.git

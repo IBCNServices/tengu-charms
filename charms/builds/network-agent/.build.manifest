@@ -1,0 +1,260 @@
+{
+  "layers": [
+    "layer:basic", 
+    "network-agent", 
+    "interface:opened-ports", 
+    "build"
+  ], 
+  "signatures": {
+    "bin/layer_option": [
+      "layer:basic", 
+      "static", 
+      "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "templates/dhcpd.conf": [
+      "network-agent", 
+      "static", 
+      "b87df41d273065173d0da36a59ac45a94e81d64c408d8a9eee750a718e502757"
+    ], 
+    "LICENSE": [
+      "network-agent", 
+      "static", 
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
+    ], 
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
+      "static", 
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "lib/charms/layer/basic.py": [
+      "layer:basic", 
+      "static", 
+      "3544977fe725801ce6112fb9c7c1983c3e960d01496ce16c57456fe81e752746"
+    ], 
+    "wheelhouse/charmhelpers-0.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d2ae29bdc925d3cf9be8d50d85e32a6b65e5b718bd383bd4899769b288ed512"
+    ], 
+    "reactive/network_agent.py": [
+      "network-agent", 
+      "static", 
+      "4c4f9afa85a3b05ce8dbb0c9691b50ade05f7e2998197e01caaa7d3068024b39"
+    ], 
+    "metadata.yaml": [
+      "network-agent", 
+      "dynamic", 
+      "d0fb05023938c25f4f4bc6e30a90d6e3fbfa7ca5fffcb72280567c326a27e53f"
+    ], 
+    "hooks/opened-ports-relation-joined": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "copyright": [
+      "layer:basic", 
+      "static", 
+      "1e2afbd75c71affa132ae7ee3327cb29b5e4b9d9705f27dfd03857c326f50c5c"
+    ], 
+    "wheelhouse/PyYAML-3.12.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"
+    ], 
+    "wheelhouse/netaddr-0.7.18.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+    ], 
+    ".gitignore": [
+      "layer:basic", 
+      "static", 
+      "0da5c4dcda27cd6406e5bb81cbf68ddccaf728ac764ec15053a165c1449d87d9"
+    ], 
+    "wheelhouse/pyaml-16.12.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "b865e4f53a85f4d8a092e7701f759a3237fb3ee8a928627401914aafadc00907"
+    ], 
+    "hooks/opened-ports-relation-changed": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "hooks/relations/opened-ports/provides.py": [
+      "interface:opened-ports", 
+      "static", 
+      "035be8e582385bbc5f2a8e4f392a946cd47ec8fc9cf999ffacfab8009304b13a"
+    ], 
+    "hooks/relations/opened-ports/__init__.py": [
+      "interface:opened-ports", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "icon.svg": [
+      "network-agent", 
+      "static", 
+      "790c2afd944735b595ef5fe783b1f7c37a63a9771b04092f1b5e499ba87c3e60"
+    ], 
+    "config.yaml": [
+      "network-agent", 
+      "dynamic", 
+      "7b502e99a917261a09e52e12cdd982e324b1f3405774d9f89c4a2ca470e036b5"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "lib/iptables.py": [
+      "network-agent", 
+      "static", 
+      "7a90f176a3ccf7918ed6694b724d52e81d96da600577620083b33158d657cd78"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "templates/isc-dhcp-server": [
+      "network-agent", 
+      "static", 
+      "76f8f9591e23536e59d8a580755dab7595b379147d24d5e9cf9a20f7c794c070"
+    ], 
+    "hooks/relations/opened-ports/interface.yaml": [
+      "interface:opened-ports", 
+      "static", 
+      "54bbfda5d2e925163bcf2234ca6b9fef778d3f74cee605d74e5c83e6479188b8"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
+    ], 
+    "wheelhouse/Jinja2-2.8.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4"
+    ], 
+    "hooks/relations/opened-ports/requires.py": [
+      "interface:opened-ports", 
+      "static", 
+      "143af43efdb96ea19e574bf55b7d23ee50be212fd4c0963b258265512297522d"
+    ], 
+    "wheelhouse/pip-8.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
+    ], 
+    "wheelhouse/netifaces-0.10.5.tar.gz": [
+      "network-agent", 
+      "dynamic", 
+      "59d8ad52dd3116fcb6635e175751b250dc783fb011adba539558bd764e5d628b"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "README.md": [
+      "network-agent", 
+      "static", 
+      "6f9526b0dd7ea04dc0f68c2130915b67ba1f0b9c6a5a9002ba0f9ed9caf61df0"
+    ], 
+    "hooks/opened-ports-relation-broken": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/charms.reactive-0.4.5.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
+    ], 
+    "hooks/opened-ports-relation-departed": [
+      "interface:opened-ports", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/relations/opened-ports/README.md": [
+      "interface:opened-ports", 
+      "static", 
+      "5b3ff664bf7953b7523f4e37a8f6c3870ebaefd5a265c0f1037141269f1d28d1"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "layer.yaml": [
+      "network-agent", 
+      "dynamic", 
+      "bf290f8efe2ee9b9e0de0fe8cf5725ddc3a2fdddeb4bbfe68e49305df047b695"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ]
+  }
+}

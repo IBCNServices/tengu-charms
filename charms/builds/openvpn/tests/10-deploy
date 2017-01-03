@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+#pylint: disable=C0111,C0103,C0301,R0201
+import os
+from time import sleep
+import tempfile
+import subprocess
+
+import unittest
+import amulet
+
+
+class TestCharm(unittest.TestCase):
+    def setUp(self):
+        self.d = amulet.Deployment()
+        # Running this test with bundletester will make sure that `openvpn`
+        # points tot the local openvpn charm. If openvpn is already deployed,
+        # that instance will be used for the tests.
+        self.d.add('openvpn', series='xenial')
+        self.d.setup(timeout=20)
+        self.d.sentry.wait()
+
+        self.unit = self.d.sentry['openvpn'][0]
+
+    # Now you can use self.d.sentry[SERVICE][UNIT] to address each of the units and perform
+    # more in-depth steps. Each self.d.sentry[SERVICE][UNIT] has the following methods:
+    # - .info - An array of the information of that unit from Juju
+    # - .file(PATH) - Get the details of a file on that unit
+    # - .file_contents(PATH) - Get plain text output of PATH file from that unit
+    # - .directory(PATH) - Get details of directory
+    # - .directory_contents(PATH) - List files and folders in PATH on that unit
+    # - .relation(relation, service:rel) - Get relation data from return service
+    def test_tcp_443(self):
+        self.d.configure('openvpn', {
+            'port': 443,
+            'protocol': 'tcp',
+            'push-default-gateway': True,
+            'push-dns': True,
+        })
+        sleep(2)
+        confcont = self.unit.file_contents('/home/ubuntu/client1.ovpn')
+        assert "proto tcp" in confcont, "The client config should contain 'proto tcp'"
+        assert " 443" in confcont, "The client config should contain ' 443'"
+        fd, path = tempfile.mkstemp()
+        try:
+            with os.fdopen(fd, 'w') as tmp:
+                # do stuff with temp file
+                tmp.write(confcont)
+            output = self.vpn_test(path)
+            assert ",dhcp-option DNS " in output, "DNS settings aren't pushed. Output: {}".format(output)
+            assert ",dhcp-option DOMAIN " in output, "DOMAIN settings aren't pushed. Output: {}".format(output)
+            assert ",redirect-gateway def1 bypass-dhcp" in output, "GATEWAY isn't pushed. Output: {}".format(output)
+        finally:
+            os.remove(path)
+
+        self.d.configure('openvpn', {
+            'port': 1194,
+            'protocol': 'udp',
+            'push-default-gateway': False,
+            'push-dns': False,
+        })
+        sleep(2)
+        confcont = self.unit.file_contents('/home/ubuntu/client1.ovpn')
+        assert "proto udp" in confcont, "The client config should contain 'proto udp'"
+        assert " 1194" in confcont, "The client config should contain 'proto 1194'"
+        fd, path = tempfile.mkstemp()
+        try:
+            with os.fdopen(fd, 'w') as tmp:
+                # do stuff with temp file
+                tmp.write(confcont)
+            output = self.vpn_test(path)
+            assert ",dhcp-option DNS " not in output, "DNS settings is pushed when it shoudn't. Output: {}".format(output)
+            assert ",dhcp-option DOMAIN " not in output, "DOMAIN settings is pushed when it shoudn't. Output: {}".format(output)
+            assert ",redirect-gateway def1 bypass-dhcp" not in output, "GATEWAY is pushed when it shoudn't. Output: {}".format(output)
+        finally:
+            os.remove(path)
+
+
+
+   # def is_open(self, port):
+   #     if call(['nc', '-z', self.unit.info['public-address'], port]) == 0:
+   #         return True
+   #     return False
+
+    def vpn_test(self, config_file):
+        complete_string = "Initialization Sequence Completed"
+        full_output = ""
+        timeout = 15 # timeout in seconds
+        process = subprocess.Popen(['sudo', 'timeout', str(timeout), 'openvpn', config_file], stdout=subprocess.PIPE)
+        while True:
+            output = process.stdout.readline().decode()   # Alternatively proc.stdout.read(1024)
+            if len(output) == 0:
+                break # we reached the end of output (empty line includes newline)
+            full_output += output
+            output = output.rstrip() # strip newlines from output
+            if complete_string in output:
+                break
+        # We can't use process.terminate() here because process is running as
+        # root.
+        subprocess.call(['sudo', 'kill', str(process.pid)])
+        # Wait for process to exit (this can take a few seconds). If process
+        # doesn't exit after `timeout` seconds, throw timeoutexception.
+        process.wait(timeout=timeout)
+        return full_output
+
+
+if __name__ == '__main__':
+    unittest.main()

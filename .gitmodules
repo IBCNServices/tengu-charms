@@ -1,18 +1,12 @@
 [submodule "charms/layers/openvpn"]
 	path = charms/layers/openvpn
 	url = git@github.com:IBCNServices/layer-openvpn.git
-[submodule "charms/builds/openvpn"]
-	path = charms/builds/openvpn
-	url = git@github.com:IBCNServices/charm-openvpn.git
 [submodule "charms/layers/puppet-base"]
 	path = charms/layers/puppet-base
 	url = git@github.com:IBCNServices/layer-puppet-base.git
 [submodule "charms/layers/network-agent"]
 	path = charms/layers/network-agent
 	url = https://github.com/IBCNServices/layer-network-agent
-[submodule "charms/builds/network-agent"]
-	path = charms/builds/network-agent
-	url = https://github.com/IBCNServices/charm-network-agent
 [submodule "charms/layers/apache-toree"]
 	path = charms/layers/apache-toree
 	url = git@github.com:IBCNServices/layer-apache-toree.git

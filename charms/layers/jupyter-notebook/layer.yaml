@@ -1,6 +1,0 @@
-includes: ['layer:basic', 'layer:apt', 'interface:http']
-repo: git@github.com/IBCNServices/layer-jupyter-notebook.git
-options:
-  apt:
-    packages:
-       - 'python3-pip'

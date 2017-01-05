@@ -1,0 +1,4 @@
+name: docker-image-host
+summary: Interface to connect a docker image to a docker engine
+version: 1
+repo: https://github.com/IBCNServices/tengu-charms #TODO change

@@ -1,0 +1,17 @@
+"options":
+  "image":
+    "type": "string"
+    "default": "ibcndevs/limeds"
+    "description": "The default value will deploy the regular LimeDS docker image.\
+      \ If this \nrefers to a docker image in a private repository, please provide\
+      \ the \nusername and its corresponding secret.\n"
+  "username":
+    "type": "string"
+    "default": ""
+    "description": "When the image is behind a private repository, this is the username\
+      \ to \nlog into the docker repo.\n"
+  "secret":
+    "type": "string"
+    "default": ""
+    "description": "When the image is behind a private repository, this is the secret\
+      \ to log \ninto the docker repo.\n"

@@ -59,9 +59,4 @@ def image_running(dh):#pylint:disable=W0611,W0613
 def configure_endpoint(endpoint, dh):
     (docker_host, docker_host_ports) = dh.get_running_image()
     hookenv.log('The IP of the docker host is {}.'.format(docker_host))
-    relation_info = {
-        'hostname': docker_host,
-        'private-address': docker_host,
-        'port': docker_host_ports['8080'],
-    }
-    endpoint.set_remote(**relation_info)
+    endpoint.configure(hostname=docker_host, private_address=docker_host, port=docker_host_ports['8080'])

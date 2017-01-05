@@ -22,3 +22,6 @@
 [submodule "charms/layers/docker"]
 	path = charms/layers/docker
 	url = git@github.com:IBCNServices/layer-docker.git
+[submodule "charms/interfaces/docker-image-host"]
+	path = charms/interfaces/docker-image-host
+	url = https://github.com/IBCNServices/interface-docker-image-host.git

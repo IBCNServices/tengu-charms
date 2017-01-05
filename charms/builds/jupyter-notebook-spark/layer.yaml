@@ -1,0 +1,20 @@
+"options":
+  "apt":
+    "packages":
+    - "python3-pip"
+    "version_package": ""
+    "full_version": !!bool "false"
+  "jupyter-notebook-spark": {}
+  "jupyter-notebook": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "layer:apt"
+- "interface:http"
+- "layer:jupyter-notebook"
+- "interface:spark"
+"repo": "git@github.com/IBCNServices/layer-jupyter-notebook-spark.git"
+"is": "jupyter-notebook-spark"

@@ -1,0 +1,30 @@
+# You can view the logs of this service with `journalctl -u jupyter-notebook -f -x`
+# There is a bug where the last log lines might not be visible with this
+# command. They are logged to journald but not associated with this service.
+# Find the process ID of the service, and filter logs on that process id to see
+# all the logs for this service. Mor info:
+# https://coreos.com/os/docs/latest/using-environment-variables-in-systemd-units.html
+# http://unix.stackexchange.com/questions/291483/how-to-fix-unit-attribution-of-last-lines-of-systemd-logging-before-exit/291524
+# https://github.com/systemd/systemd/issues/2913
+# https://bugs.freedesktop.org/show_bug.cgi?id=50184
+
+[Unit]
+Description=jupyter-notebook
+After=network.target
+
+[Service]
+# Note: Type=Forking might be useful here if your application "daemonizes".
+# https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options
+# Start process as user. This will change both userid and groupid of process.
+User=ubuntu
+WorkingDirectory=~
+EnvironmentFile=/etc/environment
+# Hack until https://github.com/juju-solutions/bigtop/issues/47 is resolved
+# DON'T USE QUOTES HERE!
+Environment=SPARK_HOME=/usr/lib/spark
+Environment=SPARK_CONF_DIR=/etc/spark/conf
+# This has to be an absolute path! The command doesn't have to be quoted.
+ExecStart=/usr/bin/env jupyter notebook --config /opt/jupyter/jupyter_notebook_config.py
+
+[Install]
+WantedBy=multi-user.target

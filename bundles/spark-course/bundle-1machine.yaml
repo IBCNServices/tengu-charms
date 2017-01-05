@@ -2,12 +2,6 @@ machines:
   "0":
     series: xenial
     constraints: "arch=amd64 cpu-cores=16 mem=12288"
-  "1":
-    series: xenial
-    constraints: "arch=amd64 cpu-cores=16 mem=12288"
-  "2":
-    series: xenial
-    constraints: "arch=amd64 cpu-cores=16 mem=12288"
 series: xenial
 applications:
   "hadoop-namenode":
@@ -22,17 +16,15 @@ applications:
     charm: "local:xenial/limeds-0"
     num_units: 1
     to:
-      - "lxd:2"
+      - "lxd:0"
   "hadoop-slave":
     charm: "cs:xenial/hadoop-slave-6"
-    num_units: 3
+    num_units: 1
     annotations:
       "gui-x": "2713.9684143066406"
       "gui-y": "268.8746337890625"
     to:
       - "lxd:0"
-      - "lxd:1"
-      - "lxd:2"
   "hadoop-plugin":
     charm: "cs:xenial/hadoop-plugin-6"
     annotations:
@@ -55,11 +47,11 @@ applications:
       "gui-x": "2849.7325744628906"
       "gui-y": "-169.46355438232422"
     to:
-      - "lxd:2"
+      - "lxd:0"
   "jupyter":
     charm: "local:xenial/jupyter-notebook-spark-0"
     options:
-      "pip3-dependencies": matplotlib pandas findspark
+      "pip3-dependencies": "matplotlib pandas findspark"
     annotations:
       "gui-x": "3073.806121826172"
       "gui-y": "55.199485778808594"

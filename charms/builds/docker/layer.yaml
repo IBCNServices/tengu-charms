@@ -13,7 +13,7 @@
 - "layer:basic"
 - "layer:apt"
 - "interface:docker-image-host"
-"repo": "https://github.com/juju-solutions/layer-docker.git"
+"repo": "git@github.com:IBCNServices/layer-docker.git"
 "exclude":
 - "tests/10-deploy.py"
 - "tests/tests.yaml"

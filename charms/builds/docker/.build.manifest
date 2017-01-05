@@ -155,12 +155,12 @@
     "icon.svg": [
       "docker", 
       "static", 
-      "fb0b2e6eb416cac369d2d7f1a56db005f732f9080a801702869f6ac6c6f0ba37"
+      "4da03e784fe37f8aa6dfaeb4bfde312df884d1d38498cdb0363669a1392e8c05"
     ], 
     "layer.yaml": [
       "docker", 
       "dynamic", 
-      "29b42306d89483a33c096abe44e96d0b1cf4ab2d2bd92b0c669e5e58104c25c6"
+      "bd5626a54cad543b8a31e41b23b3402873bcef35f408e509913121f8b3c5d92e"
     ], 
     "lib/charms/__init__.py": [
       "layer:apt", 

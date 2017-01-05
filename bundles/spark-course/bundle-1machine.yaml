@@ -58,10 +58,6 @@ applications:
 relations:
   - - "hadoop-namenode:datanode"
     - "hadoop-slave:namenode"
-  - - "limeds:endpoint"
-    - "haproxy:reverseproxy"
-  - - "docker:dockerhost"
-    - "limeds:dockerhost"
   - - "spark:client"
     - "jupyter:spark"
   - - "hadoop-plugin:hadoop-plugin"

@@ -59,17 +59,13 @@ applications:
   "jupyter":
     charm: "local:xenial/jupyter-notebook-spark-0"
     options:
-      "pip3-dependencies": matplotlib pandas findspark
+      "pip3-dependencies": "matplotlib pandas findspark"
     annotations:
       "gui-x": "3073.806121826172"
       "gui-y": "55.199485778808594"
 relations:
   - - "hadoop-namenode:datanode"
     - "hadoop-slave:namenode"
-  - - "limeds:endpoint"
-    - "haproxy:reverseproxy"
-  - - "docker:dockerhost"
-    - "limeds:dockerhost"
   - - "spark:client"
     - "jupyter:spark"
   - - "hadoop-plugin:hadoop-plugin"

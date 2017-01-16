@@ -12,11 +12,6 @@ applications:
       "gui-y": "25.924880981445312"
     to:
       - "lxd:0"
-  limeds:
-    charm: "local:xenial/limeds-0"
-    num_units: 1
-    to:
-      - "lxd:0"
   "hadoop-slave":
     charm: "cs:xenial/hadoop-slave-6"
     num_units: 1
@@ -49,7 +44,7 @@ applications:
     to:
       - "lxd:0"
   "jupyter":
-    charm: "local:xenial/jupyter-notebook-spark-0"
+    charm: "cs:~tengu-team/jupyter-notebook-spark-2"
     options:
       "pip3-dependencies": "matplotlib pandas findspark"
     annotations:

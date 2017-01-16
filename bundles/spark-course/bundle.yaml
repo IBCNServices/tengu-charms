@@ -18,11 +18,6 @@ applications:
       "gui-y": "25.924880981445312"
     to:
       - "lxd:0"
-  limeds:
-    charm: "local:xenial/limeds-0"
-    num_units: 1
-    to:
-      - "lxd:2"
   "hadoop-slave":
     charm: "cs:xenial/hadoop-slave-6"
     num_units: 3
@@ -52,12 +47,12 @@ applications:
     options:
       spark_execution_mode: "yarn-client"
     annotations:
-      "gui-x": "2849.7325744628906"
+      "gui-x": "2849.7325744628906"cs:~tengu-team/jupyter-notebook-spark-2
       "gui-y": "-169.46355438232422"
     to:
       - "lxd:2"
   "jupyter":
-    charm: "local:xenial/jupyter-notebook-spark-0"
+    charm: "cs:~tengu-team/jupyter-notebook-spark-2"
     options:
       "pip3-dependencies": "matplotlib pandas findspark"
     annotations:

@@ -34,14 +34,14 @@ class DockerImageHostRequires(RelationBase):
         if host and host_ports:
             conv.set_state('{relation_name}.ready')
 
-
     @hook('{requires:docker-image-host}-relation-{departed,broken}')
     def broken(self):
         conv = self.conversation()
         conv.remove_state('{relation_name}.available')
 
-    def send_configuration(self, name, image, ports=None, username=None,
-                           secret=None, daemon=True, interactive=True):#pylint:disable=R0913
+    def send_configuration(
+            self, name, image, ports=None, username=None, secret=None,
+            daemon=True, interactive=True):  # pylint:disable=R0913
         if not ports:
             ports = []
         conv = self.conversation()
@@ -52,7 +52,6 @@ class DockerImageHostRequires(RelationBase):
         conv.set_remote('daemon', daemon)
         conv.set_remote('interactive', interactive)
         conv.set_remote('ports', json.dumps(ports))
-
 
     def get_running_image(self):
         conv = self.conversation()

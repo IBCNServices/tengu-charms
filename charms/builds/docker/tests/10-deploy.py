@@ -1,9 +1,9 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # This is a very basic test for this layer to make sure docker is installed.
 
-import amulet
 import unittest
+import amulet
 
 seconds = 1100
 

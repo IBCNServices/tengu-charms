@@ -130,7 +130,7 @@
     "hooks/relations/docker-image-host/requires.py": [
       "interface:docker-image-host", 
       "static", 
-      "5273027e5f7067999b2309f84ff11ccd7e0091f6be28396fbf5a8aed0e25f81b"
+      "d2f5588c87b240a99b0798b528b3dabc1517b0eaf478787060f9bf07304b5dc1"
     ], 
     "hooks/start": [
       "layer:basic", 
@@ -205,7 +205,7 @@
     "reactive/docker.py": [
       "docker", 
       "static", 
-      "aba4f976ad5fc40513cdd5df14ff293108289275b40cf19749e2ed6a77242d09"
+      "ef57777b3ae7edd1bb8fbee13c4a93e2c3e3f8c11cdecabdfa2a3b4135186ef1"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -220,22 +220,22 @@
     "tests/10-deploy.py": [
       "docker", 
       "static", 
-      "d876e2d447657142247955c5e008239394460ef0d6e7cb6c6b18ef5ee439ef49"
+      "3d0d8250180ef57c6841cae875ecb25c69e8ac13d89e07fdbfdf61bc603749ba"
     ], 
     "tests/tests.yaml": [
       "docker", 
       "static", 
-      "d23f25713a276be836941c54eaaba448fbcdeee5382521298ffac9759d5a7b0e"
+      "36fe74a1e8ee89d2c91c4af65822ba0fb633ad35ff88330ee91c1820bb6e25a5"
     ], 
     "tox.ini": [
       "layer:basic", 
       "static", 
       "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
-    "wheelhouse/Jinja2-2.8.1.tar.gz": [
+    "wheelhouse/Jinja2-2.9.4.tar.gz": [
       "docker", 
       "dynamic", 
-      "35341f3a97b46327b3ef1eb624aadea87a535b8f50863036e085e7c426ac5891"
+      "aab8d8ca9f45624f1e77f2844bf3c144d180e97da8824c2a6d7552ad039b5442"
     ], 
     "wheelhouse/MarkupSafe-0.23.tar.gz": [
       "docker", 
@@ -267,10 +267,10 @@
       "dynamic", 
       "8193c6a1d40bdb66fe272c359b4e4780501c658acfaf2b1118c4230927815fe2"
     ], 
-    "wheelhouse/netaddr-0.7.18.tar.gz": [
+    "wheelhouse/netaddr-0.7.19.tar.gz": [
       "docker", 
       "dynamic", 
-      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+      "38aeec7cdd035081d3a4c306394b19d677623bf76fa0913f6695127c7753aefd"
     ], 
     "wheelhouse/pip-8.1.2.tar.gz": [
       "layer:basic", 

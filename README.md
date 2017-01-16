@@ -49,10 +49,12 @@ Both the resulting Charms and the source layers of layered Charms are located in
 
 After editing the layers, you can regenerate the layer by running `charm generate <top-layer-name>`. It is advised to do this in a python virtualenv to avoid contamination between your host, the charm tools and the layer dependencies.
 
-    sudo apt-get install python-virtualenv
-    virtualenv charm-tools           # create the virtualenv
-    . charm-tools/bin/activate       # go inside the virtualenv
-    pip install -U charm-tools pip   # install charm-tools
+```bash
+sudo apt-get install python-virtualenv
+virtualenv charm-tools           # create the virtualenv
+. charm-tools/bin/activate       # go inside the virtualenv
+pip install -U charm-tools pip   # install charm-tools
+```
 
 *Note: Layered Charms run python 3 be default and install `pip3` as default `pip` installation.*
 
@@ -60,77 +62,129 @@ After editing the layers, you can regenerate the layer by running `charm generat
 
 I'm using Atom on Ubuntu with some extentions. Here's how I installed everything:
 
-    # Install Atom:
-    sudo add-apt-repository ppa:webupd8team/atom
-    sudo apt-get update
-    sudo apt-get install atom
+```bash
+# Install Atom:
+sudo add-apt-repository ppa:webupd8team/atom
+sudo apt-get update
+sudo apt-get install atom
 
-    # Install python package manager
-    sudo apt install python-pip python3-pip python-setuptools python3-setuptools
+# Install python package manager
+sudo apt install python-pip python3-pip python-setuptools python3-setuptools
 
-    # Pyton linting (code checking) for both python 2 and python 3
-    sudo pip2 install pylint
-    sudo pip3 install pylint
-    apm install linter linter-pylint
-    mkdir ~/bin
-    # add lib directory of charms to pylint path
-    # %f/../lib
+# Pyton linting (code checking) for both python 2 and python 3. We need both `pylint` and `pep8`.
+# **Pep8** is the official python style guide. We should adhere to this without question. pep8
+# linting is also checked by default by `bundletester` so we need to be compatible with this.
+# **Pylint** is incredibly awesome and helps you write good, clean code. However, it can be a bit
+# pedantic at times. You can disable specific warnings by writing `#pylint: disable=<code>`
+# either at the top of your file or at the line you want to ignore.
+sudo pip2 install pylint
+sudo pip3 install pylint
+sudo apt install pep8
+apm install linter linter-pylint python-indent pep8
+mkdir ~/bin
+# add lib directory of charms to pylint path
+# %f/../lib
+```
 
 `nano ~/bin/pylint` and add:
 
-    #!/bin/bash
-    if [[ $(head -n 1 "${@: -1}") == *python3* ]]
-    then
-      pylint3 --extension-pkg-whitelist=lxml,netifaces "$@"
-    else
-      pylint2 --extension-pkg-whitelist=lxml,netifaces "$@"
-    fi
-
+```bash
+#!/bin/bash
+if [[ $(head -n 1 "${@: -1}") == *python3* ]]
+then
+  pylint3 --extension-pkg-whitelist=lxml,netifaces "$@"
+else
+  pylint2 --extension-pkg-whitelist=lxml,netifaces "$@"
+fi
+```
 
 `nano ~/bin/pylint2` and add:
 
-    #!/usr/bin/python2
-    # EASY-INSTALL-ENTRY-SCRIPT: 'pylint','console_scripts','pylint'
-    __requires__ = 'pylint'
-    import sys
-    from pkg_resources import load_entry_point
+```python
+#!/usr/bin/python2
+# EASY-INSTALL-ENTRY-SCRIPT: 'pylint','console_scripts','pylint'
+__requires__ = 'pylint'
+import sys
+from pkg_resources import load_entry_point
 
-    if __name__ == '__main__':
-        sys.exit(
-            load_entry_point('pylint', 'console_scripts', 'pylint')()
-        )
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('pylint', 'console_scripts', 'pylint')()
+    )
+```
 
 `nano ~/bin/pylint3` and add:
 
-    #!/usr/bin/python3
-    # EASY-INSTALL-ENTRY-SCRIPT: 'pylint','console_scripts','pylint'
-    __requires__ = 'pylint'
-    import sys
-    from pkg_resources import load_entry_point
+```python
+#!/usr/bin/python3
+# EASY-INSTALL-ENTRY-SCRIPT: 'pylint','console_scripts','pylint'
+__requires__ = 'pylint'
+import sys
+from pkg_resources import load_entry_point
 
-    if __name__ == '__main__':
-        sys.exit(
-            load_entry_point('pylint', 'console_scripts', 'pylint')()
-        )
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('pylint', 'console_scripts', 'pylint')()
+    )
+```
 
 and finally: `chmod u+x ~/bin/pylint ~/bin/pylint2 ~/bin/pylint3`. Log out and log back in to save the changes.
 
+`nano ~/.pylintrc` and add:
+
+```
+[MASTER]
+
+# Use multiple processes to speed up Pylint.
+jobs=2
+
+# Allow loading of arbitrary C extensions. Extensions are imported into the
+# active Python interpreter and may run arbitrary code.
+unsafe-load-any-extension=no
+
+# A comma-separated list of package or module names from where C extensions may
+# be loaded. Extensions are loading into the active Python interpreter and may
+# run arbitrary code
+extension-pkg-whitelist=lxml,netifaces,pygments
+
+
+[MESSAGES CONTROL]
+
+# Enable the message, report, category or checker with the given id(s). You can
+# either give multiple identifier separated by comma (,) or put this option
+# multiple time (only on the command line, not in the configuration file where
+# it should appear only once). See also the "--disable" option for examples.
+#enable=
+
+# Disable the message, report, category or checker with the given id(s). You
+# can either give multiple identifiers separated by comma (,) or put this
+# option multiple times (only on the command line, not in the configuration
+# file where it should appear only once).You can also use "--disable=all" to
+# disable everything first and then reenable specific checks. For example, if
+# you want to run only the similarities checker, you can use "--disable=all
+# --enable=similarities". If you want to run only the classes checker, but have
+# no Warning level messages displayed, use"--disable=all --enable=classes
+# --disable=W"
+disable=c0103,c0111,import-star-module-level,old-octal-literal,oct-method,print-statement,unpacking-in-except,parameter-unpacking,backtick,old-raise-syntax,old-ne-operator,long-suffix,dict-view-method,dict-iter-method,metaclass-assignment,next-method-called,raising-string,indexing-exception,raw_input-builtin,long-builtin,file-builtin,execfile-builtin,coerce-builtin,cmp-builtin,buffer-builtin,basestring-builtin,apply-builtin,filter-builtin-not-iterating,using-cmp-argument,useless-suppression,range-builtin-not-iterating,suppressed-message,no-absolute-import,old-division,cmp-method,reload-builtin,zip-builtin-not-iterating,intern-builtin,unichr-builtin,reduce-builtin,standarderror-builtin,unicode-builtin,xrange-builtin,coerce-method,delslice-method,getslice-method,setslice-method,input-builtin,round-builtin,hex-method,nonzero-method,map-builtin-not-iterating
+```
+
 **Charm tools: helper tools to Charm.**
 
-    # Juju Charm tools
-    sudo apt-get install charm-tools juju-deployer
+```bash
+# Juju Charm tools
+sudo apt-get install charm-tools juju-deployer
 
-    sudo apt install python-pip
-    sudo pip install charmhelpers
-    sudo pip2 install Flask
+sudo apt install python-pip
+sudo pip install charmhelpers
+sudo pip2 install Flask
 
-    # Dependencies of Charms so linter can check them
-    sudo pip2 install click
-    sudo pip3 install charms.reactive netifaces amulet click Flask
+# Dependencies of Charms so linter can check them
+sudo pip2 install click
+sudo pip3 install charms.reactive netifaces amulet click Flask
 
-    # Other atom packages
-    apm install language-groovy atom-jinja2
-
+# Other atom packages
+apm install language-groovy atom-jinja2
+```
 
 When running `juju debug-hooks`, you enter a tmux session. The default tmux bindings on Ubuntu are a bit strange. ctrl-a is the default command. To enable sane mouse scrolling set `set-window-option -g mode-mouse on` in `~/.tmux.conf` of the server.
 
@@ -138,47 +192,65 @@ When running `juju debug-hooks`, you enter a tmux session. The default tmux bind
 
 debug reactive framework
 
+```bash
 charms.reactive -p get_states
+```
 
 pull PR from github
 
-    git pull origin pull/$PR_NUM/head
+```bash
+git pull origin pull/$PR_NUM/head
+```
 
 add submodule as directory
 
-    git submodule add <git@github ...> <dirname>
+```bash
+git submodule add <git@github ...> <dirname>
+```
 
 prettyprint json output
 
-    | python -m json.tool
+```bash
+| python -m json.tool
+```
 
 grep and get text around match
 
-    cat log | grep -A10 <searchterm> # Next 10 lines
-    cat log | grep -B10 <searchterm> # Previous 10 lines
+```bash
+cat log | grep -A10 <searchterm> # Next 10 lines
+cat log | grep -B10 <searchterm> # Previous 10 lines
+```
 
 Debug IP traffic:
 
+```bash
 iptables -t mangle -I PREROUTING -p icmp --icmp-type 8 -j LOG --log-prefix "ICMP ON MANGLE: "
-
+```
 
 Mongo
 
-    show dbs
-    use db demo
-    show collections
-    coll = db['imec']
-    coll.find().skip(coll.count() - 20)
-    coll.find({"subscriptionId": { $exists : true }}).limit(1).sort({$natural:-1})
-    ObjectId("5714784653628548824c18de").getTimestamp()
+```
+show dbs
+use db demo
+show collections
+coll = db['imec']
+coll.find().skip(coll.count() - 20)
+coll.find({"subscriptionId": { $exists : true }}).limit(1).sort({$natural:-1})
+ObjectId("5714784653628548824c18de").getTimestamp()
+```
 
+dhcp
+
+```
 cat /var/lib/dhcp/dhcpd.leases
-
+```
 
 **disk space analyseren**
 
-    tree -h --du /var | grep "G]"
-    sudo du -h /var | grep '[0-9\.]\+G'
+```
+tree -h --du /var | grep "G]"
+sudo du -h /var | grep '[0-9\.]\+G'
+```
 
 **reconnect to screen**
     screen -r

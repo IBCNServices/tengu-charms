@@ -8,5 +8,5 @@
 - "layer:basic"
 - "interface:http"
 - "interface:docker-image-host"
-"repo": "git@github.com:IBCNServices/tengu-charms.git"
+"repo": "git@github.com:IBCNServices/layer-limeds.git"
 "is": "limeds"

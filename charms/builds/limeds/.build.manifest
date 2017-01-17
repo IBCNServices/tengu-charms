@@ -130,7 +130,7 @@
     "hooks/relations/docker-image-host/requires.py": [
       "interface:docker-image-host", 
       "static", 
-      "5273027e5f7067999b2309f84ff11ccd7e0091f6be28396fbf5a8aed0e25f81b"
+      "d2f5588c87b240a99b0798b528b3dabc1517b0eaf478787060f9bf07304b5dc1"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -185,7 +185,7 @@
     "layer.yaml": [
       "limeds", 
       "dynamic", 
-      "47431066cc3b5979521cc72cfa69efe5f172ffbd870b7df016e46e569a79319f"
+      "b3e8c27e8bc0a6caa6adf6705cc7e0c2fed30e473867106f50c908d021011e1b"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
@@ -215,22 +215,32 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "81182d802c9f77c1b19c91850f19de259d048c6e4fefe1b0767884015a85e998"
+      "c2092f1590f4b824b54175468719a265e54f50d825ea33dd0f5c8c32b128ff46"
     ], 
     "requirements.txt": [
       "layer:basic", 
       "static", 
       "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
     ], 
+    "tests/10-deploy.py": [
+      "limeds", 
+      "static", 
+      "a7b11055d6d15f5c685cc9bd82fe790e3bc67e8c359b29fb974544f3a9490322"
+    ], 
+    "tests/tests.yaml": [
+      "limeds", 
+      "static", 
+      "a70cc17c38d1f3bc58dafab50fd218257b5c758da6941391414bc9e9dc956dbc"
+    ], 
     "tox.ini": [
       "layer:basic", 
       "static", 
       "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
-    "wheelhouse/Jinja2-2.8.1.tar.gz": [
+    "wheelhouse/Jinja2-2.9.4.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "35341f3a97b46327b3ef1eb624aadea87a535b8f50863036e085e7c426ac5891"
+      "aab8d8ca9f45624f1e77f2844bf3c144d180e97da8824c2a6d7552ad039b5442"
     ], 
     "wheelhouse/MarkupSafe-0.23.tar.gz": [
       "layer:basic", 
@@ -257,10 +267,10 @@
       "dynamic", 
       "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
     ], 
-    "wheelhouse/netaddr-0.7.18.tar.gz": [
+    "wheelhouse/netaddr-0.7.19.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "a1f5c9fcf75ac2579b9995c843dade33009543c04f218ff7c007b3c81695bd19"
+      "38aeec7cdd035081d3a4c306394b19d677623bf76fa0913f6695127c7753aefd"
     ], 
     "wheelhouse/pip-8.1.2.tar.gz": [
       "layer:basic", 

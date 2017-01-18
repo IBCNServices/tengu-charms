@@ -1,2 +1,0 @@
-includes: ['layer:basic', 'layer:apt', 'interface:http']
-repo: git@github.com:IBCNServices/tengu-charms.git

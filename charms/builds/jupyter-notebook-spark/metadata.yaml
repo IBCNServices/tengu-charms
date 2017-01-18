@@ -15,5 +15,5 @@
 "provides":
   "website":
     "interface": "http"
-"series": ["xenial", "trusty", "xenial", "trusty"]
+"series": ["xenial", "trusty"]
 "subordinate": !!bool "true"

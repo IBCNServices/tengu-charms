@@ -1,7 +1,0 @@
-# This file is here for two reasons:
-# 1. to put the etc directory in git version control (git doesn't track empty dirs)
-# 2. to have a file present that the charm code can write to (creating it in
-#    code isn't that easy: https://stackoverflow.com/questions/10349781/how-to-open-read-write-or-create-a-file-with-truncation-possible)
-#
-# NOTE: Charm code will add to this file, it will not overwrite this file
-#  so feel free to add config values here.

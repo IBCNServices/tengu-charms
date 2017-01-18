@@ -1,4 +1,0 @@
-name: opened-ports
-summary: Opened ports and required protocols
-version: 1
-repo: https://github.com/IBCNServices/tengu-charms

@@ -1,3 +1,0 @@
-auto lxcbr0
-iface lxcbr0 inet dhcp
-    bridge_ports {{interface}}

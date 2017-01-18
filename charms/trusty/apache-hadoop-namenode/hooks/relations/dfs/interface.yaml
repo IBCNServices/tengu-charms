@@ -1,4 +1,0 @@
-name: dfs
-summary: Interface for relating to Apache HDFS
-version: 1
-maintainer: "Big Data Team <bigdata@lists.ubuntu.com>"

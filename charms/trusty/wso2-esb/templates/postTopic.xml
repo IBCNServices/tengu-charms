@@ -1,5 +1,0 @@
-<sequence xmlns="http://ws.apache.org/ns/synapse" name="postTopic" trace="enable">
-   <property name="broker" value="{{kafka_broker}}" scope="default" type="STRING"></property>
-   <property name="topic" value="{{kafka_topic}}" scope="default" type="STRING"></property>
-   <kafka.postTopic></kafka.postTopic>
-</sequence>

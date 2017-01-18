@@ -1,4 +1,0 @@
-name: zookeeper
-summary: Interface between Apache Zookeeper and its clients
-version: 1
-maintainer: "Juju Big Data <bigdata@lists.ubuntu.com>"

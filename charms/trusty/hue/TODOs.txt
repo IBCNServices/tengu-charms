@@ -1,9 +1,0 @@
-# This charm requires further work in these areas:
-
-- validate and enable features/integration with other apache projects eg
-oozie, spark-livy, pig
-- investigate why oozie is always reported as a miss-configuration even if disabled
-- clean up unused packages in lib/charms/hue.py
-- desktop.secret_key configured as random string
-- create a bundle or integrate hue in the appropriate bundles
-

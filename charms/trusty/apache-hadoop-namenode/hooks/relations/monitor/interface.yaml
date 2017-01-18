@@ -1,4 +1,0 @@
-name: monitor
-summary: Basic monitoring interface
-version: 1
-repo: https://github.com/juju-solutions/interface-monitor

@@ -1,6 +1,0 @@
-start-yarn:
-    description: All of the YARN processes can be started with this Juju action.
-stop-yarn:
-    description: All of the YARN processes can be stopped with this Juju action.
-restart-yarn:
-    description: All of the YARN processes can be restarted with this Juju action.

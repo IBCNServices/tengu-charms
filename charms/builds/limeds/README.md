@@ -2,18 +2,11 @@
 
 ## What is it?
 
-The LimeDS framework provides a visual toolset, allowing developers to rapidly 
-wire together data-driven services in their programming language of choice. 
-Built-in support for service reliability, scalability and caching makes it the 
-ideal companion for developers aiming to speed up the creation of data-driven 
-software.
+The LimeDS framework provides a visual toolset, allowing developers to rapidly wire together data-driven services in their programming language of choice. Built-in support for service reliability, scalability and caching makes it the ideal companion for developers aiming to speed up the creation of data-driven software.
 
 ## Why use it?
 
-LimeDS allows developers to immediately focus on the use-case specific 
-implementation. This is made possible thanks to a visual editor used for 
-drawing dataflows, that will generate well-behaving modules following the micro
-services design pattern.
+LimeDS allows developers to immediately focus on the use-case specific implementation. This is made possible thanks to a visual editor used for drawing dataflows, that will generate well-behaving modules following the micro services design pattern.
 
 More information on [the LimeDS website](http://limeds.intec.ugent.be/)
 
@@ -21,9 +14,11 @@ More information on [the LimeDS website](http://limeds.intec.ugent.be/)
 
 Deploy docker
 
-Deploy the limeds subordinate charm
+    juju deploy cs:~tengu-team/docker
 
-    juju deploy limeds
+Deploy the limeds charm
+
+    juju deploy cs:~tengu-team/limeds --to docker/0
 
 Add relation between the docker engine and limeds
 
@@ -31,6 +26,6 @@ Add relation between the docker engine and limeds
 
 Check the deployment status (press <kbd>ctrl</kbd>-<kbd>c</kbd> to exit)
 
-    watch juju status
+    watch -c juju status --color
 
-When the deployment is done ('active', 'Ready'), surf to `<limeds>/editor` and login with admin:admin to see the management console.
+When the deployment is done ('active', 'Ready'), surf to `<ip>:<port>/editor` and login with admin:admin to see the management console.

@@ -92,10 +92,10 @@ And add the following code at the end of `.bashrc`.
 function show_juju_env {
   local currentEnv
   currentEnv=`~/.juju_context.py`
-  printf "[\e[38;5;70m%s\e[0m] " "$currentEnv"
+  printf "%s" "$currentEnv"
 }
 
-export PS1="\$(show_juju_env)${PS1}";
+export PS1="[\[\e[38;5;70m\]\$(show_juju_env)\[\e[0m\]]${PS1}";
 
 ```
 

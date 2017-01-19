@@ -95,7 +95,7 @@ function show_juju_env {
   printf "%s" "$currentEnv"
 }
 
-export PS1="[\[\e[38;5;70m\]\$(show_juju_env)\[\e[0m\]]${PS1}";
+export PS1="[\[\e[38;5;70m\]\$(show_juju_env)\[\e[0m\]] ${PS1}";
 
 ```
 

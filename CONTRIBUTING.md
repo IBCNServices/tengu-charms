@@ -70,6 +70,35 @@ sudo pip3 install charms.reactive netifaces amulet click Flask charmhelpers
 apm install atom-jinja2
 ```
 
+## Show active Juju model in bash prompt
+
+This one is very handy, it show the active Juju model and controller in the bash prompt. (Thanks James Beedy!)
+
+```
+[sojobo:mesebrec/merlijntest] merlijn@travers:~$
+```
+
+Instructions to setup:
+
+```
+cd ~
+wget https://gist.githubusercontent.com/jamesbeedy/a5816a6ecd9f64e4bb96c8ba4a153ade/raw/14f255db3172519504e52d8a33ec81e995e8ef66/.juju_context.py
+chmod u+x .juju_context.py
+```
+
+And add the following code at the end of `.bashrc`.
+
+```
+function show_juju_env {
+  local currentEnv
+  currentEnv=`~/.juju_context.py`
+  printf "[\e[38;5;70m%s\e[0m] " "$currentEnv"
+}
+
+export PS1="\$(show_juju_env)${PS1}";
+
+```
+
 ## Setup Python 2 and Python 3 linting
 
 Pyton linting (code checking) for both python 2 and python 3. We need both `pylint` and `pep8`.

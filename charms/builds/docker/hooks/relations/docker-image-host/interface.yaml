@@ -1,4 +1,4 @@
 name: docker-image-host
-summary: Interface to connect a docker image to a docker engine
-version: 1
-repo: https://github.com/IBCNServices/tengu-charms #TODO change
+summary: Interface to ask a docker engine to run containers.
+version: 2
+repo: https://github.com/IBCNServices/interface-docker-image-host

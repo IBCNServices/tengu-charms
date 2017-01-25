@@ -1,5 +1,3 @@
 packages:
   - amulet
 reset: false
-tests: "[0-9]*"
-bundle-deploy: true

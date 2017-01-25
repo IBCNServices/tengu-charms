@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 pylint:disable=c0111
+#!/usr/bin/env python3
 # Copyright (C) 2016  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,42 +16,39 @@
 
 import json
 
+import yaml
 from charms.reactive import hook
 from charms.reactive import RelationBase
 from charms.reactive import scopes
-
-from charmhelpers.core import hookenv
 
 
 class DockerImageHostProvides(RelationBase):
     scope = scopes.UNIT
 
-    @hook('{provides:docker-image-host}-relation-changed')
+    @hook('{provides:docker-image-host}-relation-{joined,changed}')
     def changed(self):
         self.set_state('{relation_name}.available')
 
     @hook('{provides:docker-image-host}-relation-{departed,broken}')
     def broken(self):
-        hookenv.log(self.conversation().get_remote('image'))
         self.remove_state('{relation_name}.available')
 
     @property
-    def images(self):
-        images = []
+    def container_requests(self):
+        container_requests = {}
         for conv in self.conversations():
-            image = conv.get_remote('image')
-            if image:
-                images.append({
-                    'daemon': conv.get_remote('daemon', True),
-                    'interactive': conv.get_remote('interactive', True),
-                    'ports': json.loads(conv.get_remote('ports', '[]')),
-                    'name': conv.get_remote('name', False),
-                    'image': image,
-                    'username': conv.get_remote('username', ''),
-                    'secret': conv.get_remote('secret', ''),
-                })
-        return images
+            conv_con_reqs = yaml.safe_load(
+                conv.get_remote('container-requests', "{}"))
+            conv.set_local(
+                'uuids',
+                list(conv_con_reqs.keys()))
+            container_requests.update(conv_con_reqs)
+        return container_requests
 
-    def send_published_ports(self, ports):
-        conv = self.conversation()
-        conv.set_remote('published_ports', json.dumps(ports))
+    def send_running_containers(self, containers):
+        for conv in self.conversations():
+            conts_to_send = {}
+            uuids = conv.get_local('uuids', [])
+            for uuid in uuids:
+                conts_to_send[uuid] = containers[uuid]
+            conv.set_remote('running-containers', json.dumps(conts_to_send))

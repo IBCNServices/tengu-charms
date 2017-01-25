@@ -1,10 +1,10 @@
 "options":
-  "docker":
-    "skip-install": !!bool "false"
   "apt":
+    "packages":
+    - "docker.io"
     "version_package": ""
-    "packages": []
     "full_version": !!bool "false"
+  "docker": {}
   "basic":
     "use_venv": !!bool "false"
     "packages": []

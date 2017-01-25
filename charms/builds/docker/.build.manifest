@@ -120,17 +120,17 @@
     "hooks/relations/docker-image-host/interface.yaml": [
       "interface:docker-image-host", 
       "static", 
-      "c1cc2efc5334ae9533d7617cd27f179d583c8cf1422738bcf61b49aedfac7f2f"
+      "67ab0ffb3e4b72a4861a1bfa2c52ef606a981c991de57d1251d843c37f663a2c"
     ], 
     "hooks/relations/docker-image-host/provides.py": [
       "interface:docker-image-host", 
       "static", 
-      "08167f63db9413028d61debce2dc1560ce399f5f79b4b3d172fca0f2e5a1158e"
+      "d7ec4fa55240ec6c2a8c480a581f634373c80769700ce8d4a5409a74c136caae"
     ], 
     "hooks/relations/docker-image-host/requires.py": [
       "interface:docker-image-host", 
       "static", 
-      "d2f5588c87b240a99b0798b528b3dabc1517b0eaf478787060f9bf07304b5dc1"
+      "c84ac792a7ca83fcf30df5a67ac56b213a133beffbb4fd0fd6e90c5906ebe911"
     ], 
     "hooks/start": [
       "layer:basic", 
@@ -160,7 +160,7 @@
     "layer.yaml": [
       "docker", 
       "dynamic", 
-      "bd5626a54cad543b8a31e41b23b3402873bcef35f408e509913121f8b3c5d92e"
+      "9781c108ce0525a8a3c37cc98c041a6b815b9eb428586ab5db716f23a13cfcf8"
     ], 
     "lib/charms/__init__.py": [
       "layer:apt", 
@@ -202,10 +202,10 @@
       "static", 
       "6dad3fc2032bc4367b3669def96a45609222a745fd28763992725e377d7c974c"
     ], 
-    "reactive/docker.py": [
+    "reactive/docker-reactive.py": [
       "docker", 
       "static", 
-      "ef57777b3ae7edd1bb8fbee13c4a93e2c3e3f8c11cdecabdfa2a3b4135186ef1"
+      "f214f162117e283a15f5dd4607cf1f529e22f3c282cd7c1ddca7d93488d864d3"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -225,7 +225,7 @@
     "tests/tests.yaml": [
       "docker", 
       "static", 
-      "36fe74a1e8ee89d2c91c4af65822ba0fb633ad35ff88330ee91c1820bb6e25a5"
+      "a70cc17c38d1f3bc58dafab50fd218257b5c758da6941391414bc9e9dc956dbc"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -252,10 +252,10 @@
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "wheelhouse/charmhelpers-0.10.0.tar.gz": [
+    "wheelhouse/charmhelpers-0.11.0.tar.gz": [
       "docker", 
       "dynamic", 
-      "4d2ae29bdc925d3cf9be8d50d85e32a6b65e5b718bd383bd4899769b288ed512"
+      "72e776a3fab33289f9da1aeba8f319f0a53471eca660e9a6504db3c446af20a3"
     ], 
     "wheelhouse/charms.reactive-0.4.5.tar.gz": [
       "layer:basic", 
@@ -266,6 +266,16 @@
       "docker", 
       "dynamic", 
       "8193c6a1d40bdb66fe272c359b4e4780501c658acfaf2b1118c4230927815fe2"
+    ], 
+    "wheelhouse/docker-2.0.2.tar.gz": [
+      "docker", 
+      "dynamic", 
+      "ff746853d6a1fe7ca808128b09a1d5df3729941d2698ec2bef2fe888b2b026d4"
+    ], 
+    "wheelhouse/docker-pycreds-0.2.1.tar.gz": [
+      "docker", 
+      "dynamic", 
+      "93833a2cf280b7d8abbe1b8121530413250c6cd4ffed2c1cf085f335262f7348"
     ], 
     "wheelhouse/netaddr-0.7.19.tar.gz": [
       "docker", 
@@ -282,6 +292,11 @@
       "dynamic", 
       "b865e4f53a85f4d8a092e7701f759a3237fb3ee8a928627401914aafadc00907"
     ], 
+    "wheelhouse/requests-2.13.0.tar.gz": [
+      "docker", 
+      "dynamic", 
+      "5722cd09762faa01276230270ff16af7acf7c5c45d623868d9ba116f15791ce8"
+    ], 
     "wheelhouse/setuptools-20.0.tar.gz": [
       "docker", 
       "dynamic", 
@@ -296,6 +311,11 @@
       "docker", 
       "dynamic", 
       "dae60c17a479781f44a4010701833f1829140b1eeccd258762a74974aa06e19b"
+    ], 
+    "wheelhouse/websocket_client-0.40.0.tar.gz": [
+      "docker", 
+      "dynamic", 
+      "40ac14a0c54e14d22809a5c8d553de5a2ae45de3c60105fae53bcb281b3fe6fb"
     ]
   }
 }

@@ -120,17 +120,17 @@
     "hooks/relations/docker-image-host/interface.yaml": [
       "interface:docker-image-host", 
       "static", 
-      "c1cc2efc5334ae9533d7617cd27f179d583c8cf1422738bcf61b49aedfac7f2f"
+      "67ab0ffb3e4b72a4861a1bfa2c52ef606a981c991de57d1251d843c37f663a2c"
     ], 
     "hooks/relations/docker-image-host/provides.py": [
       "interface:docker-image-host", 
       "static", 
-      "08167f63db9413028d61debce2dc1560ce399f5f79b4b3d172fca0f2e5a1158e"
+      "d7ec4fa55240ec6c2a8c480a581f634373c80769700ce8d4a5409a74c136caae"
     ], 
     "hooks/relations/docker-image-host/requires.py": [
       "interface:docker-image-host", 
       "static", 
-      "d2f5588c87b240a99b0798b528b3dabc1517b0eaf478787060f9bf07304b5dc1"
+      "c84ac792a7ca83fcf30df5a67ac56b213a133beffbb4fd0fd6e90c5906ebe911"
     ], 
     "hooks/relations/http/README.md": [
       "interface:http", 
@@ -215,7 +215,7 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "c2092f1590f4b824b54175468719a265e54f50d825ea33dd0f5c8c32b128ff46"
+      "a321b213b3d5619dd72dcd6b853fee73ac7236aa306905b1bc76bcc75d7273c8"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -257,10 +257,10 @@
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "wheelhouse/charmhelpers-0.10.0.tar.gz": [
+    "wheelhouse/charmhelpers-0.11.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "4d2ae29bdc925d3cf9be8d50d85e32a6b65e5b718bd383bd4899769b288ed512"
+      "72e776a3fab33289f9da1aeba8f319f0a53471eca660e9a6504db3c446af20a3"
     ], 
     "wheelhouse/charms.reactive-0.4.5.tar.gz": [
       "layer:basic", 

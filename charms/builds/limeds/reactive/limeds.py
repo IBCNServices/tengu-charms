@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 pylint:disable=c0111
+#!/usr/bin/env python3
 # Copyright (C) 2016  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,67 +14,55 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint:disable=c0301,c0103
+from uuid import uuid4
 
-from charmhelpers.core import hookenv
+from charmhelpers.core import hookenv, unitdata
+from charmhelpers.core.hookenv import status_set, log
 
 from charms.reactive import when, when_not
-from charms.reactive import set_state, remove_state, is_state
-
-
-@when('config.changed')
-def reconfigure_docker_host():
-    hookenv.log(hookenv.relation_get('dockerhost'))
-    if is_state('dockerhost.available') and is_state('limeds.ready'):
-        conf = hookenv.config()
-        hookenv.status_set(
-            'maintenance',
-            'Reconfiguring LimeDS [{}].'.format(conf.get('image')))
-        remove_state('limeds.ready')
+from charms.reactive.helpers import data_changed
 
 
 @when_not('dockerhost.available')
 def no_host_connected():
-    hookenv.status_set(
+    # Reset so that `data_changed` will return "yes" at next relation joined.
+    data_changed('image', None)
+    status_set(
         'blocked',
         'Please connect the LimeDS charm to a docker host.')
-    if is_state('limeds.ready'):
-        remove_state('limeds.ready')
 
 
 @when('dockerhost.available')
-@when_not('limeds.ready')
-def host_connected(dh):
+def host_connected(dh_relation):
     conf = hookenv.config()
-    hookenv.log(
-        'configure_docker_host invoked \
-        for unit {}!!'.format(hookenv.local_unit()))
-    hookenv.status_set('maintenance', 'Sending configuration to host.')
-    name = hookenv.local_unit().replace("/", "-")
-    ports = ['8080', '8443']
-    dh.send_configuration(
-        name,
-        conf.get('image'),
-        ports,
-        conf.get('username'),
-        conf.get('secret'),
-        True,
-        True)
-    hookenv.status_set('waiting', 'Waiting for image to come online.')
+    if not data_changed('image', conf.get('image')):
+        print("same, skipping")
+        return
+    print("Different")
+    log('config.changed.image, generating new UUID')
+    uuid = str(uuid4())
+    container_request = {
+        'image': conf.get('image'),
+    }
+    unitdata.kv().set('image', container_request)
+    dh_relation.send_container_requests({uuid: container_request})
+    status_set('waiting', 'Waiting for image to come online.')
 
 
-@when('dockerhost.ready')
-def image_running(dh):  # pylint:disable=W0611,W0613
+@when('dockerhost.available')
+def image_running(dh_relation):
     conf = hookenv.config()
-    hookenv.status_set('active', 'Ready ({})'.format(conf.get('image')))
-    set_state('limeds.ready')
+    containers = dh_relation.get_running_containers()
+    if containers:
+        status_set('active', 'Ready ({})'.format(conf.get('image')))
 
 
-@when('endpoint.available', 'dockerhost.ready', 'limeds.ready')
-def configure_endpoint(endpoint, dh):
-    (docker_host, docker_host_ports) = dh.get_running_image()
-    hookenv.log('The IP of the docker host is {}.'.format(docker_host))
-    endpoint.configure(
-        hostname=docker_host,
-        private_address=docker_host,
-        port=docker_host_ports['8080'])
+@when('endpoint.available', 'dockerhost.available')
+def configure_endpoint(endpoint_relation, dh_relation):
+    containers = dh_relation.get_running_containers()
+    for container in containers:
+        # Warning! This will only send the info of the last container!
+        endpoint_relation.configure(
+            hostname=container['host'],
+            private_address=container['host'],
+            port=container['ports']['8080'])

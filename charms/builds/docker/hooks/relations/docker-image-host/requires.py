@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 pylint:disable=c0111
+#!/usr/bin/env python3
 # Copyright (C) 2016  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
@@ -29,35 +29,37 @@ class DockerImageHostRequires(RelationBase):
     def changed(self):
         conv = self.conversation()
         conv.set_state('{relation_name}.available')
-        host = conv.get_remote('private-address')
-        host_ports = conv.get_remote('published_ports')
-        if host and host_ports:
-            conv.set_state('{relation_name}.ready')
 
     @hook('{requires:docker-image-host}-relation-{departed,broken}')
     def broken(self):
         conv = self.conversation()
         conv.remove_state('{relation_name}.available')
 
-    def send_configuration(
-            self, name, image, ports=None, username=None, secret=None,
-            daemon=True, interactive=True):  # pylint:disable=R0913
-        if not ports:
-            ports = []
+    def send_container_requests(self, container_requests):
+        """ container_requests: {
+            uuid: {
+                image: <image>,
+                #...
+            },
+            #...
+        }
+        """
         conv = self.conversation()
-        conv.set_remote('image', image)
-        conv.set_remote('username', username)
-        conv.set_remote('secret', secret)
-        conv.set_remote('name', name)
-        conv.set_remote('daemon', daemon)
-        conv.set_remote('interactive', interactive)
-        conv.set_remote('ports', json.dumps(ports))
+        conv.set_local(
+            'uuids',
+            list(container_requests.keys()))
+        conv.set_remote(
+            'container-requests',
+            json.dumps(container_requests))
 
-    def get_running_image(self):
+    def get_running_containers(self):
         conv = self.conversation()
-        host = conv.get_remote('private-address')
-        host_ports = conv.get_remote('published_ports')
-        if host and host_ports:
-            print("host_ports string: {}".format(host_ports))
-            return (host, yaml.load(host_ports))
-        return None
+        requested_uuids = conv.get_local('uuids', [])
+        remote_containers = yaml.safe_load(
+            conv.get_remote('running-containers', "{}"))
+        containers_to_return = []
+        for uuid in requested_uuids:
+            remote_container = remote_containers.get(uuid)
+            if remote_container:
+                containers_to_return.append(remote_container)
+        return containers_to_return

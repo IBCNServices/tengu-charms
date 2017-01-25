@@ -35,7 +35,7 @@ Instead of using templates that completely overwrite existing config files, chan
 
 ### More rules
 
-- NO PEP8 ERRORS!!!
+- NO PEP8 ERRORS!!! The `pycodestyle` linter checks these
 - No Linter errors and no `charm proof` errors.
 - Always use the `check_..` subprocess functions. If error exit code doesn't matter, catch the exception.
 - Don't use `shell=True` for subprocess commands.
@@ -101,9 +101,9 @@ export PS1="[\[\e[38;5;70m\]\$(show_juju_env)\[\e[0m\]] ${PS1}";
 
 ## Setup Python 2 and Python 3 linting
 
-Pyton linting (code checking) for both python 2 and python 3. We need both `pylint` and `pep8`.
+Pyton linting (code checking) for both python 2 and python 3. We need both `pylint` and `pycodestyle` (formerly pep8).
 
-- **Pep8** is the official python style guide. We should adhere to this without question. pep8 linting is also checked by default by `bundletester` so we need to be compatible with this.
+- **Pep8** is the official python style guide. The pycodestyle linter checks this. We should adhere to this without question. pep8 linting is also checked by default by `bundletester` so we need to be compatible with this.
 - **Pylint** is incredibly awesome and helps you write good, clean code. However, it can be a bit pedantic at times. You can disable specific warnings by writing `#pylint: disable=<code>` either at the top of your file or at the line you want to ignore.
 
 Install linting packages.
@@ -111,7 +111,7 @@ Install linting packages.
 ```bash
 sudo pip2 install pylint
 sudo pip3 install pylint
-sudo apt install pep8
+sudo apt install pycodestyle
 apm install linter linter-pylint python-indent pep8
 ```
 

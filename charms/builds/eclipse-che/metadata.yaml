@@ -1,0 +1,17 @@
+"name": "eclipse-che"
+"summary": "Installs the Eclipse Che cloud editor."
+"description": ""
+"tags":
+- "containers"
+- "layer"
+- "application_development"
+"provides":
+  "dockerhost":
+    "interface": "docker-image-host"
+  "editor":
+    "interface": "http"
+"maintainers":
+- "Gregory Van Seghbroeck <gregory.vanseghbroeck@qrama.io>"
+- "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
+"series": ["xenial"]
+"subordinate": !!bool "false"

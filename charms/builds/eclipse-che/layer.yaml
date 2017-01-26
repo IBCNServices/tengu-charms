@@ -1,0 +1,22 @@
+"options":
+  "apt":
+    "packages":
+    - "docker.io"
+    "version_package": ""
+    "full_version": !!bool "false"
+  "eclipse-che": {}
+  "docker": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "layer:apt"
+- "interface:docker-image-host"
+- "layer:docker"
+"repo": "git@github.com:IBCNServices/layer-eclipse-che.git"
+"exclude":
+- "tests/10-deploy.py"
+- "tests/tests.yaml"
+"is": "eclipse-che"

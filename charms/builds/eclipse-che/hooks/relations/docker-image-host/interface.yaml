@@ -1,0 +1,4 @@
+name: docker-image-host
+summary: Interface to ask a docker engine to run containers.
+version: 2
+repo: https://github.com/IBCNServices/interface-docker-image-host

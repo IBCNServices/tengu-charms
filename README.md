@@ -25,7 +25,7 @@ The Juju docs contain a good [high-level overview of what Juju is](https://jujuc
 ## Plain text
 
 ```
-Copyright (C) 2016  Ghent University
+Copyright (C) 2017  Ghent University
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ## Hash comments
 
 ```
-# Copyright (C) 2016  Ghent University
+# Copyright (C) 2017  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by

@@ -34,3 +34,6 @@
 [submodule "bundles/limeds-core"]
 	path = bundles/limeds-core
 	url = git@github.com:IBCNServices/bundle-limeds-core.git
+[submodule "charms/layers/eclipse-che"]
+	path = charms/layers/eclipse-che
+	url = git@github.com:IBCNServices/layer-eclipse-che.git

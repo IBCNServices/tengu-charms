@@ -1,0 +1,11 @@
+name: flask-helloworld
+summary: A Charm that deploys a Flask hello world webserver
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+description: |
+  A Charm that deploys a Flask hello world webserver
+tags:
+  - application_development
+subordinate: false
+provides:
+  webserver:
+    interface: http

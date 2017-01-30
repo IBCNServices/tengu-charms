@@ -1,0 +1,16 @@
+"name": "flask-helloworld"
+"summary": "A Charm that deploys a Flask hello world webserver"
+"maintainer": "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
+"description": |
+  A Charm that deploys a Flask hello world webserver
+"tags":
+- "flask"
+- "application_development"
+"series":
+- "xenial"
+"provides":
+  "website":
+    "interface": "http"
+  "webserver":
+    "interface": "http"
+"subordinate": !!bool "false"

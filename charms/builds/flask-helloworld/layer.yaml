@@ -1,0 +1,21 @@
+"options":
+  "apt":
+    "packages":
+    - "nginx-full"
+    "version_package": ""
+    "full_version": !!bool "false"
+  "flask": {}
+  "nginx": {}
+  "flask-helloworld": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "layer:apt"
+- "interface:http"
+- "layer:nginx"
+- "layer:flask"
+"repo": "https://github.com/IBCNServices/layer-flask-helloworld/"
+"is": "flask-helloworld"

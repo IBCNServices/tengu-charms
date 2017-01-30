@@ -37,3 +37,6 @@
 [submodule "charms/layers/eclipse-che"]
 	path = charms/layers/eclipse-che
 	url = git@github.com:IBCNServices/layer-eclipse-che.git
+[submodule "charms/layers/flask-helloworld"]
+	path = charms/layers/flask-helloworld
+	url = git@github.com:IBCNServices/layer-flask-helloworld.git

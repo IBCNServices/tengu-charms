@@ -1,0 +1,20 @@
+{
+  "name":"reactive-layer",
+  "displayName":"Reactive Layer",
+  "path":"/charms/layers",
+  "description":"A Basic reactive layer",
+  "projectType":"blank",
+  "mixins":[],
+  "attributes":{},
+  "modules":[],
+  "problems":[],
+  "source":{
+    "type":"git",
+    "location":"https://github.com/galgalesh/che-project-layer.git",
+    "parameters":{}
+  },
+  "commands":[],
+  "links":[],
+  "category":"Samples",
+  "tags":["python","juju"]
+}

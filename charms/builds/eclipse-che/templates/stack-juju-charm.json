@@ -1,0 +1,86 @@
+{
+  "name": "Juju Charm",
+  "source": {
+    "origin": "ibcnservices/che-charmbox",
+    "type": "image"
+  },
+  "stackIcon": {
+    "name": "type-juju.svg",
+    "mediaType": "image/svg+xml"
+  },
+  "components": [
+    {
+      "version": "---",
+      "name": "charmhelpers"
+    },
+    {
+      "version": "---",
+      "name": "bundletester"
+    },
+    {
+      "version": "---",
+      "name": "python3"
+    },
+    {
+      "version": "---",
+      "name": "charms.reactive"
+    }
+  ],
+  "tags": [],
+  "id": "stack1jxs2u1ky1pn3frj",
+  "workspaceConfig": {
+    "defaultEnv": "charmbox",
+    "environments": {
+      "charmbox": {
+        "machines": {
+          "dev-machine": {
+            "attributes": {
+              "memoryLimitBytes": "2147483648"
+            },
+            "servers": {},
+            "agents": [
+              "org.eclipse.che.terminal",
+              "org.eclipse.che.ws-agent",
+              "org.eclipse.che.ssh"
+            ]
+          }
+        },
+        "recipe": {
+          "type": "compose",
+          "content": "services:\n dev-machine:\n  image: ibcnservices/che-charmbox\n",
+          "contentType": "application/x-yaml"
+        }
+      }
+    },
+    "projects": [
+      {
+        "links": [],
+        "name":"reactive-layer",
+        "attributes": {},
+        "type": "blank",
+        "source": {
+          "location": "https://github.com/galgalesh/che-project-charms.git",
+          "type": "git",
+          "parameters": {}
+        },
+        "path": "/charms",
+        "description": "",
+        "problems": [],
+        "mixins": []
+      }
+    ],
+    "name": "default",
+    "commands": [
+      {
+        "commandLine": "juju status",
+        "name": "Status",
+        "attributes": {},
+        "type": "custom"
+      }
+    ],
+    "links": []
+  },
+  "description": "Juju Charm box",
+  "creator": "che",
+  "scope": "general"
+}

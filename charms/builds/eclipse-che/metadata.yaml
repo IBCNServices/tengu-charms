@@ -1,17 +1,18 @@
 "name": "eclipse-che"
-"summary": "Installs the Eclipse Che cloud editor."
-"description": ""
+"summary": "Installs the Eclipse Che cloud editor with Juju Charms support."
+"maintainers":
+- "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
+"description": |
+  Installs the Eclipse Che cloud editor with support for creating Juju Charms.
 "tags":
 - "containers"
 - "layer"
 - "application_development"
+"series":
+- "xenial"
 "provides":
   "dockerhost":
     "interface": "docker-image-host"
   "editor":
     "interface": "http"
-"maintainers":
-- "Gregory Van Seghbroeck <gregory.vanseghbroeck@qrama.io>"
-- "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
-"series": ["xenial"]
 "subordinate": !!bool "false"

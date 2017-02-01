@@ -5,6 +5,7 @@
     "layer:docker", 
     "eclipse-che", 
     "interface:docker-image-host", 
+    "interface:http", 
     "build"
   ], 
   "signatures": {
@@ -36,7 +37,7 @@
     "README.md": [
       "eclipse-che", 
       "static", 
-      "f81a4f17612b0018f3188e65533de40be9357faf8ed9468d9106b8e20798ff52"
+      "63cfa17a72fccfdaa9e1bb09b1d93ef4646362e064c4787c8dabaa418c90c09b"
     ], 
     "actions.yaml": [
       "layer:docker", 
@@ -93,6 +94,26 @@
       "dynamic", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
+    "hooks/editor-relation-broken": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/editor-relation-changed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/editor-relation-departed": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/editor-relation-joined": [
+      "interface:http", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
     "hooks/hook.template": [
       "layer:basic", 
       "static", 
@@ -138,6 +159,31 @@
       "static", 
       "c84ac792a7ca83fcf30df5a67ac56b213a133beffbb4fd0fd6e90c5906ebe911"
     ], 
+    "hooks/relations/http/README.md": [
+      "interface:http", 
+      "static", 
+      "9c95320ad040745374fc03e972077f52c27e07eb0386ec93ae19bd50dca24c0d"
+    ], 
+    "hooks/relations/http/__init__.py": [
+      "interface:http", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/http/interface.yaml": [
+      "interface:http", 
+      "static", 
+      "d0b64038b85b7791ee4f3a42d73ffc8c208f206f73f899cbf33a519d12f9ad13"
+    ], 
+    "hooks/relations/http/provides.py": [
+      "interface:http", 
+      "static", 
+      "eb4b01fc022cafbb6e67cb200f497ab3aeee4b954b1b9ff2be1d8e64d1a4be20"
+    ], 
+    "hooks/relations/http/requires.py": [
+      "interface:http", 
+      "static", 
+      "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
+    ], 
     "hooks/start": [
       "layer:basic", 
       "static", 
@@ -166,7 +212,7 @@
     "layer.yaml": [
       "eclipse-che", 
       "dynamic", 
-      "aa499af0f0116bbe049be8052b560424ffff334b5ac3a4712c793291da47bbd5"
+      "89001a5af593fd85638490bd4406f4907f924a27d993f75035cb3ad45989a72d"
     ], 
     "lib/charms/__init__.py": [
       "layer:apt", 
@@ -186,7 +232,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "e91f75ca77b31ff3b5b78ca095ca4487d60095ccb1f6e29b8c901a0048ed1ac1"
+      "1ef0077bb0c8f8a445a5c23fecd2c83323142d6e84d789be1318e2b28e7d952d"
     ], 
     "lib/charms/layer/execd.py": [
       "layer:basic", 
@@ -196,7 +242,7 @@
     "metadata.yaml": [
       "eclipse-che", 
       "dynamic", 
-      "2b194a8abbde973d02366ec3fa928f0debb637d89ee4f20358920d6f23469dc4"
+      "3656c84beb0498f4f30011d3567139d1e458b5ba476bc683e9eb0922ec49eb6e"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -216,7 +262,7 @@
     "reactive/eclipse-che.py": [
       "eclipse-che", 
       "static", 
-      "a19a38111468ea50c79ef5cd7741785edeb050ebd0e26058e976830dc433c383"
+      "e71f25d20c7ddec01474b24af4b7fe55739b867916e5855f28aceb25871add9d"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -227,6 +273,31 @@
       "layer:docker", 
       "static", 
       "139d09ecf01f758769df93c1f174194d0aad7c85b5e67a9bbdc24dbdbdf0ef66"
+    ], 
+    "templates/project-template-charms.json": [
+      "eclipse-che", 
+      "static", 
+      "a393db5b09b29a617f60129cb86a21efd87f3cc9f291418983ae66fc4167fe6c"
+    ], 
+    "templates/project-template-interface.json": [
+      "eclipse-che", 
+      "static", 
+      "e5586e1f12b8bfe7d6d996ebd59662d93b02d89f1e591d4b1eb9d508b8ea93a6"
+    ], 
+    "templates/project-template-layer.json": [
+      "eclipse-che", 
+      "static", 
+      "63cf5887d72ad1e77e5048da01a83b937a86e9b6df67b8eabfc52242b7d86b60"
+    ], 
+    "templates/stack-juju-charm.json": [
+      "eclipse-che", 
+      "static", 
+      "7b85b8d711cebb140d9b12c53668c4289042d64e5d67fb474418625291838579"
+    ], 
+    "templates/type-juju.svg": [
+      "eclipse-che", 
+      "static", 
+      "79da57e96b54a134eb7dcc3b27b026fceef84a210b24052fb767f2c9cd2a0352"
     ], 
     "tests/10-deploy.py": [
       "layer:docker", 
@@ -243,10 +314,10 @@
       "static", 
       "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
-    "wheelhouse/Jinja2-2.9.4.tar.gz": [
+    "wheelhouse/Jinja2-2.9.5.tar.gz": [
       "layer:docker", 
       "dynamic", 
-      "aab8d8ca9f45624f1e77f2844bf3c144d180e97da8824c2a6d7552ad039b5442"
+      "702a24d992f856fa8d5a7a36db6128198d0c21e1da34448ca236c42e92384825"
     ], 
     "wheelhouse/MarkupSafe-0.23.tar.gz": [
       "layer:docker", 
@@ -263,10 +334,10 @@
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "wheelhouse/charmhelpers-0.11.0.tar.gz": [
+    "wheelhouse/charmhelpers-0.12.0.tar.gz": [
       "layer:docker", 
       "dynamic", 
-      "72e776a3fab33289f9da1aeba8f319f0a53471eca660e9a6504db3c446af20a3"
+      "4a54cfadd3b69cbf9d96033c2e7daa25ff2c439e91372f6f209e443e5430b73e"
     ], 
     "wheelhouse/charms.reactive-0.4.5.tar.gz": [
       "layer:basic", 

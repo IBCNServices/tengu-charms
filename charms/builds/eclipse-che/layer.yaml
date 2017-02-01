@@ -15,6 +15,7 @@
 - "layer:apt"
 - "interface:docker-image-host"
 - "layer:docker"
+- "interface:http"
 "repo": "git@github.com:IBCNServices/layer-eclipse-che.git"
 "exclude":
 - "tests/10-deploy.py"

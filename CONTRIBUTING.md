@@ -112,7 +112,7 @@ Install linting packages.
 sudo pip2 install pylint
 sudo pip3 install pylint
 sudo apt install pycodestyle
-apm install linter linter-pylint python-indent pep8
+apm install linter linter-pylint python-indent linter-pycodestyle
 ```
 
 We also want pylint to search the charm's `lib` directory for python dependencies. Add the following string to the pylint path in the config of the linter-pylint Atom package: `%f/../lib`.

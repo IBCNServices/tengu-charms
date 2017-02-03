@@ -1,8 +1,8 @@
 {
-  "name":"reactive-layer",
-  "displayName":"Reactive Layer",
-  "path":"/charms/layers",
-  "description":"A Basic reactive layer",
+  "name":"reactive-interface",
+  "displayName":"Reactive Interface Layer",
+  "path":"/charms/interfaces/che-project-interface",
+  "description":"A template for an Interface Layer. Interface layers implement both sides of a relationship between two Charms. NOTE: Create this project in the `interfaces` directory of the 'Charms Repository' project.",
   "projectType":"blank",
   "mixins":[],
   "attributes":{},
@@ -15,6 +15,6 @@
   },
   "commands":[],
   "links":[],
-  "category":"Samples",
-  "tags":["python","juju"]
+  "category":"Juju",
+  "tags":["juju-reactive"]
 }

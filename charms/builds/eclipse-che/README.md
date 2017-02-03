@@ -1,14 +1,17 @@
 # Overview
 
-This Charm deploys the latest [Eclipse Che](http://www.eclipse.org/che/). Eclipse Che is a Next-Generation IDE with a developer workspace server.
+This Charm deploys the latest [Eclipse Che](http://www.eclipse.org/che/) with integration for **developing Juju Charms from your browser**. Eclipse Che is a Next-Generation IDE with a developer workspace server.
 
 Your browser becomes your IDE, your workspaces are docker containers. All the development tools, dependencies and libraries are already installed in the workspace. The only thing you have to do is surf to the url and start coding. To top it all off, you get an in-browser terminal right into your workspace.
 
-Choose from a number of ready-to-go workspaces or build your own using Docker containers.
-![Choose your stack view ](https://eclipse.org/che/images/features/img-features-stacks.png)
+**Choose from a number of ready-to-go workspaces or build your own using Docker containers.**
+![Choose your stack view ](https://raw.githubusercontent.com/IBCNServices/layer-eclipse-che/master/files/create-workspace.gif)
 
-Use the full-featured in-browser commandline.
-![IDE + console view  ](https://eclipse.org/che/images/features/img-features-ssh-workspaces.png)
+**Use the in-browser IDE to develop applications.**
+![IDE ](https://raw.githubusercontent.com/IBCNServices/layer-eclipse-che/master/files/create-project.gif)
+
+**Use the full-featured in-browser commandline.**
+![console view  ](https://raw.githubusercontent.com/IBCNServices/layer-eclipse-che/master/files/browser-commandline.gif)
 
 # Usage
 
@@ -34,6 +37,6 @@ When Che is ready, expose the GUI with `juju expose eclipse-che` and surf to [ht
 
 ## Authors
 
-This software was created in the [IDLab research group](https://www.ugent.be/ea/idlab) of [Ghent University](https://www.ugent.be) in Belgium. This software is used in [Tengu](http://tengu.intec.ugent.be), a project that aims to make experimenting with data frameworks and tools as easy as possible.
+This software was created in the [IDLab research group](https://www.ugent.be/ea/idlab) of [Ghent University](https://www.ugent.be) in Belgium. This software is used in [Tengu](https://tengu.io), a project that aims to make experimenting with data frameworks and tools as easy as possible.
 
  - Merlijn Sebrechts <merlijn.sebrechts@gmail.com>

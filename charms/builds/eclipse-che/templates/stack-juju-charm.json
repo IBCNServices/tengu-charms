@@ -1,12 +1,8 @@
 {
-  "name": "Juju Charm",
+  "name": "Juju Charms",
   "source": {
     "origin": "ibcnservices/che-charmbox",
     "type": "image"
-  },
-  "stackIcon": {
-    "name": "type-juju.svg",
-    "mediaType": "image/svg+xml"
   },
   "components": [
     {
@@ -26,7 +22,9 @@
       "name": "charms.reactive"
     }
   ],
-  "tags": [],
+  "tags": [
+    "juju"
+  ],
   "id": "stack1jxs2u1ky1pn3frj",
   "workspaceConfig": {
     "defaultEnv": "charmbox",
@@ -52,23 +50,7 @@
         }
       }
     },
-    "projects": [
-      {
-        "links": [],
-        "name":"reactive-layer",
-        "attributes": {},
-        "type": "blank",
-        "source": {
-          "location": "https://github.com/galgalesh/che-project-charms.git",
-          "type": "git",
-          "parameters": {}
-        },
-        "path": "/charms",
-        "description": "",
-        "problems": [],
-        "mixins": []
-      }
-    ],
+    "projects": [],
     "name": "default",
     "commands": [
       {
@@ -81,6 +63,6 @@
     "links": []
   },
   "description": "Juju Charm box",
-  "creator": "che",
+  "creator": "tengu",
   "scope": "general"
 }

@@ -37,7 +37,7 @@
     "README.md": [
       "eclipse-che", 
       "static", 
-      "63cfa17a72fccfdaa9e1bb09b1d93ef4646362e064c4787c8dabaa418c90c09b"
+      "90172bae8a1316f8251c8059001a7fea36c507b2adb4566c5eaa54578387e47a"
     ], 
     "actions.yaml": [
       "layer:docker", 
@@ -60,14 +60,29 @@
       "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
     ], 
     "config.yaml": [
-      "layer:apt", 
+      "eclipse-che", 
       "dynamic", 
-      "84f357dcb7e6de877d51839f0809ebd1d13049afa437f6d3489c1b5604c5c691"
+      "4cbfc0d9bfbb4882ad1d5dae1d3fadef221c674da2f55025f41c629de248091b"
     ], 
     "copyright": [
       "layer:docker", 
       "static", 
       "8d9ac3773a5482f2f4c238a830920a379e7de7f4e31363adb90dc26cd51303b8"
+    ], 
+    "files/browser-commandline.gif": [
+      "eclipse-che", 
+      "static", 
+      "5aa3ae04616f89c1ca391a61aee00ef7e72ffc5110e383f058bace0673c6ec5a"
+    ], 
+    "files/create-project.gif": [
+      "eclipse-che", 
+      "static", 
+      "aa06e6b3ba83a576c673cbf611dde05b88504ecca344226fa887c59faeb1760b"
+    ], 
+    "files/create-workspace.gif": [
+      "eclipse-che", 
+      "static", 
+      "de292fde0a93e1cb391f5ed9daa6434375c1054cd673625aba5e513856e8bed5"
     ], 
     "hooks/config-changed": [
       "layer:basic", 
@@ -262,7 +277,7 @@
     "reactive/eclipse-che.py": [
       "eclipse-che", 
       "static", 
-      "e71f25d20c7ddec01474b24af4b7fe55739b867916e5855f28aceb25871add9d"
+      "dd17dabb7706d8a1f85e82d2af5444afbb24eef07c017fc0405e572f9cee6c11"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -277,22 +292,22 @@
     "templates/project-template-charms.json": [
       "eclipse-che", 
       "static", 
-      "a393db5b09b29a617f60129cb86a21efd87f3cc9f291418983ae66fc4167fe6c"
+      "3d556298674ae4d0d96999f8fa0ea2a30ca8e3c3dd720294bd628432c1b691aa"
     ], 
     "templates/project-template-interface.json": [
       "eclipse-che", 
       "static", 
-      "e5586e1f12b8bfe7d6d996ebd59662d93b02d89f1e591d4b1eb9d508b8ea93a6"
+      "615df003858979d9011aa8e3aeaf4c52497201ec32b2a4c0e7e399518e8c26e3"
     ], 
     "templates/project-template-layer.json": [
       "eclipse-che", 
       "static", 
-      "63cf5887d72ad1e77e5048da01a83b937a86e9b6df67b8eabfc52242b7d86b60"
+      "7363119eb403e201b0edc5d58fffed24cc1b51646122181d949fbf7aecc9fdbb"
     ], 
     "templates/stack-juju-charm.json": [
       "eclipse-che", 
       "static", 
-      "7b85b8d711cebb140d9b12c53668c4289042d64e5d67fb474418625291838579"
+      "7381b3ec83e2d63c141f9e4469796c2aacd8f4d59605d1153cdcb3be01894fac"
     ], 
     "templates/type-juju.svg": [
       "eclipse-che", 
@@ -300,12 +315,12 @@
       "79da57e96b54a134eb7dcc3b27b026fceef84a210b24052fb767f2c9cd2a0352"
     ], 
     "tests/10-deploy.py": [
-      "layer:docker", 
+      "eclipse-che", 
       "static", 
-      "3d0d8250180ef57c6841cae875ecb25c69e8ac13d89e07fdbfdf61bc603749ba"
+      "f5b3d5a8c6b73aeb5285ab8e8a73c0a245fa781af4860b1ef21c505f0b846b4d"
     ], 
     "tests/tests.yaml": [
-      "layer:docker", 
+      "eclipse-che", 
       "static", 
       "a70cc17c38d1f3bc58dafab50fd218257b5c758da6941391414bc9e9dc956dbc"
     ], 

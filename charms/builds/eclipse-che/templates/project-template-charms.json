@@ -1,8 +1,8 @@
 {
-  "name":"charms-repository",
-  "displayName":"Charms Repository",
+  "name":"charms",
+  "displayName":"charms",
   "path":"/charms",
-  "description":"A Charms repository including a hello-world layer that deploys a Python Flask webservice.",
+  "description":"A Charms repository including a hello-world layer that deploys a Python Flask webservice. NOTE: This project has to be named `charms`. Otherwise, the build tools will not work.",
   "projectType":"blank",
   "mixins":[],
   "attributes":{},
@@ -16,5 +16,5 @@
   "commands":[],
   "links":[],
   "category":"Juju",
-  "tags":["python","juju"]
+  "tags":["juju"]
 }

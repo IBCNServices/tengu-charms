@@ -25,3 +25,8 @@
       \ where the package signing key is securely retrieved from Launchpad.\n"
     "type": "string"
     "default": ""
+  "version":
+    "type": "string"
+    "default": "5.1.2"
+    "description": |
+      Version of Eclipse Che to install. Must be one of the tags of the eclipse/che docker container. See: https://hub.docker.com/r/eclipse/che/tags/

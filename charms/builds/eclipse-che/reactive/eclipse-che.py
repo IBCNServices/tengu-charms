@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import sys
 import json
 from shutil import copyfile
 from time import sleep
@@ -24,6 +25,7 @@ from charmhelpers.core.hookenv import (
     open_port,
     unit_public_ip,
     charm_dir,
+    config,
 )
 
 from charms.reactive import set_state, when, when_not
@@ -63,13 +65,46 @@ def run_che():
     # ports a user connects to.
     open_port('8080', protocol="TCP")           # Port to the UI
     open_port('32768-65535', protocol="TCP")    # Ports to the workspaces
-    status_set('active', 'Ready')
+    status_set('active', 'Ready (eclipse/che)')
     set_state('che.available')
 
 
 @when('editor.available', 'che.available')
 def configure_http_relation(editor_relation):
     editor_relation.configure(port=8080)
+
+
+def start_che():
+    # This container isn't Che. This container starts Che. This should be run
+    # in interactive mode, but this container waits until it can reach che on
+    # its public_ip. On a public cloud, public_ip might only be accessible
+    # after running `juju expose`, so this might never exit. Because of this
+    # reason, we run the container in daemon mode, check che's status ourselves
+    # and kill the container manually after Che is up.
+    print('Starting Che...')
+    container_id = check_output([
+        'docker', 'run',
+        '-id',
+        '-v', '/var/run/docker.sock:/var/run/docker.sock',
+        '-v', '/home/ubuntu/:/data',
+        '-e', 'CHE_HOST={}'.format(unit_public_ip()),
+        '-e', 'CHE_DOCKER_IP_EXTERNAL={}'.format(unit_public_ip()),
+        'eclipse/che:{}'.format(config()['version']),
+        'start',
+        '--fast'], universal_newlines=True).rstrip()
+    wait_until_che_running()
+    print('Che Started!')
+    print('Stopping Startup Container...')
+    try:
+        sys.stdout.flush()
+        check_call(['docker', 'stop', container_id])
+    except CalledProcessError:
+        # container has already stopped
+        print("Killing startup container failed.")
+    print("Removing startup container...")
+    sys.stdout.flush()
+    check_call(['docker', 'rm', container_id])
+    print("Startup container removed!")
 
 
 def wait_until_che_running():
@@ -86,46 +121,20 @@ def wait_until_che_running():
     print('Che is online!')
 
 
-def start_che():
-    # This container isn't Che. This container starts Che. This should be run
-    # in interactive mode, but this container waits until it can reach che on
-    # its public_ip. On a public cloud, public_ip might only be accessible
-    # after running `juju expose`, so this might never exit. Because of this
-    # reason, we run the container in daemon mode, check che's status ourselves
-    # and kill the container manually after Che is up.
-    container_id = check_output([
+def stop_che():
+    print('Stopping Che...')
+    sys.stdout.flush()
+    check_call([
         'docker', 'run',
-        '-itd',
+        '-i',
+        '--rm',
         '-v', '/var/run/docker.sock:/var/run/docker.sock',
         '-v', '/home/ubuntu/:/data',
         '-e', 'CHE_HOST={}'.format(unit_public_ip()),
         '-e', 'CHE_DOCKER_IP_EXTERNAL={}'.format(unit_public_ip()),
-        'eclipse/che',
-        'start',
-        '--fast'], universal_newlines=True).rstrip()
-    wait_until_che_running()
-    try:
-        check_call(['docker', 'kill', container_id])
-    except CalledProcessError:
-        # container has already stopped
-        print("Killing startup container failed")
-    check_call(['docker', 'rm', container_id])
-
-
-def stop_che():
-    try:
-        check_call([
-            'docker', 'run',
-            '-it',
-            '--rm',
-            '-v', '/var/run/docker.sock:/var/run/docker.sock',
-            '-v', '/home/ubuntu/:/data',
-            '-e', 'CHE_HOST={}'.format(unit_public_ip()),
-            '-e', 'CHE_DOCKER_IP_EXTERNAL={}'.format(unit_public_ip()),
-            'eclipse/che',  # :5.1.2
-            'stop'])
-    except CalledProcessError:
-        print("Stopping Che failed")
+        'eclipse/che:{}'.format(config()['version']),
+        'stop'])
+    print('Che is stopped!')
 
 
 def json_add_object_to_array(object_path, array_path):

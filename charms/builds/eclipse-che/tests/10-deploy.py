@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 
-# This is a very basic test for this layer to make sure docker is installed.
+# This is a very basic test to make sure the Charm installs correctly. This
+# Charm is more or less useless without the Docker layer, so more extensive
+# testing should be done in the bundle tests.
+
+import re
 
 import unittest
+import requests
 import amulet
 
-seconds = 1100
+SECONDS_TO_WAIT = 1200
 
 
 class TestDeployment(unittest.TestCase):
@@ -15,33 +20,37 @@ class TestDeployment(unittest.TestCase):
         """Perform a one time setup for this class deploying the charms."""
         cls.deployment = amulet.Deployment(series='xenial')
 
-        cls.deployment.add('docker')
+        cls.deployment.add('eclipse-che')
 
-        try:
-            cls.deployment.setup(timeout=seconds)
-            cls.deployment.sentry.wait()
-        except amulet.helpers.TimeoutError:
-            message = "The deploy did not setup in {0} seconds".format(seconds)
-            amulet.raise_status(amulet.SKIP, msg=message)
-        except:
-            raise
-        cls.unit = cls.deployment.sentry['docker'][0]
+        cls.deployment.setup(timeout=SECONDS_TO_WAIT)
+        # Wait for the system to settle down.
+        application_messages = {
+            'eclipse-che': re.compile(r'Ready \(eclipse/che'),
+        }
+        cls.deployment.sentry.wait_for_messages(application_messages,
+                                                timeout=600)
+        cls.che = cls.deployment.sentry['eclipse-che']
 
-    def test_docker_binary(self):
-        """Verify that the docker binary is installed, on the path and is
-        functioning properly for this architecture."""
-        # dockerbeat -version
-        output, code = self.unit.run('docker --version')
-        print(output)
-        if code != 0:
-            message = 'Docker unable to return version.'
-            amulet.raise_status(amulet.FAIL, msg=message)
-        # dockerbeat -devices
-        output, code = self.unit.run('docker info')
-        print(output)
-        if code != 0:
-            message = 'Docker unable to return system information.'
-            amulet.raise_status(amulet.FAIL, msg=message)
+    def test_dashboard(self):
+        self.deployment.expose('eclipse-che')
+        url = self.get_url("/dashboard")
+        teststring = "<!doctype html>"
+        response = requests.get(url)
+        self.assertTrue(
+            response.status_code == 200,
+            "unable to access Eclipse Che Dashboard")
+        self.assertTrue(
+            teststring in response.text,
+            "Eclipse Che Dashboard response "
+            "not recognized: {}".format(response.text)
+            )
+
+    def get_url(self, path):
+        """ Return complete url including port to path"""
+        base_url = "http://{}:{}".format(
+            self.che[0].info['public-address'],
+            self.che[0].info['open-ports'][0].split('/')[0])
+        return base_url + path
 
 
 if __name__ == '__main__':

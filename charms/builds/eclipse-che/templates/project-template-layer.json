@@ -1,8 +1,8 @@
 {
   "name":"reactive-layer",
   "displayName":"Reactive Layer",
-  "path":"/charms/layers",
-  "description":"A Basic reactive layer",
+  "path":"/charms/layers/che-project-layer",
+  "description":"A template for a Layer. Layers encapsulate Charm code so they can be re-used across Charms.Interface Layer template. NOTE: Create this project in the `layers` directory of the 'Charms Repository' project.",
   "projectType":"blank",
   "mixins":[],
   "attributes":{},
@@ -15,6 +15,6 @@
   },
   "commands":[],
   "links":[],
-  "category":"Samples",
-  "tags":["python","juju"]
+  "category":"Juju",
+  "tags":["juju-reactive"]
 }

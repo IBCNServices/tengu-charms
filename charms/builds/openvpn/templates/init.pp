@@ -1,3 +1,17 @@
+# Copyright (C) 2017  Ghent University
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 include openvpn
 # add a server instance
 openvpn::server { '{{servername}}':
@@ -19,8 +33,22 @@ openvpn::server { '{{servername}}':
   # file so "binding to all interfaces" is useless since the clients only know
   # one interface.
   local        => '{{ext_ip}}',
-  #DH key size. 1024 = default; 2048 = paranoid
+
+  # DH key size.
+  # - 2048 = recommended;
+  # - 4096 = upper limit (clients might not support higher)
+  # More info: https://community.openvpn.net/openvpn/wiki/Hardening
   ssl_key_size => '2048',
+  # Authenticate the TLS channel with a PSK that is shared among all peers.
+  #  This is mostly to protect from DOS attacks. Traffic on the TLS channel
+  #  has a high crypto/cpu load. An attacker might send garbage traffic on this
+  #  channel to overload the cpu of the server. The PSK enables the server to
+  #  drop garbage traffic before doing crypto, this makes it hard to overload
+  #  the cpu by sending garbage traffic on the TLS channel. Note that this only
+  #  works against attackers that don't have the PSK, won't protect you from
+  #  an angry ex-employee.
+  tls_auth     => true,
+
   # Will multiple clients connect with the same certificate/key
   # files or common names?
 {% if duplicate_cn %}  duplicate_cn => true, {% endif %}
@@ -48,10 +76,16 @@ openvpn::server { '{{servername}}':
 # define clients
 {% for client in clients %}
 openvpn::client { '{{client}}':
- server => '{{servername}}',
- remote_host => '{{ext_ip}}',
- port         => '{{port}}',
- proto         => '{{protocol}}',
+ server         => '{{servername}}',
+ remote_host    => '{{pub_ip}}',
+ port           => '{{port}}',
+ proto          => '{{protocol}}',
+ tls_auth       => 'true',
+ # We have to specify key-direction manually due to the following bug:
+ # https://github.com/luxflux/puppet-openvpn/issues/224
+ custom_options => {
+   "key-direction" => "1",
+ },
 }
 {% endfor %}
 

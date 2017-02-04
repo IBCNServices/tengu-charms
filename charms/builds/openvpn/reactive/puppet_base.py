@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-# pylint: disable=C0111,c0103,r0902
 # Copyright (c) 2016, James Beedy <jamesbeedy@gmail.com>
+# Copyright (c) 2017, Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -14,14 +14,17 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from charms import layer
-from charms.reactive import when_not
-from charms.reactive import set_state
 
 from charmhelpers.core import hookenv
 
-from charms.layer.puppet_base import Puppet, PuppetException
+from charms.reactive import when_not
+from charms.reactive import set_state
 
+from charms import layer  # pylint:disable=E0611,E0401
+from charms.layer.puppet_base import (  # pylint:disable=E0611,E0401
+    Puppet,
+    PuppetException
+)
 
 options = layer.options('puppet-base')
 puppet_service = options.get('puppet-srvc')

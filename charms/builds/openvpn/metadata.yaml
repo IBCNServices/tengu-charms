@@ -6,5 +6,7 @@
 "tags":
 - "network"
 - "security"
-"series": ["trusty", "xenial"]
+"series":
+- "trusty"
+- "xenial"
 "subordinate": !!bool "false"

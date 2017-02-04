@@ -1,0 +1,307 @@
+{
+  "layers": [
+    "layer:basic", 
+    "layer:apt", 
+    "layer:puppet-base", 
+    "layer:metrics", 
+    "openvpn", 
+    "build"
+  ], 
+  "signatures": {
+    ".build.manifest": [
+      "build", 
+      "dynamic", 
+      "unchecked"
+    ], 
+    ".gitignore": [
+      "openvpn", 
+      "static", 
+      "ef3fec6af4e9877681335e3e3d2fcf0e8dc18baa883f26e4041e0d16c8508510"
+    ], 
+    "LICENSE": [
+      "openvpn", 
+      "static", 
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
+    ], 
+    "Makefile": [
+      "layer:basic", 
+      "static", 
+      "b7ab3a34e5faf79b96a8632039a0ad0aa87f2a9b5f0ba604e007cafb22190301"
+    ], 
+    "README.md": [
+      "openvpn", 
+      "static", 
+      "888142ac315b750844fa0e5a94a4a18be5e9b2998b7a7be72735f1d23d60ccba"
+    ], 
+    "bin/layer_option": [
+      "layer:basic", 
+      "static", 
+      "621b556cd208005e131e9f648859294347da9376609745a73ca2e808dd2032f9"
+    ], 
+    "config.yaml": [
+      "openvpn", 
+      "dynamic", 
+      "da6c87f76ba8844faed83b51948244f8bdec7577cb533393e80a64eb23f21a8d"
+    ], 
+    "copyright": [
+      "layer:metrics", 
+      "static", 
+      "08509dcbade4c20761ba4382ef23c831744dbab1d4a8dd94a1c2b4d4e913334c"
+    ], 
+    "files/documentation/add-vpn.png": [
+      "openvpn", 
+      "static", 
+      "722691111334d7d25b784664c123e0dc5e86dd2fe86bdd0e4a6f3b3d1eabb91b"
+    ], 
+    "files/documentation/import-vpn-config.png": [
+      "openvpn", 
+      "static", 
+      "888cefadd4de5d9a91025ae1e97a86d9b113c7d2195c4405b2265a7ae7df8067"
+    ], 
+    "files/documentation/networkmanager-applet.png": [
+      "openvpn", 
+      "static", 
+      "a7cf4b97ff48f0d7b65b5e0d294c76700913fe14b7d20f4a9b8c8330f49da515"
+    ], 
+    "files/documentation/no-default-gateway-2.jpg": [
+      "openvpn", 
+      "static", 
+      "122a45622c795d88c3d140a6e90b5afe6e3fd6a8aa3f8eb882461adf276c2eaa"
+    ], 
+    "files/documentation/no-default-gateway-3.jpg": [
+      "openvpn", 
+      "static", 
+      "a5da1b73e738aa2e4bf2e14fe55d785b3c5a98614ccebc89791fcbb130e10454"
+    ], 
+    "files/puppet/Puppetfile": [
+      "openvpn", 
+      "static", 
+      "2097cfdaf136d37e0dd9cc39bcaa0efff3c6b35fb847de535174edfcf6fbdd41"
+    ], 
+    "files/puppet/Puppetfile.lock": [
+      "openvpn", 
+      "dynamic", 
+      "1aa3d26bd8dff1acdbe2bd77a1bda1b6afd0b1b6dc2d050bffa872f304c3c3d5"
+    ], 
+    "files/puppet/modules.tgz": [
+      "openvpn", 
+      "dynamic", 
+      "8c9feae64c8ebd855e5707cd9670807b24e882ce1aaac78ca81b11b24b2f9140"
+    ], 
+    "hooks/collect-metrics": [
+      "layer:metrics", 
+      "static", 
+      "e34f461d12349ea19ba73b1dcd3837a9a57c54ed3b0459ee8ddd2160b6b700bf"
+    ], 
+    "hooks/config-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/hook.template": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/install": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-elected": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/leader-settings-changed": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/start": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/stop": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/update-status": [
+      "layer:basic", 
+      "static", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/upgrade-charm": [
+      "layer:basic", 
+      "static", 
+      "8b9c153a61cc78067af8d016a8fa1c764caad3a40c82bb0b5121fc4c4c6a04f1"
+    ], 
+    "icon.svg": [
+      "openvpn", 
+      "static", 
+      "a215082dd9c88618fcfcbd1d88d26dc253a908def4eedd46494dbabbe6a1aa19"
+    ], 
+    "layer.yaml": [
+      "openvpn", 
+      "dynamic", 
+      "246b02a746ff77c7ebf61e7cbfe9c8d97bfcc13811a97dfd5ae2e7473da9466e"
+    ], 
+    "lib/charms/__init__.py": [
+      "layer:apt", 
+      "static", 
+      "4032724b98ed267185b12b8ec78dd9bcb0423ab1c89a6f0dad99397fd51159d9"
+    ], 
+    "lib/charms/apt.py": [
+      "layer:apt", 
+      "static", 
+      "f074d981409c3860547f8c45cde9c3ce4a80985a5ee94755981cd10117dc76e4"
+    ], 
+    "lib/charms/layer/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "4ffd74384bd81d737572acf2d14fe55431eab8f49d6212d9aabedf24e1d992b2"
+    ], 
+    "lib/charms/layer/basic.py": [
+      "layer:basic", 
+      "static", 
+      "1ef0077bb0c8f8a445a5c23fecd2c83323142d6e84d789be1318e2b28e7d952d"
+    ], 
+    "lib/charms/layer/execd.py": [
+      "layer:basic", 
+      "static", 
+      "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
+    ], 
+    "lib/charms/layer/puppet_base.py": [
+      "layer:puppet-base", 
+      "static", 
+      "a1389693e59a7bd7e44a3da8bf24094255b47a620e849f05897d19d10a815349"
+    ], 
+    "metadata.yaml": [
+      "openvpn", 
+      "dynamic", 
+      "b013d3beb224f4137ecafd5fedf634c5560e95beed14e42800895312f69a431d"
+    ], 
+    "metrics.yaml": [
+      "openvpn", 
+      "static", 
+      "6ba3f556ed021bb2eb5575a6769d5952dd149e6bf905538ef838a392c27f2083"
+    ], 
+    "metrics/count_users": [
+      "openvpn", 
+      "static", 
+      "a56de01208d7fd760d84d4ec6fe3256230626bf710657b2e5c3bc0fae3f5b87a"
+    ], 
+    "reactive/__init__.py": [
+      "layer:basic", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "reactive/apt.py": [
+      "layer:apt", 
+      "static", 
+      "6dad3fc2032bc4367b3669def96a45609222a745fd28763992725e377d7c974c"
+    ], 
+    "reactive/openvpn.py": [
+      "openvpn", 
+      "static", 
+      "ee4f6c0f28a6d5b418707208d93a8b2886051c6ff40165ac6df0311680f0317d"
+    ], 
+    "reactive/puppet_base.py": [
+      "layer:puppet-base", 
+      "static", 
+      "77073a93f397df3ae1be1f034d5eb7900e63b55282f862598b27e247e4dac9b5"
+    ], 
+    "requirements.txt": [
+      "layer:basic", 
+      "static", 
+      "0f1c70d27e26005a96d66ad54482877ae20f7737693c833e29dd72bd6ac24892"
+    ], 
+    "tactics/.librarian/puppet/config": [
+      "openvpn", 
+      "static", 
+      "0f3abc6193d28fda5062719593a15ed5f3bb7d381735498b8ab6d0f126e6b6d9"
+    ], 
+    "tactics/__init__.py": [
+      "openvpn", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "tactics/download_modules.py": [
+      "openvpn", 
+      "static", 
+      "40835e6d1dce285c143c17b2f0db7cb3e9c5dd92a103aa7089c451a66b49db47"
+    ], 
+    "templates/init.pp": [
+      "openvpn", 
+      "static", 
+      "88845bb21704824dc48b7cf2e6c8f73cb075f39aba8c3163160cb996f054be24"
+    ], 
+    "tests/10-deploy": [
+      "openvpn", 
+      "static", 
+      "0619b02fe70e00182fcb2f0c1336c89afad7bab4c60fe4ead03c822ffe98e0b3"
+    ], 
+    "tests/tests.yaml": [
+      "openvpn", 
+      "static", 
+      "819d962564d7bcfda0fe8f4fcce7ff138912005617fa6e899d3f55715c59bfe8"
+    ], 
+    "tox.ini": [
+      "layer:basic", 
+      "static", 
+      "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
+    ], 
+    "wheelhouse/Jinja2-2.9.5.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "702a24d992f856fa8d5a7a36db6128198d0c21e1da34448ca236c42e92384825"
+    ], 
+    "wheelhouse/MarkupSafe-0.23.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3"
+    ], 
+    "wheelhouse/PyYAML-3.12.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"
+    ], 
+    "wheelhouse/Tempita-0.5.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
+    ], 
+    "wheelhouse/charmhelpers-0.12.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4a54cfadd3b69cbf9d96033c2e7daa25ff2c439e91372f6f209e443e5430b73e"
+    ], 
+    "wheelhouse/charms.reactive-0.4.5.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "b2a475aff349a1c6532de0f9b4df5ee456b97a1e1755695afd8747dbc51bb710"
+    ], 
+    "wheelhouse/netaddr-0.7.19.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "38aeec7cdd035081d3a4c306394b19d677623bf76fa0913f6695127c7753aefd"
+    ], 
+    "wheelhouse/pip-8.1.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
+    ], 
+    "wheelhouse/pyaml-16.12.2.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "b865e4f53a85f4d8a092e7701f759a3237fb3ee8a928627401914aafadc00907"
+    ], 
+    "wheelhouse/six-1.10.0.tar.gz": [
+      "layer:basic", 
+      "dynamic", 
+      "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+    ]
+  }
+}

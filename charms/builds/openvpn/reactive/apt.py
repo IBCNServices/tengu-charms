@@ -52,7 +52,6 @@ def ensure_package_status():
 def filter_installed_packages(packages):
     # Don't use fetch.filter_installed_packages, as it depends on python-apt
     # and not available if the basic layer's use_site_packages option is off
-    # TODO: Move this to charm-helpers.fetch
     cmd = ['dpkg-query', '--show', r'--showformat=${Package}\n']
     installed = set(subprocess.check_output(cmd,
                                             universal_newlines=True).split())
@@ -129,4 +128,5 @@ if not hasattr(reactive, '_apt_registered'):
     hookenv.atstart(clear_removed_package_states)
     hookenv.atstart(configure_sources)
     hookenv.atstart(queue_layer_packages)
+    hookenv.atstart(charms.apt.reset_application_version)
     reactive._apt_registered = True

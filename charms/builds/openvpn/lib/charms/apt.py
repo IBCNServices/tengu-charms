@@ -22,11 +22,12 @@ installation with install(). Configure and work with your software
 once the apt.installed.{packagename} state is set.
 '''
 import itertools
+import re
 import subprocess
 
 from charmhelpers import fetch
 from charmhelpers.core import hookenv, unitdata
-from charms import reactive
+from charms import layer, reactive
 
 
 __all__ = ['add_source', 'update', 'queue_install', 'install_queued',
@@ -135,9 +136,43 @@ def install_queued():
 
     for package in installed:
         reactive.set_state('apt.installed.{}'.format(package))
-
     reactive.remove_state('apt.queued_installs')
+
+    reset_application_version()
+
     return True
+
+
+def get_package_version(package, full_version=False):
+    '''Return the version of an installed package.
+
+    If `full_version` is True, returns the full Debian package version.
+    Otherwise, returns the shorter 'upstream' version number.
+    '''
+    # Don't use fetch.get_upstream_version, as it depends on python-apt
+    # and not available if the basic layer's use_site_packages option is off.
+    cmd = ['dpkg-query', '--show', r'--showformat=${Version}\n', package]
+    full = subprocess.check_output(cmd, universal_newlines=True).strip()
+    if not full_version:
+        # Attempt to strip off Debian style metadata from the end of the
+        # version number.
+        m = re.search('^([\d.a-z]+)', full, re.I)
+        if m is not None:
+            return m.group(1)
+    return full
+
+
+def reset_application_version():
+    '''Set the Juju application version, per settings in layer.yaml'''
+    # Reset the application version. We call this after installing
+    # packages to initialize the version. We also call this every
+    # hook, incase the version has changed (eg. Landscape upgraded
+    # the package).
+    opts = layer.options().get('apt', {})
+    pkg = opts.get('version_package')
+    if pkg and pkg in installed():
+        ver = get_package_version(pkg, opts.get('full_version', False))
+        hookenv.application_version_set(ver)
 
 
 def ensure_package_status():
@@ -166,10 +201,10 @@ def ensure_package_status():
 
 
 def status_set(state, message):
-    """Set the unit's workload status.
+    '''Set the unit's workload status.
 
     Set state == None to keep the same state and just change the message.
-    """
+    '''
     if state is None:
         state = hookenv.status_get()[0]
         if state == 'unknown':

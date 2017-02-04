@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
-# pylint: disable=c0111
+# Copyright (C) 2017  Ghent University
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import os
 import stat
 import errno
@@ -7,13 +20,14 @@ import shutil
 from ipaddress import IPv4Address
 
 from charms.reactive import when_all
-from charms.layer.puppet_base import Puppet
+from charms.layer.puppet_base import Puppet  # pylint: disable=E0611,E0401
 from charmhelpers.core import templating, unitdata
 from charmhelpers.core.hookenv import (
     config,
     status_set,
     open_port,
-    close_port
+    close_port,
+    unit_get,
 )
 
 SERVERNAME = "openvpn-server1"
@@ -30,6 +44,15 @@ def install_openvpn_xenial():
     conf = config()
     dns_info = get_dns_info()
     clients = conf['clients'].split()
+    eipndict = get_extip_and_networks()
+    ext_ip = eipndict['external-ip']
+    pub_ip = eipndict['external-ip']
+    # If public-address is different from private-address, we're probably in a
+    # juju-supported cloud that we can trust to give us the right address that
+    # clients need to use to connect to us.
+    if unit_get('private-address') != unit_get('public-address'):
+        pub_ip = unit_get('public-address')
+    internal_networks = eipndict['internal-networks']
     context = {
         'servername': SERVERNAME,
         'country': conf['key-country'],
@@ -45,8 +68,9 @@ def install_openvpn_xenial():
         'dns_server': dns_info.get('nameserver', "8.8.8.8"),
         'dns_search_domains': dns_info.get('search', []),
         'clients': clients,
-        'ext_ip': get_extip_and_networks()['external-ip'],
-        'internal_networks': get_extip_and_networks()['internal-networks'],
+        'ext_ip': ext_ip,
+        'pub_ip': pub_ip,
+        'internal_networks': internal_networks,
     }
     templating.render(
         source='init.pp',
@@ -100,7 +124,7 @@ def get_extip_and_networks():
                     internal_networks.append(
                         "{} {}".format(binding['network'], binding['netmask']))
     if not ext_ip:
-        ext_ip = facter['ipaddress']
+        ext_ip = facter['networking']['ip']
     return {
         "external-ip": ext_ip,
         "internal-networks": internal_networks,

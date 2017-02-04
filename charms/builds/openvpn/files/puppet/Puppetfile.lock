@@ -10,8 +10,8 @@ FORGE
       puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
     puppetlabs-concat (2.2.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
-    puppetlabs-firewall (1.8.1)
-    puppetlabs-stdlib (4.13.1)
+    puppetlabs-firewall (1.8.2)
+    puppetlabs-stdlib (4.15.0)
 
 DEPENDENCIES
   herculesteam-augeasproviders_sysctl (>= 0)

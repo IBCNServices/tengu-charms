@@ -108,4 +108,4 @@
     "type": "boolean"
     "default": !!bool "true"
     "description": |
-      Should the connecting clients use the VPN server for ALL connections? (yes = True) If this is False, the VPN will only be used for connections to the internal network. Connections to the internet will still use the client's existing non-vpn connection.
+      Do not set to false if you don't know what you're doing. Should the connecting clients use the VPN server for ALL connections? (yes = True) If this is False then the client will not use the VPN for ANY connections unless the client configures routes manually.

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-# pylint: disable=C0111,c0103,r0902
 # Copyright (c) 2016, James Beedy <jamesbeedy@gmail.com>
+# Copyright (c) 2017, Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -21,19 +21,18 @@ import tarfile
 from subprocess import check_call, check_output
 from distutils.dir_util import copy_tree
 
-import charms.apt
-from charms import layer
+from charms import layer, apt  # pylint:disable=E0611
 from charmhelpers.core import hookenv
 from charmhelpers.core.host import lsb_release
 
-
-
 config = hookenv.config()
+
 
 class PuppetException(Exception):
     pass
 
-class Puppet:
+
+class Puppet:  # pylint:disable=R0902
     def __init__(self):
         self.options = layer.options('puppet-base')
         self.puppet_pkg = self.options.get('puppet-srvc')
@@ -66,17 +65,15 @@ class Puppet:
             raise PuppetException("puppet-srvc option value '{}' unkown. \
                 Please change this option in the puppet-base layer options.")
 
-
     def install_puppet_apt_src(self):
         '''Fetch and install the puppet gpg key and puppet deb source
         '''
         hookenv.status_set('maintenance',
                            'Configuring Puppetlabs apt sources')
         # Add puppet gpg id and apt source
-        charms.apt.add_source(self.puppet_apt_src, key=self.puppet_gpg_key)
+        apt.add_source(self.puppet_apt_src, key=self.puppet_gpg_key)
         # Apt update to pick up the sources
-        charms.apt.update()
-
+        apt.update()
 
     def install_puppet_apt_pkg(self):
         '''Install puppet pkg/enable srvc
@@ -85,9 +82,8 @@ class Puppet:
                            'Installing %s' % self.puppet_apt_pkg)
         self.install_puppet_apt_src()
         # Queue the installation of appropriate puppet pkgs
-        charms.apt.queue_install(self.puppet_apt_pkg)
-        charms.apt.install_queued()
-
+        apt.queue_install(self.puppet_apt_pkg)
+        apt.install_queued()
 
     def install_puppet_deps(self):
         '''Install the dependencies stored in `files/puppet/modules`
@@ -104,7 +100,6 @@ class Puppet:
                     raise
             copy_tree('files/puppet/modules', self.modules_dir)
 
-
     def enable_service(self):
         '''Enable service of the package installed. Will not do anything if
         standalone mode.
@@ -113,15 +108,14 @@ class Puppet:
             check_call([self.puppet_exe, 'recource',
                         'service', self.puppet_srvc, 'ensure=running'])
 
-
     def apply(self, path):
         '''Run `puppet apply` on given path.
         '''
         check_call([self.puppet_exe, 'apply', path])
 
-
     def facter(self, argument=None):
         ''' return output of `facter` as a dict
         '''
-        output = check_output([self.facter_exe, '-j', argument], universal_newlines=True)
+        output = check_output([self.facter_exe, '-j', argument],
+                              universal_newlines=True)
         return json.loads(output)

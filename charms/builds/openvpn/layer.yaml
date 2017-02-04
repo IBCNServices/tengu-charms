@@ -3,7 +3,9 @@
     "puppet-srvc": "standalone"
   "openvpn": {}
   "apt":
+    "version_package": ""
     "packages": []
+    "full_version": !!bool "false"
   "basic":
     "use_venv": !!bool "false"
     "packages": []
@@ -12,7 +14,6 @@
 "includes":
 - "layer:basic"
 - "layer:apt"
-- "layer:basic"
 - "layer:puppet-base"
 - "layer:metrics"
 "tactics":

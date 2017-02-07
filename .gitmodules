@@ -43,3 +43,6 @@
 [submodule "charms/layers/apache-nifi"]
 	path = charms/layers/apache-nifi
 	url = git@github.com:IBCNServices/layer-apache-nifi.git
+[submodule "charms/layers/neo4j"]
+	path = charms/layers/neo4j
+	url = git@github.com:IBCNServices/layer-neo4j.git

@@ -1,0 +1,16 @@
+"options":
+  "installable-id":
+    "type": "string"
+    "default": "org.ibcn.limeds.mongodb"
+    "description": |
+      Id of the MongoDB connector installable. List of available installables: http://limeds.be/installables.
+  "installable-version":
+    "type": "string"
+    "default": "latest"
+    "description": |
+      Version of the MongoDB connector installable. List of available installables: http://limeds.be/installables.
+  "instance-id":
+    "type": "string"
+    "default": "example.mongo.Instance"
+    "description": |
+      Id of the installable INSTANCE.

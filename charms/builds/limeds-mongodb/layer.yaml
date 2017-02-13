@@ -1,0 +1,12 @@
+"options":
+  "limeds-mongodb": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "interface:mongodb"
+- "interface:limeds"
+"repo": "git@github.com:IBCNServices/layer-limeds-mongodb.git"
+"is": "limeds-mongodb"

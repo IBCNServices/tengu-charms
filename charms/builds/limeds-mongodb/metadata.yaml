@@ -1,0 +1,16 @@
+"name": "limeds-mongodb"
+"summary": "installs LimeDS MongoDB connector."
+"maintainer": "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
+"description": |
+  This charm installs LimeDS MongoDB connector.
+"tags":
+- "analytics"
+"series":
+- "xenial"
+"requires":
+  "limeds":
+    "interface": "limeds"
+    "scope": "container"
+  "mongodb":
+    "interface": "mongodb"
+"subordinate": !!bool "true"

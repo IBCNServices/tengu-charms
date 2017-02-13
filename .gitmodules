@@ -46,3 +46,6 @@
 [submodule "charms/layers/neo4j"]
 	path = charms/layers/neo4j
 	url = git@github.com:IBCNServices/layer-neo4j.git
+[submodule "charms/layers/limeds-mongodb"]
+	path = charms/layers/limeds-mongodb
+	url = git@github.com:IBCNServices/layer-limeds-mongodb.git

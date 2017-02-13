@@ -193,6 +193,8 @@ extension-pkg-whitelist=lxml,netifaces,pygments
 # it should appear only once). See also the "--disable" option for examples.
 #enable=
 
+max-line-length=99
+
 # Disable the message, report, category or checker with the given id(s). You
 # can either give multiple identifiers separated by comma (,) or put this
 # option multiple times (only on the command line, not in the configuration

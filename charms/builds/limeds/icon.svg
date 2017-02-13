@@ -127,10 +127,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4"
-     inkscape:cx="-2.8325204"
+     inkscape:cx="-47.45752"
      inkscape:cy="45.252605"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer1"
      showgrid="true"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -182,10 +182,9 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(268,-635.29076)"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <path
-       style="display:inline;fill:#a71f28;fill-opacity:1;stroke:none"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none"
        d="m -268,700.15563 0,-33.72973 c 0,-27.24324 3.88785,-31.13513 31.10302,-31.13513 l 33.79408,0 c 27.21507,0 31.1029,3.89189 31.1029,31.13513 l 0,33.72973 c 0,27.24325 -3.88783,31.13514 -31.1029,31.13514 l -33.79408,0 c -27.21517,0 -31.10302,-3.89189 -31.10302,-31.13514 z"
        id="path6455"
        inkscape:connector-curvature="0"
@@ -195,11 +194,11 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="PLACE YOUR PICTOGRAM HERE"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <g
        id="g4362"
-       transform="matrix(0.09999086,0,0,0.09999086,15.995615,15.936166)"
-       style="">
+       transform="matrix(0.09999086,0,0,0.09999086,15.995615,15.936166)">
       <path
          id="path6"
          d="m 312.74,0 11.77,0 c 25.39,0.86 50.68,4.97 74.91,12.65 50.31,15.74 95.98,44.64 133.88,81.06 25.02,24.17 46.75,51.76 64.15,81.89 20.75,36.06 35.3,75.98 40.44,117.36 1.07,8.57 1.55,17.19 2.11,25.81 l 0,11.77 c -1.54,42.84 -11.29,85.42 -29.05,124.47 -15.64,34.7 -37.54,66.55 -64.24,93.66 -28.13,28.25 -61.61,51.23 -98.34,66.78 -19.99,8.89 -41.69,12.94 -63.22,16.05 -21.16,2.71 -42.33,5.77 -63.68,6.5 l -12.96,0 c -20.1,-0.86 -40.18,-3.05 -59.78,-7.71 C 226.98,625.32 206.02,617.42 185.66,608.4 146.47,590.96 110.34,566.31 80.88,535.05 68.37,521.42 56.13,507.32 46.69,491.33 36.68,474.21 29.46,455.66 23.04,436.96 9.85,399.8 0.91,360.87 0,321.33 l 0,-7.94 c 0.46,-20.76 2.84,-41.51 7.83,-61.68 4.01,-15.44 12.51,-29.1 19.3,-43.39 C 47.17,164.23 74.72,123.33 109.68,89.68 137.91,62.24 171.02,39.69 207.25,24.17 240.58,9.86 276.5,1.6 312.74,0 Z"

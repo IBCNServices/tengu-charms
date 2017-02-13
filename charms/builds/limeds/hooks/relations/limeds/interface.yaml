@@ -1,0 +1,4 @@
+name: limeds
+summary: Interface to connect with LimeDS.
+version: 1
+repo: git@github.com:IBCNServices/interface-limeds.git

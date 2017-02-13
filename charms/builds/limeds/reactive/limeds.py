@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2016  Ghent University
+# Copyright (C) 2017  Ghent University
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -60,9 +60,21 @@ def image_running(dh_relation):
 @when('endpoint.available', 'dockerhost.available')
 def configure_endpoint(endpoint_relation, dh_relation):
     containers = dh_relation.get_running_containers()
+    # WARNING! This will only send the info of the last container!
     for container in containers:
-        # Warning! This will only send the info of the last container!
         endpoint_relation.configure(
             hostname=container['host'],
             private_address=container['host'],
             port=container['ports']['8080'])
+
+
+@when('limeds-server.available', 'dockerhost.available')
+def configure_server(limeds_server_relation, dh_relation):
+    containers = dh_relation.get_running_containers()
+    # WARNING! This will only send the info of the last container!
+    for container in containers:
+        limeds_server_relation.configure(
+            'http://{}:{}'.format(
+                container['host'],
+                container['ports']['8080'], )
+        )

@@ -7,11 +7,14 @@
 "tags":
 - "streaming"
 - "analytics"
+"series":
+- "xenial"
 "requires":
   "dockerhost":
     "interface": "docker-image-host"
 "provides":
   "endpoint":
     "interface": "http"
-"series": ["xenial"]
+  "limeds-server":
+    "interface": "limeds"
 "subordinate": !!bool "false"

@@ -29,3 +29,11 @@ Check the deployment status (press <kbd>ctrl</kbd>-<kbd>c</kbd> to exit)
     watch -c juju status --color
 
 When the deployment is done ('active', 'Ready'), surf to `<ip>:<port>/editor` and login with admin:admin to see the management console.
+
+# Contact Information
+
+## Authors
+
+This software was created in the [IDLab research group](https://www.ugent.be/ea/idlab) of [Ghent University](https://www.ugent.be) in Belgium. This software is used in [Tengu](https://tengu.io), a project that aims to make experimenting with data frameworks and tools as easy as possible.
+
+ - Merlijn Sebrechts <merlijn.sebrechts@gmail.com>

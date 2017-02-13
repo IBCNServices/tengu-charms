@@ -4,6 +4,7 @@
     "limeds", 
     "interface:http", 
     "interface:docker-image-host", 
+    "interface:limeds", 
     "build"
   ], 
   "signatures": {
@@ -25,7 +26,7 @@
     "README.md": [
       "limeds", 
       "static", 
-      "8d62ed18a4d020334cd800bec2eaba4c164439c14292f2f054fe74b6f842f180"
+      "83b864f125ec92043dcbfa954e35b6039b54989c03384bb0f1a78be9488d0cd5"
     ], 
     "bin/layer_option": [
       "layer:basic", 
@@ -40,7 +41,7 @@
     "copyright": [
       "layer:basic", 
       "static", 
-      "1e2afbd75c71affa132ae7ee3327cb29b5e4b9d9705f27dfd03857c326f50c5c"
+      "f6740d66fd60b60f2533d9fcb53907078d1e20920a0219afce7182e2a1c97629"
     ], 
     "hooks/config-changed": [
       "layer:basic", 
@@ -107,6 +108,26 @@
       "static", 
       "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
     ], 
+    "hooks/limeds-server-relation-broken": [
+      "interface:limeds", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/limeds-server-relation-changed": [
+      "interface:limeds", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/limeds-server-relation-departed": [
+      "interface:limeds", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
+    "hooks/limeds-server-relation-joined": [
+      "interface:limeds", 
+      "dynamic", 
+      "3a854a5fd180c5bacbb80b501d968a8d8bdc1468361e7123ea4022a1e0363c9a"
+    ], 
     "hooks/relations/docker-image-host/README.md": [
       "interface:docker-image-host", 
       "static", 
@@ -157,6 +178,31 @@
       "static", 
       "70188554d673bff61578f4e601a78a91efb4736df727507e984be5ca19335f82"
     ], 
+    "hooks/relations/limeds/README.md": [
+      "interface:limeds", 
+      "static", 
+      "8d5fdc89129237178a37ff5b0ddac806b8c5e13336ad12fa6b67fd70a9e2f4a8"
+    ], 
+    "hooks/relations/limeds/__init__.py": [
+      "interface:limeds", 
+      "static", 
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ], 
+    "hooks/relations/limeds/interface.yaml": [
+      "interface:limeds", 
+      "static", 
+      "5400cbb8780237b3b072166d6f7e505a2afabc56f5ab27f7436089951995f6fd"
+    ], 
+    "hooks/relations/limeds/provides.py": [
+      "interface:limeds", 
+      "static", 
+      "fe869f455b64cc264009ee5295d5bb14596de30f42e72e7fd23f9c40f4f1a3a3"
+    ], 
+    "hooks/relations/limeds/requires.py": [
+      "interface:limeds", 
+      "static", 
+      "8aacc522710b6772cba76170188076f9f1ade6153454df9f9aab1bbbe7b37da5"
+    ], 
     "hooks/start": [
       "layer:basic", 
       "static", 
@@ -180,12 +226,12 @@
     "icon.svg": [
       "limeds", 
       "static", 
-      "2722ac7737b450dada22b41f1d7669a223cc8552040575c37333d4a354b32662"
+      "24e26b0449a672a08617a1944e91051101ae9a6588884e74e06548be215ec48f"
     ], 
     "layer.yaml": [
       "limeds", 
       "dynamic", 
-      "b3e8c27e8bc0a6caa6adf6705cc7e0c2fed30e473867106f50c908d021011e1b"
+      "d9b60f6ad7c2747a6cd71fa11e4c7cf9c542062a023b9abf4b4e351d27435e1a"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
@@ -195,7 +241,7 @@
     "lib/charms/layer/basic.py": [
       "layer:basic", 
       "static", 
-      "e91f75ca77b31ff3b5b78ca095ca4487d60095ccb1f6e29b8c901a0048ed1ac1"
+      "a98b1ba58bd144f8a79ac0847bfe6741253bbd1a9805f12e9cbc7df3bd12fece"
     ], 
     "lib/charms/layer/execd.py": [
       "layer:basic", 
@@ -205,7 +251,7 @@
     "metadata.yaml": [
       "limeds", 
       "dynamic", 
-      "14d692b2a2a7d4508d7020ee0ee92b22a61928f9dee5e7d549c3731972b16b5b"
+      "09e5330f4d94b7c2bb377c946b437acd1055b62a6b5e2a6a8703b3686bf37504"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -215,7 +261,7 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "a321b213b3d5619dd72dcd6b853fee73ac7236aa306905b1bc76bcc75d7273c8"
+      "df81e030481ab6f7e133038a66a3e6a494374954b8ad90db82cfc5ffb6824896"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -225,7 +271,7 @@
     "tests/10-deploy.py": [
       "limeds", 
       "static", 
-      "a7b11055d6d15f5c685cc9bd82fe790e3bc67e8c359b29fb974544f3a9490322"
+      "caff299e91757be56fdb20f39cd9f1f74e387e42a2af2c06dc4ef19260f58dba"
     ], 
     "tests/tests.yaml": [
       "limeds", 
@@ -237,10 +283,10 @@
       "static", 
       "00b57a776ac313e92a52daa05d1fdb6056c21b3105b643d32610fd937664321b"
     ], 
-    "wheelhouse/Jinja2-2.9.4.tar.gz": [
+    "wheelhouse/Jinja2-2.9.5.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "aab8d8ca9f45624f1e77f2844bf3c144d180e97da8824c2a6d7552ad039b5442"
+      "702a24d992f856fa8d5a7a36db6128198d0c21e1da34448ca236c42e92384825"
     ], 
     "wheelhouse/MarkupSafe-0.23.tar.gz": [
       "layer:basic", 
@@ -257,10 +303,10 @@
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "wheelhouse/charmhelpers-0.11.0.tar.gz": [
+    "wheelhouse/charmhelpers-0.12.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "72e776a3fab33289f9da1aeba8f319f0a53471eca660e9a6504db3c446af20a3"
+      "4a54cfadd3b69cbf9d96033c2e7daa25ff2c439e91372f6f209e443e5430b73e"
     ], 
     "wheelhouse/charms.reactive-0.4.5.tar.gz": [
       "layer:basic", 

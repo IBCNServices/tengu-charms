@@ -49,3 +49,6 @@
 [submodule "charms/layers/limeds-mongodb"]
 	path = charms/layers/limeds-mongodb
 	url = git@github.com:IBCNServices/layer-limeds-mongodb.git
+[submodule "charms/interfaces/limeds"]
+	path = charms/interfaces/limeds
+	url = git@github.com:IBCNServices/interface-limeds.git

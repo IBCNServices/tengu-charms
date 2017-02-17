@@ -1,5 +1,5 @@
 "name": "limeds-mongodb"
-"summary": "installs LimeDS MongoDB connector."
+"summary": "Plugin for LimeDS that creates a MongoDB connector segment."
 "maintainer": "Merlijn Sebrechts <merlijn.sebrechts@gmail.com>"
 "description": |
   This charm installs LimeDS MongoDB connector.

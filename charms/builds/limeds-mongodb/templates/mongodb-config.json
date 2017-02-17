@@ -2,16 +2,16 @@
    {
      "name": "$.id",
      "type": "java.lang.String",
-     "value": "{instance_id}"
+     "value": "{{instance_id}}"
    },
    {
      "name": "databaseName",
      "type": "java.lang.String",
-     "value": "{database}"
+     "value": "{{database}}"
    },
    {
      "name": "targetServers",
      "type": "java.lang.String[]",
-     "value": "{connection_string}"
+     "value": "{{connection_string}}"
    }
 ]

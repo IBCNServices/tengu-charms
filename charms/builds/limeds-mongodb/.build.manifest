@@ -1,6 +1,7 @@
 {
   "layers": [
     "layer:basic", 
+    "layer:limeds-sidecar", 
     "limeds-mongodb", 
     "interface:mongodb", 
     "interface:limeds", 
@@ -25,7 +26,7 @@
     "README.md": [
       "limeds-mongodb", 
       "static", 
-      "7ca23f2c5374d950e264025ea244e98cd633515fbecf466c95a96e86dd8e8c9e"
+      "198f6ac597886a8c3ba3e28f273494a0043825993028cad54fee23b31ba34213"
     ], 
     "bin/layer_option": [
       "layer:basic", 
@@ -35,12 +36,12 @@
     "config.yaml": [
       "limeds-mongodb", 
       "dynamic", 
-      "101fc660c5e97d1eaf9ec08de298607c5c9d821d04239cc09b5cd0e948aad128"
+      "d65d3093bc6fe73cf9c762e8e21a843f349fcfd5357330dfd0bb19510657fbc4"
     ], 
     "copyright": [
-      "layer:basic", 
+      "limeds-mongodb", 
       "static", 
-      "f6740d66fd60b60f2533d9fcb53907078d1e20920a0219afce7182e2a1c97629"
+      "956caac924f88d39f85d505a690a5f670a325d76b70c7c3ae8aee71d563a3ffe"
     ], 
     "hooks/config-changed": [
       "layer:basic", 
@@ -130,7 +131,7 @@
     "hooks/relations/limeds/requires.py": [
       "interface:limeds", 
       "static", 
-      "8aacc522710b6772cba76170188076f9f1ade6153454df9f9aab1bbbe7b37da5"
+      "464a5a29f6cd5be3f04aa863271d41ecdd46149d9a4bb39c73a96f8299ede067"
     ], 
     "hooks/relations/mongodb/README.md": [
       "interface:mongodb", 
@@ -185,7 +186,7 @@
     "layer.yaml": [
       "limeds-mongodb", 
       "dynamic", 
-      "b7cda8697c9814f8e014e8c4ee201a3d8acade03a41ef5eaad7f0861b06c1a5b"
+      "7561f652d7749dcbc5369cfbfbe918ad0fc531241d01f92f6a85169f71577b95"
     ], 
     "lib/charms/layer/__init__.py": [
       "layer:basic", 
@@ -202,10 +203,15 @@
       "static", 
       "c0eb4c90e93a14f04d851f78bc6592e093226321fbe328125958633397aed014"
     ], 
+    "lib/charms/layer/limeds.py": [
+      "layer:limeds-sidecar", 
+      "static", 
+      "2a519f2f627243607f5e681ee610f5b9dbe52e540862a093c79a16fc47e7c709"
+    ], 
     "metadata.yaml": [
       "limeds-mongodb", 
       "dynamic", 
-      "c196abe3e0441db3e0d9e9e6f90e09d3e0ddcebfdde89ddcf73692240e906e54"
+      "7286e8ac9b4401cfb027960808e4cf7acb4b2260b1cc46c2b83f528479e032be"
     ], 
     "reactive/__init__.py": [
       "layer:basic", 
@@ -215,7 +221,7 @@
     "reactive/limeds-mongodb.py": [
       "limeds-mongodb", 
       "static", 
-      "2f0db9e10529ea5a07d64b42c1a1235cee7ef2d6c6a32bec447d202ef61c70f8"
+      "65804d913f631871a88a86bb9c00f0401cd1d8238bcbb5e572ea93f08bf6a8f9"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -225,7 +231,7 @@
     "templates/mongodb-config.json": [
       "limeds-mongodb", 
       "static", 
-      "affa97574088551206d14e0d6e17d735786909df5e45a73cea8506a52aa67233"
+      "a55fcfe452a9b9e1e5fd36fda0970de4ea57fb2ed5889a357bb83f1338c2cb10"
     ], 
     "tox.ini": [
       "layer:basic", 
@@ -252,10 +258,10 @@
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "wheelhouse/charmhelpers-0.12.0.tar.gz": [
+    "wheelhouse/charmhelpers-0.13.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "4a54cfadd3b69cbf9d96033c2e7daa25ff2c439e91372f6f209e443e5430b73e"
+      "3494ff105c793de5941a41bac1499b915e54a2236d1f396b358a2c677f8e5706"
     ], 
     "wheelhouse/charms.reactive-0.4.5.tar.gz": [
       "layer:basic", 

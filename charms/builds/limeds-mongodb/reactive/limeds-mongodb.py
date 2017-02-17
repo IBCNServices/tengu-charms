@@ -13,12 +13,17 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import requests
+import jinja2
 
 from charmhelpers.core.hookenv import status_set, config, charm_dir
 
+from charms.reactive import (
+    when,
+    when_not,
+    set_state,
+    remove_state, )
 
-from charms.reactive import when, when_not
+from charms.layer import limeds  # pylint: disable=E0611,E0401
 
 
 @when_not('limeds.available')
@@ -26,39 +31,50 @@ def no_limeds_connected():
     status_set(
         'waiting',
         'Waiting for LimeDS to become available.')
+    remove_state('limeds.installable.deployed')
 
 
-@when('limeds.available', 'mongodb.available')
-def limeds_connected(limeds_relation, mongodb_relation):
+@when_not('mongodb.available')
+def no_mongodb_connected():
+    status_set(
+        'blocked',
+        'Waiting for connection to MongoDB.')
+    remove_state('limeds.installable.deployed')
+
+
+@when(
+    'limeds.available',
+    'mongodb.available', )
+@when_not(
+    'limeds.installable.deployed')
+def add_installable(limeds_relation, mongodb_relation):
+    deploy_installable(limeds_relation.url, mongodb_relation.connection_string())
+
+
+@when(
+    'limeds.available',
+    'mongodb.available',
+    'limeds.installable.deployed',
+    'config.changed', )
+def re_add_installable(limeds_relation, mongodb_relation):
+    deploy_installable(limeds_relation.url, mongodb_relation.connection_string())
+
+
+def deploy_installable(base_url, mongo_connection_string):
+    limeds_sidecar = limeds.LimeDS(base_url)
     conf = config()
     installable_id = conf.get('installable-id')
     installable_version = conf.get('installable-version')
-    instance_id = conf.get('instance-id')
-    database = conf.get('database')
-    connection_string = mongodb_relation.connection_string()
-    count = 0
-
+    factory_id = conf.get('installable-id') + ".Factory"
     with open("{}/templates/mongodb-config.json".format(charm_dir()), 'r') as conf_file:
-        mongo_conf = conf_file.read()
+        conf_template = jinja2.Template(conf_file.read())
+    segment_config = conf_template.render(
+        instance_id=conf.get('segment-id'),
+        database=conf.get('database'),
+        connection_string=mongo_connection_string, )
 
-    for unit in limeds_relation.units:
-        count += 1
-        url = "{limeds_url}/_limeds/installables"\
-              "/{installable_id}/{installable_version}"\
-              "/deploy".format(
-                  limeds_url=unit['url'],
-                  installable_id=installable_id,
-                  installable_version=installable_version)
-        print("configuring LimeDS, adding installable: {}".format(url))
-        response = requests.get(url, headers={"Accept": "application/json"})
-        assert response.status_code == 200
-        formatted_conf = mongo_conf.format(
-            instance_id=instance_id,
-            database=database,
-            connection_string=connection_string, )
-        response = requests.post(
-            url,
-            headers={"Accept": "application/json"},
-            payload=formatted_conf, )
-        assert response.status_code == 200
-    status_set('active', 'Ready ({} units)'.format(count))
+    limeds_sidecar.add_installable(installable_id, installable_version)
+    limeds_sidecar.add_segment(factory_id, segment_config)
+
+    status_set('active', 'Ready ({})'.format(conf.get('segment-id')))
+    set_state('limeds.installable.deployed')

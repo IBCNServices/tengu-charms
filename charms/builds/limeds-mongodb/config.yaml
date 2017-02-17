@@ -1,4 +1,9 @@
 "options":
+  "database":
+    "type": "string"
+    "default": "testdb"
+    "description": |
+      Name of the MongoDB database that the segment will connect to.
   "installable-id":
     "type": "string"
     "default": "org.ibcn.limeds.mongodb"
@@ -9,8 +14,8 @@
     "default": "latest"
     "description": |
       Version of the MongoDB connector installable. List of available installables: http://limeds.be/installables.
-  "instance-id":
+  "segment-id":
     "type": "string"
-    "default": "example.mongo.Instance"
+    "default": "io.tengu.limeds.MongoDB"
     "description": |
-      Id of the installable INSTANCE.
+      Id of the MongoDB segment that will be created in LimeDS. Your slices can refer to the segment using this id.

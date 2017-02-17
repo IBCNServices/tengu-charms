@@ -201,7 +201,7 @@
     "hooks/relations/limeds/requires.py": [
       "interface:limeds", 
       "static", 
-      "8aacc522710b6772cba76170188076f9f1ade6153454df9f9aab1bbbe7b37da5"
+      "464a5a29f6cd5be3f04aa863271d41ecdd46149d9a4bb39c73a96f8299ede067"
     ], 
     "hooks/start": [
       "layer:basic", 
@@ -261,7 +261,7 @@
     "reactive/limeds.py": [
       "limeds", 
       "static", 
-      "df81e030481ab6f7e133038a66a3e6a494374954b8ad90db82cfc5ffb6824896"
+      "edcfcddc14e7f922898aa0b424a4503cc5993bf4bb50d31ebfc5d7bbb1b229b6"
     ], 
     "requirements.txt": [
       "layer:basic", 
@@ -303,10 +303,10 @@
       "dynamic", 
       "cacecf0baa674d356641f1d406b8bff1d756d739c46b869a54de515d08e6fc9c"
     ], 
-    "wheelhouse/charmhelpers-0.12.0.tar.gz": [
+    "wheelhouse/charmhelpers-0.13.0.tar.gz": [
       "layer:basic", 
       "dynamic", 
-      "4a54cfadd3b69cbf9d96033c2e7daa25ff2c439e91372f6f209e443e5430b73e"
+      "3494ff105c793de5941a41bac1499b915e54a2236d1f396b358a2c677f8e5706"
     ], 
     "wheelhouse/charms.reactive-0.4.5.tar.gz": [
       "layer:basic", 

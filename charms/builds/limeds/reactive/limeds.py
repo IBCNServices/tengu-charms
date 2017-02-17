@@ -13,13 +13,14 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+from time import sleep
 from uuid import uuid4
+import requests
 
 from charmhelpers.core import hookenv, unitdata
 from charmhelpers.core.hookenv import status_set, log
 
-from charms.reactive import when, when_not
+from charms.reactive import when, when_not, set_state, remove_state
 from charms.reactive.helpers import data_changed
 
 
@@ -27,6 +28,7 @@ from charms.reactive.helpers import data_changed
 def no_host_connected():
     # Reset so that `data_changed` will return "yes" at next relation joined.
     data_changed('image', None)
+    remove_state('limeds.ready')
     status_set(
         'blocked',
         'Please connect the LimeDS charm to a docker host.')
@@ -54,11 +56,20 @@ def image_running(dh_relation):
     conf = hookenv.config()
     containers = dh_relation.get_running_containers()
     if containers:
+        for container in containers:
+            wait_until_limeds_initialised('http://{}:{}'.format(
+                container['host'],
+                container['ports']['8080'], ))
         status_set('active', 'Ready ({})'.format(conf.get('image')))
+        set_state('limeds.ready')
 
 
-@when('endpoint.available', 'dockerhost.available')
-def configure_endpoint(endpoint_relation, dh_relation):
+@when(
+    'limeds.ready',
+    'dockerhost.available',
+    'endpoint.available', )
+def configure_endpoint_relationship(dh_relation, endpoint_relation):
+    """ Note: this is a relationship with a CLIENT consuming the LimeDS http interface."""
     containers = dh_relation.get_running_containers()
     # WARNING! This will only send the info of the last container!
     for container in containers:
@@ -68,8 +79,12 @@ def configure_endpoint(endpoint_relation, dh_relation):
             port=container['ports']['8080'])
 
 
-@when('limeds-server.available', 'dockerhost.available')
-def configure_server(limeds_server_relation, dh_relation):
+@when(
+    'limeds.ready',
+    'dockerhost.available',
+    'limeds-server.available', )
+def configure_client_relationship(dh_relation, limeds_server_relation):
+    """ Note: this is a relationship with a CLIENT consuming LimeDS."""
     containers = dh_relation.get_running_containers()
     # WARNING! This will only send the info of the last container!
     for container in containers:
@@ -78,3 +93,33 @@ def configure_server(limeds_server_relation, dh_relation):
                 container['host'],
                 container['ports']['8080'], )
         )
+
+
+def wait_until_limeds_initialised(base_url):
+    deploy_url = "{limeds_url}/_limeds/installables"\
+                 "/{installable_id}/{installable_version}"\
+                 "/deploy".format(
+                     limeds_url=base_url,
+                     installable_id="org.ibcn.limeds.codecs.base64",
+                     installable_version="latest")
+    print("Waiting for LimeDS to complete initialisation.. This shouldn't take long.")
+    while True:
+        try:
+            response = requests.get(deploy_url)
+            if response.status_code == 200:
+                break
+        except (requests.exceptions.ConnectionError) as err:
+            print(err)
+            print("retrying..")
+        sleep(1)
+    print('LimeDS is initialised!')
+
+
+def get_deploy_url(self, installable_id, installable_version):
+    deploy_url = "{limeds_url}/_limeds/installables"\
+                 "/{installable_id}/{installable_version}"\
+                 "/deploy".format(
+                     limeds_url=self.base_url,
+                     installable_id=installable_id,
+                     installable_version=installable_version)
+    return deploy_url

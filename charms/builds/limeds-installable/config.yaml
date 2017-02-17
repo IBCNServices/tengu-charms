@@ -1,0 +1,28 @@
+"options":
+  "installables":
+    "type": "string"
+    "default": |
+      - org.ibcn.limeds.codecs.base64:latest
+    "description": |
+      This takes a yaml list of "<installable-id>:<installable-version>" strings. These will be added to LimeDS. List of possible installables: http://limeds.be/installables.
+  "segments":
+    "type": "string"
+    "default": |
+      - limeds.codecs.Base64Decoder: |
+          [
+            {
+              "name": "$.id",
+              "type": "java.lang.String",
+              "value": "io.tengu.limeds.Base64Decoder"
+            }
+          ]
+      - limeds.codecs.Base64Encoder: |
+          [
+            {
+              "name": "$.id",
+              "type": "java.lang.String",
+              "value": "io.tengu.limeds.Base64Encoder"
+            }
+          ]
+    "description": |
+      Yaml list of key-value pairs (<factory-name>: <json-encoded-segment-config>)

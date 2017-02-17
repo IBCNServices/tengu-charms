@@ -52,3 +52,6 @@
 [submodule "charms/interfaces/limeds"]
 	path = charms/interfaces/limeds
 	url = git@github.com:IBCNServices/interface-limeds.git
+[submodule "charms/layers/limeds-installable"]
+	path = charms/layers/limeds-installable
+	url = https://github.com/IBCNServices/layer-limeds-installable

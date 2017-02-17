@@ -1,0 +1,11 @@
+name: limeds-postgresql
+summary: Plugin for LimeDS that creates a PostgreSQL connector segment.
+maintainer: Merlijn Sebrechts <merlijn.sebrechts@gmail.com>
+description: |
+  This charm installs LimeDS PostgreSQL connector.
+tags:
+  - analytics
+requires:
+  postgresql:
+    interface: pgsql
+series: ['xenial']

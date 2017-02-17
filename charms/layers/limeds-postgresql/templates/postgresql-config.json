@@ -1,0 +1,37 @@
+[
+  {
+    "name": "$.id",
+    "type": "java.lang.String",
+    "value": "{{segment_id}}"
+  },
+  {
+    "name": "serverName",
+    "type": "java.lang.String",
+    "value": "{{hostname}}",
+  },
+  {
+    "name": "portNumber",
+    "type": "int",
+    "value": "{{port}}",
+  },
+  {
+    "name": "databaseName",
+    "type": "java.lang.String",
+    "value": "{{database}}",
+  },
+  {
+    "name": "user",
+    "type": "java.lang.String",
+    "value": "{{username}}",
+  },
+  {
+    "name": "password",
+    "type": "java.lang.String",
+    "value": "{{password}}",
+  },
+  {
+    "name": "maxConnections",
+    "type": "int",
+    "value": "10",
+  }
+]

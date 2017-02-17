@@ -1,0 +1,2 @@
+includes: ['layer:basic', 'interface:pgsql', 'layer:limeds-sidecar']
+repo: git@github.com:IBCNServices/layer-limeds-postgresql.git

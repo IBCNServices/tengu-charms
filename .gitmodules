@@ -61,3 +61,6 @@
 [submodule "charms/layers/limeds-influxdb"]
 	path = charms/layers/limeds-influxdb
 	url = git@github.com:IBCNServices/layer-limeds-influxdb.git
+[submodule "bundles/limeds-bigdata"]
+	path = bundles/limeds-bigdata
+	url = git@github.com:IBCNServices/bundle-limeds-bigdata.git

@@ -1,0 +1,14 @@
+"options":
+  "limeds-sidecar": {}
+  "limeds-influxdb": {}
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "include_system_packages": !!bool "false"
+"includes":
+- "layer:basic"
+- "interface:limeds"
+- "interface:influxdb-api"
+- "layer:limeds-sidecar"
+"repo": "git@github.com:IBCNServices/layer-limeds-influxdb.git"
+"is": "limeds-influxdb"

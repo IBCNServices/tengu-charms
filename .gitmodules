@@ -58,3 +58,6 @@
 [submodule "charms/layers/limeds-sidecar"]
 	path = charms/layers/limeds-sidecar
 	url = git@github.com:IBCNServices/layer-limeds-sidecar.git
+[submodule "charms/layers/limeds-influxdb"]
+	path = charms/layers/limeds-influxdb
+	url = git@github.com:IBCNServices/layer-limeds-influxdb.git

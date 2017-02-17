@@ -1,0 +1,21 @@
+"options":
+  "database":
+    "type": "string"
+    "default": "testdb"
+    "description": |
+      Name of the InfluxDB database that the segment will connect to.
+  "installable-id":
+    "type": "string"
+    "default": "org.ibcn.limeds.influxdb"
+    "description": |
+      Id of the InfluxDB connector installable. List of available installables: http://limeds.be/installables.
+  "installable-version":
+    "type": "string"
+    "default": "latest"
+    "description": |
+      Version of the InfluxDB connector installable. List of available installables: http://limeds.be/installables.
+  "segment-id":
+    "type": "string"
+    "default": "io.tengu.limeds.InfluxDB"
+    "description": |
+      Id of the InfluxDB segment that will be created in LimeDS. Your slices can refer to the segment using this id.

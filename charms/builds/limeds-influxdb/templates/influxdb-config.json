@@ -1,0 +1,25 @@
+[
+  {
+    "name": "$.id",
+    "type": "java.lang.String",
+    "value": "{{segment_id}}"
+  },
+  {
+    "name": "host",
+    "type": "java.lang.String",
+    "value": "{{host}}",
+    "description": "The host InfluxDB is running on."
+  },
+  {
+    "name": "port",
+    "type": "int",
+    "value": "{{port}}",
+    "description": "The port InfluxDB is running on."
+  },
+  {
+    "name": "database",
+    "type": "java.lang.String",
+    "description": "The InfluxDB database to connect with.",
+    "value": "{{database}}",
+  }
+]

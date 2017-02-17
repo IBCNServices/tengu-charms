@@ -1,30 +1,25 @@
 #!/usr/bin/env python3
-# pylint:disable=c0111,c0103
 from time import sleep
-from subprocess import check_call, CalledProcessError
+from subprocess import check_call
 
 import docker
 from charmhelpers.core import host
 from charmhelpers.core.hookenv import (
     status_set,
     open_port,
+    close_port,
     log,
     unit_private_ip,
 )
 
-from charms.reactive import remove_state, set_state, when, when_not
+from charms.reactive import set_state, when, when_not
 
 
 @when('apt.installed.docker.io')
-@when_not('docker.ready')
+@when_not('docker.available')
 def configure_docker():
     reload_system_daemons()
     check_call(['usermod', '-aG', 'docker', 'ubuntu'])
-    set_state('docker.ready')
-    # Make sure probe is installed
-    if not _probe_runtime_availability():
-        log("Error! Docker isn't available! This shouldn't happen!")
-        exit(1)
     status_set('active', 'Ready')
     set_state('docker.available')
 
@@ -39,16 +34,12 @@ def run_images(relation):
     relation.send_running_containers(running_containers)
 
 
-def _probe_runtime_availability():
-    ''' Determine if the workload daemon is active and responding '''
-    try:
-        cmd = ['docker', 'info']
-        check_call(cmd)
-        return True
-    except CalledProcessError:
-        # Remove the availability state if we fail reachability
-        remove_state('docker.available')
-        return False
+@when('dockerhost.broken')
+def remove_images(relation):
+    container_requests = relation.container_requests
+    log(container_requests)
+    for uuid in container_requests:
+        remove(uuid)
 
 
 def ensure_running(uuid, container_request):
@@ -94,6 +85,28 @@ def ensure_running(uuid, container_request):
         'host': unit_private_ip(),
         'ports': open_ports,
     }
+
+
+def remove(uuid):
+    '''When the provided image is not running, set it up and run it. '''
+    client = docker.from_env()
+
+    # Only start container when it is not already running
+    try:
+        container = client.containers.get(uuid)
+    except docker.errors.NotFound:
+        print("Container {} not found, not removing.".format(uuid))
+        return
+    container.stop()
+    container.remove(force=True)
+    # Unexpose ports
+    ports = container.attrs['NetworkSettings']['Ports'] or {}
+    for exposed_port in ports.keys():
+        print("exp_port: " + exposed_port)
+        proto = exposed_port.split('/')[1]
+        for host_portip in ports[exposed_port]:
+            print("host_portip " + str(host_portip))
+            close_port(host_portip['HostPort'], protocol=proto)
 
 
 #

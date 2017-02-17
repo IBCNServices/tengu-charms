@@ -32,6 +32,7 @@ class DockerImageHostProvides(RelationBase):
     @hook('{provides:docker-image-host}-relation-{departed,broken}')
     def broken(self):
         self.remove_state('{relation_name}.available')
+        self.set_state('{relation_name}.broken')
 
     @property
     def container_requests(self):

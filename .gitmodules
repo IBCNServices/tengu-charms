@@ -64,3 +64,6 @@
 [submodule "bundles/limeds-bigdata"]
 	path = bundles/limeds-bigdata
 	url = git@github.com:IBCNServices/bundle-limeds-bigdata.git
+[submodule "charms/layers/layer-superset"]
+	path = charms/layers/layer-superset
+	url = https://github.com/IBCNServices/layer-superset.git

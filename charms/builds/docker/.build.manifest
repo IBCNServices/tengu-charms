@@ -125,7 +125,7 @@
     "hooks/relations/docker-image-host/provides.py": [
       "interface:docker-image-host", 
       "static", 
-      "784ac969b17e42edc3dafb8ad71372e732da477a5fb8f0152e09690e5192a0e0"
+      "930ea97dcfcb1f05713d5692e73d65f38f92427674bcef127ff410d814e5f23e"
     ], 
     "hooks/relations/docker-image-host/requires.py": [
       "interface:docker-image-host", 
@@ -205,7 +205,7 @@
     "reactive/docker-reactive.py": [
       "docker", 
       "static", 
-      "a046238513ee0f27d728cc3fa959d377f129f80eaac7b0700b0633cc05b9ed65"
+      "c45d5fc04c2c377939fc5bc2070766ac5a941654310a39d2044ff18bc0671047"
     ], 
     "requirements.txt": [
       "layer:basic", 

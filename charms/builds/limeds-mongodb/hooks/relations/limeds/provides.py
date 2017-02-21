@@ -34,3 +34,6 @@ class LimeDSProvides(RelationBase):
             'url': url,
         }
         self.set_remote(**relation_info)
+
+    def reset(self):
+        self.set_remote(url="")

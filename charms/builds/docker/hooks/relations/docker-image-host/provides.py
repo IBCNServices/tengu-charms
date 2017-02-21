@@ -47,9 +47,8 @@ class DockerImageHostProvides(RelationBase):
         return container_requests
 
     def send_running_containers(self, containers):
+        """ There is no way to send each unit only the containers it requested due to limitations
+        in Juju. Even with scope=UNIT, the same data is still broadcasted to all units of a single
+        service. See https://tinyurl.com/hjwfwdn """
         for conv in self.conversations():
-            conts_to_send = {}
-            uuids = conv.get_local('uuids', [])
-            for uuid in uuids:
-                conts_to_send[uuid] = containers[uuid]
-            conv.set_remote('running-containers', json.dumps(conts_to_send))
+            conv.set_remote('running-containers', json.dumps(containers))

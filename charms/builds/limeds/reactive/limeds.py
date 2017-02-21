@@ -95,6 +95,15 @@ def configure_client_relationship(dh_relation, limeds_server_relation):
         )
 
 
+@when(
+    'limeds-server.available', )
+@when_not(
+    'limeds.ready', )
+def reset_client_relationship(limeds_server_relation):
+    """ Note: this is a relationship with a CLIENT consuming LimeDS."""
+    limeds_server_relation.reset()
+
+
 def wait_until_limeds_initialised(base_url):
     deploy_url = "{limeds_url}/_limeds/installables"\
                  "/{installable_id}/{installable_version}"\

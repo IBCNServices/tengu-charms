@@ -126,12 +126,12 @@
     "hooks/relations/limeds/provides.py": [
       "interface:limeds", 
       "static", 
-      "fe869f455b64cc264009ee5295d5bb14596de30f42e72e7fd23f9c40f4f1a3a3"
+      "91df48067c7a4d18e2c433ba59366e65a80349ea5f71fcdaf920475cd7cea305"
     ], 
     "hooks/relations/limeds/requires.py": [
       "interface:limeds", 
       "static", 
-      "464a5a29f6cd5be3f04aa863271d41ecdd46149d9a4bb39c73a96f8299ede067"
+      "fdb6c52f3f6d70cd6d34f35509043926df82d8adcbeaf81e6a5f06cf83337062"
     ], 
     "hooks/relations/mongodb/README.md": [
       "interface:mongodb", 
@@ -206,7 +206,7 @@
     "lib/charms/layer/limeds.py": [
       "layer:limeds-sidecar", 
       "static", 
-      "2a519f2f627243607f5e681ee610f5b9dbe52e540862a093c79a16fc47e7c709"
+      "96267981bd34f007fe0c7466fe5aa332d2031d7a0acc465f73397c9090cad280"
     ], 
     "metadata.yaml": [
       "limeds-mongodb", 

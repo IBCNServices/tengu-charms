@@ -12,7 +12,7 @@ from charmhelpers.core.hookenv import (
     unit_private_ip,
 )
 
-from charms.reactive import set_state, when, when_not
+from charms.reactive import set_state, remove_state, when, when_not
 
 
 @when('apt.installed.docker.io')
@@ -40,6 +40,8 @@ def remove_images(relation):
     log(container_requests)
     for uuid in container_requests:
         remove(uuid)
+    print("wololo")
+    remove_state('dockerhost.broken')
 
 
 def ensure_running(uuid, container_request):
@@ -97,8 +99,8 @@ def remove(uuid):
     except docker.errors.NotFound:
         print("Container {} not found, not removing.".format(uuid))
         return
-    container.stop()
-    container.remove(force=True)
+    check_call(['docker', 'stop', str(uuid)])
+    check_call(['docker', 'rm', str(uuid)])
     # Unexpose ports
     ports = container.attrs['NetworkSettings']['Ports'] or {}
     for exposed_port in ports.keys():

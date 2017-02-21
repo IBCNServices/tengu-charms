@@ -64,7 +64,7 @@ class LimeDS:
             data=segment_config, )
         print("response is:{}".format(response.text))
         if not response.status_code == 200:
-            raise LimeDSException("ERROR: Deploying installable failed: {} {}".format(
+            raise LimeDSException("ERROR: Creating segment failed: {} {}".format(
                 response.status_code,
                 response.text))
 

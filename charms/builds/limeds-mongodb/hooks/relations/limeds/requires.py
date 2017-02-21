@@ -28,6 +28,8 @@ class LimeDSRequires(RelationBase):
             # this unit's conversation has a port, so
             # it is part of the set of available units
             conv.set_state('{relation_name}.available')
+        else:
+            conv.remove_state('{relation_name}.available')
 
     @hook('{requires:limeds}-relation-{departed,broken}')
     def broken(self):

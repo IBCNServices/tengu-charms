@@ -67,3 +67,6 @@
 [submodule "charms/layers/layer-superset"]
 	path = charms/layers/layer-superset
 	url = https://github.com/IBCNServices/layer-superset.git
+[submodule "charms/layers/mattermost"]
+	path = charms/layers/mattermost
+	url = git@github.com:IBCNServices/layer-mattermost.git

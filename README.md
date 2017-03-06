@@ -1,1 +1,1 @@
-# ARCHIVED! This repo is nor here: https://github.com/tengu-team/tengu-charms
+# ARCHIVED! This repo is now here: https://github.com/tengu-team/tengu-charms
